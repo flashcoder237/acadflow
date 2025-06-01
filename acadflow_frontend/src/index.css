@@ -110,7 +110,7 @@
   }
   
   body {
-    background-color: hsl(var(--background));
+    background-color: white;
     color: hsl(var(--foreground));
   }
 }
