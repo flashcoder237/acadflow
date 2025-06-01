@@ -1,0 +1,1030 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Academics API &mdash; AcadFlow 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=f2a433a1"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Users API" href="users.html" />
+    <link rel="prev" title="Core API" href="core.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            AcadFlow
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Guide de démarrage rapide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="core.html">Core API</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Academics API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module-academics.views">Classes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#academics.views.AnneeAcademiqueViewSet"><code class="docutils literal notranslate"><span class="pre">AnneeAcademiqueViewSet</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#academics.views.SessionViewSet"><code class="docutils literal notranslate"><span class="pre">SessionViewSet</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#academics.views.SemestreViewSet"><code class="docutils literal notranslate"><span class="pre">SemestreViewSet</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#academics.views.ClasseViewSet"><code class="docutils literal notranslate"><span class="pre">ClasseViewSet</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#academics.views.UEViewSet"><code class="docutils literal notranslate"><span class="pre">UEViewSet</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#academics.views.ECViewSet"><code class="docutils literal notranslate"><span class="pre">ECViewSet</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#academics.views.TypeEvaluationViewSet"><code class="docutils literal notranslate"><span class="pre">TypeEvaluationViewSet</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#academics.views.ConfigurationEvaluationECViewSet"><code class="docutils literal notranslate"><span class="pre">ConfigurationEvaluationECViewSet</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-0">Unités d’Enseignement</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id0"><code class="docutils literal notranslate"><span class="pre">AnneeAcademiqueViewSet</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id6"><code class="docutils literal notranslate"><span class="pre">SessionViewSet</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id10"><code class="docutils literal notranslate"><span class="pre">SemestreViewSet</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id14"><code class="docutils literal notranslate"><span class="pre">ClasseViewSet</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id22"><code class="docutils literal notranslate"><span class="pre">UEViewSet</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id29"><code class="docutils literal notranslate"><span class="pre">ECViewSet</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id35"><code class="docutils literal notranslate"><span class="pre">TypeEvaluationViewSet</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id40"><code class="docutils literal notranslate"><span class="pre">ConfigurationEvaluationECViewSet</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#elements-constitutifs">Éléments Constitutifs</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id46"><code class="docutils literal notranslate"><span class="pre">AnneeAcademiqueViewSet</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id52"><code class="docutils literal notranslate"><span class="pre">SessionViewSet</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id56"><code class="docutils literal notranslate"><span class="pre">SemestreViewSet</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id60"><code class="docutils literal notranslate"><span class="pre">ClasseViewSet</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id68"><code class="docutils literal notranslate"><span class="pre">UEViewSet</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id75"><code class="docutils literal notranslate"><span class="pre">ECViewSet</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id81"><code class="docutils literal notranslate"><span class="pre">TypeEvaluationViewSet</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id86"><code class="docutils literal notranslate"><span class="pre">ConfigurationEvaluationECViewSet</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="users.html">Users API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="evaluations.html">Evaluations API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#vue-d-ensemble">Vue d’ensemble</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../models/index.html">Models Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../development.html">Guide de développement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">AcadFlow</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">API Reference</a></li>
+      <li class="breadcrumb-item active">Academics API</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/academics.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="academics-api">
+<h1>Academics API<a class="headerlink" href="#academics-api" title="Link to this heading"></a></h1>
+<section id="module-academics.views">
+<span id="classes"></span><h2>Classes<a class="headerlink" href="#module-academics.views" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="academics.views.AnneeAcademiqueViewSet">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">academics.views.</span></span><span class="sig-name descname"><span class="pre">AnneeAcademiqueViewSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#AnneeAcademiqueViewSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#academics.views.AnneeAcademiqueViewSet" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="academics.views.AnneeAcademiqueViewSet.queryset">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;QuerySet</span> <span class="pre">[&lt;AnneeAcademique:</span> <span class="pre">2024-2025&gt;,</span> <span class="pre">&lt;AnneeAcademique:</span> <span class="pre">2023-2024&gt;,</span> <span class="pre">&lt;AnneeAcademique:</span> <span class="pre">2022-2023&gt;]&gt;</span></em><a class="headerlink" href="#academics.views.AnneeAcademiqueViewSet.queryset" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="academics.views.AnneeAcademiqueViewSet.serializer_class">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#academics.views.AnneeAcademiqueViewSet.serializer_class" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">AnneeAcademiqueSerializer</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="academics.views.AnneeAcademiqueViewSet.permission_classes">
+<span class="sig-name descname"><span class="pre">permission_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'rest_framework.permissions.IsAuthenticated'&gt;]</span></em><a class="headerlink" href="#academics.views.AnneeAcademiqueViewSet.permission_classes" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="academics.views.AnneeAcademiqueViewSet.active">
+<span class="sig-name descname"><span class="pre">active</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#AnneeAcademiqueViewSet.active"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#academics.views.AnneeAcademiqueViewSet.active" title="Link to this definition"></a></dt>
+<dd><p>Retourne l’année académique active</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="academics.views.AnneeAcademiqueViewSet.statistiques">
+<span class="sig-name descname"><span class="pre">statistiques</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pk</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#AnneeAcademiqueViewSet.statistiques"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#academics.views.AnneeAcademiqueViewSet.statistiques" title="Link to this definition"></a></dt>
+<dd><p>Statistiques d’une année académique</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="academics.views.SessionViewSet">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">academics.views.</span></span><span class="sig-name descname"><span class="pre">SessionViewSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#SessionViewSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#academics.views.SessionViewSet" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="academics.views.SessionViewSet.queryset">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;QuerySet</span> <span class="pre">[&lt;Session:</span> <span class="pre">Session</span> <span class="pre">Normale&gt;,</span> <span class="pre">&lt;Session:</span> <span class="pre">Session</span> <span class="pre">de</span> <span class="pre">Rattrapage&gt;]&gt;</span></em><a class="headerlink" href="#academics.views.SessionViewSet.queryset" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="academics.views.SessionViewSet.serializer_class">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#academics.views.SessionViewSet.serializer_class" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">SessionSerializer</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="academics.views.SessionViewSet.permission_classes">
+<span class="sig-name descname"><span class="pre">permission_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'rest_framework.permissions.IsAuthenticated'&gt;]</span></em><a class="headerlink" href="#academics.views.SessionViewSet.permission_classes" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="academics.views.SemestreViewSet">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">academics.views.</span></span><span class="sig-name descname"><span class="pre">SemestreViewSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#SemestreViewSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#academics.views.SemestreViewSet" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="academics.views.SemestreViewSet.queryset">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;QuerySet</span> <span class="pre">[&lt;Semestre:</span> <span class="pre">Semestre</span> <span class="pre">1&gt;,</span> <span class="pre">&lt;Semestre:</span> <span class="pre">Semestre</span> <span class="pre">2&gt;]&gt;</span></em><a class="headerlink" href="#academics.views.SemestreViewSet.queryset" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="academics.views.SemestreViewSet.serializer_class">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#academics.views.SemestreViewSet.serializer_class" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">SemestreSerializer</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="academics.views.SemestreViewSet.permission_classes">
+<span class="sig-name descname"><span class="pre">permission_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'rest_framework.permissions.IsAuthenticated'&gt;]</span></em><a class="headerlink" href="#academics.views.SemestreViewSet.permission_classes" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="academics.views.ClasseViewSet">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">academics.views.</span></span><span class="sig-name descname"><span class="pre">ClasseViewSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#ClasseViewSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#academics.views.ClasseViewSet" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="academics.views.ClasseViewSet.queryset">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;QuerySet</span> <span class="pre">[&lt;Classe:</span> <span class="pre">MED</span> <span class="pre">L1</span> <span class="pre">A</span> <span class="pre">-</span> <span class="pre">2024-2025&gt;,</span> <span class="pre">&lt;Classe:</span> <span class="pre">MED</span> <span class="pre">L1</span> <span class="pre">B</span> <span class="pre">-</span> <span class="pre">2024-2025&gt;,</span> <span class="pre">&lt;Classe:</span> <span class="pre">MED</span> <span class="pre">L2</span> <span class="pre">A</span> <span class="pre">-</span> <span class="pre">2024-2025&gt;,</span> <span class="pre">&lt;Classe:</span> <span class="pre">MED</span> <span class="pre">L2</span> <span class="pre">B</span> <span class="pre">-</span> <span class="pre">2024-2025&gt;]&gt;</span></em><a class="headerlink" href="#academics.views.ClasseViewSet.queryset" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="academics.views.ClasseViewSet.serializer_class">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#academics.views.ClasseViewSet.serializer_class" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">ClasseSerializer</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="academics.views.ClasseViewSet.permission_classes">
+<span class="sig-name descname"><span class="pre">permission_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'rest_framework.permissions.IsAuthenticated'&gt;]</span></em><a class="headerlink" href="#academics.views.ClasseViewSet.permission_classes" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="academics.views.ClasseViewSet.get_queryset">
+<span class="sig-name descname"><span class="pre">get_queryset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#ClasseViewSet.get_queryset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#academics.views.ClasseViewSet.get_queryset" title="Link to this definition"></a></dt>
+<dd><p>Get the list of items for this view.
+This must be an iterable, and may be a queryset.
+Defaults to using <cite>self.queryset</cite>.</p>
+<p>This method should always be used rather than accessing <cite>self.queryset</cite>
+directly, as <cite>self.queryset</cite> gets evaluated only once, and those results
+are cached for all subsequent requests.</p>
+<p>You may want to override this if you need to provide different
+querysets depending on the incoming request.</p>
+<p>(Eg. return a list of items that is specific to the user)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="academics.views.ClasseViewSet.etudiants">
+<span class="sig-name descname"><span class="pre">etudiants</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pk</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#ClasseViewSet.etudiants"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#academics.views.ClasseViewSet.etudiants" title="Link to this definition"></a></dt>
+<dd><p>Retourne les étudiants d’une classe avec informations détaillées</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="academics.views.ClasseViewSet.programme_pedagogique">
+<span class="sig-name descname"><span class="pre">programme_pedagogique</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pk</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#ClasseViewSet.programme_pedagogique"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#academics.views.ClasseViewSet.programme_pedagogique" title="Link to this definition"></a></dt>
+<dd><p>Retourne le programme pédagogique complet d’une classe</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="academics.views.ClasseViewSet.resultats_session">
+<span class="sig-name descname"><span class="pre">resultats_session</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pk</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#ClasseViewSet.resultats_session"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#academics.views.ClasseViewSet.resultats_session" title="Link to this definition"></a></dt>
+<dd><p>Retourne les résultats d’une classe pour une session donnée</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="academics.views.UEViewSet">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">academics.views.</span></span><span class="sig-name descname"><span class="pre">UEViewSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#UEViewSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#academics.views.UEViewSet" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="academics.views.UEViewSet.queryset">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;QuerySet</span> <span class="pre">[&lt;UE:</span> <span class="pre">ANAT101</span> <span class="pre">-</span> <span class="pre">Anatomie</span> <span class="pre">Générale&gt;,</span> <span class="pre">&lt;UE:</span> <span class="pre">PHYS101</span> <span class="pre">-</span> <span class="pre">Physiologie</span> <span class="pre">Humaine&gt;,</span> <span class="pre">&lt;UE:</span> <span class="pre">BIOC101</span> <span class="pre">-</span> <span class="pre">Biochimie</span> <span class="pre">Structurale&gt;,</span> <span class="pre">&lt;UE:</span> <span class="pre">BIOP101</span> <span class="pre">-</span> <span class="pre">Biophysique&gt;,</span> <span class="pre">&lt;UE:</span> <span class="pre">HIST101</span> <span class="pre">-</span> <span class="pre">Histologie&gt;,</span> <span class="pre">&lt;UE:</span> <span class="pre">ANAT102</span> <span class="pre">-</span> <span class="pre">Anatomie</span> <span class="pre">Systémique&gt;,</span> <span class="pre">&lt;UE:</span> <span class="pre">PHYS102</span> <span class="pre">-</span> <span class="pre">Physiologie</span> <span class="pre">Spécialisée&gt;,</span> <span class="pre">&lt;UE:</span> <span class="pre">MICR101</span> <span class="pre">-</span> <span class="pre">Microbiologie&gt;,</span> <span class="pre">&lt;UE:</span> <span class="pre">GENE101</span> <span class="pre">-</span> <span class="pre">Génétique</span> <span class="pre">Médicale&gt;,</span> <span class="pre">&lt;UE:</span> <span class="pre">EMBR101</span> <span class="pre">-</span> <span class="pre">Embryologie&gt;,</span> <span class="pre">&lt;UE:</span> <span class="pre">PATH201</span> <span class="pre">-</span> <span class="pre">Pathologie</span> <span class="pre">Générale&gt;,</span> <span class="pre">&lt;UE:</span> <span class="pre">PHAR201</span> <span class="pre">-</span> <span class="pre">Pharmacologie</span> <span class="pre">Générale&gt;,</span> <span class="pre">&lt;UE:</span> <span class="pre">IMMU201</span> <span class="pre">-</span> <span class="pre">Immunologie&gt;]&gt;</span></em><a class="headerlink" href="#academics.views.UEViewSet.queryset" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="academics.views.UEViewSet.serializer_class">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#academics.views.UEViewSet.serializer_class" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">UESerializer</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="academics.views.UEViewSet.permission_classes">
+<span class="sig-name descname"><span class="pre">permission_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'rest_framework.permissions.IsAuthenticated'&gt;]</span></em><a class="headerlink" href="#academics.views.UEViewSet.permission_classes" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="academics.views.UEViewSet.get_serializer_class">
+<span class="sig-name descname"><span class="pre">get_serializer_class</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#UEViewSet.get_serializer_class"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#academics.views.UEViewSet.get_serializer_class" title="Link to this definition"></a></dt>
+<dd><p>Return the class to use for the serializer.
+Defaults to using <cite>self.serializer_class</cite>.</p>
+<p>You may want to override this if you need to provide different
+serializations depending on the incoming request.</p>
+<p>(Eg. admins get full serialization, others get basic serialization)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="academics.views.UEViewSet.get_queryset">
+<span class="sig-name descname"><span class="pre">get_queryset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#UEViewSet.get_queryset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#academics.views.UEViewSet.get_queryset" title="Link to this definition"></a></dt>
+<dd><p>Get the list of items for this view.
+This must be an iterable, and may be a queryset.
+Defaults to using <cite>self.queryset</cite>.</p>
+<p>This method should always be used rather than accessing <cite>self.queryset</cite>
+directly, as <cite>self.queryset</cite> gets evaluated only once, and those results
+are cached for all subsequent requests.</p>
+<p>You may want to override this if you need to provide different
+querysets depending on the incoming request.</p>
+<p>(Eg. return a list of items that is specific to the user)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="academics.views.UEViewSet.configuration_evaluations">
+<span class="sig-name descname"><span class="pre">configuration_evaluations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pk</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#UEViewSet.configuration_evaluations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#academics.views.UEViewSet.configuration_evaluations" title="Link to this definition"></a></dt>
+<dd><p>Retourne la configuration des évaluations pour tous les EC de l’UE</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="academics.views.ECViewSet">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">academics.views.</span></span><span class="sig-name descname"><span class="pre">ECViewSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#ECViewSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#academics.views.ECViewSet" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="academics.views.ECViewSet.queryset">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;QuerySet</span> <span class="pre">[&lt;EC:</span> <span class="pre">ANAT101A</span> <span class="pre">-</span> <span class="pre">Anatomie</span> <span class="pre">Descriptive&gt;,</span> <span class="pre">&lt;EC:</span> <span class="pre">ANAT101B</span> <span class="pre">-</span> <span class="pre">Travaux</span> <span class="pre">Pratiques</span> <span class="pre">Anatomie&gt;,</span> <span class="pre">&lt;EC:</span> <span class="pre">PHYS101A</span> <span class="pre">-</span> <span class="pre">Physiologie</span> <span class="pre">Générale&gt;,</span> <span class="pre">&lt;EC:</span> <span class="pre">PHYS101B</span> <span class="pre">-</span> <span class="pre">TP</span> <span class="pre">Physiologie&gt;,</span> <span class="pre">&lt;EC:</span> <span class="pre">BIOC101A</span> <span class="pre">-</span> <span class="pre">Biochimie</span> <span class="pre">Fondamentale&gt;,</span> <span class="pre">&lt;EC:</span> <span class="pre">BIOC101B</span> <span class="pre">-</span> <span class="pre">TP</span> <span class="pre">Biochimie&gt;,</span> <span class="pre">&lt;EC:</span> <span class="pre">BIOP101A</span> <span class="pre">-</span> <span class="pre">Biophysique</span> <span class="pre">Théorique&gt;,</span> <span class="pre">&lt;EC:</span> <span class="pre">HIST101A</span> <span class="pre">-</span> <span class="pre">Histologie</span> <span class="pre">Générale&gt;,</span> <span class="pre">&lt;EC:</span> <span class="pre">HIST101B</span> <span class="pre">-</span> <span class="pre">TP</span> <span class="pre">Histologie&gt;,</span> <span class="pre">&lt;EC:</span> <span class="pre">ANAT102A</span> <span class="pre">-</span> <span class="pre">Système</span> <span class="pre">Cardiovasculaire&gt;,</span> <span class="pre">&lt;EC:</span> <span class="pre">ANAT102B</span> <span class="pre">-</span> <span class="pre">Système</span> <span class="pre">Respiratoire&gt;,</span> <span class="pre">&lt;EC:</span> <span class="pre">PHYS102A</span> <span class="pre">-</span> <span class="pre">Physiologie</span> <span class="pre">Cardiovasculaire&gt;,</span> <span class="pre">&lt;EC:</span> <span class="pre">PHYS102B</span> <span class="pre">-</span> <span class="pre">Physiologie</span> <span class="pre">Respiratoire&gt;,</span> <span class="pre">&lt;EC:</span> <span class="pre">MICR101A</span> <span class="pre">-</span> <span class="pre">Microbiologie</span> <span class="pre">Générale&gt;,</span> <span class="pre">&lt;EC:</span> <span class="pre">MICR101B</span> <span class="pre">-</span> <span class="pre">TP</span> <span class="pre">Microbiologie&gt;,</span> <span class="pre">&lt;EC:</span> <span class="pre">GENE101A</span> <span class="pre">-</span> <span class="pre">Génétique</span> <span class="pre">Fondamentale&gt;,</span> <span class="pre">&lt;EC:</span> <span class="pre">EMBR101A</span> <span class="pre">-</span> <span class="pre">Embryologie</span> <span class="pre">Générale&gt;,</span> <span class="pre">&lt;EC:</span> <span class="pre">EMBR101B</span> <span class="pre">-</span> <span class="pre">TP</span> <span class="pre">Embryologie&gt;,</span> <span class="pre">&lt;EC:</span> <span class="pre">PATH201A</span> <span class="pre">-</span> <span class="pre">Pathologie</span> <span class="pre">Cellulaire&gt;,</span> <span class="pre">&lt;EC:</span> <span class="pre">PATH201B</span> <span class="pre">-</span> <span class="pre">Anatomie</span> <span class="pre">Pathologique&gt;,</span> <span class="pre">'...(remaining</span> <span class="pre">elements</span> <span class="pre">truncated)...']&gt;</span></em><a class="headerlink" href="#academics.views.ECViewSet.queryset" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="academics.views.ECViewSet.serializer_class">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#academics.views.ECViewSet.serializer_class" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">ECSerializer</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="academics.views.ECViewSet.permission_classes">
+<span class="sig-name descname"><span class="pre">permission_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'rest_framework.permissions.IsAuthenticated'&gt;]</span></em><a class="headerlink" href="#academics.views.ECViewSet.permission_classes" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="academics.views.ECViewSet.get_queryset">
+<span class="sig-name descname"><span class="pre">get_queryset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#ECViewSet.get_queryset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#academics.views.ECViewSet.get_queryset" title="Link to this definition"></a></dt>
+<dd><p>Get the list of items for this view.
+This must be an iterable, and may be a queryset.
+Defaults to using <cite>self.queryset</cite>.</p>
+<p>This method should always be used rather than accessing <cite>self.queryset</cite>
+directly, as <cite>self.queryset</cite> gets evaluated only once, and those results
+are cached for all subsequent requests.</p>
+<p>You may want to override this if you need to provide different
+querysets depending on the incoming request.</p>
+<p>(Eg. return a list of items that is specific to the user)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="academics.views.ECViewSet.enseignements">
+<span class="sig-name descname"><span class="pre">enseignements</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pk</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#ECViewSet.enseignements"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#academics.views.ECViewSet.enseignements" title="Link to this definition"></a></dt>
+<dd><p>Retourne tous les enseignements de cet EC</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="academics.views.TypeEvaluationViewSet">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">academics.views.</span></span><span class="sig-name descname"><span class="pre">TypeEvaluationViewSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#TypeEvaluationViewSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#academics.views.TypeEvaluationViewSet" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="academics.views.TypeEvaluationViewSet.queryset">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;QuerySet</span> <span class="pre">[&lt;TypeEvaluation:</span> <span class="pre">Contrôle</span> <span class="pre">Continu&gt;,</span> <span class="pre">&lt;TypeEvaluation:</span> <span class="pre">Travaux</span> <span class="pre">Dirigés&gt;,</span> <span class="pre">&lt;TypeEvaluation:</span> <span class="pre">Travaux</span> <span class="pre">Pratiques&gt;,</span> <span class="pre">&lt;TypeEvaluation:</span> <span class="pre">Partiel&gt;,</span> <span class="pre">&lt;TypeEvaluation:</span> <span class="pre">Examen</span> <span class="pre">Final&gt;,</span> <span class="pre">&lt;TypeEvaluation:</span> <span class="pre">Présentation</span> <span class="pre">Orale&gt;,</span> <span class="pre">&lt;TypeEvaluation:</span> <span class="pre">Rapport</span> <span class="pre">de</span> <span class="pre">Stage&gt;]&gt;</span></em><a class="headerlink" href="#academics.views.TypeEvaluationViewSet.queryset" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="academics.views.TypeEvaluationViewSet.serializer_class">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#academics.views.TypeEvaluationViewSet.serializer_class" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">TypeEvaluationSerializer</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="academics.views.TypeEvaluationViewSet.permission_classes">
+<span class="sig-name descname"><span class="pre">permission_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'rest_framework.permissions.IsAuthenticated'&gt;]</span></em><a class="headerlink" href="#academics.views.TypeEvaluationViewSet.permission_classes" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="academics.views.TypeEvaluationViewSet.usage_statistics">
+<span class="sig-name descname"><span class="pre">usage_statistics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#TypeEvaluationViewSet.usage_statistics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#academics.views.TypeEvaluationViewSet.usage_statistics" title="Link to this definition"></a></dt>
+<dd><p>Statistiques d’utilisation des types d’évaluation</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="academics.views.ConfigurationEvaluationECViewSet">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">academics.views.</span></span><span class="sig-name descname"><span class="pre">ConfigurationEvaluationECViewSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#ConfigurationEvaluationECViewSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#academics.views.ConfigurationEvaluationECViewSet" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="academics.views.ConfigurationEvaluationECViewSet.queryset">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;QuerySet</span> <span class="pre">[&lt;ConfigurationEvaluationEC:</span> <span class="pre">ConfigurationEvaluationEC</span> <span class="pre">object</span> <span class="pre">(145)&gt;,</span> <span class="pre">&lt;ConfigurationEvaluationEC:</span> <span class="pre">ConfigurationEvaluationEC</span> <span class="pre">object</span> <span class="pre">(146)&gt;,</span> <span class="pre">&lt;ConfigurationEvaluationEC:</span> <span class="pre">ConfigurationEvaluationEC</span> <span class="pre">object</span> <span class="pre">(147)&gt;,</span> <span class="pre">&lt;ConfigurationEvaluationEC:</span> <span class="pre">ConfigurationEvaluationEC</span> <span class="pre">object</span> <span class="pre">(148)&gt;,</span> <span class="pre">&lt;ConfigurationEvaluationEC:</span> <span class="pre">ConfigurationEvaluationEC</span> <span class="pre">object</span> <span class="pre">(149)&gt;,</span> <span class="pre">&lt;ConfigurationEvaluationEC:</span> <span class="pre">ConfigurationEvaluationEC</span> <span class="pre">object</span> <span class="pre">(150)&gt;,</span> <span class="pre">&lt;ConfigurationEvaluationEC:</span> <span class="pre">ConfigurationEvaluationEC</span> <span class="pre">object</span> <span class="pre">(151)&gt;,</span> <span class="pre">&lt;ConfigurationEvaluationEC:</span> <span class="pre">ConfigurationEvaluationEC</span> <span class="pre">object</span> <span class="pre">(152)&gt;,</span> <span class="pre">&lt;ConfigurationEvaluationEC:</span> <span class="pre">ConfigurationEvaluationEC</span> <span class="pre">object</span> <span class="pre">(153)&gt;,</span> <span class="pre">&lt;ConfigurationEvaluationEC:</span> <span class="pre">ConfigurationEvaluationEC</span> <span class="pre">object</span> <span class="pre">(154)&gt;,</span> <span class="pre">&lt;ConfigurationEvaluationEC:</span> <span class="pre">ConfigurationEvaluationEC</span> <span class="pre">object</span> <span class="pre">(155)&gt;,</span> <span class="pre">&lt;ConfigurationEvaluationEC:</span> <span class="pre">ConfigurationEvaluationEC</span> <span class="pre">object</span> <span class="pre">(156)&gt;,</span> <span class="pre">&lt;ConfigurationEvaluationEC:</span> <span class="pre">ConfigurationEvaluationEC</span> <span class="pre">object</span> <span class="pre">(157)&gt;,</span> <span class="pre">&lt;ConfigurationEvaluationEC:</span> <span class="pre">ConfigurationEvaluationEC</span> <span class="pre">object</span> <span class="pre">(158)&gt;,</span> <span class="pre">&lt;ConfigurationEvaluationEC:</span> <span class="pre">ConfigurationEvaluationEC</span> <span class="pre">object</span> <span class="pre">(159)&gt;,</span> <span class="pre">&lt;ConfigurationEvaluationEC:</span> <span class="pre">ConfigurationEvaluationEC</span> <span class="pre">object</span> <span class="pre">(160)&gt;,</span> <span class="pre">&lt;ConfigurationEvaluationEC:</span> <span class="pre">ConfigurationEvaluationEC</span> <span class="pre">object</span> <span class="pre">(161)&gt;,</span> <span class="pre">&lt;ConfigurationEvaluationEC:</span> <span class="pre">ConfigurationEvaluationEC</span> <span class="pre">object</span> <span class="pre">(162)&gt;,</span> <span class="pre">&lt;ConfigurationEvaluationEC:</span> <span class="pre">ConfigurationEvaluationEC</span> <span class="pre">object</span> <span class="pre">(163)&gt;,</span> <span class="pre">&lt;ConfigurationEvaluationEC:</span> <span class="pre">ConfigurationEvaluationEC</span> <span class="pre">object</span> <span class="pre">(164)&gt;,</span> <span class="pre">'...(remaining</span> <span class="pre">elements</span> <span class="pre">truncated)...']&gt;</span></em><a class="headerlink" href="#academics.views.ConfigurationEvaluationECViewSet.queryset" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="academics.views.ConfigurationEvaluationECViewSet.serializer_class">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#academics.views.ConfigurationEvaluationECViewSet.serializer_class" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">ConfigurationEvaluationECSerializer</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="academics.views.ConfigurationEvaluationECViewSet.permission_classes">
+<span class="sig-name descname"><span class="pre">permission_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'rest_framework.permissions.IsAuthenticated'&gt;]</span></em><a class="headerlink" href="#academics.views.ConfigurationEvaluationECViewSet.permission_classes" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="academics.views.ConfigurationEvaluationECViewSet.get_queryset">
+<span class="sig-name descname"><span class="pre">get_queryset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#ConfigurationEvaluationECViewSet.get_queryset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#academics.views.ConfigurationEvaluationECViewSet.get_queryset" title="Link to this definition"></a></dt>
+<dd><p>Get the list of items for this view.
+This must be an iterable, and may be a queryset.
+Defaults to using <cite>self.queryset</cite>.</p>
+<p>This method should always be used rather than accessing <cite>self.queryset</cite>
+directly, as <cite>self.queryset</cite> gets evaluated only once, and those results
+are cached for all subsequent requests.</p>
+<p>You may want to override this if you need to provide different
+querysets depending on the incoming request.</p>
+<p>(Eg. return a list of items that is specific to the user)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="academics.views.ConfigurationEvaluationECViewSet.configurer_ec">
+<span class="sig-name descname"><span class="pre">configurer_ec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#ConfigurationEvaluationECViewSet.configurer_ec"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#academics.views.ConfigurationEvaluationECViewSet.configurer_ec" title="Link to this definition"></a></dt>
+<dd><p>Configuration complète des évaluations pour un EC</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-0">
+<span id="unites-d-enseignement"></span><h2>Unités d’Enseignement<a class="headerlink" href="#module-0" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="id0">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">academics.views.</span></span><span class="sig-name descname"><span class="pre">AnneeAcademiqueViewSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#AnneeAcademiqueViewSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="id1">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;QuerySet</span> <span class="pre">[&lt;AnneeAcademique:</span> <span class="pre">2024-2025&gt;,</span> <span class="pre">&lt;AnneeAcademique:</span> <span class="pre">2023-2024&gt;,</span> <span class="pre">&lt;AnneeAcademique:</span> <span class="pre">2022-2023&gt;]&gt;</span></em><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id2">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#id2" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">AnneeAcademiqueSerializer</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id3">
+<span class="sig-name descname"><span class="pre">permission_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'rest_framework.permissions.IsAuthenticated'&gt;]</span></em><a class="headerlink" href="#id3" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id4">
+<span class="sig-name descname"><span class="pre">active</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#AnneeAcademiqueViewSet.active"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id4" title="Link to this definition"></a></dt>
+<dd><p>Retourne l’année académique active</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id5">
+<span class="sig-name descname"><span class="pre">statistiques</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pk</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#AnneeAcademiqueViewSet.statistiques"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id5" title="Link to this definition"></a></dt>
+<dd><p>Statistiques d’une année académique</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="id6">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">academics.views.</span></span><span class="sig-name descname"><span class="pre">SessionViewSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#SessionViewSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id6" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="id7">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;QuerySet</span> <span class="pre">[&lt;Session:</span> <span class="pre">Session</span> <span class="pre">Normale&gt;,</span> <span class="pre">&lt;Session:</span> <span class="pre">Session</span> <span class="pre">de</span> <span class="pre">Rattrapage&gt;]&gt;</span></em><a class="headerlink" href="#id7" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id8">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#id8" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">SessionSerializer</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id9">
+<span class="sig-name descname"><span class="pre">permission_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'rest_framework.permissions.IsAuthenticated'&gt;]</span></em><a class="headerlink" href="#id9" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="id10">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">academics.views.</span></span><span class="sig-name descname"><span class="pre">SemestreViewSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#SemestreViewSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id10" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="id11">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;QuerySet</span> <span class="pre">[&lt;Semestre:</span> <span class="pre">Semestre</span> <span class="pre">1&gt;,</span> <span class="pre">&lt;Semestre:</span> <span class="pre">Semestre</span> <span class="pre">2&gt;]&gt;</span></em><a class="headerlink" href="#id11" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id12">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#id12" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">SemestreSerializer</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id13">
+<span class="sig-name descname"><span class="pre">permission_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'rest_framework.permissions.IsAuthenticated'&gt;]</span></em><a class="headerlink" href="#id13" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="id14">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">academics.views.</span></span><span class="sig-name descname"><span class="pre">ClasseViewSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#ClasseViewSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id14" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="id15">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;QuerySet</span> <span class="pre">[&lt;Classe:</span> <span class="pre">MED</span> <span class="pre">L1</span> <span class="pre">A</span> <span class="pre">-</span> <span class="pre">2024-2025&gt;,</span> <span class="pre">&lt;Classe:</span> <span class="pre">MED</span> <span class="pre">L1</span> <span class="pre">B</span> <span class="pre">-</span> <span class="pre">2024-2025&gt;,</span> <span class="pre">&lt;Classe:</span> <span class="pre">MED</span> <span class="pre">L2</span> <span class="pre">A</span> <span class="pre">-</span> <span class="pre">2024-2025&gt;,</span> <span class="pre">&lt;Classe:</span> <span class="pre">MED</span> <span class="pre">L2</span> <span class="pre">B</span> <span class="pre">-</span> <span class="pre">2024-2025&gt;]&gt;</span></em><a class="headerlink" href="#id15" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id16">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#id16" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">ClasseSerializer</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id17">
+<span class="sig-name descname"><span class="pre">permission_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'rest_framework.permissions.IsAuthenticated'&gt;]</span></em><a class="headerlink" href="#id17" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id18">
+<span class="sig-name descname"><span class="pre">get_queryset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#ClasseViewSet.get_queryset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id18" title="Link to this definition"></a></dt>
+<dd><p>Get the list of items for this view.
+This must be an iterable, and may be a queryset.
+Defaults to using <cite>self.queryset</cite>.</p>
+<p>This method should always be used rather than accessing <cite>self.queryset</cite>
+directly, as <cite>self.queryset</cite> gets evaluated only once, and those results
+are cached for all subsequent requests.</p>
+<p>You may want to override this if you need to provide different
+querysets depending on the incoming request.</p>
+<p>(Eg. return a list of items that is specific to the user)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id19">
+<span class="sig-name descname"><span class="pre">etudiants</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pk</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#ClasseViewSet.etudiants"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id19" title="Link to this definition"></a></dt>
+<dd><p>Retourne les étudiants d’une classe avec informations détaillées</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id20">
+<span class="sig-name descname"><span class="pre">programme_pedagogique</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pk</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#ClasseViewSet.programme_pedagogique"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id20" title="Link to this definition"></a></dt>
+<dd><p>Retourne le programme pédagogique complet d’une classe</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id21">
+<span class="sig-name descname"><span class="pre">resultats_session</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pk</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#ClasseViewSet.resultats_session"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id21" title="Link to this definition"></a></dt>
+<dd><p>Retourne les résultats d’une classe pour une session donnée</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="id22">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">academics.views.</span></span><span class="sig-name descname"><span class="pre">UEViewSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#UEViewSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id22" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="id23">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;QuerySet</span> <span class="pre">[&lt;UE:</span> <span class="pre">ANAT101</span> <span class="pre">-</span> <span class="pre">Anatomie</span> <span class="pre">Générale&gt;,</span> <span class="pre">&lt;UE:</span> <span class="pre">PHYS101</span> <span class="pre">-</span> <span class="pre">Physiologie</span> <span class="pre">Humaine&gt;,</span> <span class="pre">&lt;UE:</span> <span class="pre">BIOC101</span> <span class="pre">-</span> <span class="pre">Biochimie</span> <span class="pre">Structurale&gt;,</span> <span class="pre">&lt;UE:</span> <span class="pre">BIOP101</span> <span class="pre">-</span> <span class="pre">Biophysique&gt;,</span> <span class="pre">&lt;UE:</span> <span class="pre">HIST101</span> <span class="pre">-</span> <span class="pre">Histologie&gt;,</span> <span class="pre">&lt;UE:</span> <span class="pre">ANAT102</span> <span class="pre">-</span> <span class="pre">Anatomie</span> <span class="pre">Systémique&gt;,</span> <span class="pre">&lt;UE:</span> <span class="pre">PHYS102</span> <span class="pre">-</span> <span class="pre">Physiologie</span> <span class="pre">Spécialisée&gt;,</span> <span class="pre">&lt;UE:</span> <span class="pre">MICR101</span> <span class="pre">-</span> <span class="pre">Microbiologie&gt;,</span> <span class="pre">&lt;UE:</span> <span class="pre">GENE101</span> <span class="pre">-</span> <span class="pre">Génétique</span> <span class="pre">Médicale&gt;,</span> <span class="pre">&lt;UE:</span> <span class="pre">EMBR101</span> <span class="pre">-</span> <span class="pre">Embryologie&gt;,</span> <span class="pre">&lt;UE:</span> <span class="pre">PATH201</span> <span class="pre">-</span> <span class="pre">Pathologie</span> <span class="pre">Générale&gt;,</span> <span class="pre">&lt;UE:</span> <span class="pre">PHAR201</span> <span class="pre">-</span> <span class="pre">Pharmacologie</span> <span class="pre">Générale&gt;,</span> <span class="pre">&lt;UE:</span> <span class="pre">IMMU201</span> <span class="pre">-</span> <span class="pre">Immunologie&gt;]&gt;</span></em><a class="headerlink" href="#id23" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id24">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#id24" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">UESerializer</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id25">
+<span class="sig-name descname"><span class="pre">permission_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'rest_framework.permissions.IsAuthenticated'&gt;]</span></em><a class="headerlink" href="#id25" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id26">
+<span class="sig-name descname"><span class="pre">get_serializer_class</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#UEViewSet.get_serializer_class"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id26" title="Link to this definition"></a></dt>
+<dd><p>Return the class to use for the serializer.
+Defaults to using <cite>self.serializer_class</cite>.</p>
+<p>You may want to override this if you need to provide different
+serializations depending on the incoming request.</p>
+<p>(Eg. admins get full serialization, others get basic serialization)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id27">
+<span class="sig-name descname"><span class="pre">get_queryset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#UEViewSet.get_queryset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id27" title="Link to this definition"></a></dt>
+<dd><p>Get the list of items for this view.
+This must be an iterable, and may be a queryset.
+Defaults to using <cite>self.queryset</cite>.</p>
+<p>This method should always be used rather than accessing <cite>self.queryset</cite>
+directly, as <cite>self.queryset</cite> gets evaluated only once, and those results
+are cached for all subsequent requests.</p>
+<p>You may want to override this if you need to provide different
+querysets depending on the incoming request.</p>
+<p>(Eg. return a list of items that is specific to the user)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id28">
+<span class="sig-name descname"><span class="pre">configuration_evaluations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pk</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#UEViewSet.configuration_evaluations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id28" title="Link to this definition"></a></dt>
+<dd><p>Retourne la configuration des évaluations pour tous les EC de l’UE</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="id29">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">academics.views.</span></span><span class="sig-name descname"><span class="pre">ECViewSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#ECViewSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id29" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="id30">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;QuerySet</span> <span class="pre">[&lt;EC:</span> <span class="pre">ANAT101A</span> <span class="pre">-</span> <span class="pre">Anatomie</span> <span class="pre">Descriptive&gt;,</span> <span class="pre">&lt;EC:</span> <span class="pre">ANAT101B</span> <span class="pre">-</span> <span class="pre">Travaux</span> <span class="pre">Pratiques</span> <span class="pre">Anatomie&gt;,</span> <span class="pre">&lt;EC:</span> <span class="pre">PHYS101A</span> <span class="pre">-</span> <span class="pre">Physiologie</span> <span class="pre">Générale&gt;,</span> <span class="pre">&lt;EC:</span> <span class="pre">PHYS101B</span> <span class="pre">-</span> <span class="pre">TP</span> <span class="pre">Physiologie&gt;,</span> <span class="pre">&lt;EC:</span> <span class="pre">BIOC101A</span> <span class="pre">-</span> <span class="pre">Biochimie</span> <span class="pre">Fondamentale&gt;,</span> <span class="pre">&lt;EC:</span> <span class="pre">BIOC101B</span> <span class="pre">-</span> <span class="pre">TP</span> <span class="pre">Biochimie&gt;,</span> <span class="pre">&lt;EC:</span> <span class="pre">BIOP101A</span> <span class="pre">-</span> <span class="pre">Biophysique</span> <span class="pre">Théorique&gt;,</span> <span class="pre">&lt;EC:</span> <span class="pre">HIST101A</span> <span class="pre">-</span> <span class="pre">Histologie</span> <span class="pre">Générale&gt;,</span> <span class="pre">&lt;EC:</span> <span class="pre">HIST101B</span> <span class="pre">-</span> <span class="pre">TP</span> <span class="pre">Histologie&gt;,</span> <span class="pre">&lt;EC:</span> <span class="pre">ANAT102A</span> <span class="pre">-</span> <span class="pre">Système</span> <span class="pre">Cardiovasculaire&gt;,</span> <span class="pre">&lt;EC:</span> <span class="pre">ANAT102B</span> <span class="pre">-</span> <span class="pre">Système</span> <span class="pre">Respiratoire&gt;,</span> <span class="pre">&lt;EC:</span> <span class="pre">PHYS102A</span> <span class="pre">-</span> <span class="pre">Physiologie</span> <span class="pre">Cardiovasculaire&gt;,</span> <span class="pre">&lt;EC:</span> <span class="pre">PHYS102B</span> <span class="pre">-</span> <span class="pre">Physiologie</span> <span class="pre">Respiratoire&gt;,</span> <span class="pre">&lt;EC:</span> <span class="pre">MICR101A</span> <span class="pre">-</span> <span class="pre">Microbiologie</span> <span class="pre">Générale&gt;,</span> <span class="pre">&lt;EC:</span> <span class="pre">MICR101B</span> <span class="pre">-</span> <span class="pre">TP</span> <span class="pre">Microbiologie&gt;,</span> <span class="pre">&lt;EC:</span> <span class="pre">GENE101A</span> <span class="pre">-</span> <span class="pre">Génétique</span> <span class="pre">Fondamentale&gt;,</span> <span class="pre">&lt;EC:</span> <span class="pre">EMBR101A</span> <span class="pre">-</span> <span class="pre">Embryologie</span> <span class="pre">Générale&gt;,</span> <span class="pre">&lt;EC:</span> <span class="pre">EMBR101B</span> <span class="pre">-</span> <span class="pre">TP</span> <span class="pre">Embryologie&gt;,</span> <span class="pre">&lt;EC:</span> <span class="pre">PATH201A</span> <span class="pre">-</span> <span class="pre">Pathologie</span> <span class="pre">Cellulaire&gt;,</span> <span class="pre">&lt;EC:</span> <span class="pre">PATH201B</span> <span class="pre">-</span> <span class="pre">Anatomie</span> <span class="pre">Pathologique&gt;,</span> <span class="pre">'...(remaining</span> <span class="pre">elements</span> <span class="pre">truncated)...']&gt;</span></em><a class="headerlink" href="#id30" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id31">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#id31" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">ECSerializer</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id32">
+<span class="sig-name descname"><span class="pre">permission_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'rest_framework.permissions.IsAuthenticated'&gt;]</span></em><a class="headerlink" href="#id32" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id33">
+<span class="sig-name descname"><span class="pre">get_queryset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#ECViewSet.get_queryset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id33" title="Link to this definition"></a></dt>
+<dd><p>Get the list of items for this view.
+This must be an iterable, and may be a queryset.
+Defaults to using <cite>self.queryset</cite>.</p>
+<p>This method should always be used rather than accessing <cite>self.queryset</cite>
+directly, as <cite>self.queryset</cite> gets evaluated only once, and those results
+are cached for all subsequent requests.</p>
+<p>You may want to override this if you need to provide different
+querysets depending on the incoming request.</p>
+<p>(Eg. return a list of items that is specific to the user)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id34">
+<span class="sig-name descname"><span class="pre">enseignements</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pk</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#ECViewSet.enseignements"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id34" title="Link to this definition"></a></dt>
+<dd><p>Retourne tous les enseignements de cet EC</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="id35">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">academics.views.</span></span><span class="sig-name descname"><span class="pre">TypeEvaluationViewSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#TypeEvaluationViewSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id35" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="id36">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;QuerySet</span> <span class="pre">[&lt;TypeEvaluation:</span> <span class="pre">Contrôle</span> <span class="pre">Continu&gt;,</span> <span class="pre">&lt;TypeEvaluation:</span> <span class="pre">Travaux</span> <span class="pre">Dirigés&gt;,</span> <span class="pre">&lt;TypeEvaluation:</span> <span class="pre">Travaux</span> <span class="pre">Pratiques&gt;,</span> <span class="pre">&lt;TypeEvaluation:</span> <span class="pre">Partiel&gt;,</span> <span class="pre">&lt;TypeEvaluation:</span> <span class="pre">Examen</span> <span class="pre">Final&gt;,</span> <span class="pre">&lt;TypeEvaluation:</span> <span class="pre">Présentation</span> <span class="pre">Orale&gt;,</span> <span class="pre">&lt;TypeEvaluation:</span> <span class="pre">Rapport</span> <span class="pre">de</span> <span class="pre">Stage&gt;]&gt;</span></em><a class="headerlink" href="#id36" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id37">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#id37" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">TypeEvaluationSerializer</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id38">
+<span class="sig-name descname"><span class="pre">permission_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'rest_framework.permissions.IsAuthenticated'&gt;]</span></em><a class="headerlink" href="#id38" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id39">
+<span class="sig-name descname"><span class="pre">usage_statistics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#TypeEvaluationViewSet.usage_statistics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id39" title="Link to this definition"></a></dt>
+<dd><p>Statistiques d’utilisation des types d’évaluation</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="id40">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">academics.views.</span></span><span class="sig-name descname"><span class="pre">ConfigurationEvaluationECViewSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#ConfigurationEvaluationECViewSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id40" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="id41">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;QuerySet</span> <span class="pre">[&lt;ConfigurationEvaluationEC:</span> <span class="pre">ConfigurationEvaluationEC</span> <span class="pre">object</span> <span class="pre">(145)&gt;,</span> <span class="pre">&lt;ConfigurationEvaluationEC:</span> <span class="pre">ConfigurationEvaluationEC</span> <span class="pre">object</span> <span class="pre">(146)&gt;,</span> <span class="pre">&lt;ConfigurationEvaluationEC:</span> <span class="pre">ConfigurationEvaluationEC</span> <span class="pre">object</span> <span class="pre">(147)&gt;,</span> <span class="pre">&lt;ConfigurationEvaluationEC:</span> <span class="pre">ConfigurationEvaluationEC</span> <span class="pre">object</span> <span class="pre">(148)&gt;,</span> <span class="pre">&lt;ConfigurationEvaluationEC:</span> <span class="pre">ConfigurationEvaluationEC</span> <span class="pre">object</span> <span class="pre">(149)&gt;,</span> <span class="pre">&lt;ConfigurationEvaluationEC:</span> <span class="pre">ConfigurationEvaluationEC</span> <span class="pre">object</span> <span class="pre">(150)&gt;,</span> <span class="pre">&lt;ConfigurationEvaluationEC:</span> <span class="pre">ConfigurationEvaluationEC</span> <span class="pre">object</span> <span class="pre">(151)&gt;,</span> <span class="pre">&lt;ConfigurationEvaluationEC:</span> <span class="pre">ConfigurationEvaluationEC</span> <span class="pre">object</span> <span class="pre">(152)&gt;,</span> <span class="pre">&lt;ConfigurationEvaluationEC:</span> <span class="pre">ConfigurationEvaluationEC</span> <span class="pre">object</span> <span class="pre">(153)&gt;,</span> <span class="pre">&lt;ConfigurationEvaluationEC:</span> <span class="pre">ConfigurationEvaluationEC</span> <span class="pre">object</span> <span class="pre">(154)&gt;,</span> <span class="pre">&lt;ConfigurationEvaluationEC:</span> <span class="pre">ConfigurationEvaluationEC</span> <span class="pre">object</span> <span class="pre">(155)&gt;,</span> <span class="pre">&lt;ConfigurationEvaluationEC:</span> <span class="pre">ConfigurationEvaluationEC</span> <span class="pre">object</span> <span class="pre">(156)&gt;,</span> <span class="pre">&lt;ConfigurationEvaluationEC:</span> <span class="pre">ConfigurationEvaluationEC</span> <span class="pre">object</span> <span class="pre">(157)&gt;,</span> <span class="pre">&lt;ConfigurationEvaluationEC:</span> <span class="pre">ConfigurationEvaluationEC</span> <span class="pre">object</span> <span class="pre">(158)&gt;,</span> <span class="pre">&lt;ConfigurationEvaluationEC:</span> <span class="pre">ConfigurationEvaluationEC</span> <span class="pre">object</span> <span class="pre">(159)&gt;,</span> <span class="pre">&lt;ConfigurationEvaluationEC:</span> <span class="pre">ConfigurationEvaluationEC</span> <span class="pre">object</span> <span class="pre">(160)&gt;,</span> <span class="pre">&lt;ConfigurationEvaluationEC:</span> <span class="pre">ConfigurationEvaluationEC</span> <span class="pre">object</span> <span class="pre">(161)&gt;,</span> <span class="pre">&lt;ConfigurationEvaluationEC:</span> <span class="pre">ConfigurationEvaluationEC</span> <span class="pre">object</span> <span class="pre">(162)&gt;,</span> <span class="pre">&lt;ConfigurationEvaluationEC:</span> <span class="pre">ConfigurationEvaluationEC</span> <span class="pre">object</span> <span class="pre">(163)&gt;,</span> <span class="pre">&lt;ConfigurationEvaluationEC:</span> <span class="pre">ConfigurationEvaluationEC</span> <span class="pre">object</span> <span class="pre">(164)&gt;,</span> <span class="pre">'...(remaining</span> <span class="pre">elements</span> <span class="pre">truncated)...']&gt;</span></em><a class="headerlink" href="#id41" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id42">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#id42" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">ConfigurationEvaluationECSerializer</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id43">
+<span class="sig-name descname"><span class="pre">permission_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'rest_framework.permissions.IsAuthenticated'&gt;]</span></em><a class="headerlink" href="#id43" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id44">
+<span class="sig-name descname"><span class="pre">get_queryset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#ConfigurationEvaluationECViewSet.get_queryset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id44" title="Link to this definition"></a></dt>
+<dd><p>Get the list of items for this view.
+This must be an iterable, and may be a queryset.
+Defaults to using <cite>self.queryset</cite>.</p>
+<p>This method should always be used rather than accessing <cite>self.queryset</cite>
+directly, as <cite>self.queryset</cite> gets evaluated only once, and those results
+are cached for all subsequent requests.</p>
+<p>You may want to override this if you need to provide different
+querysets depending on the incoming request.</p>
+<p>(Eg. return a list of items that is specific to the user)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id45">
+<span class="sig-name descname"><span class="pre">configurer_ec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#ConfigurationEvaluationECViewSet.configurer_ec"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id45" title="Link to this definition"></a></dt>
+<dd><p>Configuration complète des évaluations pour un EC</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="elements-constitutifs">
+<h2>Éléments Constitutifs<a class="headerlink" href="#elements-constitutifs" title="Link to this heading"></a></h2>
+<dl class="py class" id="module-1">
+<dt class="sig sig-object py" id="id46">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">academics.views.</span></span><span class="sig-name descname"><span class="pre">AnneeAcademiqueViewSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#AnneeAcademiqueViewSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id46" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="id47">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;QuerySet</span> <span class="pre">[&lt;AnneeAcademique:</span> <span class="pre">2024-2025&gt;,</span> <span class="pre">&lt;AnneeAcademique:</span> <span class="pre">2023-2024&gt;,</span> <span class="pre">&lt;AnneeAcademique:</span> <span class="pre">2022-2023&gt;]&gt;</span></em><a class="headerlink" href="#id47" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id48">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#id48" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">AnneeAcademiqueSerializer</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id49">
+<span class="sig-name descname"><span class="pre">permission_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'rest_framework.permissions.IsAuthenticated'&gt;]</span></em><a class="headerlink" href="#id49" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id50">
+<span class="sig-name descname"><span class="pre">active</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#AnneeAcademiqueViewSet.active"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id50" title="Link to this definition"></a></dt>
+<dd><p>Retourne l’année académique active</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id51">
+<span class="sig-name descname"><span class="pre">statistiques</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pk</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#AnneeAcademiqueViewSet.statistiques"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id51" title="Link to this definition"></a></dt>
+<dd><p>Statistiques d’une année académique</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="id52">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">academics.views.</span></span><span class="sig-name descname"><span class="pre">SessionViewSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#SessionViewSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id52" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="id53">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;QuerySet</span> <span class="pre">[&lt;Session:</span> <span class="pre">Session</span> <span class="pre">Normale&gt;,</span> <span class="pre">&lt;Session:</span> <span class="pre">Session</span> <span class="pre">de</span> <span class="pre">Rattrapage&gt;]&gt;</span></em><a class="headerlink" href="#id53" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id54">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#id54" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">SessionSerializer</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id55">
+<span class="sig-name descname"><span class="pre">permission_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'rest_framework.permissions.IsAuthenticated'&gt;]</span></em><a class="headerlink" href="#id55" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="id56">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">academics.views.</span></span><span class="sig-name descname"><span class="pre">SemestreViewSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#SemestreViewSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id56" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="id57">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;QuerySet</span> <span class="pre">[&lt;Semestre:</span> <span class="pre">Semestre</span> <span class="pre">1&gt;,</span> <span class="pre">&lt;Semestre:</span> <span class="pre">Semestre</span> <span class="pre">2&gt;]&gt;</span></em><a class="headerlink" href="#id57" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id58">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#id58" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">SemestreSerializer</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id59">
+<span class="sig-name descname"><span class="pre">permission_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'rest_framework.permissions.IsAuthenticated'&gt;]</span></em><a class="headerlink" href="#id59" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="id60">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">academics.views.</span></span><span class="sig-name descname"><span class="pre">ClasseViewSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#ClasseViewSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id60" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="id61">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;QuerySet</span> <span class="pre">[&lt;Classe:</span> <span class="pre">MED</span> <span class="pre">L1</span> <span class="pre">A</span> <span class="pre">-</span> <span class="pre">2024-2025&gt;,</span> <span class="pre">&lt;Classe:</span> <span class="pre">MED</span> <span class="pre">L1</span> <span class="pre">B</span> <span class="pre">-</span> <span class="pre">2024-2025&gt;,</span> <span class="pre">&lt;Classe:</span> <span class="pre">MED</span> <span class="pre">L2</span> <span class="pre">A</span> <span class="pre">-</span> <span class="pre">2024-2025&gt;,</span> <span class="pre">&lt;Classe:</span> <span class="pre">MED</span> <span class="pre">L2</span> <span class="pre">B</span> <span class="pre">-</span> <span class="pre">2024-2025&gt;]&gt;</span></em><a class="headerlink" href="#id61" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id62">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#id62" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">ClasseSerializer</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id63">
+<span class="sig-name descname"><span class="pre">permission_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'rest_framework.permissions.IsAuthenticated'&gt;]</span></em><a class="headerlink" href="#id63" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id64">
+<span class="sig-name descname"><span class="pre">get_queryset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#ClasseViewSet.get_queryset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id64" title="Link to this definition"></a></dt>
+<dd><p>Get the list of items for this view.
+This must be an iterable, and may be a queryset.
+Defaults to using <cite>self.queryset</cite>.</p>
+<p>This method should always be used rather than accessing <cite>self.queryset</cite>
+directly, as <cite>self.queryset</cite> gets evaluated only once, and those results
+are cached for all subsequent requests.</p>
+<p>You may want to override this if you need to provide different
+querysets depending on the incoming request.</p>
+<p>(Eg. return a list of items that is specific to the user)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id65">
+<span class="sig-name descname"><span class="pre">etudiants</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pk</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#ClasseViewSet.etudiants"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id65" title="Link to this definition"></a></dt>
+<dd><p>Retourne les étudiants d’une classe avec informations détaillées</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id66">
+<span class="sig-name descname"><span class="pre">programme_pedagogique</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pk</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#ClasseViewSet.programme_pedagogique"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id66" title="Link to this definition"></a></dt>
+<dd><p>Retourne le programme pédagogique complet d’une classe</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id67">
+<span class="sig-name descname"><span class="pre">resultats_session</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pk</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#ClasseViewSet.resultats_session"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id67" title="Link to this definition"></a></dt>
+<dd><p>Retourne les résultats d’une classe pour une session donnée</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="id68">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">academics.views.</span></span><span class="sig-name descname"><span class="pre">UEViewSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#UEViewSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id68" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="id69">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;QuerySet</span> <span class="pre">[&lt;UE:</span> <span class="pre">ANAT101</span> <span class="pre">-</span> <span class="pre">Anatomie</span> <span class="pre">Générale&gt;,</span> <span class="pre">&lt;UE:</span> <span class="pre">PHYS101</span> <span class="pre">-</span> <span class="pre">Physiologie</span> <span class="pre">Humaine&gt;,</span> <span class="pre">&lt;UE:</span> <span class="pre">BIOC101</span> <span class="pre">-</span> <span class="pre">Biochimie</span> <span class="pre">Structurale&gt;,</span> <span class="pre">&lt;UE:</span> <span class="pre">BIOP101</span> <span class="pre">-</span> <span class="pre">Biophysique&gt;,</span> <span class="pre">&lt;UE:</span> <span class="pre">HIST101</span> <span class="pre">-</span> <span class="pre">Histologie&gt;,</span> <span class="pre">&lt;UE:</span> <span class="pre">ANAT102</span> <span class="pre">-</span> <span class="pre">Anatomie</span> <span class="pre">Systémique&gt;,</span> <span class="pre">&lt;UE:</span> <span class="pre">PHYS102</span> <span class="pre">-</span> <span class="pre">Physiologie</span> <span class="pre">Spécialisée&gt;,</span> <span class="pre">&lt;UE:</span> <span class="pre">MICR101</span> <span class="pre">-</span> <span class="pre">Microbiologie&gt;,</span> <span class="pre">&lt;UE:</span> <span class="pre">GENE101</span> <span class="pre">-</span> <span class="pre">Génétique</span> <span class="pre">Médicale&gt;,</span> <span class="pre">&lt;UE:</span> <span class="pre">EMBR101</span> <span class="pre">-</span> <span class="pre">Embryologie&gt;,</span> <span class="pre">&lt;UE:</span> <span class="pre">PATH201</span> <span class="pre">-</span> <span class="pre">Pathologie</span> <span class="pre">Générale&gt;,</span> <span class="pre">&lt;UE:</span> <span class="pre">PHAR201</span> <span class="pre">-</span> <span class="pre">Pharmacologie</span> <span class="pre">Générale&gt;,</span> <span class="pre">&lt;UE:</span> <span class="pre">IMMU201</span> <span class="pre">-</span> <span class="pre">Immunologie&gt;]&gt;</span></em><a class="headerlink" href="#id69" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id70">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#id70" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">UESerializer</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id71">
+<span class="sig-name descname"><span class="pre">permission_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'rest_framework.permissions.IsAuthenticated'&gt;]</span></em><a class="headerlink" href="#id71" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id72">
+<span class="sig-name descname"><span class="pre">get_serializer_class</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#UEViewSet.get_serializer_class"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id72" title="Link to this definition"></a></dt>
+<dd><p>Return the class to use for the serializer.
+Defaults to using <cite>self.serializer_class</cite>.</p>
+<p>You may want to override this if you need to provide different
+serializations depending on the incoming request.</p>
+<p>(Eg. admins get full serialization, others get basic serialization)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id73">
+<span class="sig-name descname"><span class="pre">get_queryset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#UEViewSet.get_queryset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id73" title="Link to this definition"></a></dt>
+<dd><p>Get the list of items for this view.
+This must be an iterable, and may be a queryset.
+Defaults to using <cite>self.queryset</cite>.</p>
+<p>This method should always be used rather than accessing <cite>self.queryset</cite>
+directly, as <cite>self.queryset</cite> gets evaluated only once, and those results
+are cached for all subsequent requests.</p>
+<p>You may want to override this if you need to provide different
+querysets depending on the incoming request.</p>
+<p>(Eg. return a list of items that is specific to the user)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id74">
+<span class="sig-name descname"><span class="pre">configuration_evaluations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pk</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#UEViewSet.configuration_evaluations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id74" title="Link to this definition"></a></dt>
+<dd><p>Retourne la configuration des évaluations pour tous les EC de l’UE</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="id75">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">academics.views.</span></span><span class="sig-name descname"><span class="pre">ECViewSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#ECViewSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id75" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="id76">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;QuerySet</span> <span class="pre">[&lt;EC:</span> <span class="pre">ANAT101A</span> <span class="pre">-</span> <span class="pre">Anatomie</span> <span class="pre">Descriptive&gt;,</span> <span class="pre">&lt;EC:</span> <span class="pre">ANAT101B</span> <span class="pre">-</span> <span class="pre">Travaux</span> <span class="pre">Pratiques</span> <span class="pre">Anatomie&gt;,</span> <span class="pre">&lt;EC:</span> <span class="pre">PHYS101A</span> <span class="pre">-</span> <span class="pre">Physiologie</span> <span class="pre">Générale&gt;,</span> <span class="pre">&lt;EC:</span> <span class="pre">PHYS101B</span> <span class="pre">-</span> <span class="pre">TP</span> <span class="pre">Physiologie&gt;,</span> <span class="pre">&lt;EC:</span> <span class="pre">BIOC101A</span> <span class="pre">-</span> <span class="pre">Biochimie</span> <span class="pre">Fondamentale&gt;,</span> <span class="pre">&lt;EC:</span> <span class="pre">BIOC101B</span> <span class="pre">-</span> <span class="pre">TP</span> <span class="pre">Biochimie&gt;,</span> <span class="pre">&lt;EC:</span> <span class="pre">BIOP101A</span> <span class="pre">-</span> <span class="pre">Biophysique</span> <span class="pre">Théorique&gt;,</span> <span class="pre">&lt;EC:</span> <span class="pre">HIST101A</span> <span class="pre">-</span> <span class="pre">Histologie</span> <span class="pre">Générale&gt;,</span> <span class="pre">&lt;EC:</span> <span class="pre">HIST101B</span> <span class="pre">-</span> <span class="pre">TP</span> <span class="pre">Histologie&gt;,</span> <span class="pre">&lt;EC:</span> <span class="pre">ANAT102A</span> <span class="pre">-</span> <span class="pre">Système</span> <span class="pre">Cardiovasculaire&gt;,</span> <span class="pre">&lt;EC:</span> <span class="pre">ANAT102B</span> <span class="pre">-</span> <span class="pre">Système</span> <span class="pre">Respiratoire&gt;,</span> <span class="pre">&lt;EC:</span> <span class="pre">PHYS102A</span> <span class="pre">-</span> <span class="pre">Physiologie</span> <span class="pre">Cardiovasculaire&gt;,</span> <span class="pre">&lt;EC:</span> <span class="pre">PHYS102B</span> <span class="pre">-</span> <span class="pre">Physiologie</span> <span class="pre">Respiratoire&gt;,</span> <span class="pre">&lt;EC:</span> <span class="pre">MICR101A</span> <span class="pre">-</span> <span class="pre">Microbiologie</span> <span class="pre">Générale&gt;,</span> <span class="pre">&lt;EC:</span> <span class="pre">MICR101B</span> <span class="pre">-</span> <span class="pre">TP</span> <span class="pre">Microbiologie&gt;,</span> <span class="pre">&lt;EC:</span> <span class="pre">GENE101A</span> <span class="pre">-</span> <span class="pre">Génétique</span> <span class="pre">Fondamentale&gt;,</span> <span class="pre">&lt;EC:</span> <span class="pre">EMBR101A</span> <span class="pre">-</span> <span class="pre">Embryologie</span> <span class="pre">Générale&gt;,</span> <span class="pre">&lt;EC:</span> <span class="pre">EMBR101B</span> <span class="pre">-</span> <span class="pre">TP</span> <span class="pre">Embryologie&gt;,</span> <span class="pre">&lt;EC:</span> <span class="pre">PATH201A</span> <span class="pre">-</span> <span class="pre">Pathologie</span> <span class="pre">Cellulaire&gt;,</span> <span class="pre">&lt;EC:</span> <span class="pre">PATH201B</span> <span class="pre">-</span> <span class="pre">Anatomie</span> <span class="pre">Pathologique&gt;,</span> <span class="pre">'...(remaining</span> <span class="pre">elements</span> <span class="pre">truncated)...']&gt;</span></em><a class="headerlink" href="#id76" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id77">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#id77" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">ECSerializer</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id78">
+<span class="sig-name descname"><span class="pre">permission_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'rest_framework.permissions.IsAuthenticated'&gt;]</span></em><a class="headerlink" href="#id78" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id79">
+<span class="sig-name descname"><span class="pre">get_queryset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#ECViewSet.get_queryset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id79" title="Link to this definition"></a></dt>
+<dd><p>Get the list of items for this view.
+This must be an iterable, and may be a queryset.
+Defaults to using <cite>self.queryset</cite>.</p>
+<p>This method should always be used rather than accessing <cite>self.queryset</cite>
+directly, as <cite>self.queryset</cite> gets evaluated only once, and those results
+are cached for all subsequent requests.</p>
+<p>You may want to override this if you need to provide different
+querysets depending on the incoming request.</p>
+<p>(Eg. return a list of items that is specific to the user)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id80">
+<span class="sig-name descname"><span class="pre">enseignements</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pk</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#ECViewSet.enseignements"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id80" title="Link to this definition"></a></dt>
+<dd><p>Retourne tous les enseignements de cet EC</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="id81">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">academics.views.</span></span><span class="sig-name descname"><span class="pre">TypeEvaluationViewSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#TypeEvaluationViewSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id81" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="id82">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;QuerySet</span> <span class="pre">[&lt;TypeEvaluation:</span> <span class="pre">Contrôle</span> <span class="pre">Continu&gt;,</span> <span class="pre">&lt;TypeEvaluation:</span> <span class="pre">Travaux</span> <span class="pre">Dirigés&gt;,</span> <span class="pre">&lt;TypeEvaluation:</span> <span class="pre">Travaux</span> <span class="pre">Pratiques&gt;,</span> <span class="pre">&lt;TypeEvaluation:</span> <span class="pre">Partiel&gt;,</span> <span class="pre">&lt;TypeEvaluation:</span> <span class="pre">Examen</span> <span class="pre">Final&gt;,</span> <span class="pre">&lt;TypeEvaluation:</span> <span class="pre">Présentation</span> <span class="pre">Orale&gt;,</span> <span class="pre">&lt;TypeEvaluation:</span> <span class="pre">Rapport</span> <span class="pre">de</span> <span class="pre">Stage&gt;]&gt;</span></em><a class="headerlink" href="#id82" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id83">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#id83" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">TypeEvaluationSerializer</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id84">
+<span class="sig-name descname"><span class="pre">permission_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'rest_framework.permissions.IsAuthenticated'&gt;]</span></em><a class="headerlink" href="#id84" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id85">
+<span class="sig-name descname"><span class="pre">usage_statistics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#TypeEvaluationViewSet.usage_statistics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id85" title="Link to this definition"></a></dt>
+<dd><p>Statistiques d’utilisation des types d’évaluation</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="id86">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">academics.views.</span></span><span class="sig-name descname"><span class="pre">ConfigurationEvaluationECViewSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#ConfigurationEvaluationECViewSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id86" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="id87">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;QuerySet</span> <span class="pre">[&lt;ConfigurationEvaluationEC:</span> <span class="pre">ConfigurationEvaluationEC</span> <span class="pre">object</span> <span class="pre">(145)&gt;,</span> <span class="pre">&lt;ConfigurationEvaluationEC:</span> <span class="pre">ConfigurationEvaluationEC</span> <span class="pre">object</span> <span class="pre">(146)&gt;,</span> <span class="pre">&lt;ConfigurationEvaluationEC:</span> <span class="pre">ConfigurationEvaluationEC</span> <span class="pre">object</span> <span class="pre">(147)&gt;,</span> <span class="pre">&lt;ConfigurationEvaluationEC:</span> <span class="pre">ConfigurationEvaluationEC</span> <span class="pre">object</span> <span class="pre">(148)&gt;,</span> <span class="pre">&lt;ConfigurationEvaluationEC:</span> <span class="pre">ConfigurationEvaluationEC</span> <span class="pre">object</span> <span class="pre">(149)&gt;,</span> <span class="pre">&lt;ConfigurationEvaluationEC:</span> <span class="pre">ConfigurationEvaluationEC</span> <span class="pre">object</span> <span class="pre">(150)&gt;,</span> <span class="pre">&lt;ConfigurationEvaluationEC:</span> <span class="pre">ConfigurationEvaluationEC</span> <span class="pre">object</span> <span class="pre">(151)&gt;,</span> <span class="pre">&lt;ConfigurationEvaluationEC:</span> <span class="pre">ConfigurationEvaluationEC</span> <span class="pre">object</span> <span class="pre">(152)&gt;,</span> <span class="pre">&lt;ConfigurationEvaluationEC:</span> <span class="pre">ConfigurationEvaluationEC</span> <span class="pre">object</span> <span class="pre">(153)&gt;,</span> <span class="pre">&lt;ConfigurationEvaluationEC:</span> <span class="pre">ConfigurationEvaluationEC</span> <span class="pre">object</span> <span class="pre">(154)&gt;,</span> <span class="pre">&lt;ConfigurationEvaluationEC:</span> <span class="pre">ConfigurationEvaluationEC</span> <span class="pre">object</span> <span class="pre">(155)&gt;,</span> <span class="pre">&lt;ConfigurationEvaluationEC:</span> <span class="pre">ConfigurationEvaluationEC</span> <span class="pre">object</span> <span class="pre">(156)&gt;,</span> <span class="pre">&lt;ConfigurationEvaluationEC:</span> <span class="pre">ConfigurationEvaluationEC</span> <span class="pre">object</span> <span class="pre">(157)&gt;,</span> <span class="pre">&lt;ConfigurationEvaluationEC:</span> <span class="pre">ConfigurationEvaluationEC</span> <span class="pre">object</span> <span class="pre">(158)&gt;,</span> <span class="pre">&lt;ConfigurationEvaluationEC:</span> <span class="pre">ConfigurationEvaluationEC</span> <span class="pre">object</span> <span class="pre">(159)&gt;,</span> <span class="pre">&lt;ConfigurationEvaluationEC:</span> <span class="pre">ConfigurationEvaluationEC</span> <span class="pre">object</span> <span class="pre">(160)&gt;,</span> <span class="pre">&lt;ConfigurationEvaluationEC:</span> <span class="pre">ConfigurationEvaluationEC</span> <span class="pre">object</span> <span class="pre">(161)&gt;,</span> <span class="pre">&lt;ConfigurationEvaluationEC:</span> <span class="pre">ConfigurationEvaluationEC</span> <span class="pre">object</span> <span class="pre">(162)&gt;,</span> <span class="pre">&lt;ConfigurationEvaluationEC:</span> <span class="pre">ConfigurationEvaluationEC</span> <span class="pre">object</span> <span class="pre">(163)&gt;,</span> <span class="pre">&lt;ConfigurationEvaluationEC:</span> <span class="pre">ConfigurationEvaluationEC</span> <span class="pre">object</span> <span class="pre">(164)&gt;,</span> <span class="pre">'...(remaining</span> <span class="pre">elements</span> <span class="pre">truncated)...']&gt;</span></em><a class="headerlink" href="#id87" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id88">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#id88" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">ConfigurationEvaluationECSerializer</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id89">
+<span class="sig-name descname"><span class="pre">permission_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'rest_framework.permissions.IsAuthenticated'&gt;]</span></em><a class="headerlink" href="#id89" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id90">
+<span class="sig-name descname"><span class="pre">get_queryset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#ConfigurationEvaluationECViewSet.get_queryset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id90" title="Link to this definition"></a></dt>
+<dd><p>Get the list of items for this view.
+This must be an iterable, and may be a queryset.
+Defaults to using <cite>self.queryset</cite>.</p>
+<p>This method should always be used rather than accessing <cite>self.queryset</cite>
+directly, as <cite>self.queryset</cite> gets evaluated only once, and those results
+are cached for all subsequent requests.</p>
+<p>You may want to override this if you need to provide different
+querysets depending on the incoming request.</p>
+<p>(Eg. return a list of items that is specific to the user)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id91">
+<span class="sig-name descname"><span class="pre">configurer_ec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/academics/views.html#ConfigurationEvaluationECViewSet.configurer_ec"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id91" title="Link to this definition"></a></dt>
+<dd><p>Configuration complète des évaluations pour un EC</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="core.html" class="btn btn-neutral float-left" title="Core API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="users.html" class="btn btn-neutral float-right" title="Users API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Faculté de Médecine.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

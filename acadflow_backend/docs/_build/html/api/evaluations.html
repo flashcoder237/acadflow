@@ -1,0 +1,988 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Evaluations API &mdash; AcadFlow 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=f2a433a1"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Models Reference" href="../models/index.html" />
+    <link rel="prev" title="Users API" href="users.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            AcadFlow
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Guide de démarrage rapide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="core.html">Core API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="academics.html">Academics API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="users.html">Users API</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Evaluations API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module-evaluations.views">Évaluations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.views.EnseignementViewSet"><code class="docutils literal notranslate"><span class="pre">EnseignementViewSet</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.views.EvaluationViewSet"><code class="docutils literal notranslate"><span class="pre">EvaluationViewSet</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.views.NoteViewSet"><code class="docutils literal notranslate"><span class="pre">NoteViewSet</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.views.MoyenneECViewSet"><code class="docutils literal notranslate"><span class="pre">MoyenneECViewSet</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.views.MoyenneUEViewSet"><code class="docutils literal notranslate"><span class="pre">MoyenneUEViewSet</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.views.MoyenneSemestreViewSet"><code class="docutils literal notranslate"><span class="pre">MoyenneSemestreViewSet</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-0">Notes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id0"><code class="docutils literal notranslate"><span class="pre">EnseignementViewSet</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id7"><code class="docutils literal notranslate"><span class="pre">EvaluationViewSet</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id15"><code class="docutils literal notranslate"><span class="pre">NoteViewSet</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id21"><code class="docutils literal notranslate"><span class="pre">MoyenneECViewSet</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id27"><code class="docutils literal notranslate"><span class="pre">MoyenneUEViewSet</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id33"><code class="docutils literal notranslate"><span class="pre">MoyenneSemestreViewSet</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-1">Moyennes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id41"><code class="docutils literal notranslate"><span class="pre">EnseignementViewSet</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id48"><code class="docutils literal notranslate"><span class="pre">EvaluationViewSet</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id56"><code class="docutils literal notranslate"><span class="pre">NoteViewSet</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id62"><code class="docutils literal notranslate"><span class="pre">MoyenneECViewSet</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id68"><code class="docutils literal notranslate"><span class="pre">MoyenneUEViewSet</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id74"><code class="docutils literal notranslate"><span class="pre">MoyenneSemestreViewSet</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#vue-d-ensemble">Vue d’ensemble</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../models/index.html">Models Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../development.html">Guide de développement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">AcadFlow</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">API Reference</a></li>
+      <li class="breadcrumb-item active">Evaluations API</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/evaluations.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="evaluations-api">
+<h1>Evaluations API<a class="headerlink" href="#evaluations-api" title="Link to this heading"></a></h1>
+<section id="module-evaluations.views">
+<span id="evaluations"></span><h2>Évaluations<a class="headerlink" href="#module-evaluations.views" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="evaluations.views.EnseignementViewSet">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evaluations.views.</span></span><span class="sig-name descname"><span class="pre">EnseignementViewSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#EnseignementViewSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evaluations.views.EnseignementViewSet" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.views.EnseignementViewSet.queryset">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;QuerySet</span> <span class="pre">[&lt;Enseignement:</span> <span class="pre">Enseignement</span> <span class="pre">object</span> <span class="pre">(97)&gt;,</span> <span class="pre">&lt;Enseignement:</span> <span class="pre">Enseignement</span> <span class="pre">object</span> <span class="pre">(98)&gt;,</span> <span class="pre">&lt;Enseignement:</span> <span class="pre">Enseignement</span> <span class="pre">object</span> <span class="pre">(99)&gt;,</span> <span class="pre">&lt;Enseignement:</span> <span class="pre">Enseignement</span> <span class="pre">object</span> <span class="pre">(100)&gt;,</span> <span class="pre">&lt;Enseignement:</span> <span class="pre">Enseignement</span> <span class="pre">object</span> <span class="pre">(101)&gt;,</span> <span class="pre">&lt;Enseignement:</span> <span class="pre">Enseignement</span> <span class="pre">object</span> <span class="pre">(102)&gt;,</span> <span class="pre">&lt;Enseignement:</span> <span class="pre">Enseignement</span> <span class="pre">object</span> <span class="pre">(103)&gt;,</span> <span class="pre">&lt;Enseignement:</span> <span class="pre">Enseignement</span> <span class="pre">object</span> <span class="pre">(104)&gt;,</span> <span class="pre">&lt;Enseignement:</span> <span class="pre">Enseignement</span> <span class="pre">object</span> <span class="pre">(105)&gt;,</span> <span class="pre">&lt;Enseignement:</span> <span class="pre">Enseignement</span> <span class="pre">object</span> <span class="pre">(106)&gt;,</span> <span class="pre">&lt;Enseignement:</span> <span class="pre">Enseignement</span> <span class="pre">object</span> <span class="pre">(107)&gt;,</span> <span class="pre">&lt;Enseignement:</span> <span class="pre">Enseignement</span> <span class="pre">object</span> <span class="pre">(108)&gt;,</span> <span class="pre">&lt;Enseignement:</span> <span class="pre">Enseignement</span> <span class="pre">object</span> <span class="pre">(109)&gt;,</span> <span class="pre">&lt;Enseignement:</span> <span class="pre">Enseignement</span> <span class="pre">object</span> <span class="pre">(110)&gt;,</span> <span class="pre">&lt;Enseignement:</span> <span class="pre">Enseignement</span> <span class="pre">object</span> <span class="pre">(111)&gt;,</span> <span class="pre">&lt;Enseignement:</span> <span class="pre">Enseignement</span> <span class="pre">object</span> <span class="pre">(112)&gt;,</span> <span class="pre">&lt;Enseignement:</span> <span class="pre">Enseignement</span> <span class="pre">object</span> <span class="pre">(113)&gt;,</span> <span class="pre">&lt;Enseignement:</span> <span class="pre">Enseignement</span> <span class="pre">object</span> <span class="pre">(114)&gt;,</span> <span class="pre">&lt;Enseignement:</span> <span class="pre">Enseignement</span> <span class="pre">object</span> <span class="pre">(115)&gt;,</span> <span class="pre">&lt;Enseignement:</span> <span class="pre">Enseignement</span> <span class="pre">object</span> <span class="pre">(116)&gt;,</span> <span class="pre">'...(remaining</span> <span class="pre">elements</span> <span class="pre">truncated)...']&gt;</span></em><a class="headerlink" href="#evaluations.views.EnseignementViewSet.queryset" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.views.EnseignementViewSet.serializer_class">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#evaluations.views.EnseignementViewSet.serializer_class" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">EnseignementSerializer</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.views.EnseignementViewSet.permission_classes">
+<span class="sig-name descname"><span class="pre">permission_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'rest_framework.permissions.IsAuthenticated'&gt;]</span></em><a class="headerlink" href="#evaluations.views.EnseignementViewSet.permission_classes" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evaluations.views.EnseignementViewSet.get_queryset">
+<span class="sig-name descname"><span class="pre">get_queryset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#EnseignementViewSet.get_queryset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evaluations.views.EnseignementViewSet.get_queryset" title="Link to this definition"></a></dt>
+<dd><p>Get the list of items for this view.
+This must be an iterable, and may be a queryset.
+Defaults to using <cite>self.queryset</cite>.</p>
+<p>This method should always be used rather than accessing <cite>self.queryset</cite>
+directly, as <cite>self.queryset</cite> gets evaluated only once, and those results
+are cached for all subsequent requests.</p>
+<p>You may want to override this if you need to provide different
+querysets depending on the incoming request.</p>
+<p>(Eg. return a list of items that is specific to the user)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evaluations.views.EnseignementViewSet.evaluations">
+<span class="sig-name descname"><span class="pre">evaluations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pk</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#EnseignementViewSet.evaluations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evaluations.views.EnseignementViewSet.evaluations" title="Link to this definition"></a></dt>
+<dd><p>Toutes les évaluations d’un enseignement</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evaluations.views.EnseignementViewSet.liste_etudiants">
+<span class="sig-name descname"><span class="pre">liste_etudiants</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pk</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#EnseignementViewSet.liste_etudiants"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evaluations.views.EnseignementViewSet.liste_etudiants" title="Link to this definition"></a></dt>
+<dd><p>Liste des étudiants pour cet enseignement</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="evaluations.views.EvaluationViewSet">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evaluations.views.</span></span><span class="sig-name descname"><span class="pre">EvaluationViewSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#EvaluationViewSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evaluations.views.EvaluationViewSet" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.views.EvaluationViewSet.queryset">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;QuerySet</span> <span class="pre">[&lt;Evaluation:</span> <span class="pre">CC</span> <span class="pre">1</span> <span class="pre">-</span> <span class="pre">Anatomie</span> <span class="pre">Descriptive</span> <span class="pre">-</span> <span class="pre">Anatomie</span> <span class="pre">Descriptive&gt;,</span> <span class="pre">&lt;Evaluation:</span> <span class="pre">CC</span> <span class="pre">2</span> <span class="pre">-</span> <span class="pre">Anatomie</span> <span class="pre">Descriptive</span> <span class="pre">-</span> <span class="pre">Anatomie</span> <span class="pre">Descriptive&gt;,</span> <span class="pre">&lt;Evaluation:</span> <span class="pre">Partiel</span> <span class="pre">-</span> <span class="pre">Anatomie</span> <span class="pre">Descriptive</span> <span class="pre">-</span> <span class="pre">Anatomie</span> <span class="pre">Descriptive&gt;,</span> <span class="pre">&lt;Evaluation:</span> <span class="pre">Examen</span> <span class="pre">Final</span> <span class="pre">-</span> <span class="pre">Anatomie</span> <span class="pre">Descriptive</span> <span class="pre">-</span> <span class="pre">Anatomie</span> <span class="pre">Descriptive&gt;,</span> <span class="pre">&lt;Evaluation:</span> <span class="pre">CC</span> <span class="pre">1</span> <span class="pre">-</span> <span class="pre">Travaux</span> <span class="pre">Pratiques</span> <span class="pre">Anatomie</span> <span class="pre">-</span> <span class="pre">Travaux</span> <span class="pre">Pratiques</span> <span class="pre">Anatomie&gt;,</span> <span class="pre">&lt;Evaluation:</span> <span class="pre">CC</span> <span class="pre">2</span> <span class="pre">-</span> <span class="pre">Travaux</span> <span class="pre">Pratiques</span> <span class="pre">Anatomie</span> <span class="pre">-</span> <span class="pre">Travaux</span> <span class="pre">Pratiques</span> <span class="pre">Anatomie&gt;,</span> <span class="pre">&lt;Evaluation:</span> <span class="pre">Partiel</span> <span class="pre">-</span> <span class="pre">Travaux</span> <span class="pre">Pratiques</span> <span class="pre">Anatomie</span> <span class="pre">-</span> <span class="pre">Travaux</span> <span class="pre">Pratiques</span> <span class="pre">Anatomie&gt;,</span> <span class="pre">&lt;Evaluation:</span> <span class="pre">Examen</span> <span class="pre">Final</span> <span class="pre">-</span> <span class="pre">Travaux</span> <span class="pre">Pratiques</span> <span class="pre">Anatomie</span> <span class="pre">-</span> <span class="pre">Travaux</span> <span class="pre">Pratiques</span> <span class="pre">Anatomie&gt;,</span> <span class="pre">&lt;Evaluation:</span> <span class="pre">CC</span> <span class="pre">1</span> <span class="pre">-</span> <span class="pre">Physiologie</span> <span class="pre">Générale</span> <span class="pre">-</span> <span class="pre">Physiologie</span> <span class="pre">Générale&gt;,</span> <span class="pre">&lt;Evaluation:</span> <span class="pre">CC</span> <span class="pre">2</span> <span class="pre">-</span> <span class="pre">Physiologie</span> <span class="pre">Générale</span> <span class="pre">-</span> <span class="pre">Physiologie</span> <span class="pre">Générale&gt;,</span> <span class="pre">&lt;Evaluation:</span> <span class="pre">Partiel</span> <span class="pre">-</span> <span class="pre">Physiologie</span> <span class="pre">Générale</span> <span class="pre">-</span> <span class="pre">Physiologie</span> <span class="pre">Générale&gt;,</span> <span class="pre">&lt;Evaluation:</span> <span class="pre">Examen</span> <span class="pre">Final</span> <span class="pre">-</span> <span class="pre">Physiologie</span> <span class="pre">Générale</span> <span class="pre">-</span> <span class="pre">Physiologie</span> <span class="pre">Générale&gt;,</span> <span class="pre">&lt;Evaluation:</span> <span class="pre">TP</span> <span class="pre">1</span> <span class="pre">-</span> <span class="pre">TP</span> <span class="pre">Physiologie</span> <span class="pre">-</span> <span class="pre">TP</span> <span class="pre">Physiologie&gt;,</span> <span class="pre">&lt;Evaluation:</span> <span class="pre">TP</span> <span class="pre">2</span> <span class="pre">-</span> <span class="pre">TP</span> <span class="pre">Physiologie</span> <span class="pre">-</span> <span class="pre">TP</span> <span class="pre">Physiologie&gt;,</span> <span class="pre">&lt;Evaluation:</span> <span class="pre">CC</span> <span class="pre">-</span> <span class="pre">TP</span> <span class="pre">Physiologie</span> <span class="pre">-</span> <span class="pre">TP</span> <span class="pre">Physiologie&gt;,</span> <span class="pre">&lt;Evaluation:</span> <span class="pre">Examen</span> <span class="pre">Final</span> <span class="pre">-</span> <span class="pre">TP</span> <span class="pre">Physiologie</span> <span class="pre">-</span> <span class="pre">TP</span> <span class="pre">Physiologie&gt;,</span> <span class="pre">&lt;Evaluation:</span> <span class="pre">CC</span> <span class="pre">1</span> <span class="pre">-</span> <span class="pre">Biochimie</span> <span class="pre">Fondamentale</span> <span class="pre">-</span> <span class="pre">Biochimie</span> <span class="pre">Fondamentale&gt;,</span> <span class="pre">&lt;Evaluation:</span> <span class="pre">CC</span> <span class="pre">2</span> <span class="pre">-</span> <span class="pre">Biochimie</span> <span class="pre">Fondamentale</span> <span class="pre">-</span> <span class="pre">Biochimie</span> <span class="pre">Fondamentale&gt;,</span> <span class="pre">&lt;Evaluation:</span> <span class="pre">Partiel</span> <span class="pre">-</span> <span class="pre">Biochimie</span> <span class="pre">Fondamentale</span> <span class="pre">-</span> <span class="pre">Biochimie</span> <span class="pre">Fondamentale&gt;,</span> <span class="pre">&lt;Evaluation:</span> <span class="pre">Examen</span> <span class="pre">Final</span> <span class="pre">-</span> <span class="pre">Biochimie</span> <span class="pre">Fondamentale</span> <span class="pre">-</span> <span class="pre">Biochimie</span> <span class="pre">Fondamentale&gt;,</span> <span class="pre">'...(remaining</span> <span class="pre">elements</span> <span class="pre">truncated)...']&gt;</span></em><a class="headerlink" href="#evaluations.views.EvaluationViewSet.queryset" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.views.EvaluationViewSet.serializer_class">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#evaluations.views.EvaluationViewSet.serializer_class" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">EvaluationSerializer</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.views.EvaluationViewSet.permission_classes">
+<span class="sig-name descname"><span class="pre">permission_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'core.permissions.IsEnseignantOrReadOnly'&gt;]</span></em><a class="headerlink" href="#evaluations.views.EvaluationViewSet.permission_classes" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evaluations.views.EvaluationViewSet.get_queryset">
+<span class="sig-name descname"><span class="pre">get_queryset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#EvaluationViewSet.get_queryset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evaluations.views.EvaluationViewSet.get_queryset" title="Link to this definition"></a></dt>
+<dd><p>Get the list of items for this view.
+This must be an iterable, and may be a queryset.
+Defaults to using <cite>self.queryset</cite>.</p>
+<p>This method should always be used rather than accessing <cite>self.queryset</cite>
+directly, as <cite>self.queryset</cite> gets evaluated only once, and those results
+are cached for all subsequent requests.</p>
+<p>You may want to override this if you need to provide different
+querysets depending on the incoming request.</p>
+<p>(Eg. return a list of items that is specific to the user)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evaluations.views.EvaluationViewSet.feuille_notes">
+<span class="sig-name descname"><span class="pre">feuille_notes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pk</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#EvaluationViewSet.feuille_notes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evaluations.views.EvaluationViewSet.feuille_notes" title="Link to this definition"></a></dt>
+<dd><p>Feuille de notes pour une évaluation</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evaluations.views.EvaluationViewSet.saisir_notes">
+<span class="sig-name descname"><span class="pre">saisir_notes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pk</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#EvaluationViewSet.saisir_notes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evaluations.views.EvaluationViewSet.saisir_notes" title="Link to this definition"></a></dt>
+<dd><p>Saisie multiple de notes pour une évaluation</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evaluations.views.EvaluationViewSet.statistiques">
+<span class="sig-name descname"><span class="pre">statistiques</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pk</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#EvaluationViewSet.statistiques"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evaluations.views.EvaluationViewSet.statistiques" title="Link to this definition"></a></dt>
+<dd><p>Statistiques d’une évaluation</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="evaluations.views.NoteViewSet">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evaluations.views.</span></span><span class="sig-name descname"><span class="pre">NoteViewSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#NoteViewSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evaluations.views.NoteViewSet" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.views.NoteViewSet.queryset">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;QuerySet</span> <span class="pre">[&lt;Note:</span> <span class="pre">Note</span> <span class="pre">object</span> <span class="pre">(4609)&gt;,</span> <span class="pre">&lt;Note:</span> <span class="pre">Note</span> <span class="pre">object</span> <span class="pre">(4610)&gt;,</span> <span class="pre">&lt;Note:</span> <span class="pre">Note</span> <span class="pre">object</span> <span class="pre">(4611)&gt;,</span> <span class="pre">&lt;Note:</span> <span class="pre">Note</span> <span class="pre">object</span> <span class="pre">(4612)&gt;,</span> <span class="pre">&lt;Note:</span> <span class="pre">Note</span> <span class="pre">object</span> <span class="pre">(4613)&gt;,</span> <span class="pre">&lt;Note:</span> <span class="pre">Note</span> <span class="pre">object</span> <span class="pre">(4614)&gt;,</span> <span class="pre">&lt;Note:</span> <span class="pre">Note</span> <span class="pre">object</span> <span class="pre">(4615)&gt;,</span> <span class="pre">&lt;Note:</span> <span class="pre">Note</span> <span class="pre">object</span> <span class="pre">(4616)&gt;,</span> <span class="pre">&lt;Note:</span> <span class="pre">Note</span> <span class="pre">object</span> <span class="pre">(4617)&gt;,</span> <span class="pre">&lt;Note:</span> <span class="pre">Note</span> <span class="pre">object</span> <span class="pre">(4618)&gt;,</span> <span class="pre">&lt;Note:</span> <span class="pre">Note</span> <span class="pre">object</span> <span class="pre">(4619)&gt;,</span> <span class="pre">&lt;Note:</span> <span class="pre">Note</span> <span class="pre">object</span> <span class="pre">(4620)&gt;,</span> <span class="pre">&lt;Note:</span> <span class="pre">Note</span> <span class="pre">object</span> <span class="pre">(4621)&gt;,</span> <span class="pre">&lt;Note:</span> <span class="pre">Note</span> <span class="pre">object</span> <span class="pre">(4622)&gt;,</span> <span class="pre">&lt;Note:</span> <span class="pre">Note</span> <span class="pre">object</span> <span class="pre">(4623)&gt;,</span> <span class="pre">&lt;Note:</span> <span class="pre">Note</span> <span class="pre">object</span> <span class="pre">(4624)&gt;,</span> <span class="pre">&lt;Note:</span> <span class="pre">Note</span> <span class="pre">object</span> <span class="pre">(4625)&gt;,</span> <span class="pre">&lt;Note:</span> <span class="pre">Note</span> <span class="pre">object</span> <span class="pre">(4626)&gt;,</span> <span class="pre">&lt;Note:</span> <span class="pre">Note</span> <span class="pre">object</span> <span class="pre">(4627)&gt;,</span> <span class="pre">&lt;Note:</span> <span class="pre">Note</span> <span class="pre">object</span> <span class="pre">(4628)&gt;,</span> <span class="pre">'...(remaining</span> <span class="pre">elements</span> <span class="pre">truncated)...']&gt;</span></em><a class="headerlink" href="#evaluations.views.NoteViewSet.queryset" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.views.NoteViewSet.serializer_class">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#evaluations.views.NoteViewSet.serializer_class" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">NoteSerializer</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.views.NoteViewSet.permission_classes">
+<span class="sig-name descname"><span class="pre">permission_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'rest_framework.permissions.IsAuthenticated'&gt;]</span></em><a class="headerlink" href="#evaluations.views.NoteViewSet.permission_classes" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evaluations.views.NoteViewSet.get_queryset">
+<span class="sig-name descname"><span class="pre">get_queryset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#NoteViewSet.get_queryset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evaluations.views.NoteViewSet.get_queryset" title="Link to this definition"></a></dt>
+<dd><p>Get the list of items for this view.
+This must be an iterable, and may be a queryset.
+Defaults to using <cite>self.queryset</cite>.</p>
+<p>This method should always be used rather than accessing <cite>self.queryset</cite>
+directly, as <cite>self.queryset</cite> gets evaluated only once, and those results
+are cached for all subsequent requests.</p>
+<p>You may want to override this if you need to provide different
+querysets depending on the incoming request.</p>
+<p>(Eg. return a list of items that is specific to the user)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evaluations.views.NoteViewSet.releve_notes_etudiant">
+<span class="sig-name descname"><span class="pre">releve_notes_etudiant</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#NoteViewSet.releve_notes_etudiant"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evaluations.views.NoteViewSet.releve_notes_etudiant" title="Link to this definition"></a></dt>
+<dd><p>Relevé de notes complet pour un étudiant</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="evaluations.views.MoyenneECViewSet">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evaluations.views.</span></span><span class="sig-name descname"><span class="pre">MoyenneECViewSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#MoyenneECViewSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evaluations.views.MoyenneECViewSet" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.views.MoyenneECViewSet.queryset">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;QuerySet</span> <span class="pre">[&lt;MoyenneEC:</span> <span class="pre">MoyenneEC</span> <span class="pre">object</span> <span class="pre">(1153)&gt;,</span> <span class="pre">&lt;MoyenneEC:</span> <span class="pre">MoyenneEC</span> <span class="pre">object</span> <span class="pre">(1154)&gt;,</span> <span class="pre">&lt;MoyenneEC:</span> <span class="pre">MoyenneEC</span> <span class="pre">object</span> <span class="pre">(1155)&gt;,</span> <span class="pre">&lt;MoyenneEC:</span> <span class="pre">MoyenneEC</span> <span class="pre">object</span> <span class="pre">(1156)&gt;,</span> <span class="pre">&lt;MoyenneEC:</span> <span class="pre">MoyenneEC</span> <span class="pre">object</span> <span class="pre">(1157)&gt;,</span> <span class="pre">&lt;MoyenneEC:</span> <span class="pre">MoyenneEC</span> <span class="pre">object</span> <span class="pre">(1158)&gt;,</span> <span class="pre">&lt;MoyenneEC:</span> <span class="pre">MoyenneEC</span> <span class="pre">object</span> <span class="pre">(1159)&gt;,</span> <span class="pre">&lt;MoyenneEC:</span> <span class="pre">MoyenneEC</span> <span class="pre">object</span> <span class="pre">(1160)&gt;,</span> <span class="pre">&lt;MoyenneEC:</span> <span class="pre">MoyenneEC</span> <span class="pre">object</span> <span class="pre">(1161)&gt;,</span> <span class="pre">&lt;MoyenneEC:</span> <span class="pre">MoyenneEC</span> <span class="pre">object</span> <span class="pre">(1162)&gt;,</span> <span class="pre">&lt;MoyenneEC:</span> <span class="pre">MoyenneEC</span> <span class="pre">object</span> <span class="pre">(1163)&gt;,</span> <span class="pre">&lt;MoyenneEC:</span> <span class="pre">MoyenneEC</span> <span class="pre">object</span> <span class="pre">(1164)&gt;,</span> <span class="pre">&lt;MoyenneEC:</span> <span class="pre">MoyenneEC</span> <span class="pre">object</span> <span class="pre">(1165)&gt;,</span> <span class="pre">&lt;MoyenneEC:</span> <span class="pre">MoyenneEC</span> <span class="pre">object</span> <span class="pre">(1166)&gt;,</span> <span class="pre">&lt;MoyenneEC:</span> <span class="pre">MoyenneEC</span> <span class="pre">object</span> <span class="pre">(1167)&gt;,</span> <span class="pre">&lt;MoyenneEC:</span> <span class="pre">MoyenneEC</span> <span class="pre">object</span> <span class="pre">(1168)&gt;,</span> <span class="pre">&lt;MoyenneEC:</span> <span class="pre">MoyenneEC</span> <span class="pre">object</span> <span class="pre">(1169)&gt;,</span> <span class="pre">&lt;MoyenneEC:</span> <span class="pre">MoyenneEC</span> <span class="pre">object</span> <span class="pre">(1170)&gt;,</span> <span class="pre">&lt;MoyenneEC:</span> <span class="pre">MoyenneEC</span> <span class="pre">object</span> <span class="pre">(1171)&gt;,</span> <span class="pre">&lt;MoyenneEC:</span> <span class="pre">MoyenneEC</span> <span class="pre">object</span> <span class="pre">(1172)&gt;,</span> <span class="pre">'...(remaining</span> <span class="pre">elements</span> <span class="pre">truncated)...']&gt;</span></em><a class="headerlink" href="#evaluations.views.MoyenneECViewSet.queryset" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.views.MoyenneECViewSet.serializer_class">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#evaluations.views.MoyenneECViewSet.serializer_class" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">MoyenneECSerializer</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.views.MoyenneECViewSet.permission_classes">
+<span class="sig-name descname"><span class="pre">permission_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'core.permissions.IsEtudiantOwner'&gt;]</span></em><a class="headerlink" href="#evaluations.views.MoyenneECViewSet.permission_classes" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evaluations.views.MoyenneECViewSet.get_queryset">
+<span class="sig-name descname"><span class="pre">get_queryset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#MoyenneECViewSet.get_queryset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evaluations.views.MoyenneECViewSet.get_queryset" title="Link to this definition"></a></dt>
+<dd><p>Get the list of items for this view.
+This must be an iterable, and may be a queryset.
+Defaults to using <cite>self.queryset</cite>.</p>
+<p>This method should always be used rather than accessing <cite>self.queryset</cite>
+directly, as <cite>self.queryset</cite> gets evaluated only once, and those results
+are cached for all subsequent requests.</p>
+<p>You may want to override this if you need to provide different
+querysets depending on the incoming request.</p>
+<p>(Eg. return a list of items that is specific to the user)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evaluations.views.MoyenneECViewSet.recalculer_moyennes">
+<span class="sig-name descname"><span class="pre">recalculer_moyennes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#MoyenneECViewSet.recalculer_moyennes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evaluations.views.MoyenneECViewSet.recalculer_moyennes" title="Link to this definition"></a></dt>
+<dd><p>Recalculer les moyennes EC pour un groupe d’étudiants</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="evaluations.views.MoyenneUEViewSet">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evaluations.views.</span></span><span class="sig-name descname"><span class="pre">MoyenneUEViewSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#MoyenneUEViewSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evaluations.views.MoyenneUEViewSet" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.views.MoyenneUEViewSet.queryset">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;QuerySet</span> <span class="pre">[&lt;MoyenneUE:</span> <span class="pre">MoyenneUE</span> <span class="pre">object</span> <span class="pre">(625)&gt;,</span> <span class="pre">&lt;MoyenneUE:</span> <span class="pre">MoyenneUE</span> <span class="pre">object</span> <span class="pre">(626)&gt;,</span> <span class="pre">&lt;MoyenneUE:</span> <span class="pre">MoyenneUE</span> <span class="pre">object</span> <span class="pre">(627)&gt;,</span> <span class="pre">&lt;MoyenneUE:</span> <span class="pre">MoyenneUE</span> <span class="pre">object</span> <span class="pre">(628)&gt;,</span> <span class="pre">&lt;MoyenneUE:</span> <span class="pre">MoyenneUE</span> <span class="pre">object</span> <span class="pre">(629)&gt;,</span> <span class="pre">&lt;MoyenneUE:</span> <span class="pre">MoyenneUE</span> <span class="pre">object</span> <span class="pre">(630)&gt;,</span> <span class="pre">&lt;MoyenneUE:</span> <span class="pre">MoyenneUE</span> <span class="pre">object</span> <span class="pre">(631)&gt;,</span> <span class="pre">&lt;MoyenneUE:</span> <span class="pre">MoyenneUE</span> <span class="pre">object</span> <span class="pre">(632)&gt;,</span> <span class="pre">&lt;MoyenneUE:</span> <span class="pre">MoyenneUE</span> <span class="pre">object</span> <span class="pre">(633)&gt;,</span> <span class="pre">&lt;MoyenneUE:</span> <span class="pre">MoyenneUE</span> <span class="pre">object</span> <span class="pre">(634)&gt;,</span> <span class="pre">&lt;MoyenneUE:</span> <span class="pre">MoyenneUE</span> <span class="pre">object</span> <span class="pre">(635)&gt;,</span> <span class="pre">&lt;MoyenneUE:</span> <span class="pre">MoyenneUE</span> <span class="pre">object</span> <span class="pre">(636)&gt;,</span> <span class="pre">&lt;MoyenneUE:</span> <span class="pre">MoyenneUE</span> <span class="pre">object</span> <span class="pre">(637)&gt;,</span> <span class="pre">&lt;MoyenneUE:</span> <span class="pre">MoyenneUE</span> <span class="pre">object</span> <span class="pre">(638)&gt;,</span> <span class="pre">&lt;MoyenneUE:</span> <span class="pre">MoyenneUE</span> <span class="pre">object</span> <span class="pre">(639)&gt;,</span> <span class="pre">&lt;MoyenneUE:</span> <span class="pre">MoyenneUE</span> <span class="pre">object</span> <span class="pre">(640)&gt;,</span> <span class="pre">&lt;MoyenneUE:</span> <span class="pre">MoyenneUE</span> <span class="pre">object</span> <span class="pre">(641)&gt;,</span> <span class="pre">&lt;MoyenneUE:</span> <span class="pre">MoyenneUE</span> <span class="pre">object</span> <span class="pre">(642)&gt;,</span> <span class="pre">&lt;MoyenneUE:</span> <span class="pre">MoyenneUE</span> <span class="pre">object</span> <span class="pre">(643)&gt;,</span> <span class="pre">&lt;MoyenneUE:</span> <span class="pre">MoyenneUE</span> <span class="pre">object</span> <span class="pre">(644)&gt;,</span> <span class="pre">'...(remaining</span> <span class="pre">elements</span> <span class="pre">truncated)...']&gt;</span></em><a class="headerlink" href="#evaluations.views.MoyenneUEViewSet.queryset" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.views.MoyenneUEViewSet.serializer_class">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#evaluations.views.MoyenneUEViewSet.serializer_class" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">MoyenneUESerializer</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.views.MoyenneUEViewSet.permission_classes">
+<span class="sig-name descname"><span class="pre">permission_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'core.permissions.IsEtudiantOwner'&gt;]</span></em><a class="headerlink" href="#evaluations.views.MoyenneUEViewSet.permission_classes" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evaluations.views.MoyenneUEViewSet.get_queryset">
+<span class="sig-name descname"><span class="pre">get_queryset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#MoyenneUEViewSet.get_queryset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evaluations.views.MoyenneUEViewSet.get_queryset" title="Link to this definition"></a></dt>
+<dd><p>Get the list of items for this view.
+This must be an iterable, and may be a queryset.
+Defaults to using <cite>self.queryset</cite>.</p>
+<p>This method should always be used rather than accessing <cite>self.queryset</cite>
+directly, as <cite>self.queryset</cite> gets evaluated only once, and those results
+are cached for all subsequent requests.</p>
+<p>You may want to override this if you need to provide different
+querysets depending on the incoming request.</p>
+<p>(Eg. return a list of items that is specific to the user)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evaluations.views.MoyenneUEViewSet.recalculer_moyennes">
+<span class="sig-name descname"><span class="pre">recalculer_moyennes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#MoyenneUEViewSet.recalculer_moyennes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evaluations.views.MoyenneUEViewSet.recalculer_moyennes" title="Link to this definition"></a></dt>
+<dd><p>Recalculer les moyennes UE</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="evaluations.views.MoyenneSemestreViewSet">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evaluations.views.</span></span><span class="sig-name descname"><span class="pre">MoyenneSemestreViewSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#MoyenneSemestreViewSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evaluations.views.MoyenneSemestreViewSet" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.views.MoyenneSemestreViewSet.queryset">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;QuerySet</span> <span class="pre">[&lt;MoyenneSemestre:</span> <span class="pre">MoyenneSemestre</span> <span class="pre">object</span> <span class="pre">(145)&gt;,</span> <span class="pre">&lt;MoyenneSemestre:</span> <span class="pre">MoyenneSemestre</span> <span class="pre">object</span> <span class="pre">(146)&gt;,</span> <span class="pre">&lt;MoyenneSemestre:</span> <span class="pre">MoyenneSemestre</span> <span class="pre">object</span> <span class="pre">(147)&gt;,</span> <span class="pre">&lt;MoyenneSemestre:</span> <span class="pre">MoyenneSemestre</span> <span class="pre">object</span> <span class="pre">(148)&gt;,</span> <span class="pre">&lt;MoyenneSemestre:</span> <span class="pre">MoyenneSemestre</span> <span class="pre">object</span> <span class="pre">(149)&gt;,</span> <span class="pre">&lt;MoyenneSemestre:</span> <span class="pre">MoyenneSemestre</span> <span class="pre">object</span> <span class="pre">(150)&gt;,</span> <span class="pre">&lt;MoyenneSemestre:</span> <span class="pre">MoyenneSemestre</span> <span class="pre">object</span> <span class="pre">(151)&gt;,</span> <span class="pre">&lt;MoyenneSemestre:</span> <span class="pre">MoyenneSemestre</span> <span class="pre">object</span> <span class="pre">(152)&gt;,</span> <span class="pre">&lt;MoyenneSemestre:</span> <span class="pre">MoyenneSemestre</span> <span class="pre">object</span> <span class="pre">(153)&gt;,</span> <span class="pre">&lt;MoyenneSemestre:</span> <span class="pre">MoyenneSemestre</span> <span class="pre">object</span> <span class="pre">(154)&gt;,</span> <span class="pre">&lt;MoyenneSemestre:</span> <span class="pre">MoyenneSemestre</span> <span class="pre">object</span> <span class="pre">(155)&gt;,</span> <span class="pre">&lt;MoyenneSemestre:</span> <span class="pre">MoyenneSemestre</span> <span class="pre">object</span> <span class="pre">(156)&gt;,</span> <span class="pre">&lt;MoyenneSemestre:</span> <span class="pre">MoyenneSemestre</span> <span class="pre">object</span> <span class="pre">(157)&gt;,</span> <span class="pre">&lt;MoyenneSemestre:</span> <span class="pre">MoyenneSemestre</span> <span class="pre">object</span> <span class="pre">(158)&gt;,</span> <span class="pre">&lt;MoyenneSemestre:</span> <span class="pre">MoyenneSemestre</span> <span class="pre">object</span> <span class="pre">(159)&gt;,</span> <span class="pre">&lt;MoyenneSemestre:</span> <span class="pre">MoyenneSemestre</span> <span class="pre">object</span> <span class="pre">(160)&gt;,</span> <span class="pre">&lt;MoyenneSemestre:</span> <span class="pre">MoyenneSemestre</span> <span class="pre">object</span> <span class="pre">(161)&gt;,</span> <span class="pre">&lt;MoyenneSemestre:</span> <span class="pre">MoyenneSemestre</span> <span class="pre">object</span> <span class="pre">(162)&gt;,</span> <span class="pre">&lt;MoyenneSemestre:</span> <span class="pre">MoyenneSemestre</span> <span class="pre">object</span> <span class="pre">(163)&gt;,</span> <span class="pre">&lt;MoyenneSemestre:</span> <span class="pre">MoyenneSemestre</span> <span class="pre">object</span> <span class="pre">(164)&gt;,</span> <span class="pre">'...(remaining</span> <span class="pre">elements</span> <span class="pre">truncated)...']&gt;</span></em><a class="headerlink" href="#evaluations.views.MoyenneSemestreViewSet.queryset" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.views.MoyenneSemestreViewSet.serializer_class">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#evaluations.views.MoyenneSemestreViewSet.serializer_class" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">MoyenneSemestreSerializer</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.views.MoyenneSemestreViewSet.permission_classes">
+<span class="sig-name descname"><span class="pre">permission_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'core.permissions.IsEtudiantOwner'&gt;]</span></em><a class="headerlink" href="#evaluations.views.MoyenneSemestreViewSet.permission_classes" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evaluations.views.MoyenneSemestreViewSet.get_queryset">
+<span class="sig-name descname"><span class="pre">get_queryset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#MoyenneSemestreViewSet.get_queryset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evaluations.views.MoyenneSemestreViewSet.get_queryset" title="Link to this definition"></a></dt>
+<dd><p>Get the list of items for this view.
+This must be an iterable, and may be a queryset.
+Defaults to using <cite>self.queryset</cite>.</p>
+<p>This method should always be used rather than accessing <cite>self.queryset</cite>
+directly, as <cite>self.queryset</cite> gets evaluated only once, and those results
+are cached for all subsequent requests.</p>
+<p>You may want to override this if you need to provide different
+querysets depending on the incoming request.</p>
+<p>(Eg. return a list of items that is specific to the user)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evaluations.views.MoyenneSemestreViewSet.statistiques">
+<span class="sig-name descname"><span class="pre">statistiques</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#MoyenneSemestreViewSet.statistiques"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evaluations.views.MoyenneSemestreViewSet.statistiques" title="Link to this definition"></a></dt>
+<dd><p>Statistiques générales par classe/niveau</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evaluations.views.MoyenneSemestreViewSet.recalculer_moyennes">
+<span class="sig-name descname"><span class="pre">recalculer_moyennes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#MoyenneSemestreViewSet.recalculer_moyennes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evaluations.views.MoyenneSemestreViewSet.recalculer_moyennes" title="Link to this definition"></a></dt>
+<dd><p>Recalculer les moyennes semestrielles</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evaluations.views.MoyenneSemestreViewSet.tableau_notes_classe">
+<span class="sig-name descname"><span class="pre">tableau_notes_classe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#MoyenneSemestreViewSet.tableau_notes_classe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evaluations.views.MoyenneSemestreViewSet.tableau_notes_classe" title="Link to this definition"></a></dt>
+<dd><p>Tableau complet des notes d’une classe</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-0">
+<span id="notes"></span><h2>Notes<a class="headerlink" href="#module-0" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="id0">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evaluations.views.</span></span><span class="sig-name descname"><span class="pre">EnseignementViewSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#EnseignementViewSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="id1">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;QuerySet</span> <span class="pre">[&lt;Enseignement:</span> <span class="pre">Enseignement</span> <span class="pre">object</span> <span class="pre">(97)&gt;,</span> <span class="pre">&lt;Enseignement:</span> <span class="pre">Enseignement</span> <span class="pre">object</span> <span class="pre">(98)&gt;,</span> <span class="pre">&lt;Enseignement:</span> <span class="pre">Enseignement</span> <span class="pre">object</span> <span class="pre">(99)&gt;,</span> <span class="pre">&lt;Enseignement:</span> <span class="pre">Enseignement</span> <span class="pre">object</span> <span class="pre">(100)&gt;,</span> <span class="pre">&lt;Enseignement:</span> <span class="pre">Enseignement</span> <span class="pre">object</span> <span class="pre">(101)&gt;,</span> <span class="pre">&lt;Enseignement:</span> <span class="pre">Enseignement</span> <span class="pre">object</span> <span class="pre">(102)&gt;,</span> <span class="pre">&lt;Enseignement:</span> <span class="pre">Enseignement</span> <span class="pre">object</span> <span class="pre">(103)&gt;,</span> <span class="pre">&lt;Enseignement:</span> <span class="pre">Enseignement</span> <span class="pre">object</span> <span class="pre">(104)&gt;,</span> <span class="pre">&lt;Enseignement:</span> <span class="pre">Enseignement</span> <span class="pre">object</span> <span class="pre">(105)&gt;,</span> <span class="pre">&lt;Enseignement:</span> <span class="pre">Enseignement</span> <span class="pre">object</span> <span class="pre">(106)&gt;,</span> <span class="pre">&lt;Enseignement:</span> <span class="pre">Enseignement</span> <span class="pre">object</span> <span class="pre">(107)&gt;,</span> <span class="pre">&lt;Enseignement:</span> <span class="pre">Enseignement</span> <span class="pre">object</span> <span class="pre">(108)&gt;,</span> <span class="pre">&lt;Enseignement:</span> <span class="pre">Enseignement</span> <span class="pre">object</span> <span class="pre">(109)&gt;,</span> <span class="pre">&lt;Enseignement:</span> <span class="pre">Enseignement</span> <span class="pre">object</span> <span class="pre">(110)&gt;,</span> <span class="pre">&lt;Enseignement:</span> <span class="pre">Enseignement</span> <span class="pre">object</span> <span class="pre">(111)&gt;,</span> <span class="pre">&lt;Enseignement:</span> <span class="pre">Enseignement</span> <span class="pre">object</span> <span class="pre">(112)&gt;,</span> <span class="pre">&lt;Enseignement:</span> <span class="pre">Enseignement</span> <span class="pre">object</span> <span class="pre">(113)&gt;,</span> <span class="pre">&lt;Enseignement:</span> <span class="pre">Enseignement</span> <span class="pre">object</span> <span class="pre">(114)&gt;,</span> <span class="pre">&lt;Enseignement:</span> <span class="pre">Enseignement</span> <span class="pre">object</span> <span class="pre">(115)&gt;,</span> <span class="pre">&lt;Enseignement:</span> <span class="pre">Enseignement</span> <span class="pre">object</span> <span class="pre">(116)&gt;,</span> <span class="pre">'...(remaining</span> <span class="pre">elements</span> <span class="pre">truncated)...']&gt;</span></em><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id2">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#id2" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">EnseignementSerializer</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id3">
+<span class="sig-name descname"><span class="pre">permission_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'rest_framework.permissions.IsAuthenticated'&gt;]</span></em><a class="headerlink" href="#id3" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id4">
+<span class="sig-name descname"><span class="pre">get_queryset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#EnseignementViewSet.get_queryset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id4" title="Link to this definition"></a></dt>
+<dd><p>Get the list of items for this view.
+This must be an iterable, and may be a queryset.
+Defaults to using <cite>self.queryset</cite>.</p>
+<p>This method should always be used rather than accessing <cite>self.queryset</cite>
+directly, as <cite>self.queryset</cite> gets evaluated only once, and those results
+are cached for all subsequent requests.</p>
+<p>You may want to override this if you need to provide different
+querysets depending on the incoming request.</p>
+<p>(Eg. return a list of items that is specific to the user)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id5">
+<span class="sig-name descname"><span class="pre">evaluations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pk</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#EnseignementViewSet.evaluations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id5" title="Link to this definition"></a></dt>
+<dd><p>Toutes les évaluations d’un enseignement</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id6">
+<span class="sig-name descname"><span class="pre">liste_etudiants</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pk</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#EnseignementViewSet.liste_etudiants"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id6" title="Link to this definition"></a></dt>
+<dd><p>Liste des étudiants pour cet enseignement</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="id7">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evaluations.views.</span></span><span class="sig-name descname"><span class="pre">EvaluationViewSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#EvaluationViewSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id7" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="id8">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;QuerySet</span> <span class="pre">[&lt;Evaluation:</span> <span class="pre">CC</span> <span class="pre">1</span> <span class="pre">-</span> <span class="pre">Anatomie</span> <span class="pre">Descriptive</span> <span class="pre">-</span> <span class="pre">Anatomie</span> <span class="pre">Descriptive&gt;,</span> <span class="pre">&lt;Evaluation:</span> <span class="pre">CC</span> <span class="pre">2</span> <span class="pre">-</span> <span class="pre">Anatomie</span> <span class="pre">Descriptive</span> <span class="pre">-</span> <span class="pre">Anatomie</span> <span class="pre">Descriptive&gt;,</span> <span class="pre">&lt;Evaluation:</span> <span class="pre">Partiel</span> <span class="pre">-</span> <span class="pre">Anatomie</span> <span class="pre">Descriptive</span> <span class="pre">-</span> <span class="pre">Anatomie</span> <span class="pre">Descriptive&gt;,</span> <span class="pre">&lt;Evaluation:</span> <span class="pre">Examen</span> <span class="pre">Final</span> <span class="pre">-</span> <span class="pre">Anatomie</span> <span class="pre">Descriptive</span> <span class="pre">-</span> <span class="pre">Anatomie</span> <span class="pre">Descriptive&gt;,</span> <span class="pre">&lt;Evaluation:</span> <span class="pre">CC</span> <span class="pre">1</span> <span class="pre">-</span> <span class="pre">Travaux</span> <span class="pre">Pratiques</span> <span class="pre">Anatomie</span> <span class="pre">-</span> <span class="pre">Travaux</span> <span class="pre">Pratiques</span> <span class="pre">Anatomie&gt;,</span> <span class="pre">&lt;Evaluation:</span> <span class="pre">CC</span> <span class="pre">2</span> <span class="pre">-</span> <span class="pre">Travaux</span> <span class="pre">Pratiques</span> <span class="pre">Anatomie</span> <span class="pre">-</span> <span class="pre">Travaux</span> <span class="pre">Pratiques</span> <span class="pre">Anatomie&gt;,</span> <span class="pre">&lt;Evaluation:</span> <span class="pre">Partiel</span> <span class="pre">-</span> <span class="pre">Travaux</span> <span class="pre">Pratiques</span> <span class="pre">Anatomie</span> <span class="pre">-</span> <span class="pre">Travaux</span> <span class="pre">Pratiques</span> <span class="pre">Anatomie&gt;,</span> <span class="pre">&lt;Evaluation:</span> <span class="pre">Examen</span> <span class="pre">Final</span> <span class="pre">-</span> <span class="pre">Travaux</span> <span class="pre">Pratiques</span> <span class="pre">Anatomie</span> <span class="pre">-</span> <span class="pre">Travaux</span> <span class="pre">Pratiques</span> <span class="pre">Anatomie&gt;,</span> <span class="pre">&lt;Evaluation:</span> <span class="pre">CC</span> <span class="pre">1</span> <span class="pre">-</span> <span class="pre">Physiologie</span> <span class="pre">Générale</span> <span class="pre">-</span> <span class="pre">Physiologie</span> <span class="pre">Générale&gt;,</span> <span class="pre">&lt;Evaluation:</span> <span class="pre">CC</span> <span class="pre">2</span> <span class="pre">-</span> <span class="pre">Physiologie</span> <span class="pre">Générale</span> <span class="pre">-</span> <span class="pre">Physiologie</span> <span class="pre">Générale&gt;,</span> <span class="pre">&lt;Evaluation:</span> <span class="pre">Partiel</span> <span class="pre">-</span> <span class="pre">Physiologie</span> <span class="pre">Générale</span> <span class="pre">-</span> <span class="pre">Physiologie</span> <span class="pre">Générale&gt;,</span> <span class="pre">&lt;Evaluation:</span> <span class="pre">Examen</span> <span class="pre">Final</span> <span class="pre">-</span> <span class="pre">Physiologie</span> <span class="pre">Générale</span> <span class="pre">-</span> <span class="pre">Physiologie</span> <span class="pre">Générale&gt;,</span> <span class="pre">&lt;Evaluation:</span> <span class="pre">TP</span> <span class="pre">1</span> <span class="pre">-</span> <span class="pre">TP</span> <span class="pre">Physiologie</span> <span class="pre">-</span> <span class="pre">TP</span> <span class="pre">Physiologie&gt;,</span> <span class="pre">&lt;Evaluation:</span> <span class="pre">TP</span> <span class="pre">2</span> <span class="pre">-</span> <span class="pre">TP</span> <span class="pre">Physiologie</span> <span class="pre">-</span> <span class="pre">TP</span> <span class="pre">Physiologie&gt;,</span> <span class="pre">&lt;Evaluation:</span> <span class="pre">CC</span> <span class="pre">-</span> <span class="pre">TP</span> <span class="pre">Physiologie</span> <span class="pre">-</span> <span class="pre">TP</span> <span class="pre">Physiologie&gt;,</span> <span class="pre">&lt;Evaluation:</span> <span class="pre">Examen</span> <span class="pre">Final</span> <span class="pre">-</span> <span class="pre">TP</span> <span class="pre">Physiologie</span> <span class="pre">-</span> <span class="pre">TP</span> <span class="pre">Physiologie&gt;,</span> <span class="pre">&lt;Evaluation:</span> <span class="pre">CC</span> <span class="pre">1</span> <span class="pre">-</span> <span class="pre">Biochimie</span> <span class="pre">Fondamentale</span> <span class="pre">-</span> <span class="pre">Biochimie</span> <span class="pre">Fondamentale&gt;,</span> <span class="pre">&lt;Evaluation:</span> <span class="pre">CC</span> <span class="pre">2</span> <span class="pre">-</span> <span class="pre">Biochimie</span> <span class="pre">Fondamentale</span> <span class="pre">-</span> <span class="pre">Biochimie</span> <span class="pre">Fondamentale&gt;,</span> <span class="pre">&lt;Evaluation:</span> <span class="pre">Partiel</span> <span class="pre">-</span> <span class="pre">Biochimie</span> <span class="pre">Fondamentale</span> <span class="pre">-</span> <span class="pre">Biochimie</span> <span class="pre">Fondamentale&gt;,</span> <span class="pre">&lt;Evaluation:</span> <span class="pre">Examen</span> <span class="pre">Final</span> <span class="pre">-</span> <span class="pre">Biochimie</span> <span class="pre">Fondamentale</span> <span class="pre">-</span> <span class="pre">Biochimie</span> <span class="pre">Fondamentale&gt;,</span> <span class="pre">'...(remaining</span> <span class="pre">elements</span> <span class="pre">truncated)...']&gt;</span></em><a class="headerlink" href="#id8" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id9">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#id9" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">EvaluationSerializer</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id10">
+<span class="sig-name descname"><span class="pre">permission_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'core.permissions.IsEnseignantOrReadOnly'&gt;]</span></em><a class="headerlink" href="#id10" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id11">
+<span class="sig-name descname"><span class="pre">get_queryset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#EvaluationViewSet.get_queryset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id11" title="Link to this definition"></a></dt>
+<dd><p>Get the list of items for this view.
+This must be an iterable, and may be a queryset.
+Defaults to using <cite>self.queryset</cite>.</p>
+<p>This method should always be used rather than accessing <cite>self.queryset</cite>
+directly, as <cite>self.queryset</cite> gets evaluated only once, and those results
+are cached for all subsequent requests.</p>
+<p>You may want to override this if you need to provide different
+querysets depending on the incoming request.</p>
+<p>(Eg. return a list of items that is specific to the user)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id12">
+<span class="sig-name descname"><span class="pre">feuille_notes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pk</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#EvaluationViewSet.feuille_notes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id12" title="Link to this definition"></a></dt>
+<dd><p>Feuille de notes pour une évaluation</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id13">
+<span class="sig-name descname"><span class="pre">saisir_notes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pk</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#EvaluationViewSet.saisir_notes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id13" title="Link to this definition"></a></dt>
+<dd><p>Saisie multiple de notes pour une évaluation</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id14">
+<span class="sig-name descname"><span class="pre">statistiques</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pk</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#EvaluationViewSet.statistiques"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id14" title="Link to this definition"></a></dt>
+<dd><p>Statistiques d’une évaluation</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="id15">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evaluations.views.</span></span><span class="sig-name descname"><span class="pre">NoteViewSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#NoteViewSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id15" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="id16">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;QuerySet</span> <span class="pre">[&lt;Note:</span> <span class="pre">Note</span> <span class="pre">object</span> <span class="pre">(4609)&gt;,</span> <span class="pre">&lt;Note:</span> <span class="pre">Note</span> <span class="pre">object</span> <span class="pre">(4610)&gt;,</span> <span class="pre">&lt;Note:</span> <span class="pre">Note</span> <span class="pre">object</span> <span class="pre">(4611)&gt;,</span> <span class="pre">&lt;Note:</span> <span class="pre">Note</span> <span class="pre">object</span> <span class="pre">(4612)&gt;,</span> <span class="pre">&lt;Note:</span> <span class="pre">Note</span> <span class="pre">object</span> <span class="pre">(4613)&gt;,</span> <span class="pre">&lt;Note:</span> <span class="pre">Note</span> <span class="pre">object</span> <span class="pre">(4614)&gt;,</span> <span class="pre">&lt;Note:</span> <span class="pre">Note</span> <span class="pre">object</span> <span class="pre">(4615)&gt;,</span> <span class="pre">&lt;Note:</span> <span class="pre">Note</span> <span class="pre">object</span> <span class="pre">(4616)&gt;,</span> <span class="pre">&lt;Note:</span> <span class="pre">Note</span> <span class="pre">object</span> <span class="pre">(4617)&gt;,</span> <span class="pre">&lt;Note:</span> <span class="pre">Note</span> <span class="pre">object</span> <span class="pre">(4618)&gt;,</span> <span class="pre">&lt;Note:</span> <span class="pre">Note</span> <span class="pre">object</span> <span class="pre">(4619)&gt;,</span> <span class="pre">&lt;Note:</span> <span class="pre">Note</span> <span class="pre">object</span> <span class="pre">(4620)&gt;,</span> <span class="pre">&lt;Note:</span> <span class="pre">Note</span> <span class="pre">object</span> <span class="pre">(4621)&gt;,</span> <span class="pre">&lt;Note:</span> <span class="pre">Note</span> <span class="pre">object</span> <span class="pre">(4622)&gt;,</span> <span class="pre">&lt;Note:</span> <span class="pre">Note</span> <span class="pre">object</span> <span class="pre">(4623)&gt;,</span> <span class="pre">&lt;Note:</span> <span class="pre">Note</span> <span class="pre">object</span> <span class="pre">(4624)&gt;,</span> <span class="pre">&lt;Note:</span> <span class="pre">Note</span> <span class="pre">object</span> <span class="pre">(4625)&gt;,</span> <span class="pre">&lt;Note:</span> <span class="pre">Note</span> <span class="pre">object</span> <span class="pre">(4626)&gt;,</span> <span class="pre">&lt;Note:</span> <span class="pre">Note</span> <span class="pre">object</span> <span class="pre">(4627)&gt;,</span> <span class="pre">&lt;Note:</span> <span class="pre">Note</span> <span class="pre">object</span> <span class="pre">(4628)&gt;,</span> <span class="pre">'...(remaining</span> <span class="pre">elements</span> <span class="pre">truncated)...']&gt;</span></em><a class="headerlink" href="#id16" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id17">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#id17" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">NoteSerializer</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id18">
+<span class="sig-name descname"><span class="pre">permission_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'rest_framework.permissions.IsAuthenticated'&gt;]</span></em><a class="headerlink" href="#id18" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id19">
+<span class="sig-name descname"><span class="pre">get_queryset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#NoteViewSet.get_queryset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id19" title="Link to this definition"></a></dt>
+<dd><p>Get the list of items for this view.
+This must be an iterable, and may be a queryset.
+Defaults to using <cite>self.queryset</cite>.</p>
+<p>This method should always be used rather than accessing <cite>self.queryset</cite>
+directly, as <cite>self.queryset</cite> gets evaluated only once, and those results
+are cached for all subsequent requests.</p>
+<p>You may want to override this if you need to provide different
+querysets depending on the incoming request.</p>
+<p>(Eg. return a list of items that is specific to the user)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id20">
+<span class="sig-name descname"><span class="pre">releve_notes_etudiant</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#NoteViewSet.releve_notes_etudiant"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id20" title="Link to this definition"></a></dt>
+<dd><p>Relevé de notes complet pour un étudiant</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="id21">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evaluations.views.</span></span><span class="sig-name descname"><span class="pre">MoyenneECViewSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#MoyenneECViewSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id21" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="id22">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;QuerySet</span> <span class="pre">[&lt;MoyenneEC:</span> <span class="pre">MoyenneEC</span> <span class="pre">object</span> <span class="pre">(1153)&gt;,</span> <span class="pre">&lt;MoyenneEC:</span> <span class="pre">MoyenneEC</span> <span class="pre">object</span> <span class="pre">(1154)&gt;,</span> <span class="pre">&lt;MoyenneEC:</span> <span class="pre">MoyenneEC</span> <span class="pre">object</span> <span class="pre">(1155)&gt;,</span> <span class="pre">&lt;MoyenneEC:</span> <span class="pre">MoyenneEC</span> <span class="pre">object</span> <span class="pre">(1156)&gt;,</span> <span class="pre">&lt;MoyenneEC:</span> <span class="pre">MoyenneEC</span> <span class="pre">object</span> <span class="pre">(1157)&gt;,</span> <span class="pre">&lt;MoyenneEC:</span> <span class="pre">MoyenneEC</span> <span class="pre">object</span> <span class="pre">(1158)&gt;,</span> <span class="pre">&lt;MoyenneEC:</span> <span class="pre">MoyenneEC</span> <span class="pre">object</span> <span class="pre">(1159)&gt;,</span> <span class="pre">&lt;MoyenneEC:</span> <span class="pre">MoyenneEC</span> <span class="pre">object</span> <span class="pre">(1160)&gt;,</span> <span class="pre">&lt;MoyenneEC:</span> <span class="pre">MoyenneEC</span> <span class="pre">object</span> <span class="pre">(1161)&gt;,</span> <span class="pre">&lt;MoyenneEC:</span> <span class="pre">MoyenneEC</span> <span class="pre">object</span> <span class="pre">(1162)&gt;,</span> <span class="pre">&lt;MoyenneEC:</span> <span class="pre">MoyenneEC</span> <span class="pre">object</span> <span class="pre">(1163)&gt;,</span> <span class="pre">&lt;MoyenneEC:</span> <span class="pre">MoyenneEC</span> <span class="pre">object</span> <span class="pre">(1164)&gt;,</span> <span class="pre">&lt;MoyenneEC:</span> <span class="pre">MoyenneEC</span> <span class="pre">object</span> <span class="pre">(1165)&gt;,</span> <span class="pre">&lt;MoyenneEC:</span> <span class="pre">MoyenneEC</span> <span class="pre">object</span> <span class="pre">(1166)&gt;,</span> <span class="pre">&lt;MoyenneEC:</span> <span class="pre">MoyenneEC</span> <span class="pre">object</span> <span class="pre">(1167)&gt;,</span> <span class="pre">&lt;MoyenneEC:</span> <span class="pre">MoyenneEC</span> <span class="pre">object</span> <span class="pre">(1168)&gt;,</span> <span class="pre">&lt;MoyenneEC:</span> <span class="pre">MoyenneEC</span> <span class="pre">object</span> <span class="pre">(1169)&gt;,</span> <span class="pre">&lt;MoyenneEC:</span> <span class="pre">MoyenneEC</span> <span class="pre">object</span> <span class="pre">(1170)&gt;,</span> <span class="pre">&lt;MoyenneEC:</span> <span class="pre">MoyenneEC</span> <span class="pre">object</span> <span class="pre">(1171)&gt;,</span> <span class="pre">&lt;MoyenneEC:</span> <span class="pre">MoyenneEC</span> <span class="pre">object</span> <span class="pre">(1172)&gt;,</span> <span class="pre">'...(remaining</span> <span class="pre">elements</span> <span class="pre">truncated)...']&gt;</span></em><a class="headerlink" href="#id22" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id23">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#id23" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">MoyenneECSerializer</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id24">
+<span class="sig-name descname"><span class="pre">permission_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'core.permissions.IsEtudiantOwner'&gt;]</span></em><a class="headerlink" href="#id24" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id25">
+<span class="sig-name descname"><span class="pre">get_queryset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#MoyenneECViewSet.get_queryset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id25" title="Link to this definition"></a></dt>
+<dd><p>Get the list of items for this view.
+This must be an iterable, and may be a queryset.
+Defaults to using <cite>self.queryset</cite>.</p>
+<p>This method should always be used rather than accessing <cite>self.queryset</cite>
+directly, as <cite>self.queryset</cite> gets evaluated only once, and those results
+are cached for all subsequent requests.</p>
+<p>You may want to override this if you need to provide different
+querysets depending on the incoming request.</p>
+<p>(Eg. return a list of items that is specific to the user)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id26">
+<span class="sig-name descname"><span class="pre">recalculer_moyennes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#MoyenneECViewSet.recalculer_moyennes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id26" title="Link to this definition"></a></dt>
+<dd><p>Recalculer les moyennes EC pour un groupe d’étudiants</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="id27">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evaluations.views.</span></span><span class="sig-name descname"><span class="pre">MoyenneUEViewSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#MoyenneUEViewSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id27" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="id28">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;QuerySet</span> <span class="pre">[&lt;MoyenneUE:</span> <span class="pre">MoyenneUE</span> <span class="pre">object</span> <span class="pre">(625)&gt;,</span> <span class="pre">&lt;MoyenneUE:</span> <span class="pre">MoyenneUE</span> <span class="pre">object</span> <span class="pre">(626)&gt;,</span> <span class="pre">&lt;MoyenneUE:</span> <span class="pre">MoyenneUE</span> <span class="pre">object</span> <span class="pre">(627)&gt;,</span> <span class="pre">&lt;MoyenneUE:</span> <span class="pre">MoyenneUE</span> <span class="pre">object</span> <span class="pre">(628)&gt;,</span> <span class="pre">&lt;MoyenneUE:</span> <span class="pre">MoyenneUE</span> <span class="pre">object</span> <span class="pre">(629)&gt;,</span> <span class="pre">&lt;MoyenneUE:</span> <span class="pre">MoyenneUE</span> <span class="pre">object</span> <span class="pre">(630)&gt;,</span> <span class="pre">&lt;MoyenneUE:</span> <span class="pre">MoyenneUE</span> <span class="pre">object</span> <span class="pre">(631)&gt;,</span> <span class="pre">&lt;MoyenneUE:</span> <span class="pre">MoyenneUE</span> <span class="pre">object</span> <span class="pre">(632)&gt;,</span> <span class="pre">&lt;MoyenneUE:</span> <span class="pre">MoyenneUE</span> <span class="pre">object</span> <span class="pre">(633)&gt;,</span> <span class="pre">&lt;MoyenneUE:</span> <span class="pre">MoyenneUE</span> <span class="pre">object</span> <span class="pre">(634)&gt;,</span> <span class="pre">&lt;MoyenneUE:</span> <span class="pre">MoyenneUE</span> <span class="pre">object</span> <span class="pre">(635)&gt;,</span> <span class="pre">&lt;MoyenneUE:</span> <span class="pre">MoyenneUE</span> <span class="pre">object</span> <span class="pre">(636)&gt;,</span> <span class="pre">&lt;MoyenneUE:</span> <span class="pre">MoyenneUE</span> <span class="pre">object</span> <span class="pre">(637)&gt;,</span> <span class="pre">&lt;MoyenneUE:</span> <span class="pre">MoyenneUE</span> <span class="pre">object</span> <span class="pre">(638)&gt;,</span> <span class="pre">&lt;MoyenneUE:</span> <span class="pre">MoyenneUE</span> <span class="pre">object</span> <span class="pre">(639)&gt;,</span> <span class="pre">&lt;MoyenneUE:</span> <span class="pre">MoyenneUE</span> <span class="pre">object</span> <span class="pre">(640)&gt;,</span> <span class="pre">&lt;MoyenneUE:</span> <span class="pre">MoyenneUE</span> <span class="pre">object</span> <span class="pre">(641)&gt;,</span> <span class="pre">&lt;MoyenneUE:</span> <span class="pre">MoyenneUE</span> <span class="pre">object</span> <span class="pre">(642)&gt;,</span> <span class="pre">&lt;MoyenneUE:</span> <span class="pre">MoyenneUE</span> <span class="pre">object</span> <span class="pre">(643)&gt;,</span> <span class="pre">&lt;MoyenneUE:</span> <span class="pre">MoyenneUE</span> <span class="pre">object</span> <span class="pre">(644)&gt;,</span> <span class="pre">'...(remaining</span> <span class="pre">elements</span> <span class="pre">truncated)...']&gt;</span></em><a class="headerlink" href="#id28" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id29">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#id29" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">MoyenneUESerializer</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id30">
+<span class="sig-name descname"><span class="pre">permission_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'core.permissions.IsEtudiantOwner'&gt;]</span></em><a class="headerlink" href="#id30" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id31">
+<span class="sig-name descname"><span class="pre">get_queryset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#MoyenneUEViewSet.get_queryset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id31" title="Link to this definition"></a></dt>
+<dd><p>Get the list of items for this view.
+This must be an iterable, and may be a queryset.
+Defaults to using <cite>self.queryset</cite>.</p>
+<p>This method should always be used rather than accessing <cite>self.queryset</cite>
+directly, as <cite>self.queryset</cite> gets evaluated only once, and those results
+are cached for all subsequent requests.</p>
+<p>You may want to override this if you need to provide different
+querysets depending on the incoming request.</p>
+<p>(Eg. return a list of items that is specific to the user)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id32">
+<span class="sig-name descname"><span class="pre">recalculer_moyennes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#MoyenneUEViewSet.recalculer_moyennes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id32" title="Link to this definition"></a></dt>
+<dd><p>Recalculer les moyennes UE</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="id33">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evaluations.views.</span></span><span class="sig-name descname"><span class="pre">MoyenneSemestreViewSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#MoyenneSemestreViewSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id33" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="id34">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;QuerySet</span> <span class="pre">[&lt;MoyenneSemestre:</span> <span class="pre">MoyenneSemestre</span> <span class="pre">object</span> <span class="pre">(145)&gt;,</span> <span class="pre">&lt;MoyenneSemestre:</span> <span class="pre">MoyenneSemestre</span> <span class="pre">object</span> <span class="pre">(146)&gt;,</span> <span class="pre">&lt;MoyenneSemestre:</span> <span class="pre">MoyenneSemestre</span> <span class="pre">object</span> <span class="pre">(147)&gt;,</span> <span class="pre">&lt;MoyenneSemestre:</span> <span class="pre">MoyenneSemestre</span> <span class="pre">object</span> <span class="pre">(148)&gt;,</span> <span class="pre">&lt;MoyenneSemestre:</span> <span class="pre">MoyenneSemestre</span> <span class="pre">object</span> <span class="pre">(149)&gt;,</span> <span class="pre">&lt;MoyenneSemestre:</span> <span class="pre">MoyenneSemestre</span> <span class="pre">object</span> <span class="pre">(150)&gt;,</span> <span class="pre">&lt;MoyenneSemestre:</span> <span class="pre">MoyenneSemestre</span> <span class="pre">object</span> <span class="pre">(151)&gt;,</span> <span class="pre">&lt;MoyenneSemestre:</span> <span class="pre">MoyenneSemestre</span> <span class="pre">object</span> <span class="pre">(152)&gt;,</span> <span class="pre">&lt;MoyenneSemestre:</span> <span class="pre">MoyenneSemestre</span> <span class="pre">object</span> <span class="pre">(153)&gt;,</span> <span class="pre">&lt;MoyenneSemestre:</span> <span class="pre">MoyenneSemestre</span> <span class="pre">object</span> <span class="pre">(154)&gt;,</span> <span class="pre">&lt;MoyenneSemestre:</span> <span class="pre">MoyenneSemestre</span> <span class="pre">object</span> <span class="pre">(155)&gt;,</span> <span class="pre">&lt;MoyenneSemestre:</span> <span class="pre">MoyenneSemestre</span> <span class="pre">object</span> <span class="pre">(156)&gt;,</span> <span class="pre">&lt;MoyenneSemestre:</span> <span class="pre">MoyenneSemestre</span> <span class="pre">object</span> <span class="pre">(157)&gt;,</span> <span class="pre">&lt;MoyenneSemestre:</span> <span class="pre">MoyenneSemestre</span> <span class="pre">object</span> <span class="pre">(158)&gt;,</span> <span class="pre">&lt;MoyenneSemestre:</span> <span class="pre">MoyenneSemestre</span> <span class="pre">object</span> <span class="pre">(159)&gt;,</span> <span class="pre">&lt;MoyenneSemestre:</span> <span class="pre">MoyenneSemestre</span> <span class="pre">object</span> <span class="pre">(160)&gt;,</span> <span class="pre">&lt;MoyenneSemestre:</span> <span class="pre">MoyenneSemestre</span> <span class="pre">object</span> <span class="pre">(161)&gt;,</span> <span class="pre">&lt;MoyenneSemestre:</span> <span class="pre">MoyenneSemestre</span> <span class="pre">object</span> <span class="pre">(162)&gt;,</span> <span class="pre">&lt;MoyenneSemestre:</span> <span class="pre">MoyenneSemestre</span> <span class="pre">object</span> <span class="pre">(163)&gt;,</span> <span class="pre">&lt;MoyenneSemestre:</span> <span class="pre">MoyenneSemestre</span> <span class="pre">object</span> <span class="pre">(164)&gt;,</span> <span class="pre">'...(remaining</span> <span class="pre">elements</span> <span class="pre">truncated)...']&gt;</span></em><a class="headerlink" href="#id34" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id35">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#id35" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">MoyenneSemestreSerializer</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id36">
+<span class="sig-name descname"><span class="pre">permission_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'core.permissions.IsEtudiantOwner'&gt;]</span></em><a class="headerlink" href="#id36" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id37">
+<span class="sig-name descname"><span class="pre">get_queryset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#MoyenneSemestreViewSet.get_queryset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id37" title="Link to this definition"></a></dt>
+<dd><p>Get the list of items for this view.
+This must be an iterable, and may be a queryset.
+Defaults to using <cite>self.queryset</cite>.</p>
+<p>This method should always be used rather than accessing <cite>self.queryset</cite>
+directly, as <cite>self.queryset</cite> gets evaluated only once, and those results
+are cached for all subsequent requests.</p>
+<p>You may want to override this if you need to provide different
+querysets depending on the incoming request.</p>
+<p>(Eg. return a list of items that is specific to the user)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id38">
+<span class="sig-name descname"><span class="pre">statistiques</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#MoyenneSemestreViewSet.statistiques"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id38" title="Link to this definition"></a></dt>
+<dd><p>Statistiques générales par classe/niveau</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id39">
+<span class="sig-name descname"><span class="pre">recalculer_moyennes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#MoyenneSemestreViewSet.recalculer_moyennes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id39" title="Link to this definition"></a></dt>
+<dd><p>Recalculer les moyennes semestrielles</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id40">
+<span class="sig-name descname"><span class="pre">tableau_notes_classe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#MoyenneSemestreViewSet.tableau_notes_classe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id40" title="Link to this definition"></a></dt>
+<dd><p>Tableau complet des notes d’une classe</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-1">
+<span id="moyennes"></span><h2>Moyennes<a class="headerlink" href="#module-1" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="id41">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evaluations.views.</span></span><span class="sig-name descname"><span class="pre">EnseignementViewSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#EnseignementViewSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id41" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="id42">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;QuerySet</span> <span class="pre">[&lt;Enseignement:</span> <span class="pre">Enseignement</span> <span class="pre">object</span> <span class="pre">(97)&gt;,</span> <span class="pre">&lt;Enseignement:</span> <span class="pre">Enseignement</span> <span class="pre">object</span> <span class="pre">(98)&gt;,</span> <span class="pre">&lt;Enseignement:</span> <span class="pre">Enseignement</span> <span class="pre">object</span> <span class="pre">(99)&gt;,</span> <span class="pre">&lt;Enseignement:</span> <span class="pre">Enseignement</span> <span class="pre">object</span> <span class="pre">(100)&gt;,</span> <span class="pre">&lt;Enseignement:</span> <span class="pre">Enseignement</span> <span class="pre">object</span> <span class="pre">(101)&gt;,</span> <span class="pre">&lt;Enseignement:</span> <span class="pre">Enseignement</span> <span class="pre">object</span> <span class="pre">(102)&gt;,</span> <span class="pre">&lt;Enseignement:</span> <span class="pre">Enseignement</span> <span class="pre">object</span> <span class="pre">(103)&gt;,</span> <span class="pre">&lt;Enseignement:</span> <span class="pre">Enseignement</span> <span class="pre">object</span> <span class="pre">(104)&gt;,</span> <span class="pre">&lt;Enseignement:</span> <span class="pre">Enseignement</span> <span class="pre">object</span> <span class="pre">(105)&gt;,</span> <span class="pre">&lt;Enseignement:</span> <span class="pre">Enseignement</span> <span class="pre">object</span> <span class="pre">(106)&gt;,</span> <span class="pre">&lt;Enseignement:</span> <span class="pre">Enseignement</span> <span class="pre">object</span> <span class="pre">(107)&gt;,</span> <span class="pre">&lt;Enseignement:</span> <span class="pre">Enseignement</span> <span class="pre">object</span> <span class="pre">(108)&gt;,</span> <span class="pre">&lt;Enseignement:</span> <span class="pre">Enseignement</span> <span class="pre">object</span> <span class="pre">(109)&gt;,</span> <span class="pre">&lt;Enseignement:</span> <span class="pre">Enseignement</span> <span class="pre">object</span> <span class="pre">(110)&gt;,</span> <span class="pre">&lt;Enseignement:</span> <span class="pre">Enseignement</span> <span class="pre">object</span> <span class="pre">(111)&gt;,</span> <span class="pre">&lt;Enseignement:</span> <span class="pre">Enseignement</span> <span class="pre">object</span> <span class="pre">(112)&gt;,</span> <span class="pre">&lt;Enseignement:</span> <span class="pre">Enseignement</span> <span class="pre">object</span> <span class="pre">(113)&gt;,</span> <span class="pre">&lt;Enseignement:</span> <span class="pre">Enseignement</span> <span class="pre">object</span> <span class="pre">(114)&gt;,</span> <span class="pre">&lt;Enseignement:</span> <span class="pre">Enseignement</span> <span class="pre">object</span> <span class="pre">(115)&gt;,</span> <span class="pre">&lt;Enseignement:</span> <span class="pre">Enseignement</span> <span class="pre">object</span> <span class="pre">(116)&gt;,</span> <span class="pre">'...(remaining</span> <span class="pre">elements</span> <span class="pre">truncated)...']&gt;</span></em><a class="headerlink" href="#id42" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id43">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#id43" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">EnseignementSerializer</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id44">
+<span class="sig-name descname"><span class="pre">permission_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'rest_framework.permissions.IsAuthenticated'&gt;]</span></em><a class="headerlink" href="#id44" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id45">
+<span class="sig-name descname"><span class="pre">get_queryset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#EnseignementViewSet.get_queryset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id45" title="Link to this definition"></a></dt>
+<dd><p>Get the list of items for this view.
+This must be an iterable, and may be a queryset.
+Defaults to using <cite>self.queryset</cite>.</p>
+<p>This method should always be used rather than accessing <cite>self.queryset</cite>
+directly, as <cite>self.queryset</cite> gets evaluated only once, and those results
+are cached for all subsequent requests.</p>
+<p>You may want to override this if you need to provide different
+querysets depending on the incoming request.</p>
+<p>(Eg. return a list of items that is specific to the user)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id46">
+<span class="sig-name descname"><span class="pre">evaluations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pk</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#EnseignementViewSet.evaluations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id46" title="Link to this definition"></a></dt>
+<dd><p>Toutes les évaluations d’un enseignement</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id47">
+<span class="sig-name descname"><span class="pre">liste_etudiants</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pk</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#EnseignementViewSet.liste_etudiants"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id47" title="Link to this definition"></a></dt>
+<dd><p>Liste des étudiants pour cet enseignement</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="id48">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evaluations.views.</span></span><span class="sig-name descname"><span class="pre">EvaluationViewSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#EvaluationViewSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id48" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="id49">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;QuerySet</span> <span class="pre">[&lt;Evaluation:</span> <span class="pre">CC</span> <span class="pre">1</span> <span class="pre">-</span> <span class="pre">Anatomie</span> <span class="pre">Descriptive</span> <span class="pre">-</span> <span class="pre">Anatomie</span> <span class="pre">Descriptive&gt;,</span> <span class="pre">&lt;Evaluation:</span> <span class="pre">CC</span> <span class="pre">2</span> <span class="pre">-</span> <span class="pre">Anatomie</span> <span class="pre">Descriptive</span> <span class="pre">-</span> <span class="pre">Anatomie</span> <span class="pre">Descriptive&gt;,</span> <span class="pre">&lt;Evaluation:</span> <span class="pre">Partiel</span> <span class="pre">-</span> <span class="pre">Anatomie</span> <span class="pre">Descriptive</span> <span class="pre">-</span> <span class="pre">Anatomie</span> <span class="pre">Descriptive&gt;,</span> <span class="pre">&lt;Evaluation:</span> <span class="pre">Examen</span> <span class="pre">Final</span> <span class="pre">-</span> <span class="pre">Anatomie</span> <span class="pre">Descriptive</span> <span class="pre">-</span> <span class="pre">Anatomie</span> <span class="pre">Descriptive&gt;,</span> <span class="pre">&lt;Evaluation:</span> <span class="pre">CC</span> <span class="pre">1</span> <span class="pre">-</span> <span class="pre">Travaux</span> <span class="pre">Pratiques</span> <span class="pre">Anatomie</span> <span class="pre">-</span> <span class="pre">Travaux</span> <span class="pre">Pratiques</span> <span class="pre">Anatomie&gt;,</span> <span class="pre">&lt;Evaluation:</span> <span class="pre">CC</span> <span class="pre">2</span> <span class="pre">-</span> <span class="pre">Travaux</span> <span class="pre">Pratiques</span> <span class="pre">Anatomie</span> <span class="pre">-</span> <span class="pre">Travaux</span> <span class="pre">Pratiques</span> <span class="pre">Anatomie&gt;,</span> <span class="pre">&lt;Evaluation:</span> <span class="pre">Partiel</span> <span class="pre">-</span> <span class="pre">Travaux</span> <span class="pre">Pratiques</span> <span class="pre">Anatomie</span> <span class="pre">-</span> <span class="pre">Travaux</span> <span class="pre">Pratiques</span> <span class="pre">Anatomie&gt;,</span> <span class="pre">&lt;Evaluation:</span> <span class="pre">Examen</span> <span class="pre">Final</span> <span class="pre">-</span> <span class="pre">Travaux</span> <span class="pre">Pratiques</span> <span class="pre">Anatomie</span> <span class="pre">-</span> <span class="pre">Travaux</span> <span class="pre">Pratiques</span> <span class="pre">Anatomie&gt;,</span> <span class="pre">&lt;Evaluation:</span> <span class="pre">CC</span> <span class="pre">1</span> <span class="pre">-</span> <span class="pre">Physiologie</span> <span class="pre">Générale</span> <span class="pre">-</span> <span class="pre">Physiologie</span> <span class="pre">Générale&gt;,</span> <span class="pre">&lt;Evaluation:</span> <span class="pre">CC</span> <span class="pre">2</span> <span class="pre">-</span> <span class="pre">Physiologie</span> <span class="pre">Générale</span> <span class="pre">-</span> <span class="pre">Physiologie</span> <span class="pre">Générale&gt;,</span> <span class="pre">&lt;Evaluation:</span> <span class="pre">Partiel</span> <span class="pre">-</span> <span class="pre">Physiologie</span> <span class="pre">Générale</span> <span class="pre">-</span> <span class="pre">Physiologie</span> <span class="pre">Générale&gt;,</span> <span class="pre">&lt;Evaluation:</span> <span class="pre">Examen</span> <span class="pre">Final</span> <span class="pre">-</span> <span class="pre">Physiologie</span> <span class="pre">Générale</span> <span class="pre">-</span> <span class="pre">Physiologie</span> <span class="pre">Générale&gt;,</span> <span class="pre">&lt;Evaluation:</span> <span class="pre">TP</span> <span class="pre">1</span> <span class="pre">-</span> <span class="pre">TP</span> <span class="pre">Physiologie</span> <span class="pre">-</span> <span class="pre">TP</span> <span class="pre">Physiologie&gt;,</span> <span class="pre">&lt;Evaluation:</span> <span class="pre">TP</span> <span class="pre">2</span> <span class="pre">-</span> <span class="pre">TP</span> <span class="pre">Physiologie</span> <span class="pre">-</span> <span class="pre">TP</span> <span class="pre">Physiologie&gt;,</span> <span class="pre">&lt;Evaluation:</span> <span class="pre">CC</span> <span class="pre">-</span> <span class="pre">TP</span> <span class="pre">Physiologie</span> <span class="pre">-</span> <span class="pre">TP</span> <span class="pre">Physiologie&gt;,</span> <span class="pre">&lt;Evaluation:</span> <span class="pre">Examen</span> <span class="pre">Final</span> <span class="pre">-</span> <span class="pre">TP</span> <span class="pre">Physiologie</span> <span class="pre">-</span> <span class="pre">TP</span> <span class="pre">Physiologie&gt;,</span> <span class="pre">&lt;Evaluation:</span> <span class="pre">CC</span> <span class="pre">1</span> <span class="pre">-</span> <span class="pre">Biochimie</span> <span class="pre">Fondamentale</span> <span class="pre">-</span> <span class="pre">Biochimie</span> <span class="pre">Fondamentale&gt;,</span> <span class="pre">&lt;Evaluation:</span> <span class="pre">CC</span> <span class="pre">2</span> <span class="pre">-</span> <span class="pre">Biochimie</span> <span class="pre">Fondamentale</span> <span class="pre">-</span> <span class="pre">Biochimie</span> <span class="pre">Fondamentale&gt;,</span> <span class="pre">&lt;Evaluation:</span> <span class="pre">Partiel</span> <span class="pre">-</span> <span class="pre">Biochimie</span> <span class="pre">Fondamentale</span> <span class="pre">-</span> <span class="pre">Biochimie</span> <span class="pre">Fondamentale&gt;,</span> <span class="pre">&lt;Evaluation:</span> <span class="pre">Examen</span> <span class="pre">Final</span> <span class="pre">-</span> <span class="pre">Biochimie</span> <span class="pre">Fondamentale</span> <span class="pre">-</span> <span class="pre">Biochimie</span> <span class="pre">Fondamentale&gt;,</span> <span class="pre">'...(remaining</span> <span class="pre">elements</span> <span class="pre">truncated)...']&gt;</span></em><a class="headerlink" href="#id49" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id50">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#id50" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">EvaluationSerializer</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id51">
+<span class="sig-name descname"><span class="pre">permission_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'core.permissions.IsEnseignantOrReadOnly'&gt;]</span></em><a class="headerlink" href="#id51" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id52">
+<span class="sig-name descname"><span class="pre">get_queryset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#EvaluationViewSet.get_queryset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id52" title="Link to this definition"></a></dt>
+<dd><p>Get the list of items for this view.
+This must be an iterable, and may be a queryset.
+Defaults to using <cite>self.queryset</cite>.</p>
+<p>This method should always be used rather than accessing <cite>self.queryset</cite>
+directly, as <cite>self.queryset</cite> gets evaluated only once, and those results
+are cached for all subsequent requests.</p>
+<p>You may want to override this if you need to provide different
+querysets depending on the incoming request.</p>
+<p>(Eg. return a list of items that is specific to the user)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id53">
+<span class="sig-name descname"><span class="pre">feuille_notes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pk</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#EvaluationViewSet.feuille_notes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id53" title="Link to this definition"></a></dt>
+<dd><p>Feuille de notes pour une évaluation</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id54">
+<span class="sig-name descname"><span class="pre">saisir_notes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pk</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#EvaluationViewSet.saisir_notes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id54" title="Link to this definition"></a></dt>
+<dd><p>Saisie multiple de notes pour une évaluation</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id55">
+<span class="sig-name descname"><span class="pre">statistiques</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pk</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#EvaluationViewSet.statistiques"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id55" title="Link to this definition"></a></dt>
+<dd><p>Statistiques d’une évaluation</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="id56">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evaluations.views.</span></span><span class="sig-name descname"><span class="pre">NoteViewSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#NoteViewSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id56" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="id57">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;QuerySet</span> <span class="pre">[&lt;Note:</span> <span class="pre">Note</span> <span class="pre">object</span> <span class="pre">(4609)&gt;,</span> <span class="pre">&lt;Note:</span> <span class="pre">Note</span> <span class="pre">object</span> <span class="pre">(4610)&gt;,</span> <span class="pre">&lt;Note:</span> <span class="pre">Note</span> <span class="pre">object</span> <span class="pre">(4611)&gt;,</span> <span class="pre">&lt;Note:</span> <span class="pre">Note</span> <span class="pre">object</span> <span class="pre">(4612)&gt;,</span> <span class="pre">&lt;Note:</span> <span class="pre">Note</span> <span class="pre">object</span> <span class="pre">(4613)&gt;,</span> <span class="pre">&lt;Note:</span> <span class="pre">Note</span> <span class="pre">object</span> <span class="pre">(4614)&gt;,</span> <span class="pre">&lt;Note:</span> <span class="pre">Note</span> <span class="pre">object</span> <span class="pre">(4615)&gt;,</span> <span class="pre">&lt;Note:</span> <span class="pre">Note</span> <span class="pre">object</span> <span class="pre">(4616)&gt;,</span> <span class="pre">&lt;Note:</span> <span class="pre">Note</span> <span class="pre">object</span> <span class="pre">(4617)&gt;,</span> <span class="pre">&lt;Note:</span> <span class="pre">Note</span> <span class="pre">object</span> <span class="pre">(4618)&gt;,</span> <span class="pre">&lt;Note:</span> <span class="pre">Note</span> <span class="pre">object</span> <span class="pre">(4619)&gt;,</span> <span class="pre">&lt;Note:</span> <span class="pre">Note</span> <span class="pre">object</span> <span class="pre">(4620)&gt;,</span> <span class="pre">&lt;Note:</span> <span class="pre">Note</span> <span class="pre">object</span> <span class="pre">(4621)&gt;,</span> <span class="pre">&lt;Note:</span> <span class="pre">Note</span> <span class="pre">object</span> <span class="pre">(4622)&gt;,</span> <span class="pre">&lt;Note:</span> <span class="pre">Note</span> <span class="pre">object</span> <span class="pre">(4623)&gt;,</span> <span class="pre">&lt;Note:</span> <span class="pre">Note</span> <span class="pre">object</span> <span class="pre">(4624)&gt;,</span> <span class="pre">&lt;Note:</span> <span class="pre">Note</span> <span class="pre">object</span> <span class="pre">(4625)&gt;,</span> <span class="pre">&lt;Note:</span> <span class="pre">Note</span> <span class="pre">object</span> <span class="pre">(4626)&gt;,</span> <span class="pre">&lt;Note:</span> <span class="pre">Note</span> <span class="pre">object</span> <span class="pre">(4627)&gt;,</span> <span class="pre">&lt;Note:</span> <span class="pre">Note</span> <span class="pre">object</span> <span class="pre">(4628)&gt;,</span> <span class="pre">'...(remaining</span> <span class="pre">elements</span> <span class="pre">truncated)...']&gt;</span></em><a class="headerlink" href="#id57" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id58">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#id58" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">NoteSerializer</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id59">
+<span class="sig-name descname"><span class="pre">permission_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'rest_framework.permissions.IsAuthenticated'&gt;]</span></em><a class="headerlink" href="#id59" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id60">
+<span class="sig-name descname"><span class="pre">get_queryset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#NoteViewSet.get_queryset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id60" title="Link to this definition"></a></dt>
+<dd><p>Get the list of items for this view.
+This must be an iterable, and may be a queryset.
+Defaults to using <cite>self.queryset</cite>.</p>
+<p>This method should always be used rather than accessing <cite>self.queryset</cite>
+directly, as <cite>self.queryset</cite> gets evaluated only once, and those results
+are cached for all subsequent requests.</p>
+<p>You may want to override this if you need to provide different
+querysets depending on the incoming request.</p>
+<p>(Eg. return a list of items that is specific to the user)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id61">
+<span class="sig-name descname"><span class="pre">releve_notes_etudiant</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#NoteViewSet.releve_notes_etudiant"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id61" title="Link to this definition"></a></dt>
+<dd><p>Relevé de notes complet pour un étudiant</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="id62">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evaluations.views.</span></span><span class="sig-name descname"><span class="pre">MoyenneECViewSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#MoyenneECViewSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id62" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="id63">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;QuerySet</span> <span class="pre">[&lt;MoyenneEC:</span> <span class="pre">MoyenneEC</span> <span class="pre">object</span> <span class="pre">(1153)&gt;,</span> <span class="pre">&lt;MoyenneEC:</span> <span class="pre">MoyenneEC</span> <span class="pre">object</span> <span class="pre">(1154)&gt;,</span> <span class="pre">&lt;MoyenneEC:</span> <span class="pre">MoyenneEC</span> <span class="pre">object</span> <span class="pre">(1155)&gt;,</span> <span class="pre">&lt;MoyenneEC:</span> <span class="pre">MoyenneEC</span> <span class="pre">object</span> <span class="pre">(1156)&gt;,</span> <span class="pre">&lt;MoyenneEC:</span> <span class="pre">MoyenneEC</span> <span class="pre">object</span> <span class="pre">(1157)&gt;,</span> <span class="pre">&lt;MoyenneEC:</span> <span class="pre">MoyenneEC</span> <span class="pre">object</span> <span class="pre">(1158)&gt;,</span> <span class="pre">&lt;MoyenneEC:</span> <span class="pre">MoyenneEC</span> <span class="pre">object</span> <span class="pre">(1159)&gt;,</span> <span class="pre">&lt;MoyenneEC:</span> <span class="pre">MoyenneEC</span> <span class="pre">object</span> <span class="pre">(1160)&gt;,</span> <span class="pre">&lt;MoyenneEC:</span> <span class="pre">MoyenneEC</span> <span class="pre">object</span> <span class="pre">(1161)&gt;,</span> <span class="pre">&lt;MoyenneEC:</span> <span class="pre">MoyenneEC</span> <span class="pre">object</span> <span class="pre">(1162)&gt;,</span> <span class="pre">&lt;MoyenneEC:</span> <span class="pre">MoyenneEC</span> <span class="pre">object</span> <span class="pre">(1163)&gt;,</span> <span class="pre">&lt;MoyenneEC:</span> <span class="pre">MoyenneEC</span> <span class="pre">object</span> <span class="pre">(1164)&gt;,</span> <span class="pre">&lt;MoyenneEC:</span> <span class="pre">MoyenneEC</span> <span class="pre">object</span> <span class="pre">(1165)&gt;,</span> <span class="pre">&lt;MoyenneEC:</span> <span class="pre">MoyenneEC</span> <span class="pre">object</span> <span class="pre">(1166)&gt;,</span> <span class="pre">&lt;MoyenneEC:</span> <span class="pre">MoyenneEC</span> <span class="pre">object</span> <span class="pre">(1167)&gt;,</span> <span class="pre">&lt;MoyenneEC:</span> <span class="pre">MoyenneEC</span> <span class="pre">object</span> <span class="pre">(1168)&gt;,</span> <span class="pre">&lt;MoyenneEC:</span> <span class="pre">MoyenneEC</span> <span class="pre">object</span> <span class="pre">(1169)&gt;,</span> <span class="pre">&lt;MoyenneEC:</span> <span class="pre">MoyenneEC</span> <span class="pre">object</span> <span class="pre">(1170)&gt;,</span> <span class="pre">&lt;MoyenneEC:</span> <span class="pre">MoyenneEC</span> <span class="pre">object</span> <span class="pre">(1171)&gt;,</span> <span class="pre">&lt;MoyenneEC:</span> <span class="pre">MoyenneEC</span> <span class="pre">object</span> <span class="pre">(1172)&gt;,</span> <span class="pre">'...(remaining</span> <span class="pre">elements</span> <span class="pre">truncated)...']&gt;</span></em><a class="headerlink" href="#id63" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id64">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#id64" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">MoyenneECSerializer</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id65">
+<span class="sig-name descname"><span class="pre">permission_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'core.permissions.IsEtudiantOwner'&gt;]</span></em><a class="headerlink" href="#id65" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id66">
+<span class="sig-name descname"><span class="pre">get_queryset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#MoyenneECViewSet.get_queryset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id66" title="Link to this definition"></a></dt>
+<dd><p>Get the list of items for this view.
+This must be an iterable, and may be a queryset.
+Defaults to using <cite>self.queryset</cite>.</p>
+<p>This method should always be used rather than accessing <cite>self.queryset</cite>
+directly, as <cite>self.queryset</cite> gets evaluated only once, and those results
+are cached for all subsequent requests.</p>
+<p>You may want to override this if you need to provide different
+querysets depending on the incoming request.</p>
+<p>(Eg. return a list of items that is specific to the user)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id67">
+<span class="sig-name descname"><span class="pre">recalculer_moyennes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#MoyenneECViewSet.recalculer_moyennes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id67" title="Link to this definition"></a></dt>
+<dd><p>Recalculer les moyennes EC pour un groupe d’étudiants</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="id68">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evaluations.views.</span></span><span class="sig-name descname"><span class="pre">MoyenneUEViewSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#MoyenneUEViewSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id68" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="id69">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;QuerySet</span> <span class="pre">[&lt;MoyenneUE:</span> <span class="pre">MoyenneUE</span> <span class="pre">object</span> <span class="pre">(625)&gt;,</span> <span class="pre">&lt;MoyenneUE:</span> <span class="pre">MoyenneUE</span> <span class="pre">object</span> <span class="pre">(626)&gt;,</span> <span class="pre">&lt;MoyenneUE:</span> <span class="pre">MoyenneUE</span> <span class="pre">object</span> <span class="pre">(627)&gt;,</span> <span class="pre">&lt;MoyenneUE:</span> <span class="pre">MoyenneUE</span> <span class="pre">object</span> <span class="pre">(628)&gt;,</span> <span class="pre">&lt;MoyenneUE:</span> <span class="pre">MoyenneUE</span> <span class="pre">object</span> <span class="pre">(629)&gt;,</span> <span class="pre">&lt;MoyenneUE:</span> <span class="pre">MoyenneUE</span> <span class="pre">object</span> <span class="pre">(630)&gt;,</span> <span class="pre">&lt;MoyenneUE:</span> <span class="pre">MoyenneUE</span> <span class="pre">object</span> <span class="pre">(631)&gt;,</span> <span class="pre">&lt;MoyenneUE:</span> <span class="pre">MoyenneUE</span> <span class="pre">object</span> <span class="pre">(632)&gt;,</span> <span class="pre">&lt;MoyenneUE:</span> <span class="pre">MoyenneUE</span> <span class="pre">object</span> <span class="pre">(633)&gt;,</span> <span class="pre">&lt;MoyenneUE:</span> <span class="pre">MoyenneUE</span> <span class="pre">object</span> <span class="pre">(634)&gt;,</span> <span class="pre">&lt;MoyenneUE:</span> <span class="pre">MoyenneUE</span> <span class="pre">object</span> <span class="pre">(635)&gt;,</span> <span class="pre">&lt;MoyenneUE:</span> <span class="pre">MoyenneUE</span> <span class="pre">object</span> <span class="pre">(636)&gt;,</span> <span class="pre">&lt;MoyenneUE:</span> <span class="pre">MoyenneUE</span> <span class="pre">object</span> <span class="pre">(637)&gt;,</span> <span class="pre">&lt;MoyenneUE:</span> <span class="pre">MoyenneUE</span> <span class="pre">object</span> <span class="pre">(638)&gt;,</span> <span class="pre">&lt;MoyenneUE:</span> <span class="pre">MoyenneUE</span> <span class="pre">object</span> <span class="pre">(639)&gt;,</span> <span class="pre">&lt;MoyenneUE:</span> <span class="pre">MoyenneUE</span> <span class="pre">object</span> <span class="pre">(640)&gt;,</span> <span class="pre">&lt;MoyenneUE:</span> <span class="pre">MoyenneUE</span> <span class="pre">object</span> <span class="pre">(641)&gt;,</span> <span class="pre">&lt;MoyenneUE:</span> <span class="pre">MoyenneUE</span> <span class="pre">object</span> <span class="pre">(642)&gt;,</span> <span class="pre">&lt;MoyenneUE:</span> <span class="pre">MoyenneUE</span> <span class="pre">object</span> <span class="pre">(643)&gt;,</span> <span class="pre">&lt;MoyenneUE:</span> <span class="pre">MoyenneUE</span> <span class="pre">object</span> <span class="pre">(644)&gt;,</span> <span class="pre">'...(remaining</span> <span class="pre">elements</span> <span class="pre">truncated)...']&gt;</span></em><a class="headerlink" href="#id69" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id70">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#id70" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">MoyenneUESerializer</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id71">
+<span class="sig-name descname"><span class="pre">permission_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'core.permissions.IsEtudiantOwner'&gt;]</span></em><a class="headerlink" href="#id71" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id72">
+<span class="sig-name descname"><span class="pre">get_queryset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#MoyenneUEViewSet.get_queryset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id72" title="Link to this definition"></a></dt>
+<dd><p>Get the list of items for this view.
+This must be an iterable, and may be a queryset.
+Defaults to using <cite>self.queryset</cite>.</p>
+<p>This method should always be used rather than accessing <cite>self.queryset</cite>
+directly, as <cite>self.queryset</cite> gets evaluated only once, and those results
+are cached for all subsequent requests.</p>
+<p>You may want to override this if you need to provide different
+querysets depending on the incoming request.</p>
+<p>(Eg. return a list of items that is specific to the user)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id73">
+<span class="sig-name descname"><span class="pre">recalculer_moyennes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#MoyenneUEViewSet.recalculer_moyennes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id73" title="Link to this definition"></a></dt>
+<dd><p>Recalculer les moyennes UE</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="id74">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evaluations.views.</span></span><span class="sig-name descname"><span class="pre">MoyenneSemestreViewSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#MoyenneSemestreViewSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id74" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="id75">
+<span class="sig-name descname"><span class="pre">queryset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;QuerySet</span> <span class="pre">[&lt;MoyenneSemestre:</span> <span class="pre">MoyenneSemestre</span> <span class="pre">object</span> <span class="pre">(145)&gt;,</span> <span class="pre">&lt;MoyenneSemestre:</span> <span class="pre">MoyenneSemestre</span> <span class="pre">object</span> <span class="pre">(146)&gt;,</span> <span class="pre">&lt;MoyenneSemestre:</span> <span class="pre">MoyenneSemestre</span> <span class="pre">object</span> <span class="pre">(147)&gt;,</span> <span class="pre">&lt;MoyenneSemestre:</span> <span class="pre">MoyenneSemestre</span> <span class="pre">object</span> <span class="pre">(148)&gt;,</span> <span class="pre">&lt;MoyenneSemestre:</span> <span class="pre">MoyenneSemestre</span> <span class="pre">object</span> <span class="pre">(149)&gt;,</span> <span class="pre">&lt;MoyenneSemestre:</span> <span class="pre">MoyenneSemestre</span> <span class="pre">object</span> <span class="pre">(150)&gt;,</span> <span class="pre">&lt;MoyenneSemestre:</span> <span class="pre">MoyenneSemestre</span> <span class="pre">object</span> <span class="pre">(151)&gt;,</span> <span class="pre">&lt;MoyenneSemestre:</span> <span class="pre">MoyenneSemestre</span> <span class="pre">object</span> <span class="pre">(152)&gt;,</span> <span class="pre">&lt;MoyenneSemestre:</span> <span class="pre">MoyenneSemestre</span> <span class="pre">object</span> <span class="pre">(153)&gt;,</span> <span class="pre">&lt;MoyenneSemestre:</span> <span class="pre">MoyenneSemestre</span> <span class="pre">object</span> <span class="pre">(154)&gt;,</span> <span class="pre">&lt;MoyenneSemestre:</span> <span class="pre">MoyenneSemestre</span> <span class="pre">object</span> <span class="pre">(155)&gt;,</span> <span class="pre">&lt;MoyenneSemestre:</span> <span class="pre">MoyenneSemestre</span> <span class="pre">object</span> <span class="pre">(156)&gt;,</span> <span class="pre">&lt;MoyenneSemestre:</span> <span class="pre">MoyenneSemestre</span> <span class="pre">object</span> <span class="pre">(157)&gt;,</span> <span class="pre">&lt;MoyenneSemestre:</span> <span class="pre">MoyenneSemestre</span> <span class="pre">object</span> <span class="pre">(158)&gt;,</span> <span class="pre">&lt;MoyenneSemestre:</span> <span class="pre">MoyenneSemestre</span> <span class="pre">object</span> <span class="pre">(159)&gt;,</span> <span class="pre">&lt;MoyenneSemestre:</span> <span class="pre">MoyenneSemestre</span> <span class="pre">object</span> <span class="pre">(160)&gt;,</span> <span class="pre">&lt;MoyenneSemestre:</span> <span class="pre">MoyenneSemestre</span> <span class="pre">object</span> <span class="pre">(161)&gt;,</span> <span class="pre">&lt;MoyenneSemestre:</span> <span class="pre">MoyenneSemestre</span> <span class="pre">object</span> <span class="pre">(162)&gt;,</span> <span class="pre">&lt;MoyenneSemestre:</span> <span class="pre">MoyenneSemestre</span> <span class="pre">object</span> <span class="pre">(163)&gt;,</span> <span class="pre">&lt;MoyenneSemestre:</span> <span class="pre">MoyenneSemestre</span> <span class="pre">object</span> <span class="pre">(164)&gt;,</span> <span class="pre">'...(remaining</span> <span class="pre">elements</span> <span class="pre">truncated)...']&gt;</span></em><a class="headerlink" href="#id75" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id76">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#id76" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">MoyenneSemestreSerializer</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id77">
+<span class="sig-name descname"><span class="pre">permission_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'core.permissions.IsEtudiantOwner'&gt;]</span></em><a class="headerlink" href="#id77" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id78">
+<span class="sig-name descname"><span class="pre">get_queryset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#MoyenneSemestreViewSet.get_queryset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id78" title="Link to this definition"></a></dt>
+<dd><p>Get the list of items for this view.
+This must be an iterable, and may be a queryset.
+Defaults to using <cite>self.queryset</cite>.</p>
+<p>This method should always be used rather than accessing <cite>self.queryset</cite>
+directly, as <cite>self.queryset</cite> gets evaluated only once, and those results
+are cached for all subsequent requests.</p>
+<p>You may want to override this if you need to provide different
+querysets depending on the incoming request.</p>
+<p>(Eg. return a list of items that is specific to the user)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id79">
+<span class="sig-name descname"><span class="pre">statistiques</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#MoyenneSemestreViewSet.statistiques"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id79" title="Link to this definition"></a></dt>
+<dd><p>Statistiques générales par classe/niveau</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id80">
+<span class="sig-name descname"><span class="pre">recalculer_moyennes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#MoyenneSemestreViewSet.recalculer_moyennes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id80" title="Link to this definition"></a></dt>
+<dd><p>Recalculer les moyennes semestrielles</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id81">
+<span class="sig-name descname"><span class="pre">tableau_notes_classe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/views.html#MoyenneSemestreViewSet.tableau_notes_classe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id81" title="Link to this definition"></a></dt>
+<dd><p>Tableau complet des notes d’une classe</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="users.html" class="btn btn-neutral float-left" title="Users API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../models/index.html" class="btn btn-neutral float-right" title="Models Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Faculté de Médecine.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

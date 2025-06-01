@@ -1,0 +1,697 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>users.views &mdash; AcadFlow 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=f2a433a1"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            AcadFlow
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Guide de démarrage rapide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../models/index.html">Models Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../development.html">Guide de développement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">AcadFlow</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">users.views</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for users.views</h1><div class="highlight"><pre>
+<span></span><span class="c1"># users/views.py - Version corrigée avec imports manquants</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rest_framework</span><span class="w"> </span><span class="kn">import</span> <span class="n">viewsets</span><span class="p">,</span> <span class="n">permissions</span><span class="p">,</span> <span class="n">status</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rest_framework.decorators</span><span class="w"> </span><span class="kn">import</span> <span class="n">action</span><span class="p">,</span> <span class="n">api_view</span><span class="p">,</span> <span class="n">permission_classes</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rest_framework.response</span><span class="w"> </span><span class="kn">import</span> <span class="n">Response</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rest_framework.authtoken.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Token</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.contrib.auth</span><span class="w"> </span><span class="kn">import</span> <span class="n">authenticate</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.db.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Q</span><span class="p">,</span> <span class="n">Count</span><span class="p">,</span> <span class="n">Avg</span><span class="p">,</span> <span class="n">Sum</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.db</span><span class="w"> </span><span class="kn">import</span> <span class="n">transaction</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">timezone</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">timedelta</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">User</span><span class="p">,</span> <span class="n">Enseignant</span><span class="p">,</span> <span class="n">Etudiant</span><span class="p">,</span> <span class="n">StatutEtudiant</span><span class="p">,</span> <span class="n">Inscription</span><span class="p">,</span> <span class="n">HistoriqueStatut</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.serializers</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">UserSerializer</span><span class="p">,</span> <span class="n">EnseignantSerializer</span><span class="p">,</span> <span class="n">EtudiantSerializer</span><span class="p">,</span>
+    <span class="n">StatutEtudiantSerializer</span><span class="p">,</span> <span class="n">InscriptionSerializer</span><span class="p">,</span> <span class="n">HistoriqueStatutSerializer</span><span class="p">,</span>
+    <span class="n">LoginSerializer</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">core.permissions</span><span class="w"> </span><span class="kn">import</span> <span class="n">IsAdminOrScolarite</span><span class="p">,</span> <span class="n">IsEtudiantOwner</span>
+
+<div class="viewcode-block" id="login_view">
+<a class="viewcode-back" href="../../api/users.html#users.views.login_view">[docs]</a>
+<span class="nd">@api_view</span><span class="p">([</span><span class="s1">&#39;POST&#39;</span><span class="p">])</span>
+<span class="nd">@permission_classes</span><span class="p">([</span><span class="n">permissions</span><span class="o">.</span><span class="n">AllowAny</span><span class="p">])</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">login_view</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Connexion utilisateur avec informations détaillées&quot;&quot;&quot;</span>
+    <span class="n">serializer</span> <span class="o">=</span> <span class="n">LoginSerializer</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">serializer</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">serializer</span><span class="o">.</span><span class="n">validated_data</span><span class="p">[</span><span class="s1">&#39;user&#39;</span><span class="p">]</span>
+        <span class="n">token</span><span class="p">,</span> <span class="n">created</span> <span class="o">=</span> <span class="n">Token</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get_or_create</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">user</span><span class="p">)</span>
+        
+        <span class="n">user_data</span> <span class="o">=</span> <span class="n">UserSerializer</span><span class="p">(</span><span class="n">user</span><span class="p">)</span><span class="o">.</span><span class="n">data</span>
+        <span class="n">user_data</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;password&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        
+        <span class="c1"># Ajouter des informations spécifiques selon le type d&#39;utilisateur</span>
+        <span class="n">additional_info</span> <span class="o">=</span> <span class="p">{}</span>
+        
+        <span class="k">if</span> <span class="n">user</span><span class="o">.</span><span class="n">type_utilisateur</span> <span class="o">==</span> <span class="s1">&#39;etudiant&#39;</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">etudiant</span> <span class="o">=</span> <span class="n">Etudiant</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">user</span><span class="p">)</span>
+                <span class="n">inscription_active</span> <span class="o">=</span> <span class="n">Inscription</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+                    <span class="n">etudiant</span><span class="o">=</span><span class="n">etudiant</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="kc">True</span>
+                <span class="p">)</span><span class="o">.</span><span class="n">select_related</span><span class="p">(</span><span class="s1">&#39;classe&#39;</span><span class="p">,</span> <span class="s1">&#39;annee_academique&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+                
+                <span class="n">additional_info</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s1">&#39;etudiant_id&#39;</span><span class="p">:</span> <span class="n">etudiant</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                    <span class="s1">&#39;numero_carte&#39;</span><span class="p">:</span> <span class="n">etudiant</span><span class="o">.</span><span class="n">numero_carte</span><span class="p">,</span>
+                    <span class="s1">&#39;classe_actuelle&#39;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">inscription_active</span><span class="o">.</span><span class="n">classe</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                        <span class="s1">&#39;nom&#39;</span><span class="p">:</span> <span class="n">inscription_active</span><span class="o">.</span><span class="n">classe</span><span class="o">.</span><span class="n">nom</span><span class="p">,</span>
+                        <span class="s1">&#39;niveau&#39;</span><span class="p">:</span> <span class="n">inscription_active</span><span class="o">.</span><span class="n">classe</span><span class="o">.</span><span class="n">niveau</span><span class="o">.</span><span class="n">nom</span><span class="p">,</span>
+                        <span class="s1">&#39;filiere&#39;</span><span class="p">:</span> <span class="n">inscription_active</span><span class="o">.</span><span class="n">classe</span><span class="o">.</span><span class="n">filiere</span><span class="o">.</span><span class="n">nom</span>
+                    <span class="p">}</span> <span class="k">if</span> <span class="n">inscription_active</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+                    <span class="s1">&#39;statut_actuel&#39;</span><span class="p">:</span> <span class="n">inscription_active</span><span class="o">.</span><span class="n">statut</span><span class="o">.</span><span class="n">nom</span> <span class="k">if</span> <span class="n">inscription_active</span> <span class="k">else</span> <span class="kc">None</span>
+                <span class="p">}</span>
+            <span class="k">except</span> <span class="n">Etudiant</span><span class="o">.</span><span class="n">DoesNotExist</span><span class="p">:</span>
+                <span class="k">pass</span>
+        
+        <span class="k">elif</span> <span class="n">user</span><span class="o">.</span><span class="n">type_utilisateur</span> <span class="o">==</span> <span class="s1">&#39;enseignant&#39;</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">enseignant</span> <span class="o">=</span> <span class="n">Enseignant</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">user</span><span class="p">)</span>
+                <span class="kn">from</span><span class="w"> </span><span class="nn">evaluations.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enseignement</span>
+                <span class="n">enseignements_actifs</span> <span class="o">=</span> <span class="n">Enseignement</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+                    <span class="n">enseignant</span><span class="o">=</span><span class="n">enseignant</span><span class="p">,</span> <span class="n">actif</span><span class="o">=</span><span class="kc">True</span>
+                <span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+                
+                <span class="n">additional_info</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s1">&#39;enseignant_id&#39;</span><span class="p">:</span> <span class="n">enseignant</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                    <span class="s1">&#39;grade&#39;</span><span class="p">:</span> <span class="n">enseignant</span><span class="o">.</span><span class="n">grade</span><span class="p">,</span>
+                    <span class="s1">&#39;specialite&#39;</span><span class="p">:</span> <span class="n">enseignant</span><span class="o">.</span><span class="n">specialite</span><span class="p">,</span>
+                    <span class="s1">&#39;nombre_enseignements&#39;</span><span class="p">:</span> <span class="n">enseignements_actifs</span>
+                <span class="p">}</span>
+            <span class="k">except</span> <span class="n">Enseignant</span><span class="o">.</span><span class="n">DoesNotExist</span><span class="p">:</span>
+                <span class="k">pass</span>
+        
+        <span class="n">response_data</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;token&#39;</span><span class="p">:</span> <span class="n">token</span><span class="o">.</span><span class="n">key</span><span class="p">,</span>
+            <span class="s1">&#39;user&#39;</span><span class="p">:</span> <span class="p">{</span><span class="o">**</span><span class="n">user_data</span><span class="p">,</span> <span class="o">**</span><span class="n">additional_info</span><span class="p">}</span>
+        <span class="p">}</span>
+        
+        <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">response_data</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">serializer</span><span class="o">.</span><span class="n">errors</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_400_BAD_REQUEST</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="logout_view">
+<a class="viewcode-back" href="../../api/users.html#users.views.logout_view">[docs]</a>
+<span class="nd">@api_view</span><span class="p">([</span><span class="s1">&#39;POST&#39;</span><span class="p">])</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">logout_view</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Déconnexion utilisateur&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">auth_token</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">Response</span><span class="p">({</span><span class="s1">&#39;message&#39;</span><span class="p">:</span> <span class="s1">&#39;Déconnexion réussie&#39;</span><span class="p">})</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Response</span><span class="p">({</span><span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="s1">&#39;Erreur lors de la déconnexion&#39;</span><span class="p">},</span> 
+                       <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_400_BAD_REQUEST</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="UserViewSet">
+<a class="viewcode-back" href="../../api/users.html#users.views.UserViewSet">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">UserViewSet</span><span class="p">(</span><span class="n">viewsets</span><span class="o">.</span><span class="n">ModelViewSet</span><span class="p">):</span>
+    <span class="n">queryset</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">actif</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">serializer_class</span> <span class="o">=</span> <span class="n">UserSerializer</span>
+    <span class="n">permission_classes</span> <span class="o">=</span> <span class="p">[</span><span class="n">IsAdminOrScolarite</span><span class="p">]</span>
+    
+<div class="viewcode-block" id="UserViewSet.get_queryset">
+<a class="viewcode-back" href="../../api/users.html#users.views.UserViewSet.get_queryset">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_queryset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">queryset</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_queryset</span><span class="p">()</span>
+        <span class="n">type_utilisateur</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">query_params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">search</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">query_params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;search&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">type_utilisateur</span><span class="p">:</span>
+            <span class="n">queryset</span> <span class="o">=</span> <span class="n">queryset</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">type_utilisateur</span><span class="o">=</span><span class="n">type_utilisateur</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">search</span><span class="p">:</span>
+            <span class="n">queryset</span> <span class="o">=</span> <span class="n">queryset</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+                <span class="n">Q</span><span class="p">(</span><span class="n">matricule__icontains</span><span class="o">=</span><span class="n">search</span><span class="p">)</span> <span class="o">|</span>
+                <span class="n">Q</span><span class="p">(</span><span class="n">first_name__icontains</span><span class="o">=</span><span class="n">search</span><span class="p">)</span> <span class="o">|</span>
+                <span class="n">Q</span><span class="p">(</span><span class="n">last_name__icontains</span><span class="o">=</span><span class="n">search</span><span class="p">)</span> <span class="o">|</span>
+                <span class="n">Q</span><span class="p">(</span><span class="n">email__icontains</span><span class="o">=</span><span class="n">search</span><span class="p">)</span>
+            <span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">queryset</span></div>
+
+    
+<div class="viewcode-block" id="UserViewSet.statistiques">
+<a class="viewcode-back" href="../../api/users.html#users.views.UserViewSet.statistiques">[docs]</a>
+    <span class="nd">@action</span><span class="p">(</span><span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;get&#39;</span><span class="p">])</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">statistiques</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Statistiques des utilisateurs&quot;&quot;&quot;</span>
+        <span class="n">stats</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;total_utilisateurs&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_queryset</span><span class="p">()</span><span class="o">.</span><span class="n">count</span><span class="p">(),</span>
+            <span class="s1">&#39;par_type&#39;</span><span class="p">:</span> <span class="p">{},</span>
+            <span class="s1">&#39;nouveaux_cette_semaine&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_queryset</span><span class="p">()</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+                <span class="n">date_joined__gte</span><span class="o">=</span><span class="n">timezone</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+        <span class="p">}</span>
+        
+        <span class="k">for</span> <span class="n">type_user</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">User</span><span class="o">.</span><span class="n">TYPES_UTILISATEUR</span><span class="p">:</span>
+            <span class="n">count</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_queryset</span><span class="p">()</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">type_utilisateur</span><span class="o">=</span><span class="n">type_user</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+            <span class="n">stats</span><span class="p">[</span><span class="s1">&#39;par_type&#39;</span><span class="p">][</span><span class="n">type_user</span><span class="p">]</span> <span class="o">=</span> <span class="n">count</span>
+        
+        <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">stats</span><span class="p">)</span></div>
+</div>
+
+
+<div class="viewcode-block" id="EnseignantViewSet">
+<a class="viewcode-back" href="../../api/users.html#users.views.EnseignantViewSet">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">EnseignantViewSet</span><span class="p">(</span><span class="n">viewsets</span><span class="o">.</span><span class="n">ModelViewSet</span><span class="p">):</span>
+    <span class="n">queryset</span> <span class="o">=</span> <span class="n">Enseignant</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="n">serializer_class</span> <span class="o">=</span> <span class="n">EnseignantSerializer</span>
+    <span class="n">permission_classes</span> <span class="o">=</span> <span class="p">[</span><span class="n">permissions</span><span class="o">.</span><span class="n">IsAuthenticated</span><span class="p">]</span>
+    
+<div class="viewcode-block" id="EnseignantViewSet.get_queryset">
+<a class="viewcode-back" href="../../api/users.html#users.views.EnseignantViewSet.get_queryset">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_queryset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">queryset</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_queryset</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">type_utilisateur</span> <span class="o">==</span> <span class="s1">&#39;enseignant&#39;</span><span class="p">:</span>
+            <span class="n">queryset</span> <span class="o">=</span> <span class="n">queryset</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+        
+        <span class="c1"># Filtres pour les administrateurs</span>
+        <span class="n">grade</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">query_params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;grade&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">specialite</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">query_params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;specialite&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">grade</span><span class="p">:</span>
+            <span class="n">queryset</span> <span class="o">=</span> <span class="n">queryset</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">grade</span><span class="o">=</span><span class="n">grade</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">specialite</span><span class="p">:</span>
+            <span class="n">queryset</span> <span class="o">=</span> <span class="n">queryset</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">specialite__icontains</span><span class="o">=</span><span class="n">specialite</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">queryset</span></div>
+
+    
+<div class="viewcode-block" id="EnseignantViewSet.enseignements">
+<a class="viewcode-back" href="../../api/users.html#users.views.EnseignantViewSet.enseignements">[docs]</a>
+    <span class="nd">@action</span><span class="p">(</span><span class="n">detail</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;get&#39;</span><span class="p">])</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">enseignements</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retourne tous les enseignements d&#39;un enseignant&quot;&quot;&quot;</span>
+        <span class="n">enseignant</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_object</span><span class="p">()</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">evaluations.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enseignement</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">evaluations.serializers</span><span class="w"> </span><span class="kn">import</span> <span class="n">EnseignementSerializer</span>
+        
+        <span class="n">enseignements</span> <span class="o">=</span> <span class="n">Enseignement</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">enseignant</span><span class="o">=</span><span class="n">enseignant</span><span class="p">,</span> <span class="n">actif</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">select_related</span><span class="p">(</span><span class="s1">&#39;ec__ue&#39;</span><span class="p">,</span> <span class="s1">&#39;classe&#39;</span><span class="p">,</span> <span class="s1">&#39;annee_academique&#39;</span><span class="p">)</span>
+        
+        <span class="n">serializer</span> <span class="o">=</span> <span class="n">EnseignementSerializer</span><span class="p">(</span><span class="n">enseignements</span><span class="p">,</span> <span class="n">many</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">serializer</span><span class="o">.</span><span class="n">data</span><span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="EnseignantViewSet.planning_evaluations">
+<a class="viewcode-back" href="../../api/users.html#users.views.EnseignantViewSet.planning_evaluations">[docs]</a>
+    <span class="nd">@action</span><span class="p">(</span><span class="n">detail</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;get&#39;</span><span class="p">])</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">planning_evaluations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Planning des évaluations pour un enseignant&quot;&quot;&quot;</span>
+        <span class="n">enseignant</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_object</span><span class="p">()</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">evaluations.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Evaluation</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">evaluations.serializers</span><span class="w"> </span><span class="kn">import</span> <span class="n">EvaluationSerializer</span>
+        
+        <span class="n">evaluations</span> <span class="o">=</span> <span class="n">Evaluation</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">enseignement__enseignant</span><span class="o">=</span><span class="n">enseignant</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">select_related</span><span class="p">(</span>
+            <span class="s1">&#39;enseignement__ec&#39;</span><span class="p">,</span> <span class="s1">&#39;enseignement__classe&#39;</span><span class="p">,</span> <span class="s1">&#39;type_evaluation&#39;</span><span class="p">,</span> <span class="s1">&#39;session&#39;</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;date_evaluation&#39;</span><span class="p">)</span>
+        
+        <span class="c1"># Filtrer par date si spécifié</span>
+        <span class="n">date_debut</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">query_params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;date_debut&#39;</span><span class="p">)</span>
+        <span class="n">date_fin</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">query_params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;date_fin&#39;</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">date_debut</span><span class="p">:</span>
+            <span class="n">evaluations</span> <span class="o">=</span> <span class="n">evaluations</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">date_evaluation__gte</span><span class="o">=</span><span class="n">date_debut</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">date_fin</span><span class="p">:</span>
+            <span class="n">evaluations</span> <span class="o">=</span> <span class="n">evaluations</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">date_evaluation__lte</span><span class="o">=</span><span class="n">date_fin</span><span class="p">)</span>
+        
+        <span class="n">serializer</span> <span class="o">=</span> <span class="n">EvaluationSerializer</span><span class="p">(</span><span class="n">evaluations</span><span class="p">,</span> <span class="n">many</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">serializer</span><span class="o">.</span><span class="n">data</span><span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="EnseignantViewSet.charge_travail">
+<a class="viewcode-back" href="../../api/users.html#users.views.EnseignantViewSet.charge_travail">[docs]</a>
+    <span class="nd">@action</span><span class="p">(</span><span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;get&#39;</span><span class="p">])</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">charge_travail</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Statistiques de charge de travail des enseignants&quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">evaluations.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enseignement</span>
+        
+        <span class="n">stats</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">enseignant</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_queryset</span><span class="p">():</span>
+            <span class="n">enseignements</span> <span class="o">=</span> <span class="n">Enseignement</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+                <span class="n">enseignant</span><span class="o">=</span><span class="n">enseignant</span><span class="p">,</span> <span class="n">actif</span><span class="o">=</span><span class="kc">True</span>
+            <span class="p">)</span>
+            
+            <span class="n">charge</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;enseignant&#39;</span><span class="p">:</span> <span class="n">EnseignantSerializer</span><span class="p">(</span><span class="n">enseignant</span><span class="p">)</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+                <span class="s1">&#39;nombre_ec&#39;</span><span class="p">:</span> <span class="n">enseignements</span><span class="o">.</span><span class="n">values</span><span class="p">(</span><span class="s1">&#39;ec&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">distinct</span><span class="p">()</span><span class="o">.</span><span class="n">count</span><span class="p">(),</span>
+                <span class="s1">&#39;nombre_classes&#39;</span><span class="p">:</span> <span class="n">enseignements</span><span class="o">.</span><span class="n">values</span><span class="p">(</span><span class="s1">&#39;classe&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">distinct</span><span class="p">()</span><span class="o">.</span><span class="n">count</span><span class="p">(),</span>
+                <span class="s1">&#39;nombre_evaluations_en_attente&#39;</span><span class="p">:</span> <span class="mi">0</span>  <span class="c1"># À calculer selon vos besoins</span>
+            <span class="p">}</span>
+            <span class="n">stats</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">charge</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">stats</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;nombre_ec&#39;</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span></div>
+</div>
+
+
+<div class="viewcode-block" id="EtudiantViewSet">
+<a class="viewcode-back" href="../../api/users.html#users.views.EtudiantViewSet">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">EtudiantViewSet</span><span class="p">(</span><span class="n">viewsets</span><span class="o">.</span><span class="n">ModelViewSet</span><span class="p">):</span>
+    <span class="n">queryset</span> <span class="o">=</span> <span class="n">Etudiant</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="n">serializer_class</span> <span class="o">=</span> <span class="n">EtudiantSerializer</span>
+    <span class="n">permission_classes</span> <span class="o">=</span> <span class="p">[</span><span class="n">permissions</span><span class="o">.</span><span class="n">IsAuthenticated</span><span class="p">]</span>
+    
+<div class="viewcode-block" id="EtudiantViewSet.get_queryset">
+<a class="viewcode-back" href="../../api/users.html#users.views.EtudiantViewSet.get_queryset">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_queryset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">queryset</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_queryset</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">type_utilisateur</span> <span class="o">==</span> <span class="s1">&#39;etudiant&#39;</span><span class="p">:</span>
+            <span class="n">queryset</span> <span class="o">=</span> <span class="n">queryset</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+        
+        <span class="c1"># Filtres pour les administrateurs</span>
+        <span class="n">matricule</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">query_params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;matricule&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">classe_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">query_params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;classe&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">statut</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">query_params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;statut&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">matricule</span><span class="p">:</span>
+            <span class="n">queryset</span> <span class="o">=</span> <span class="n">queryset</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">user__matricule__icontains</span><span class="o">=</span><span class="n">matricule</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">classe_id</span><span class="p">:</span>
+            <span class="n">queryset</span> <span class="o">=</span> <span class="n">queryset</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+                <span class="n">inscription__classe_id</span><span class="o">=</span><span class="n">classe_id</span><span class="p">,</span>
+                <span class="n">inscription__active</span><span class="o">=</span><span class="kc">True</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">statut</span><span class="p">:</span>
+            <span class="n">queryset</span> <span class="o">=</span> <span class="n">queryset</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">statut_current</span><span class="o">=</span><span class="n">statut</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">queryset</span></div>
+
+    
+<div class="viewcode-block" id="EtudiantViewSet.notes_detaillees">
+<a class="viewcode-back" href="../../api/users.html#users.views.EtudiantViewSet.notes_detaillees">[docs]</a>
+    <span class="nd">@action</span><span class="p">(</span><span class="n">detail</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;get&#39;</span><span class="p">])</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">notes_detaillees</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Notes détaillées d&#39;un étudiant avec moyennes&quot;&quot;&quot;</span>
+        <span class="n">etudiant</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_object</span><span class="p">()</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">evaluations.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Note</span><span class="p">,</span> <span class="n">MoyenneEC</span><span class="p">,</span> <span class="n">MoyenneUE</span><span class="p">,</span> <span class="n">MoyenneSemestre</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">evaluations.serializers</span><span class="w"> </span><span class="kn">import</span> <span class="n">NoteSerializer</span><span class="p">,</span> <span class="n">MoyenneECSerializer</span><span class="p">,</span> <span class="n">MoyenneUESerializer</span><span class="p">,</span> <span class="n">MoyenneSemestreSerializer</span>
+        
+        <span class="n">session_id</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">query_params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;session&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">session_id</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Response</span><span class="p">(</span>
+                <span class="p">{</span><span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="s1">&#39;session_id requis&#39;</span><span class="p">},</span> 
+                <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_400_BAD_REQUEST</span>
+            <span class="p">)</span>
+        
+        <span class="c1"># Notes individuelles</span>
+        <span class="n">notes</span> <span class="o">=</span> <span class="n">Note</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">etudiant</span><span class="o">=</span><span class="n">etudiant</span><span class="p">,</span>
+            <span class="n">evaluation__session_id</span><span class="o">=</span><span class="n">session_id</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">select_related</span><span class="p">(</span><span class="s1">&#39;evaluation__enseignement__ec&#39;</span><span class="p">,</span> <span class="s1">&#39;evaluation__type_evaluation&#39;</span><span class="p">)</span>
+        
+        <span class="c1"># Moyennes par EC</span>
+        <span class="n">moyennes_ec</span> <span class="o">=</span> <span class="n">MoyenneEC</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">etudiant</span><span class="o">=</span><span class="n">etudiant</span><span class="p">,</span>
+            <span class="n">session_id</span><span class="o">=</span><span class="n">session_id</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">select_related</span><span class="p">(</span><span class="s1">&#39;ec__ue&#39;</span><span class="p">)</span>
+        
+        <span class="c1"># Moyennes par UE</span>
+        <span class="n">moyennes_ue</span> <span class="o">=</span> <span class="n">MoyenneUE</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">etudiant</span><span class="o">=</span><span class="n">etudiant</span><span class="p">,</span>
+            <span class="n">session_id</span><span class="o">=</span><span class="n">session_id</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">select_related</span><span class="p">(</span><span class="s1">&#39;ue&#39;</span><span class="p">)</span>
+        
+        <span class="c1"># Moyennes semestrielles</span>
+        <span class="n">moyennes_semestre</span> <span class="o">=</span> <span class="n">MoyenneSemestre</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">etudiant</span><span class="o">=</span><span class="n">etudiant</span><span class="p">,</span>
+            <span class="n">session_id</span><span class="o">=</span><span class="n">session_id</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">select_related</span><span class="p">(</span><span class="s1">&#39;semestre&#39;</span><span class="p">,</span> <span class="s1">&#39;classe&#39;</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">Response</span><span class="p">({</span>
+            <span class="s1">&#39;etudiant&#39;</span><span class="p">:</span> <span class="n">EtudiantSerializer</span><span class="p">(</span><span class="n">etudiant</span><span class="p">)</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+            <span class="s1">&#39;notes&#39;</span><span class="p">:</span> <span class="n">NoteSerializer</span><span class="p">(</span><span class="n">notes</span><span class="p">,</span> <span class="n">many</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+            <span class="s1">&#39;moyennes_ec&#39;</span><span class="p">:</span> <span class="n">MoyenneECSerializer</span><span class="p">(</span><span class="n">moyennes_ec</span><span class="p">,</span> <span class="n">many</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+            <span class="s1">&#39;moyennes_ue&#39;</span><span class="p">:</span> <span class="n">MoyenneUESerializer</span><span class="p">(</span><span class="n">moyennes_ue</span><span class="p">,</span> <span class="n">many</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+            <span class="s1">&#39;moyennes_semestre&#39;</span><span class="p">:</span> <span class="n">MoyenneSemestreSerializer</span><span class="p">(</span><span class="n">moyennes_semestre</span><span class="p">,</span> <span class="n">many</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">data</span>
+        <span class="p">})</span></div>
+
+    
+<div class="viewcode-block" id="EtudiantViewSet.parcours_academique">
+<a class="viewcode-back" href="../../api/users.html#users.views.EtudiantViewSet.parcours_academique">[docs]</a>
+    <span class="nd">@action</span><span class="p">(</span><span class="n">detail</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;get&#39;</span><span class="p">])</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">parcours_academique</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Parcours académique complet d&#39;un étudiant&quot;&quot;&quot;</span>
+        <span class="n">etudiant</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_object</span><span class="p">()</span>
+        
+        <span class="c1"># Toutes les inscriptions</span>
+        <span class="n">inscriptions</span> <span class="o">=</span> <span class="n">Inscription</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">etudiant</span><span class="o">=</span><span class="n">etudiant</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">select_related</span><span class="p">(</span><span class="s1">&#39;classe&#39;</span><span class="p">,</span> <span class="s1">&#39;annee_academique&#39;</span><span class="p">,</span> <span class="s1">&#39;statut&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;-annee_academique__date_debut&#39;</span><span class="p">)</span>
+        
+        <span class="c1"># Historique des statuts</span>
+        <span class="n">historique</span> <span class="o">=</span> <span class="n">HistoriqueStatut</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">etudiant</span><span class="o">=</span><span class="n">etudiant</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">select_related</span><span class="p">(</span><span class="s1">&#39;statut&#39;</span><span class="p">,</span> <span class="s1">&#39;annee_academique&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;-date_changement&#39;</span><span class="p">)</span>
+        
+        <span class="n">parcours</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;etudiant&#39;</span><span class="p">:</span> <span class="n">EtudiantSerializer</span><span class="p">(</span><span class="n">etudiant</span><span class="p">)</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+            <span class="s1">&#39;inscriptions&#39;</span><span class="p">:</span> <span class="n">InscriptionSerializer</span><span class="p">(</span><span class="n">inscriptions</span><span class="p">,</span> <span class="n">many</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+            <span class="s1">&#39;historique_statuts&#39;</span><span class="p">:</span> <span class="n">HistoriqueStatutSerializer</span><span class="p">(</span><span class="n">historique</span><span class="p">,</span> <span class="n">many</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+            <span class="s1">&#39;statistiques&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;nombre_redoublements&#39;</span><span class="p">:</span> <span class="n">inscriptions</span><span class="o">.</span><span class="n">aggregate</span><span class="p">(</span>
+                    <span class="n">total</span><span class="o">=</span><span class="n">Sum</span><span class="p">(</span><span class="s1">&#39;nombre_redoublements&#39;</span><span class="p">)</span>
+                <span class="p">)[</span><span class="s1">&#39;total&#39;</span><span class="p">]</span> <span class="ow">or</span> <span class="mi">0</span><span class="p">,</span>
+                <span class="s1">&#39;classes_frequentees&#39;</span><span class="p">:</span> <span class="n">inscriptions</span><span class="o">.</span><span class="n">count</span><span class="p">(),</span>
+                <span class="s1">&#39;annees_etudes&#39;</span><span class="p">:</span> <span class="n">inscriptions</span><span class="o">.</span><span class="n">values</span><span class="p">(</span><span class="s1">&#39;annee_academique&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">distinct</span><span class="p">()</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        
+        <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">parcours</span><span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="EtudiantViewSet.changer_statut">
+<a class="viewcode-back" href="../../api/users.html#users.views.EtudiantViewSet.changer_statut">[docs]</a>
+    <span class="nd">@action</span><span class="p">(</span><span class="n">detail</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;post&#39;</span><span class="p">])</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">changer_statut</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Changer le statut d&#39;un étudiant&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">type_utilisateur</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;admin&#39;</span><span class="p">,</span> <span class="s1">&#39;scolarite&#39;</span><span class="p">,</span> <span class="s1">&#39;direction&#39;</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="n">Response</span><span class="p">(</span>
+                <span class="p">{</span><span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="s1">&#39;Permission refusée&#39;</span><span class="p">},</span> 
+                <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_403_FORBIDDEN</span>
+            <span class="p">)</span>
+        
+        <span class="n">etudiant</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_object</span><span class="p">()</span>
+        <span class="n">nouveau_statut_id</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;statut_id&#39;</span><span class="p">)</span>
+        <span class="n">motif</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;motif&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">nouveau_statut_id</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Response</span><span class="p">(</span>
+                <span class="p">{</span><span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="s1">&#39;statut_id requis&#39;</span><span class="p">},</span> 
+                <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_400_BAD_REQUEST</span>
+            <span class="p">)</span>
+        
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">nouveau_statut</span> <span class="o">=</span> <span class="n">StatutEtudiant</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">nouveau_statut_id</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">StatutEtudiant</span><span class="o">.</span><span class="n">DoesNotExist</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Response</span><span class="p">(</span>
+                <span class="p">{</span><span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="s1">&#39;Statut non trouvé&#39;</span><span class="p">},</span> 
+                <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_404_NOT_FOUND</span>
+            <span class="p">)</span>
+        
+        <span class="kn">from</span><span class="w"> </span><span class="nn">academics.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">AnneeAcademique</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">annee_active</span> <span class="o">=</span> <span class="n">AnneeAcademique</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">active</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">AnneeAcademique</span><span class="o">.</span><span class="n">DoesNotExist</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Response</span><span class="p">(</span>
+                <span class="p">{</span><span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="s1">&#39;Aucune année académique active&#39;</span><span class="p">},</span> 
+                <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_400_BAD_REQUEST</span>
+            <span class="p">)</span>
+        
+        <span class="k">with</span> <span class="n">transaction</span><span class="o">.</span><span class="n">atomic</span><span class="p">():</span>
+            <span class="c1"># Mettre à jour le statut actuel</span>
+            <span class="n">etudiant</span><span class="o">.</span><span class="n">statut_current</span> <span class="o">=</span> <span class="n">nouveau_statut</span><span class="o">.</span><span class="n">nom</span>
+            <span class="n">etudiant</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+            
+            <span class="c1"># Enregistrer dans l&#39;historique</span>
+            <span class="n">HistoriqueStatut</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+                <span class="n">etudiant</span><span class="o">=</span><span class="n">etudiant</span><span class="p">,</span>
+                <span class="n">statut</span><span class="o">=</span><span class="n">nouveau_statut</span><span class="p">,</span>
+                <span class="n">annee_academique</span><span class="o">=</span><span class="n">annee_active</span><span class="p">,</span>
+                <span class="n">motif</span><span class="o">=</span><span class="n">motif</span>
+            <span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">Response</span><span class="p">({</span><span class="s1">&#39;message&#39;</span><span class="p">:</span> <span class="s1">&#39;Statut mis à jour avec succès&#39;</span><span class="p">})</span></div>
+</div>
+
+
+<div class="viewcode-block" id="InscriptionViewSet">
+<a class="viewcode-back" href="../../api/users.html#users.views.InscriptionViewSet">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">InscriptionViewSet</span><span class="p">(</span><span class="n">viewsets</span><span class="o">.</span><span class="n">ModelViewSet</span><span class="p">):</span>
+    <span class="n">queryset</span> <span class="o">=</span> <span class="n">Inscription</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">active</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">serializer_class</span> <span class="o">=</span> <span class="n">InscriptionSerializer</span>
+    <span class="n">permission_classes</span> <span class="o">=</span> <span class="p">[</span><span class="n">permissions</span><span class="o">.</span><span class="n">IsAuthenticated</span><span class="p">]</span>
+    
+<div class="viewcode-block" id="InscriptionViewSet.get_queryset">
+<a class="viewcode-back" href="../../api/users.html#users.views.InscriptionViewSet.get_queryset">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_queryset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">queryset</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_queryset</span><span class="p">()</span>
+        
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">type_utilisateur</span> <span class="o">==</span> <span class="s1">&#39;etudiant&#39;</span><span class="p">:</span>
+            <span class="n">queryset</span> <span class="o">=</span> <span class="n">queryset</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">etudiant__user</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+        
+        <span class="c1"># Filtres</span>
+        <span class="n">etudiant_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">query_params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;etudiant&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">classe_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">query_params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;classe&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">annee_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">query_params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;annee_academique&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">etudiant_id</span><span class="p">:</span>
+            <span class="n">queryset</span> <span class="o">=</span> <span class="n">queryset</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">etudiant_id</span><span class="o">=</span><span class="n">etudiant_id</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">classe_id</span><span class="p">:</span>
+            <span class="n">queryset</span> <span class="o">=</span> <span class="n">queryset</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">classe_id</span><span class="o">=</span><span class="n">classe_id</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">annee_id</span><span class="p">:</span>
+            <span class="n">queryset</span> <span class="o">=</span> <span class="n">queryset</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">annee_academique_id</span><span class="o">=</span><span class="n">annee_id</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">queryset</span></div>
+
+    
+<div class="viewcode-block" id="InscriptionViewSet.inscription_massive">
+<a class="viewcode-back" href="../../api/users.html#users.views.InscriptionViewSet.inscription_massive">[docs]</a>
+    <span class="nd">@action</span><span class="p">(</span><span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;post&#39;</span><span class="p">])</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">inscription_massive</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Inscription massive d&#39;étudiants&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">type_utilisateur</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;admin&#39;</span><span class="p">,</span> <span class="s1">&#39;scolarite&#39;</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="n">Response</span><span class="p">(</span>
+                <span class="p">{</span><span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="s1">&#39;Permission refusée&#39;</span><span class="p">},</span> 
+                <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_403_FORBIDDEN</span>
+            <span class="p">)</span>
+        
+        <span class="n">classe_id</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;classe_id&#39;</span><span class="p">)</span>
+        <span class="n">etudiants_ids</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;etudiants_ids&#39;</span><span class="p">,</span> <span class="p">[])</span>
+        <span class="n">statut_id</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;statut_id&#39;</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">([</span><span class="n">classe_id</span><span class="p">,</span> <span class="n">etudiants_ids</span><span class="p">,</span> <span class="n">statut_id</span><span class="p">]):</span>
+            <span class="k">return</span> <span class="n">Response</span><span class="p">(</span>
+                <span class="p">{</span><span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="s1">&#39;classe_id, etudiants_ids et statut_id requis&#39;</span><span class="p">},</span> 
+                <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_400_BAD_REQUEST</span>
+            <span class="p">)</span>
+        
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">academics.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Classe</span><span class="p">,</span> <span class="n">AnneeAcademique</span>
+            <span class="n">classe</span> <span class="o">=</span> <span class="n">Classe</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">classe_id</span><span class="p">)</span>
+            <span class="n">statut</span> <span class="o">=</span> <span class="n">StatutEtudiant</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">statut_id</span><span class="p">)</span>
+            <span class="n">annee_active</span> <span class="o">=</span> <span class="n">AnneeAcademique</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">active</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">except</span> <span class="p">(</span><span class="n">Classe</span><span class="o">.</span><span class="n">DoesNotExist</span><span class="p">,</span> <span class="n">StatutEtudiant</span><span class="o">.</span><span class="n">DoesNotExist</span><span class="p">,</span> <span class="n">AnneeAcademique</span><span class="o">.</span><span class="n">DoesNotExist</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Response</span><span class="p">(</span>
+                <span class="p">{</span><span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;Objet non trouvé: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">},</span> 
+                <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_404_NOT_FOUND</span>
+            <span class="p">)</span>
+        
+        <span class="n">inscriptions_creees</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">erreurs</span> <span class="o">=</span> <span class="p">[]</span>
+        
+        <span class="k">with</span> <span class="n">transaction</span><span class="o">.</span><span class="n">atomic</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">etudiant_id</span> <span class="ow">in</span> <span class="n">etudiants_ids</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">etudiant</span> <span class="o">=</span> <span class="n">Etudiant</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">etudiant_id</span><span class="p">)</span>
+                    
+                    <span class="c1"># Vérifier si une inscription existe déjà</span>
+                    <span class="k">if</span> <span class="n">Inscription</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+                        <span class="n">etudiant</span><span class="o">=</span><span class="n">etudiant</span><span class="p">,</span>
+                        <span class="n">annee_academique</span><span class="o">=</span><span class="n">annee_active</span><span class="p">,</span>
+                        <span class="n">active</span><span class="o">=</span><span class="kc">True</span>
+                    <span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                        <span class="n">erreurs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Étudiant </span><span class="si">{</span><span class="n">etudiant</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">matricule</span><span class="si">}</span><span class="s2"> déjà inscrit&quot;</span><span class="p">)</span>
+                        <span class="k">continue</span>
+                    
+                    <span class="n">Inscription</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+                        <span class="n">etudiant</span><span class="o">=</span><span class="n">etudiant</span><span class="p">,</span>
+                        <span class="n">classe</span><span class="o">=</span><span class="n">classe</span><span class="p">,</span>
+                        <span class="n">annee_academique</span><span class="o">=</span><span class="n">annee_active</span><span class="p">,</span>
+                        <span class="n">statut</span><span class="o">=</span><span class="n">statut</span>
+                    <span class="p">)</span>
+                    <span class="n">inscriptions_creees</span> <span class="o">+=</span> <span class="mi">1</span>
+                    
+                <span class="k">except</span> <span class="n">Etudiant</span><span class="o">.</span><span class="n">DoesNotExist</span><span class="p">:</span>
+                    <span class="n">erreurs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Étudiant ID </span><span class="si">{</span><span class="n">etudiant_id</span><span class="si">}</span><span class="s2"> non trouvé&quot;</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">Response</span><span class="p">({</span>
+            <span class="s1">&#39;message&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">inscriptions_creees</span><span class="si">}</span><span class="s1"> inscriptions créées&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;erreurs&#39;</span><span class="p">:</span> <span class="n">erreurs</span>
+        <span class="p">})</span></div>
+
+    
+<div class="viewcode-block" id="InscriptionViewSet.statistiques_classe">
+<a class="viewcode-back" href="../../api/users.html#users.views.InscriptionViewSet.statistiques_classe">[docs]</a>
+    <span class="nd">@action</span><span class="p">(</span><span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;get&#39;</span><span class="p">])</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">statistiques_classe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Statistiques d&#39;inscription par classe&quot;&quot;&quot;</span>
+        <span class="n">classe_id</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">query_params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;classe&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">classe_id</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Response</span><span class="p">(</span>
+                <span class="p">{</span><span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="s1">&#39;classe_id requis&#39;</span><span class="p">},</span> 
+                <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_400_BAD_REQUEST</span>
+            <span class="p">)</span>
+        
+        <span class="n">inscriptions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_queryset</span><span class="p">()</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">classe_id</span><span class="o">=</span><span class="n">classe_id</span><span class="p">)</span>
+        
+        <span class="n">stats</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;total_inscriptions&#39;</span><span class="p">:</span> <span class="n">inscriptions</span><span class="o">.</span><span class="n">count</span><span class="p">(),</span>
+            <span class="s1">&#39;par_statut&#39;</span><span class="p">:</span> <span class="p">{},</span>
+            <span class="s1">&#39;par_genre&#39;</span><span class="p">:</span> <span class="p">{},</span>
+            <span class="s1">&#39;redoublants&#39;</span><span class="p">:</span> <span class="n">inscriptions</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">nombre_redoublements__gt</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(),</span>
+            <span class="s1">&#39;moyenne_age&#39;</span><span class="p">:</span> <span class="mi">0</span>  <span class="c1"># À calculer selon vos besoins</span>
+        <span class="p">}</span>
+        
+        <span class="c1"># Statistiques par statut</span>
+        <span class="k">for</span> <span class="n">statut</span> <span class="ow">in</span> <span class="n">StatutEtudiant</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">actif</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+            <span class="n">count</span> <span class="o">=</span> <span class="n">inscriptions</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">statut</span><span class="o">=</span><span class="n">statut</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">stats</span><span class="p">[</span><span class="s1">&#39;par_statut&#39;</span><span class="p">][</span><span class="n">statut</span><span class="o">.</span><span class="n">nom</span><span class="p">]</span> <span class="o">=</span> <span class="n">count</span>
+        
+        <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">stats</span><span class="p">)</span></div>
+</div>
+
+
+<div class="viewcode-block" id="StatutEtudiantViewSet">
+<a class="viewcode-back" href="../../api/users.html#users.views.StatutEtudiantViewSet">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">StatutEtudiantViewSet</span><span class="p">(</span><span class="n">viewsets</span><span class="o">.</span><span class="n">ModelViewSet</span><span class="p">):</span>
+    <span class="n">queryset</span> <span class="o">=</span> <span class="n">StatutEtudiant</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">actif</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">serializer_class</span> <span class="o">=</span> <span class="n">StatutEtudiantSerializer</span>
+    <span class="n">permission_classes</span> <span class="o">=</span> <span class="p">[</span><span class="n">permissions</span><span class="o">.</span><span class="n">IsAuthenticated</span><span class="p">]</span>
+    
+<div class="viewcode-block" id="StatutEtudiantViewSet.usage_statistics">
+<a class="viewcode-back" href="../../api/users.html#users.views.StatutEtudiantViewSet.usage_statistics">[docs]</a>
+    <span class="nd">@action</span><span class="p">(</span><span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;get&#39;</span><span class="p">])</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">usage_statistics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Statistiques d&#39;utilisation des statuts&quot;&quot;&quot;</span>
+        <span class="n">stats</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">statut</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_queryset</span><span class="p">():</span>
+            <span class="n">usage_inscriptions</span> <span class="o">=</span> <span class="n">Inscription</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">statut</span><span class="o">=</span><span class="n">statut</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+            <span class="n">usage_historique</span> <span class="o">=</span> <span class="n">HistoriqueStatut</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">statut</span><span class="o">=</span><span class="n">statut</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+            
+            <span class="n">stats</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                <span class="s1">&#39;statut&#39;</span><span class="p">:</span> <span class="n">StatutEtudiantSerializer</span><span class="p">(</span><span class="n">statut</span><span class="p">)</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+                <span class="s1">&#39;inscriptions_actuelles&#39;</span><span class="p">:</span> <span class="n">usage_inscriptions</span><span class="p">,</span>
+                <span class="s1">&#39;changements_historique&#39;</span><span class="p">:</span> <span class="n">usage_historique</span><span class="p">,</span>
+                <span class="s1">&#39;total_utilisation&#39;</span><span class="p">:</span> <span class="n">usage_inscriptions</span> <span class="o">+</span> <span class="n">usage_historique</span>
+            <span class="p">})</span>
+        
+        <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">stats</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;total_utilisation&#39;</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span></div>
+</div>
+
+
+<div class="viewcode-block" id="HistoriqueStatutViewSet">
+<a class="viewcode-back" href="../../api/users.html#users.views.HistoriqueStatutViewSet">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">HistoriqueStatutViewSet</span><span class="p">(</span><span class="n">viewsets</span><span class="o">.</span><span class="n">ReadOnlyModelViewSet</span><span class="p">):</span>
+    <span class="n">queryset</span> <span class="o">=</span> <span class="n">HistoriqueStatut</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="n">serializer_class</span> <span class="o">=</span> <span class="n">HistoriqueStatutSerializer</span>
+    <span class="n">permission_classes</span> <span class="o">=</span> <span class="p">[</span><span class="n">IsEtudiantOwner</span><span class="p">]</span>
+    
+<div class="viewcode-block" id="HistoriqueStatutViewSet.get_queryset">
+<a class="viewcode-back" href="../../api/users.html#users.views.HistoriqueStatutViewSet.get_queryset">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_queryset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">queryset</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_queryset</span><span class="p">()</span>
+        
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">type_utilisateur</span> <span class="o">==</span> <span class="s1">&#39;etudiant&#39;</span><span class="p">:</span>
+            <span class="n">queryset</span> <span class="o">=</span> <span class="n">queryset</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">etudiant__user</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+        
+        <span class="n">etudiant_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">query_params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;etudiant&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">annee_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">query_params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;annee_academique&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">etudiant_id</span><span class="p">:</span>
+            <span class="n">queryset</span> <span class="o">=</span> <span class="n">queryset</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">etudiant_id</span><span class="o">=</span><span class="n">etudiant_id</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">annee_id</span><span class="p">:</span>
+            <span class="n">queryset</span> <span class="o">=</span> <span class="n">queryset</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">annee_academique_id</span><span class="o">=</span><span class="n">annee_id</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">queryset</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Faculté de Médecine.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

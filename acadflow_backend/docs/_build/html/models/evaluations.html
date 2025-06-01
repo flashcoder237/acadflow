@@ -1,0 +1,1220 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Evaluations Models &mdash; AcadFlow 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=f2a433a1"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Guide de développement" href="../development.html" />
+    <link rel="prev" title="Users Models" href="users.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            AcadFlow
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Guide de démarrage rapide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Models Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="core.html">Core Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="academics.html">Academics Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="users.html">Users Models</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Evaluations Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#evaluations.models.Enseignement"><code class="docutils literal notranslate"><span class="pre">Enseignement</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.Enseignement.enseignant"><code class="docutils literal notranslate"><span class="pre">Enseignement.enseignant</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.Enseignement.ec"><code class="docutils literal notranslate"><span class="pre">Enseignement.ec</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.Enseignement.classe"><code class="docutils literal notranslate"><span class="pre">Enseignement.classe</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.Enseignement.annee_academique"><code class="docutils literal notranslate"><span class="pre">Enseignement.annee_academique</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.Enseignement.actif"><code class="docutils literal notranslate"><span class="pre">Enseignement.actif</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.Enseignement.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">Enseignement.DoesNotExist</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.Enseignement.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">Enseignement.MultipleObjectsReturned</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.Enseignement.annee_academique_id"><code class="docutils literal notranslate"><span class="pre">Enseignement.annee_academique_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.Enseignement.classe_id"><code class="docutils literal notranslate"><span class="pre">Enseignement.classe_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.Enseignement.created_at"><code class="docutils literal notranslate"><span class="pre">Enseignement.created_at</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.Enseignement.ec_id"><code class="docutils literal notranslate"><span class="pre">Enseignement.ec_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.Enseignement.enseignant_id"><code class="docutils literal notranslate"><span class="pre">Enseignement.enseignant_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.Enseignement.evaluation_set"><code class="docutils literal notranslate"><span class="pre">Enseignement.evaluation_set</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.Enseignement.get_next_by_created_at"><code class="docutils literal notranslate"><span class="pre">Enseignement.get_next_by_created_at()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.Enseignement.get_next_by_updated_at"><code class="docutils literal notranslate"><span class="pre">Enseignement.get_next_by_updated_at()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.Enseignement.get_previous_by_created_at"><code class="docutils literal notranslate"><span class="pre">Enseignement.get_previous_by_created_at()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.Enseignement.get_previous_by_updated_at"><code class="docutils literal notranslate"><span class="pre">Enseignement.get_previous_by_updated_at()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.Enseignement.id"><code class="docutils literal notranslate"><span class="pre">Enseignement.id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.Enseignement.objects"><code class="docutils literal notranslate"><span class="pre">Enseignement.objects</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.Enseignement.updated_at"><code class="docutils literal notranslate"><span class="pre">Enseignement.updated_at</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#evaluations.models.Evaluation"><code class="docutils literal notranslate"><span class="pre">Evaluation</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.Evaluation.nom"><code class="docutils literal notranslate"><span class="pre">Evaluation.nom</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.Evaluation.enseignement"><code class="docutils literal notranslate"><span class="pre">Evaluation.enseignement</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.Evaluation.type_evaluation"><code class="docutils literal notranslate"><span class="pre">Evaluation.type_evaluation</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.Evaluation.session"><code class="docutils literal notranslate"><span class="pre">Evaluation.session</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.Evaluation.date_evaluation"><code class="docutils literal notranslate"><span class="pre">Evaluation.date_evaluation</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.Evaluation.note_sur"><code class="docutils literal notranslate"><span class="pre">Evaluation.note_sur</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.Evaluation.coefficient"><code class="docutils literal notranslate"><span class="pre">Evaluation.coefficient</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.Evaluation.saisie_terminee"><code class="docutils literal notranslate"><span class="pre">Evaluation.saisie_terminee</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.Evaluation.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">Evaluation.DoesNotExist</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.Evaluation.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">Evaluation.MultipleObjectsReturned</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.Evaluation.created_at"><code class="docutils literal notranslate"><span class="pre">Evaluation.created_at</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.Evaluation.enseignement_id"><code class="docutils literal notranslate"><span class="pre">Evaluation.enseignement_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.Evaluation.get_next_by_created_at"><code class="docutils literal notranslate"><span class="pre">Evaluation.get_next_by_created_at()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.Evaluation.get_next_by_date_evaluation"><code class="docutils literal notranslate"><span class="pre">Evaluation.get_next_by_date_evaluation()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.Evaluation.get_next_by_updated_at"><code class="docutils literal notranslate"><span class="pre">Evaluation.get_next_by_updated_at()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.Evaluation.get_previous_by_created_at"><code class="docutils literal notranslate"><span class="pre">Evaluation.get_previous_by_created_at()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.Evaluation.get_previous_by_date_evaluation"><code class="docutils literal notranslate"><span class="pre">Evaluation.get_previous_by_date_evaluation()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.Evaluation.get_previous_by_updated_at"><code class="docutils literal notranslate"><span class="pre">Evaluation.get_previous_by_updated_at()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.Evaluation.id"><code class="docutils literal notranslate"><span class="pre">Evaluation.id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.Evaluation.note_set"><code class="docutils literal notranslate"><span class="pre">Evaluation.note_set</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.Evaluation.objects"><code class="docutils literal notranslate"><span class="pre">Evaluation.objects</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.Evaluation.session_id"><code class="docutils literal notranslate"><span class="pre">Evaluation.session_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.Evaluation.type_evaluation_id"><code class="docutils literal notranslate"><span class="pre">Evaluation.type_evaluation_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.Evaluation.updated_at"><code class="docutils literal notranslate"><span class="pre">Evaluation.updated_at</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#evaluations.models.Note"><code class="docutils literal notranslate"><span class="pre">Note</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.Note.etudiant"><code class="docutils literal notranslate"><span class="pre">Note.etudiant</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.Note.evaluation"><code class="docutils literal notranslate"><span class="pre">Note.evaluation</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.Note.note_obtenue"><code class="docutils literal notranslate"><span class="pre">Note.note_obtenue</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.Note.absent"><code class="docutils literal notranslate"><span class="pre">Note.absent</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.Note.justifie"><code class="docutils literal notranslate"><span class="pre">Note.justifie</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.Note.commentaire"><code class="docutils literal notranslate"><span class="pre">Note.commentaire</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.Note.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">Note.DoesNotExist</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.Note.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">Note.MultipleObjectsReturned</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.Note.created_at"><code class="docutils literal notranslate"><span class="pre">Note.created_at</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.Note.etudiant_id"><code class="docutils literal notranslate"><span class="pre">Note.etudiant_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.Note.evaluation_id"><code class="docutils literal notranslate"><span class="pre">Note.evaluation_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.Note.get_next_by_created_at"><code class="docutils literal notranslate"><span class="pre">Note.get_next_by_created_at()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.Note.get_next_by_updated_at"><code class="docutils literal notranslate"><span class="pre">Note.get_next_by_updated_at()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.Note.get_previous_by_created_at"><code class="docutils literal notranslate"><span class="pre">Note.get_previous_by_created_at()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.Note.get_previous_by_updated_at"><code class="docutils literal notranslate"><span class="pre">Note.get_previous_by_updated_at()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.Note.id"><code class="docutils literal notranslate"><span class="pre">Note.id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.Note.objects"><code class="docutils literal notranslate"><span class="pre">Note.objects</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.Note.updated_at"><code class="docutils literal notranslate"><span class="pre">Note.updated_at</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#evaluations.models.MoyenneEC"><code class="docutils literal notranslate"><span class="pre">MoyenneEC</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneEC.etudiant"><code class="docutils literal notranslate"><span class="pre">MoyenneEC.etudiant</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneEC.ec"><code class="docutils literal notranslate"><span class="pre">MoyenneEC.ec</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneEC.session"><code class="docutils literal notranslate"><span class="pre">MoyenneEC.session</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneEC.annee_academique"><code class="docutils literal notranslate"><span class="pre">MoyenneEC.annee_academique</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneEC.moyenne"><code class="docutils literal notranslate"><span class="pre">MoyenneEC.moyenne</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneEC.validee"><code class="docutils literal notranslate"><span class="pre">MoyenneEC.validee</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneEC.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">MoyenneEC.DoesNotExist</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneEC.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">MoyenneEC.MultipleObjectsReturned</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneEC.annee_academique_id"><code class="docutils literal notranslate"><span class="pre">MoyenneEC.annee_academique_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneEC.created_at"><code class="docutils literal notranslate"><span class="pre">MoyenneEC.created_at</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneEC.ec_id"><code class="docutils literal notranslate"><span class="pre">MoyenneEC.ec_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneEC.etudiant_id"><code class="docutils literal notranslate"><span class="pre">MoyenneEC.etudiant_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneEC.get_next_by_created_at"><code class="docutils literal notranslate"><span class="pre">MoyenneEC.get_next_by_created_at()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneEC.get_next_by_updated_at"><code class="docutils literal notranslate"><span class="pre">MoyenneEC.get_next_by_updated_at()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneEC.get_previous_by_created_at"><code class="docutils literal notranslate"><span class="pre">MoyenneEC.get_previous_by_created_at()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneEC.get_previous_by_updated_at"><code class="docutils literal notranslate"><span class="pre">MoyenneEC.get_previous_by_updated_at()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneEC.id"><code class="docutils literal notranslate"><span class="pre">MoyenneEC.id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneEC.objects"><code class="docutils literal notranslate"><span class="pre">MoyenneEC.objects</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneEC.session_id"><code class="docutils literal notranslate"><span class="pre">MoyenneEC.session_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneEC.updated_at"><code class="docutils literal notranslate"><span class="pre">MoyenneEC.updated_at</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#evaluations.models.MoyenneUE"><code class="docutils literal notranslate"><span class="pre">MoyenneUE</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneUE.etudiant"><code class="docutils literal notranslate"><span class="pre">MoyenneUE.etudiant</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneUE.ue"><code class="docutils literal notranslate"><span class="pre">MoyenneUE.ue</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneUE.session"><code class="docutils literal notranslate"><span class="pre">MoyenneUE.session</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneUE.annee_academique"><code class="docutils literal notranslate"><span class="pre">MoyenneUE.annee_academique</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneUE.moyenne"><code class="docutils literal notranslate"><span class="pre">MoyenneUE.moyenne</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneUE.credits_obtenus"><code class="docutils literal notranslate"><span class="pre">MoyenneUE.credits_obtenus</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneUE.validee"><code class="docutils literal notranslate"><span class="pre">MoyenneUE.validee</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneUE.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">MoyenneUE.DoesNotExist</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneUE.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">MoyenneUE.MultipleObjectsReturned</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneUE.annee_academique_id"><code class="docutils literal notranslate"><span class="pre">MoyenneUE.annee_academique_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneUE.created_at"><code class="docutils literal notranslate"><span class="pre">MoyenneUE.created_at</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneUE.etudiant_id"><code class="docutils literal notranslate"><span class="pre">MoyenneUE.etudiant_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneUE.get_next_by_created_at"><code class="docutils literal notranslate"><span class="pre">MoyenneUE.get_next_by_created_at()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneUE.get_next_by_updated_at"><code class="docutils literal notranslate"><span class="pre">MoyenneUE.get_next_by_updated_at()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneUE.get_previous_by_created_at"><code class="docutils literal notranslate"><span class="pre">MoyenneUE.get_previous_by_created_at()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneUE.get_previous_by_updated_at"><code class="docutils literal notranslate"><span class="pre">MoyenneUE.get_previous_by_updated_at()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneUE.id"><code class="docutils literal notranslate"><span class="pre">MoyenneUE.id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneUE.objects"><code class="docutils literal notranslate"><span class="pre">MoyenneUE.objects</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneUE.session_id"><code class="docutils literal notranslate"><span class="pre">MoyenneUE.session_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneUE.ue_id"><code class="docutils literal notranslate"><span class="pre">MoyenneUE.ue_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneUE.updated_at"><code class="docutils literal notranslate"><span class="pre">MoyenneUE.updated_at</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#evaluations.models.MoyenneSemestre"><code class="docutils literal notranslate"><span class="pre">MoyenneSemestre</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneSemestre.etudiant"><code class="docutils literal notranslate"><span class="pre">MoyenneSemestre.etudiant</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneSemestre.classe"><code class="docutils literal notranslate"><span class="pre">MoyenneSemestre.classe</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneSemestre.semestre"><code class="docutils literal notranslate"><span class="pre">MoyenneSemestre.semestre</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneSemestre.session"><code class="docutils literal notranslate"><span class="pre">MoyenneSemestre.session</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneSemestre.annee_academique"><code class="docutils literal notranslate"><span class="pre">MoyenneSemestre.annee_academique</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneSemestre.moyenne_generale"><code class="docutils literal notranslate"><span class="pre">MoyenneSemestre.moyenne_generale</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneSemestre.credits_obtenus"><code class="docutils literal notranslate"><span class="pre">MoyenneSemestre.credits_obtenus</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneSemestre.credits_requis"><code class="docutils literal notranslate"><span class="pre">MoyenneSemestre.credits_requis</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneSemestre.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">MoyenneSemestre.DoesNotExist</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneSemestre.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">MoyenneSemestre.MultipleObjectsReturned</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneSemestre.annee_academique_id"><code class="docutils literal notranslate"><span class="pre">MoyenneSemestre.annee_academique_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneSemestre.classe_id"><code class="docutils literal notranslate"><span class="pre">MoyenneSemestre.classe_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneSemestre.created_at"><code class="docutils literal notranslate"><span class="pre">MoyenneSemestre.created_at</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneSemestre.etudiant_id"><code class="docutils literal notranslate"><span class="pre">MoyenneSemestre.etudiant_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneSemestre.get_next_by_created_at"><code class="docutils literal notranslate"><span class="pre">MoyenneSemestre.get_next_by_created_at()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneSemestre.get_next_by_updated_at"><code class="docutils literal notranslate"><span class="pre">MoyenneSemestre.get_next_by_updated_at()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneSemestre.get_previous_by_created_at"><code class="docutils literal notranslate"><span class="pre">MoyenneSemestre.get_previous_by_created_at()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneSemestre.get_previous_by_updated_at"><code class="docutils literal notranslate"><span class="pre">MoyenneSemestre.get_previous_by_updated_at()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneSemestre.id"><code class="docutils literal notranslate"><span class="pre">MoyenneSemestre.id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneSemestre.objects"><code class="docutils literal notranslate"><span class="pre">MoyenneSemestre.objects</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneSemestre.semestre_id"><code class="docutils literal notranslate"><span class="pre">MoyenneSemestre.semestre_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneSemestre.session_id"><code class="docutils literal notranslate"><span class="pre">MoyenneSemestre.session_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evaluations.models.MoyenneSemestre.updated_at"><code class="docutils literal notranslate"><span class="pre">MoyenneSemestre.updated_at</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#vue-d-ensemble">Vue d’ensemble</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../development.html">Guide de développement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">AcadFlow</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Models Reference</a></li>
+      <li class="breadcrumb-item active">Evaluations Models</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/models/evaluations.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="evaluations-models">
+<h1>Evaluations Models<a class="headerlink" href="#evaluations-models" title="Link to this heading"></a></h1>
+<dl class="py class" id="module-evaluations.models">
+<dt class="sig sig-object py" id="evaluations.models.Enseignement">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evaluations.models.</span></span><span class="sig-name descname"><span class="pre">Enseignement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/models.html#Enseignement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evaluations.models.Enseignement" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="core.html#core.models.TimestampedModel" title="core.models.TimestampedModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimestampedModel</span></code></a></p>
+<p>Affectation enseignant-EC-classe</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.Enseignement.enseignant">
+<span class="sig-name descname"><span class="pre">enseignant</span></span><a class="headerlink" href="#evaluations.models.Enseignement.enseignant" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.Enseignement.ec">
+<span class="sig-name descname"><span class="pre">ec</span></span><a class="headerlink" href="#evaluations.models.Enseignement.ec" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.Enseignement.classe">
+<span class="sig-name descname"><span class="pre">classe</span></span><a class="headerlink" href="#evaluations.models.Enseignement.classe" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.Enseignement.annee_academique">
+<span class="sig-name descname"><span class="pre">annee_academique</span></span><a class="headerlink" href="#evaluations.models.Enseignement.annee_academique" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.Enseignement.actif">
+<span class="sig-name descname"><span class="pre">actif</span></span><a class="headerlink" href="#evaluations.models.Enseignement.actif" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="evaluations.models.Enseignement.DoesNotExist">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#evaluations.models.Enseignement.DoesNotExist" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.djangoproject.com/en/stable/ref/exceptions/#django.core.exceptions.ObjectDoesNotExist" title="(in Django v5.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></a></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="evaluations.models.Enseignement.MultipleObjectsReturned">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#evaluations.models.Enseignement.MultipleObjectsReturned" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.djangoproject.com/en/stable/ref/exceptions/#django.core.exceptions.MultipleObjectsReturned" title="(in Django v5.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.Enseignement.annee_academique_id">
+<span class="sig-name descname"><span class="pre">annee_academique_id</span></span><a class="headerlink" href="#evaluations.models.Enseignement.annee_academique_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.Enseignement.classe_id">
+<span class="sig-name descname"><span class="pre">classe_id</span></span><a class="headerlink" href="#evaluations.models.Enseignement.classe_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.Enseignement.created_at">
+<span class="sig-name descname"><span class="pre">created_at</span></span><a class="headerlink" href="#evaluations.models.Enseignement.created_at" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.Enseignement.ec_id">
+<span class="sig-name descname"><span class="pre">ec_id</span></span><a class="headerlink" href="#evaluations.models.Enseignement.ec_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.Enseignement.enseignant_id">
+<span class="sig-name descname"><span class="pre">enseignant_id</span></span><a class="headerlink" href="#evaluations.models.Enseignement.enseignant_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.Enseignement.evaluation_set">
+<span class="sig-name descname"><span class="pre">evaluation_set</span></span><a class="headerlink" href="#evaluations.models.Enseignement.evaluation_set" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evaluations.models.Enseignement.get_next_by_created_at">
+<span class="sig-name descname"><span class="pre">get_next_by_created_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">created_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#evaluations.models.Enseignement.get_next_by_created_at" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evaluations.models.Enseignement.get_next_by_updated_at">
+<span class="sig-name descname"><span class="pre">get_next_by_updated_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">updated_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#evaluations.models.Enseignement.get_next_by_updated_at" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evaluations.models.Enseignement.get_previous_by_created_at">
+<span class="sig-name descname"><span class="pre">get_previous_by_created_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">created_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#evaluations.models.Enseignement.get_previous_by_created_at" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evaluations.models.Enseignement.get_previous_by_updated_at">
+<span class="sig-name descname"><span class="pre">get_previous_by_updated_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">updated_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#evaluations.models.Enseignement.get_previous_by_updated_at" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.Enseignement.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#evaluations.models.Enseignement.id" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.Enseignement.objects">
+<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#evaluations.models.Enseignement.objects" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.Enseignement.updated_at">
+<span class="sig-name descname"><span class="pre">updated_at</span></span><a class="headerlink" href="#evaluations.models.Enseignement.updated_at" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="evaluations.models.Evaluation">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evaluations.models.</span></span><span class="sig-name descname"><span class="pre">Evaluation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/models.html#Evaluation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evaluations.models.Evaluation" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="core.html#core.models.TimestampedModel" title="core.models.TimestampedModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimestampedModel</span></code></a></p>
+<p>Évaluations concrètes</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.Evaluation.nom">
+<span class="sig-name descname"><span class="pre">nom</span></span><a class="headerlink" href="#evaluations.models.Evaluation.nom" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.Evaluation.enseignement">
+<span class="sig-name descname"><span class="pre">enseignement</span></span><a class="headerlink" href="#evaluations.models.Evaluation.enseignement" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.Evaluation.type_evaluation">
+<span class="sig-name descname"><span class="pre">type_evaluation</span></span><a class="headerlink" href="#evaluations.models.Evaluation.type_evaluation" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.Evaluation.session">
+<span class="sig-name descname"><span class="pre">session</span></span><a class="headerlink" href="#evaluations.models.Evaluation.session" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.Evaluation.date_evaluation">
+<span class="sig-name descname"><span class="pre">date_evaluation</span></span><a class="headerlink" href="#evaluations.models.Evaluation.date_evaluation" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.Evaluation.note_sur">
+<span class="sig-name descname"><span class="pre">note_sur</span></span><a class="headerlink" href="#evaluations.models.Evaluation.note_sur" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.Evaluation.coefficient">
+<span class="sig-name descname"><span class="pre">coefficient</span></span><a class="headerlink" href="#evaluations.models.Evaluation.coefficient" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.Evaluation.saisie_terminee">
+<span class="sig-name descname"><span class="pre">saisie_terminee</span></span><a class="headerlink" href="#evaluations.models.Evaluation.saisie_terminee" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="evaluations.models.Evaluation.DoesNotExist">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#evaluations.models.Evaluation.DoesNotExist" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.djangoproject.com/en/stable/ref/exceptions/#django.core.exceptions.ObjectDoesNotExist" title="(in Django v5.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></a></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="evaluations.models.Evaluation.MultipleObjectsReturned">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#evaluations.models.Evaluation.MultipleObjectsReturned" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.djangoproject.com/en/stable/ref/exceptions/#django.core.exceptions.MultipleObjectsReturned" title="(in Django v5.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.Evaluation.created_at">
+<span class="sig-name descname"><span class="pre">created_at</span></span><a class="headerlink" href="#evaluations.models.Evaluation.created_at" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.Evaluation.enseignement_id">
+<span class="sig-name descname"><span class="pre">enseignement_id</span></span><a class="headerlink" href="#evaluations.models.Evaluation.enseignement_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evaluations.models.Evaluation.get_next_by_created_at">
+<span class="sig-name descname"><span class="pre">get_next_by_created_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">created_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#evaluations.models.Evaluation.get_next_by_created_at" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evaluations.models.Evaluation.get_next_by_date_evaluation">
+<span class="sig-name descname"><span class="pre">get_next_by_date_evaluation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateField:</span> <span class="pre">date_evaluation&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#evaluations.models.Evaluation.get_next_by_date_evaluation" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evaluations.models.Evaluation.get_next_by_updated_at">
+<span class="sig-name descname"><span class="pre">get_next_by_updated_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">updated_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#evaluations.models.Evaluation.get_next_by_updated_at" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evaluations.models.Evaluation.get_previous_by_created_at">
+<span class="sig-name descname"><span class="pre">get_previous_by_created_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">created_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#evaluations.models.Evaluation.get_previous_by_created_at" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evaluations.models.Evaluation.get_previous_by_date_evaluation">
+<span class="sig-name descname"><span class="pre">get_previous_by_date_evaluation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateField:</span> <span class="pre">date_evaluation&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#evaluations.models.Evaluation.get_previous_by_date_evaluation" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evaluations.models.Evaluation.get_previous_by_updated_at">
+<span class="sig-name descname"><span class="pre">get_previous_by_updated_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">updated_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#evaluations.models.Evaluation.get_previous_by_updated_at" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.Evaluation.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#evaluations.models.Evaluation.id" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.Evaluation.note_set">
+<span class="sig-name descname"><span class="pre">note_set</span></span><a class="headerlink" href="#evaluations.models.Evaluation.note_set" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.Evaluation.objects">
+<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#evaluations.models.Evaluation.objects" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.Evaluation.session_id">
+<span class="sig-name descname"><span class="pre">session_id</span></span><a class="headerlink" href="#evaluations.models.Evaluation.session_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.Evaluation.type_evaluation_id">
+<span class="sig-name descname"><span class="pre">type_evaluation_id</span></span><a class="headerlink" href="#evaluations.models.Evaluation.type_evaluation_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.Evaluation.updated_at">
+<span class="sig-name descname"><span class="pre">updated_at</span></span><a class="headerlink" href="#evaluations.models.Evaluation.updated_at" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="evaluations.models.Note">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evaluations.models.</span></span><span class="sig-name descname"><span class="pre">Note</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/models.html#Note"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evaluations.models.Note" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="core.html#core.models.TimestampedModel" title="core.models.TimestampedModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimestampedModel</span></code></a></p>
+<p>Notes individuelles des étudiants</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.Note.etudiant">
+<span class="sig-name descname"><span class="pre">etudiant</span></span><a class="headerlink" href="#evaluations.models.Note.etudiant" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.Note.evaluation">
+<span class="sig-name descname"><span class="pre">evaluation</span></span><a class="headerlink" href="#evaluations.models.Note.evaluation" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.Note.note_obtenue">
+<span class="sig-name descname"><span class="pre">note_obtenue</span></span><a class="headerlink" href="#evaluations.models.Note.note_obtenue" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.Note.absent">
+<span class="sig-name descname"><span class="pre">absent</span></span><a class="headerlink" href="#evaluations.models.Note.absent" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.Note.justifie">
+<span class="sig-name descname"><span class="pre">justifie</span></span><a class="headerlink" href="#evaluations.models.Note.justifie" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.Note.commentaire">
+<span class="sig-name descname"><span class="pre">commentaire</span></span><a class="headerlink" href="#evaluations.models.Note.commentaire" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="evaluations.models.Note.DoesNotExist">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#evaluations.models.Note.DoesNotExist" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.djangoproject.com/en/stable/ref/exceptions/#django.core.exceptions.ObjectDoesNotExist" title="(in Django v5.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></a></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="evaluations.models.Note.MultipleObjectsReturned">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#evaluations.models.Note.MultipleObjectsReturned" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.djangoproject.com/en/stable/ref/exceptions/#django.core.exceptions.MultipleObjectsReturned" title="(in Django v5.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.Note.created_at">
+<span class="sig-name descname"><span class="pre">created_at</span></span><a class="headerlink" href="#evaluations.models.Note.created_at" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.Note.etudiant_id">
+<span class="sig-name descname"><span class="pre">etudiant_id</span></span><a class="headerlink" href="#evaluations.models.Note.etudiant_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.Note.evaluation_id">
+<span class="sig-name descname"><span class="pre">evaluation_id</span></span><a class="headerlink" href="#evaluations.models.Note.evaluation_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evaluations.models.Note.get_next_by_created_at">
+<span class="sig-name descname"><span class="pre">get_next_by_created_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">created_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#evaluations.models.Note.get_next_by_created_at" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evaluations.models.Note.get_next_by_updated_at">
+<span class="sig-name descname"><span class="pre">get_next_by_updated_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">updated_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#evaluations.models.Note.get_next_by_updated_at" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evaluations.models.Note.get_previous_by_created_at">
+<span class="sig-name descname"><span class="pre">get_previous_by_created_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">created_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#evaluations.models.Note.get_previous_by_created_at" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evaluations.models.Note.get_previous_by_updated_at">
+<span class="sig-name descname"><span class="pre">get_previous_by_updated_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">updated_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#evaluations.models.Note.get_previous_by_updated_at" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.Note.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#evaluations.models.Note.id" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.Note.objects">
+<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#evaluations.models.Note.objects" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.Note.updated_at">
+<span class="sig-name descname"><span class="pre">updated_at</span></span><a class="headerlink" href="#evaluations.models.Note.updated_at" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneEC">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evaluations.models.</span></span><span class="sig-name descname"><span class="pre">MoyenneEC</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/models.html#MoyenneEC"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evaluations.models.MoyenneEC" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="core.html#core.models.TimestampedModel" title="core.models.TimestampedModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimestampedModel</span></code></a></p>
+<p>Moyennes par EC</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneEC.etudiant">
+<span class="sig-name descname"><span class="pre">etudiant</span></span><a class="headerlink" href="#evaluations.models.MoyenneEC.etudiant" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneEC.ec">
+<span class="sig-name descname"><span class="pre">ec</span></span><a class="headerlink" href="#evaluations.models.MoyenneEC.ec" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneEC.session">
+<span class="sig-name descname"><span class="pre">session</span></span><a class="headerlink" href="#evaluations.models.MoyenneEC.session" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneEC.annee_academique">
+<span class="sig-name descname"><span class="pre">annee_academique</span></span><a class="headerlink" href="#evaluations.models.MoyenneEC.annee_academique" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneEC.moyenne">
+<span class="sig-name descname"><span class="pre">moyenne</span></span><a class="headerlink" href="#evaluations.models.MoyenneEC.moyenne" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneEC.validee">
+<span class="sig-name descname"><span class="pre">validee</span></span><a class="headerlink" href="#evaluations.models.MoyenneEC.validee" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneEC.DoesNotExist">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#evaluations.models.MoyenneEC.DoesNotExist" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.djangoproject.com/en/stable/ref/exceptions/#django.core.exceptions.ObjectDoesNotExist" title="(in Django v5.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></a></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneEC.MultipleObjectsReturned">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#evaluations.models.MoyenneEC.MultipleObjectsReturned" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.djangoproject.com/en/stable/ref/exceptions/#django.core.exceptions.MultipleObjectsReturned" title="(in Django v5.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneEC.annee_academique_id">
+<span class="sig-name descname"><span class="pre">annee_academique_id</span></span><a class="headerlink" href="#evaluations.models.MoyenneEC.annee_academique_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneEC.created_at">
+<span class="sig-name descname"><span class="pre">created_at</span></span><a class="headerlink" href="#evaluations.models.MoyenneEC.created_at" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneEC.ec_id">
+<span class="sig-name descname"><span class="pre">ec_id</span></span><a class="headerlink" href="#evaluations.models.MoyenneEC.ec_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneEC.etudiant_id">
+<span class="sig-name descname"><span class="pre">etudiant_id</span></span><a class="headerlink" href="#evaluations.models.MoyenneEC.etudiant_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneEC.get_next_by_created_at">
+<span class="sig-name descname"><span class="pre">get_next_by_created_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">created_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#evaluations.models.MoyenneEC.get_next_by_created_at" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneEC.get_next_by_updated_at">
+<span class="sig-name descname"><span class="pre">get_next_by_updated_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">updated_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#evaluations.models.MoyenneEC.get_next_by_updated_at" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneEC.get_previous_by_created_at">
+<span class="sig-name descname"><span class="pre">get_previous_by_created_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">created_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#evaluations.models.MoyenneEC.get_previous_by_created_at" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneEC.get_previous_by_updated_at">
+<span class="sig-name descname"><span class="pre">get_previous_by_updated_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">updated_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#evaluations.models.MoyenneEC.get_previous_by_updated_at" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneEC.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#evaluations.models.MoyenneEC.id" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneEC.objects">
+<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#evaluations.models.MoyenneEC.objects" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneEC.session_id">
+<span class="sig-name descname"><span class="pre">session_id</span></span><a class="headerlink" href="#evaluations.models.MoyenneEC.session_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneEC.updated_at">
+<span class="sig-name descname"><span class="pre">updated_at</span></span><a class="headerlink" href="#evaluations.models.MoyenneEC.updated_at" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneUE">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evaluations.models.</span></span><span class="sig-name descname"><span class="pre">MoyenneUE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/models.html#MoyenneUE"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evaluations.models.MoyenneUE" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="core.html#core.models.TimestampedModel" title="core.models.TimestampedModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimestampedModel</span></code></a></p>
+<p>Moyennes par UE</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneUE.etudiant">
+<span class="sig-name descname"><span class="pre">etudiant</span></span><a class="headerlink" href="#evaluations.models.MoyenneUE.etudiant" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneUE.ue">
+<span class="sig-name descname"><span class="pre">ue</span></span><a class="headerlink" href="#evaluations.models.MoyenneUE.ue" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneUE.session">
+<span class="sig-name descname"><span class="pre">session</span></span><a class="headerlink" href="#evaluations.models.MoyenneUE.session" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneUE.annee_academique">
+<span class="sig-name descname"><span class="pre">annee_academique</span></span><a class="headerlink" href="#evaluations.models.MoyenneUE.annee_academique" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneUE.moyenne">
+<span class="sig-name descname"><span class="pre">moyenne</span></span><a class="headerlink" href="#evaluations.models.MoyenneUE.moyenne" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneUE.credits_obtenus">
+<span class="sig-name descname"><span class="pre">credits_obtenus</span></span><a class="headerlink" href="#evaluations.models.MoyenneUE.credits_obtenus" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneUE.validee">
+<span class="sig-name descname"><span class="pre">validee</span></span><a class="headerlink" href="#evaluations.models.MoyenneUE.validee" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneUE.DoesNotExist">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#evaluations.models.MoyenneUE.DoesNotExist" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.djangoproject.com/en/stable/ref/exceptions/#django.core.exceptions.ObjectDoesNotExist" title="(in Django v5.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></a></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneUE.MultipleObjectsReturned">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#evaluations.models.MoyenneUE.MultipleObjectsReturned" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.djangoproject.com/en/stable/ref/exceptions/#django.core.exceptions.MultipleObjectsReturned" title="(in Django v5.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneUE.annee_academique_id">
+<span class="sig-name descname"><span class="pre">annee_academique_id</span></span><a class="headerlink" href="#evaluations.models.MoyenneUE.annee_academique_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneUE.created_at">
+<span class="sig-name descname"><span class="pre">created_at</span></span><a class="headerlink" href="#evaluations.models.MoyenneUE.created_at" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneUE.etudiant_id">
+<span class="sig-name descname"><span class="pre">etudiant_id</span></span><a class="headerlink" href="#evaluations.models.MoyenneUE.etudiant_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneUE.get_next_by_created_at">
+<span class="sig-name descname"><span class="pre">get_next_by_created_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">created_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#evaluations.models.MoyenneUE.get_next_by_created_at" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneUE.get_next_by_updated_at">
+<span class="sig-name descname"><span class="pre">get_next_by_updated_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">updated_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#evaluations.models.MoyenneUE.get_next_by_updated_at" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneUE.get_previous_by_created_at">
+<span class="sig-name descname"><span class="pre">get_previous_by_created_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">created_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#evaluations.models.MoyenneUE.get_previous_by_created_at" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneUE.get_previous_by_updated_at">
+<span class="sig-name descname"><span class="pre">get_previous_by_updated_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">updated_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#evaluations.models.MoyenneUE.get_previous_by_updated_at" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneUE.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#evaluations.models.MoyenneUE.id" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneUE.objects">
+<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#evaluations.models.MoyenneUE.objects" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneUE.session_id">
+<span class="sig-name descname"><span class="pre">session_id</span></span><a class="headerlink" href="#evaluations.models.MoyenneUE.session_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneUE.ue_id">
+<span class="sig-name descname"><span class="pre">ue_id</span></span><a class="headerlink" href="#evaluations.models.MoyenneUE.ue_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneUE.updated_at">
+<span class="sig-name descname"><span class="pre">updated_at</span></span><a class="headerlink" href="#evaluations.models.MoyenneUE.updated_at" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneSemestre">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evaluations.models.</span></span><span class="sig-name descname"><span class="pre">MoyenneSemestre</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evaluations/models.html#MoyenneSemestre"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evaluations.models.MoyenneSemestre" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="core.html#core.models.TimestampedModel" title="core.models.TimestampedModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimestampedModel</span></code></a></p>
+<p>Moyennes semestrielles</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneSemestre.etudiant">
+<span class="sig-name descname"><span class="pre">etudiant</span></span><a class="headerlink" href="#evaluations.models.MoyenneSemestre.etudiant" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneSemestre.classe">
+<span class="sig-name descname"><span class="pre">classe</span></span><a class="headerlink" href="#evaluations.models.MoyenneSemestre.classe" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneSemestre.semestre">
+<span class="sig-name descname"><span class="pre">semestre</span></span><a class="headerlink" href="#evaluations.models.MoyenneSemestre.semestre" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneSemestre.session">
+<span class="sig-name descname"><span class="pre">session</span></span><a class="headerlink" href="#evaluations.models.MoyenneSemestre.session" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneSemestre.annee_academique">
+<span class="sig-name descname"><span class="pre">annee_academique</span></span><a class="headerlink" href="#evaluations.models.MoyenneSemestre.annee_academique" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneSemestre.moyenne_generale">
+<span class="sig-name descname"><span class="pre">moyenne_generale</span></span><a class="headerlink" href="#evaluations.models.MoyenneSemestre.moyenne_generale" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneSemestre.credits_obtenus">
+<span class="sig-name descname"><span class="pre">credits_obtenus</span></span><a class="headerlink" href="#evaluations.models.MoyenneSemestre.credits_obtenus" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneSemestre.credits_requis">
+<span class="sig-name descname"><span class="pre">credits_requis</span></span><a class="headerlink" href="#evaluations.models.MoyenneSemestre.credits_requis" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneSemestre.DoesNotExist">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#evaluations.models.MoyenneSemestre.DoesNotExist" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.djangoproject.com/en/stable/ref/exceptions/#django.core.exceptions.ObjectDoesNotExist" title="(in Django v5.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></a></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneSemestre.MultipleObjectsReturned">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#evaluations.models.MoyenneSemestre.MultipleObjectsReturned" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.djangoproject.com/en/stable/ref/exceptions/#django.core.exceptions.MultipleObjectsReturned" title="(in Django v5.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneSemestre.annee_academique_id">
+<span class="sig-name descname"><span class="pre">annee_academique_id</span></span><a class="headerlink" href="#evaluations.models.MoyenneSemestre.annee_academique_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneSemestre.classe_id">
+<span class="sig-name descname"><span class="pre">classe_id</span></span><a class="headerlink" href="#evaluations.models.MoyenneSemestre.classe_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneSemestre.created_at">
+<span class="sig-name descname"><span class="pre">created_at</span></span><a class="headerlink" href="#evaluations.models.MoyenneSemestre.created_at" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneSemestre.etudiant_id">
+<span class="sig-name descname"><span class="pre">etudiant_id</span></span><a class="headerlink" href="#evaluations.models.MoyenneSemestre.etudiant_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneSemestre.get_next_by_created_at">
+<span class="sig-name descname"><span class="pre">get_next_by_created_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">created_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#evaluations.models.MoyenneSemestre.get_next_by_created_at" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneSemestre.get_next_by_updated_at">
+<span class="sig-name descname"><span class="pre">get_next_by_updated_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">updated_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#evaluations.models.MoyenneSemestre.get_next_by_updated_at" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneSemestre.get_previous_by_created_at">
+<span class="sig-name descname"><span class="pre">get_previous_by_created_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">created_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#evaluations.models.MoyenneSemestre.get_previous_by_created_at" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneSemestre.get_previous_by_updated_at">
+<span class="sig-name descname"><span class="pre">get_previous_by_updated_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">updated_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#evaluations.models.MoyenneSemestre.get_previous_by_updated_at" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneSemestre.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#evaluations.models.MoyenneSemestre.id" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneSemestre.objects">
+<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#evaluations.models.MoyenneSemestre.objects" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneSemestre.semestre_id">
+<span class="sig-name descname"><span class="pre">semestre_id</span></span><a class="headerlink" href="#evaluations.models.MoyenneSemestre.semestre_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneSemestre.session_id">
+<span class="sig-name descname"><span class="pre">session_id</span></span><a class="headerlink" href="#evaluations.models.MoyenneSemestre.session_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evaluations.models.MoyenneSemestre.updated_at">
+<span class="sig-name descname"><span class="pre">updated_at</span></span><a class="headerlink" href="#evaluations.models.MoyenneSemestre.updated_at" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="users.html" class="btn btn-neutral float-left" title="Users Models" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../development.html" class="btn btn-neutral float-right" title="Guide de développement" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Faculté de Médecine.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,351 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>core.views &mdash; AcadFlow 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=f2a433a1"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            AcadFlow
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Guide de démarrage rapide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../models/index.html">Models Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../development.html">Guide de développement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">AcadFlow</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">core.views</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for core.views</h1><div class="highlight"><pre>
+<span></span><span class="c1"># core/views.py - Version corrigée avec les bons imports</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.shortcuts</span><span class="w"> </span><span class="kn">import</span> <span class="n">render</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rest_framework</span><span class="w"> </span><span class="kn">import</span> <span class="n">viewsets</span><span class="p">,</span> <span class="n">permissions</span><span class="p">,</span> <span class="n">status</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rest_framework.decorators</span><span class="w"> </span><span class="kn">import</span> <span class="n">action</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rest_framework.response</span><span class="w"> </span><span class="kn">import</span> <span class="n">Response</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.db.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Q</span><span class="p">,</span> <span class="n">Count</span><span class="p">,</span> <span class="n">Avg</span><span class="p">,</span> <span class="n">Sum</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Domaine</span><span class="p">,</span> <span class="n">Cycle</span><span class="p">,</span> <span class="n">TypeFormation</span><span class="p">,</span> <span class="n">Filiere</span><span class="p">,</span> <span class="n">Option</span><span class="p">,</span> <span class="n">Niveau</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.serializers</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">DomaineSerializer</span><span class="p">,</span> <span class="n">CycleSerializer</span><span class="p">,</span> <span class="n">TypeFormationSerializer</span><span class="p">,</span>
+    <span class="n">FiliereSerializer</span><span class="p">,</span> <span class="n">OptionSerializer</span><span class="p">,</span> <span class="n">NiveauSerializer</span>
+<span class="p">)</span>
+
+<div class="viewcode-block" id="DomaineViewSet">
+<a class="viewcode-back" href="../../api/core.html#core.views.DomaineViewSet">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">DomaineViewSet</span><span class="p">(</span><span class="n">viewsets</span><span class="o">.</span><span class="n">ModelViewSet</span><span class="p">):</span>
+    <span class="n">queryset</span> <span class="o">=</span> <span class="n">Domaine</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">actif</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">serializer_class</span> <span class="o">=</span> <span class="n">DomaineSerializer</span>
+    <span class="n">permission_classes</span> <span class="o">=</span> <span class="p">[</span><span class="n">permissions</span><span class="o">.</span><span class="n">IsAuthenticated</span><span class="p">]</span>
+    
+<div class="viewcode-block" id="DomaineViewSet.get_queryset">
+<a class="viewcode-back" href="../../api/core.html#core.views.DomaineViewSet.get_queryset">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_queryset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">queryset</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_queryset</span><span class="p">()</span>
+        <span class="n">search</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">query_params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;search&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">search</span><span class="p">:</span>
+            <span class="n">queryset</span> <span class="o">=</span> <span class="n">queryset</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+                <span class="n">Q</span><span class="p">(</span><span class="n">nom__icontains</span><span class="o">=</span><span class="n">search</span><span class="p">)</span> <span class="o">|</span> <span class="n">Q</span><span class="p">(</span><span class="n">code__icontains</span><span class="o">=</span><span class="n">search</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">queryset</span></div>
+
+    
+<div class="viewcode-block" id="DomaineViewSet.filieres">
+<a class="viewcode-back" href="../../api/core.html#core.views.DomaineViewSet.filieres">[docs]</a>
+    <span class="nd">@action</span><span class="p">(</span><span class="n">detail</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;get&#39;</span><span class="p">])</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">filieres</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retourne toutes les filières d&#39;un domaine&quot;&quot;&quot;</span>
+        <span class="n">domaine</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_object</span><span class="p">()</span>
+        <span class="n">filieres</span> <span class="o">=</span> <span class="n">domaine</span><span class="o">.</span><span class="n">filiere_set</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">actif</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">serializer</span> <span class="o">=</span> <span class="n">FiliereSerializer</span><span class="p">(</span><span class="n">filieres</span><span class="p">,</span> <span class="n">many</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">serializer</span><span class="o">.</span><span class="n">data</span><span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="DomaineViewSet.statistiques">
+<a class="viewcode-back" href="../../api/core.html#core.views.DomaineViewSet.statistiques">[docs]</a>
+    <span class="nd">@action</span><span class="p">(</span><span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;get&#39;</span><span class="p">])</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">statistiques</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Statistiques des domaines&quot;&quot;&quot;</span>
+        <span class="n">stats</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">domaine</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_queryset</span><span class="p">():</span>
+            <span class="n">stats</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">domaine</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                <span class="s1">&#39;nom&#39;</span><span class="p">:</span> <span class="n">domaine</span><span class="o">.</span><span class="n">nom</span><span class="p">,</span>
+                <span class="s1">&#39;code&#39;</span><span class="p">:</span> <span class="n">domaine</span><span class="o">.</span><span class="n">code</span><span class="p">,</span>
+                <span class="s1">&#39;nombre_filieres&#39;</span><span class="p">:</span> <span class="n">domaine</span><span class="o">.</span><span class="n">filiere_set</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">actif</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(),</span>
+                <span class="s1">&#39;nombre_etudiants&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compter_etudiants_domaine</span><span class="p">(</span><span class="n">domaine</span><span class="p">)</span>
+            <span class="p">})</span>
+        <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">stats</span><span class="p">)</span></div>
+
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_compter_etudiants_domaine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">domaine</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compter les étudiants d&#39;un domaine&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">users.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Inscription</span>
+            <span class="k">return</span> <span class="n">Inscription</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+                <span class="n">classe__filiere__domaine</span><span class="o">=</span><span class="n">domaine</span><span class="p">,</span>
+                <span class="n">active</span><span class="o">=</span><span class="kc">True</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span></div>
+
+
+<div class="viewcode-block" id="CycleViewSet">
+<a class="viewcode-back" href="../../api/core.html#core.views.CycleViewSet">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">CycleViewSet</span><span class="p">(</span><span class="n">viewsets</span><span class="o">.</span><span class="n">ModelViewSet</span><span class="p">):</span>
+    <span class="n">queryset</span> <span class="o">=</span> <span class="n">Cycle</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">actif</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">serializer_class</span> <span class="o">=</span> <span class="n">CycleSerializer</span>
+    <span class="n">permission_classes</span> <span class="o">=</span> <span class="p">[</span><span class="n">permissions</span><span class="o">.</span><span class="n">IsAuthenticated</span><span class="p">]</span>
+    
+<div class="viewcode-block" id="CycleViewSet.niveaux">
+<a class="viewcode-back" href="../../api/core.html#core.views.CycleViewSet.niveaux">[docs]</a>
+    <span class="nd">@action</span><span class="p">(</span><span class="n">detail</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;get&#39;</span><span class="p">])</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">niveaux</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retourne tous les niveaux d&#39;un cycle&quot;&quot;&quot;</span>
+        <span class="n">cycle</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_object</span><span class="p">()</span>
+        <span class="n">niveaux</span> <span class="o">=</span> <span class="n">cycle</span><span class="o">.</span><span class="n">niveau_set</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">actif</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;numero&#39;</span><span class="p">)</span>
+        <span class="n">serializer</span> <span class="o">=</span> <span class="n">NiveauSerializer</span><span class="p">(</span><span class="n">niveaux</span><span class="p">,</span> <span class="n">many</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">serializer</span><span class="o">.</span><span class="n">data</span><span class="p">)</span></div>
+</div>
+
+
+<div class="viewcode-block" id="TypeFormationViewSet">
+<a class="viewcode-back" href="../../api/core.html#core.views.TypeFormationViewSet">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TypeFormationViewSet</span><span class="p">(</span><span class="n">viewsets</span><span class="o">.</span><span class="n">ModelViewSet</span><span class="p">):</span>
+    <span class="n">queryset</span> <span class="o">=</span> <span class="n">TypeFormation</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">actif</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">serializer_class</span> <span class="o">=</span> <span class="n">TypeFormationSerializer</span>
+    <span class="n">permission_classes</span> <span class="o">=</span> <span class="p">[</span><span class="n">permissions</span><span class="o">.</span><span class="n">IsAuthenticated</span><span class="p">]</span>
+    
+<div class="viewcode-block" id="TypeFormationViewSet.get_queryset">
+<a class="viewcode-back" href="../../api/core.html#core.views.TypeFormationViewSet.get_queryset">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_queryset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">queryset</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_queryset</span><span class="p">()</span>
+        <span class="n">cycle_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">query_params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;cycle&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">cycle_id</span><span class="p">:</span>
+            <span class="n">queryset</span> <span class="o">=</span> <span class="n">queryset</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">cycle_id</span><span class="o">=</span><span class="n">cycle_id</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">queryset</span></div>
+</div>
+
+
+<div class="viewcode-block" id="FiliereViewSet">
+<a class="viewcode-back" href="../../api/core.html#core.views.FiliereViewSet">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">FiliereViewSet</span><span class="p">(</span><span class="n">viewsets</span><span class="o">.</span><span class="n">ModelViewSet</span><span class="p">):</span>
+    <span class="n">queryset</span> <span class="o">=</span> <span class="n">Filiere</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">actif</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">serializer_class</span> <span class="o">=</span> <span class="n">FiliereSerializer</span>
+    <span class="n">permission_classes</span> <span class="o">=</span> <span class="p">[</span><span class="n">permissions</span><span class="o">.</span><span class="n">IsAuthenticated</span><span class="p">]</span>
+    
+<div class="viewcode-block" id="FiliereViewSet.get_queryset">
+<a class="viewcode-back" href="../../api/core.html#core.views.FiliereViewSet.get_queryset">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_queryset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">queryset</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_queryset</span><span class="p">()</span>
+        <span class="n">domaine_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">query_params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;domaine&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">type_formation_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">query_params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;type_formation&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">domaine_id</span><span class="p">:</span>
+            <span class="n">queryset</span> <span class="o">=</span> <span class="n">queryset</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">domaine_id</span><span class="o">=</span><span class="n">domaine_id</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">type_formation_id</span><span class="p">:</span>
+            <span class="n">queryset</span> <span class="o">=</span> <span class="n">queryset</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">type_formation_id</span><span class="o">=</span><span class="n">type_formation_id</span><span class="p">)</span>
+            
+        <span class="k">return</span> <span class="n">queryset</span></div>
+
+    
+<div class="viewcode-block" id="FiliereViewSet.options">
+<a class="viewcode-back" href="../../api/core.html#core.views.FiliereViewSet.options">[docs]</a>
+    <span class="nd">@action</span><span class="p">(</span><span class="n">detail</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;get&#39;</span><span class="p">])</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">options</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retourne toutes les options d&#39;une filière&quot;&quot;&quot;</span>
+        <span class="n">filiere</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_object</span><span class="p">()</span>
+        <span class="n">options</span> <span class="o">=</span> <span class="n">filiere</span><span class="o">.</span><span class="n">option_set</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">actif</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">serializer</span> <span class="o">=</span> <span class="n">OptionSerializer</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">many</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">serializer</span><span class="o">.</span><span class="n">data</span><span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="FiliereViewSet.classes_par_niveau">
+<a class="viewcode-back" href="../../api/core.html#core.views.FiliereViewSet.classes_par_niveau">[docs]</a>
+    <span class="nd">@action</span><span class="p">(</span><span class="n">detail</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;get&#39;</span><span class="p">])</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">classes_par_niveau</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retourne les classes organisées par niveau pour une filière&quot;&quot;&quot;</span>
+        <span class="n">filiere</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_object</span><span class="p">()</span>
+        
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">academics.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Classe</span><span class="p">,</span> <span class="n">AnneeAcademique</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">academics.serializers</span><span class="w"> </span><span class="kn">import</span> <span class="n">ClasseSerializer</span>
+            
+            <span class="c1"># Récupérer l&#39;année académique active</span>
+            <span class="n">annee_active</span> <span class="o">=</span> <span class="n">AnneeAcademique</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">active</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">annee_active</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">Response</span><span class="p">({</span><span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="s1">&#39;Aucune année académique active&#39;</span><span class="p">},</span> 
+                              <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_404_NOT_FOUND</span><span class="p">)</span>
+            
+            <span class="n">classes_par_niveau</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">classes</span> <span class="o">=</span> <span class="n">Classe</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+                <span class="n">filiere</span><span class="o">=</span><span class="n">filiere</span><span class="p">,</span>
+                <span class="n">annee_academique</span><span class="o">=</span><span class="n">annee_active</span><span class="p">,</span>
+                <span class="n">active</span><span class="o">=</span><span class="kc">True</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">select_related</span><span class="p">(</span><span class="s1">&#39;niveau&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;niveau__numero&#39;</span><span class="p">)</span>
+            
+            <span class="k">for</span> <span class="n">classe</span> <span class="ow">in</span> <span class="n">classes</span><span class="p">:</span>
+                <span class="n">niveau_nom</span> <span class="o">=</span> <span class="n">classe</span><span class="o">.</span><span class="n">niveau</span><span class="o">.</span><span class="n">nom</span>
+                <span class="k">if</span> <span class="n">niveau_nom</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">classes_par_niveau</span><span class="p">:</span>
+                    <span class="n">classes_par_niveau</span><span class="p">[</span><span class="n">niveau_nom</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">classes_par_niveau</span><span class="p">[</span><span class="n">niveau_nom</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ClasseSerializer</span><span class="p">(</span><span class="n">classe</span><span class="p">)</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+            
+            <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">classes_par_niveau</span><span class="p">)</span>
+            
+        <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Response</span><span class="p">({</span><span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="s1">&#39;Module academics non disponible&#39;</span><span class="p">},</span> 
+                          <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_500_INTERNAL_SERVER_ERROR</span><span class="p">)</span></div>
+</div>
+
+
+<div class="viewcode-block" id="OptionViewSet">
+<a class="viewcode-back" href="../../api/core.html#core.views.OptionViewSet">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">OptionViewSet</span><span class="p">(</span><span class="n">viewsets</span><span class="o">.</span><span class="n">ModelViewSet</span><span class="p">):</span>
+    <span class="n">queryset</span> <span class="o">=</span> <span class="n">Option</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">actif</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">serializer_class</span> <span class="o">=</span> <span class="n">OptionSerializer</span>
+    <span class="n">permission_classes</span> <span class="o">=</span> <span class="p">[</span><span class="n">permissions</span><span class="o">.</span><span class="n">IsAuthenticated</span><span class="p">]</span>
+    
+<div class="viewcode-block" id="OptionViewSet.get_queryset">
+<a class="viewcode-back" href="../../api/core.html#core.views.OptionViewSet.get_queryset">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_queryset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">queryset</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_queryset</span><span class="p">()</span>
+        <span class="n">filiere_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">query_params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;filiere&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">filiere_id</span><span class="p">:</span>
+            <span class="n">queryset</span> <span class="o">=</span> <span class="n">queryset</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">filiere_id</span><span class="o">=</span><span class="n">filiere_id</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">queryset</span></div>
+</div>
+
+
+<div class="viewcode-block" id="NiveauViewSet">
+<a class="viewcode-back" href="../../api/core.html#core.views.NiveauViewSet">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">NiveauViewSet</span><span class="p">(</span><span class="n">viewsets</span><span class="o">.</span><span class="n">ModelViewSet</span><span class="p">):</span>
+    <span class="n">queryset</span> <span class="o">=</span> <span class="n">Niveau</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">actif</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">serializer_class</span> <span class="o">=</span> <span class="n">NiveauSerializer</span>
+    <span class="n">permission_classes</span> <span class="o">=</span> <span class="p">[</span><span class="n">permissions</span><span class="o">.</span><span class="n">IsAuthenticated</span><span class="p">]</span>
+    
+<div class="viewcode-block" id="NiveauViewSet.get_queryset">
+<a class="viewcode-back" href="../../api/core.html#core.views.NiveauViewSet.get_queryset">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_queryset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">queryset</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_queryset</span><span class="p">()</span>
+        <span class="n">cycle_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">query_params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;cycle&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">cycle_id</span><span class="p">:</span>
+            <span class="n">queryset</span> <span class="o">=</span> <span class="n">queryset</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">cycle_id</span><span class="o">=</span><span class="n">cycle_id</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">queryset</span></div>
+
+    
+<div class="viewcode-block" id="NiveauViewSet.ues_par_semestre">
+<a class="viewcode-back" href="../../api/core.html#core.views.NiveauViewSet.ues_par_semestre">[docs]</a>
+    <span class="nd">@action</span><span class="p">(</span><span class="n">detail</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;get&#39;</span><span class="p">])</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">ues_par_semestre</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retourne les UEs organisées par semestre pour un niveau&quot;&quot;&quot;</span>
+        <span class="n">niveau</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_object</span><span class="p">()</span>
+        
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">academics.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">UE</span><span class="p">,</span> <span class="n">Semestre</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">academics.serializers</span><span class="w"> </span><span class="kn">import</span> <span class="n">UESerializer</span>
+            
+            <span class="n">ues_par_semestre</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">semestres</span> <span class="o">=</span> <span class="n">Semestre</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;numero&#39;</span><span class="p">)</span>
+            
+            <span class="k">for</span> <span class="n">semestre</span> <span class="ow">in</span> <span class="n">semestres</span><span class="p">:</span>
+                <span class="n">ues</span> <span class="o">=</span> <span class="n">UE</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+                    <span class="n">niveau</span><span class="o">=</span><span class="n">niveau</span><span class="p">,</span>
+                    <span class="n">semestre</span><span class="o">=</span><span class="n">semestre</span><span class="p">,</span>
+                    <span class="n">actif</span><span class="o">=</span><span class="kc">True</span>
+                <span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;code&#39;</span><span class="p">)</span>
+                
+                <span class="k">if</span> <span class="n">ues</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                    <span class="n">ues_par_semestre</span><span class="p">[</span><span class="n">semestre</span><span class="o">.</span><span class="n">nom</span><span class="p">]</span> <span class="o">=</span> <span class="n">UESerializer</span><span class="p">(</span><span class="n">ues</span><span class="p">,</span> <span class="n">many</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">data</span>
+            
+            <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">ues_par_semestre</span><span class="p">)</span>
+            
+        <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Response</span><span class="p">({</span><span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="s1">&#39;Module academics non disponible&#39;</span><span class="p">},</span> 
+                          <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_500_INTERNAL_SERVER_ERROR</span><span class="p">)</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Faculté de Médecine.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
