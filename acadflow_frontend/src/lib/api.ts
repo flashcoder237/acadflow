@@ -1,4 +1,4 @@
-// src/lib/api.ts - Version corrigée avec compatibilité backend
+// src/lib/api.ts - Version corrigée pour l'authentification
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
 
 export class ApiError extends Error {
@@ -18,17 +18,20 @@ class ApiClient {
 
   constructor(baseURL: string) {
     this.baseURL = baseURL
+    // Charger le token depuis localStorage au démarrage
     this.token = localStorage.getItem('auth_token')
   }
 
   setToken(token: string) {
     this.token = token
     localStorage.setItem('auth_token', token)
+    console.log('Token défini:', token.substring(0, 10) + '...') // Debug (masqué)
   }
 
   clearToken() {
     this.token = null
     localStorage.removeItem('auth_token')
+    console.log('Token supprimé') // Debug
   }
 
   private async request<T>(
@@ -36,11 +39,13 @@ class ApiClient {
     options: RequestInit = {}
   ): Promise<T> {
     const url = `${this.baseURL}${endpoint}`
+    console.log('Requête API:', options.method || 'GET', url) // Debug
     
     const defaultHeaders: HeadersInit = {
       'Content-Type': 'application/json',
     }
 
+    // CORRECTION: Format correct du token d'authentification Django
     if (this.token) {
       defaultHeaders.Authorization = `Token ${this.token}`
     }
@@ -53,21 +58,48 @@ class ApiClient {
       },
     }
 
+    console.log('Headers de la requête:', config.headers) // Debug
+
     try {
       const response = await fetch(url, config)
       
+      console.log('Statut de la réponse:', response.status) // Debug
+      
       if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}))
-        throw new ApiError(
-          errorData.message || errorData.error || `HTTP ${response.status}: ${response.statusText}`,
-          response.status,
-          errorData
-        )
+        let errorData: any = {}
+        const contentType = response.headers.get('content-type')
+        
+        if (contentType && contentType.includes('application/json')) {
+          try {
+            errorData = await response.json()
+          } catch (parseError) {
+            console.error('Erreur lors du parsing de l\'erreur:', parseError)
+          }
+        }
+        
+        console.log('Données d\'erreur:', errorData) // Debug
+        
+        // Gestion spécifique des erreurs d'authentification
+        if (response.status === 401) {
+          // Token expiré ou invalide
+          this.clearToken()
+          throw new ApiError('Session expirée, veuillez vous reconnecter', 401, errorData)
+        }
+        
+        const errorMessage = errorData.detail || 
+                           errorData.message || 
+                           errorData.error || 
+                           errorData.non_field_errors?.[0] ||
+                           `HTTP ${response.status}: ${response.statusText}`
+        
+        throw new ApiError(errorMessage, response.status, errorData)
       }
 
       const contentType = response.headers.get('content-type')
       if (contentType && contentType.includes('application/json')) {
-        return await response.json()
+        const data = await response.json()
+        console.log('Données de réponse reçues:', data) // Debug
+        return data
       }
       
       return {} as T
@@ -75,6 +107,7 @@ class ApiClient {
       if (error instanceof ApiError) {
         throw error
       }
+      console.error('Erreur réseau:', error) // Debug
       throw new ApiError(`Erreur réseau: ${error}`, 0)
     }
   }
@@ -124,7 +157,7 @@ class ApiClient {
 
 export const apiClient = new ApiClient(API_BASE_URL)
 
-// Types pour les réponses API
+// Types pour les réponses API (importés depuis les types)
 export interface ApiResponse<T> {
   count: number
   next: string | null
@@ -161,154 +194,23 @@ export interface User {
   matricule: string
   telephone: string
   adresse: string
-  date_naissance: string
+  date_naissance: string | null
   lieu_naissance: string
-  photo: string
+  photo: string | null
   actif: boolean
-}
-
-export interface AnneeAcademique {
-  id: number
-  libelle: string
-  date_debut: string
-  date_fin: string
-  active: boolean
-  created_at: string
-}
-
-export interface Classe {
-  id: number
-  nom: string
-  code: string
-  filiere: number
-  filiere_nom: string
-  option?: number
-  option_nom?: string
-  niveau: number
-  niveau_nom: string
-  annee_academique: number
-  annee_academique_libelle: string
-  effectif_max: number
-  effectif_actuel: number
-  active: boolean
-  created_at: string
-}
-
-export interface UE {
-  id: number
-  nom: string
-  code: string
-  credits: number
-  coefficient: number
-  type_ue: 'obligatoire' | 'optionnelle'
-  niveau: number
-  niveau_nom: string
-  semestre: number
-  semestre_nom: string
-  nombre_ec: number
-  actif: boolean
-  created_at: string
-}
-
-export interface EC {
-  id: number
-  nom: string
-  code: string
-  ue: number
-  ue_nom: string
-  ue_code: string
-  poids_ec: number
-  actif: boolean
-  created_at: string
-}
-
-export interface Evaluation {
-  id: number
-  nom: string
-  enseignement: number
-  enseignement_details: {
-    enseignant_nom: string
-    ec_nom: string
-    ec_code: string
-    classe_nom: string
-    ue_nom: string
-  }
-  type_evaluation: number
-  type_evaluation_nom: string
-  session: number
-  session_nom: string
-  date_evaluation: string
-  note_sur: number
-  coefficient: number
-  saisie_terminee: boolean
-  nombre_notes: number
-  created_at: string
-}
-
-export interface Note {
-  id: number
-  etudiant: number
-  etudiant_nom: string
-  etudiant_matricule: string
-  evaluation: number
-  evaluation_nom: string
-  note_obtenue: number
-  note_sur_20: number
-  absent: boolean
-  justifie: boolean
-  commentaire: string
-  created_at: string
-}
-
-export interface Etudiant {
-  id: number
-  user: User
-  nom_complet: string
-  matricule: string
-  numero_carte: string
-  statut_current: string
-  created_at: string
-}
-
-export interface Enseignant {
-  id: number
-  user: User
-  nom_complet: string
-  matricule: string
-  grade: 'assistant' | 'maitre_assistant' | 'maitre_conference' | 'professeur'
-  specialite: string
-  statut: string
-  created_at: string
-}
-
-export interface FeuilleNotes {
-  evaluation: Evaluation
-  etudiants: {
-    etudiant_id: number
-    matricule: string
-    nom_complet: string
-    note_obtenue: number | null
-    absent: boolean
-    justifie: boolean
-    commentaire: string
-  }[]
-}
-
-export interface NoteInput {
-  etudiant_id: number
-  note_obtenue: number | null
-  absent: boolean
-  justifie: boolean
-  commentaire?: string
 }
 
 // Services d'API spécialisés
 export const authApi = {
-  login: (credentials: { username: string; password: string }) =>
-    apiClient.post<AuthResponse>('/auth/login/', credentials),
+  login: (credentials: { username: string; password: string }) => {
+    console.log('Appel API login avec:', credentials.username) // Debug
+    return apiClient.post<AuthResponse>('/auth/login/', credentials)
+  },
   
-  logout: () =>
-    apiClient.post<{ message: string }>('/auth/logout/'),
+  logout: () => {
+    console.log('Appel API logout') // Debug
+    return apiClient.post<{ message: string }>('/auth/logout/')
+  },
 }
 
 export const academicsApi = {
