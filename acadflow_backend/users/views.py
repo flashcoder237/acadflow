@@ -1,10 +1,13 @@
+# users/views.py - Version corrigée avec imports manquants
 from rest_framework import viewsets, permissions, status
 from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate
-from django.db.models import Q, Count, Avg
+from django.db.models import Q, Count, Avg, Sum
 from django.db import transaction
+from django.utils import timezone
+from datetime import timedelta
 from .models import User, Enseignant, Etudiant, StatutEtudiant, Inscription, HistoriqueStatut
 from .serializers import (
     UserSerializer, EnseignantSerializer, EtudiantSerializer,
@@ -117,9 +120,6 @@ class UserViewSet(viewsets.ModelViewSet):
                 date_joined__gte=timezone.now() - timedelta(days=7)
             ).count()
         }
-        
-        from django.utils import timezone
-        from datetime import timedelta
         
         for type_user, _ in User.TYPES_UTILISATEUR:
             count = self.get_queryset().filter(type_utilisateur=type_user).count()
@@ -302,7 +302,7 @@ class EtudiantViewSet(viewsets.ModelViewSet):
             'historique_statuts': HistoriqueStatutSerializer(historique, many=True).data,
             'statistiques': {
                 'nombre_redoublements': inscriptions.aggregate(
-                    total=models.Sum('nombre_redoublements')
+                    total=Sum('nombre_redoublements')
                 )['total'] or 0,
                 'classes_frequentees': inscriptions.count(),
                 'annees_etudes': inscriptions.values('annee_academique').distinct().count()

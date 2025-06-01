@@ -1,7 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from core.models import TimestampedModel
-from academics.models import Classe, AnneeAcademique
 
 class User(AbstractUser):
     """Utilisateur de base étendu"""
@@ -91,8 +90,8 @@ class StatutEtudiant(TimestampedModel):
 class Inscription(TimestampedModel):
     """Inscriptions des étudiants aux classes"""
     etudiant = models.ForeignKey(Etudiant, on_delete=models.CASCADE)
-    classe = models.ForeignKey(Classe, on_delete=models.CASCADE)
-    annee_academique = models.ForeignKey(AnneeAcademique, on_delete=models.CASCADE)
+    classe = models.ForeignKey('academics.Classe', on_delete=models.CASCADE)  # String référence
+    annee_academique = models.ForeignKey('academics.AnneeAcademique', on_delete=models.CASCADE)  # String référence
     date_inscription = models.DateField(auto_now_add=True)
     statut = models.ForeignKey(StatutEtudiant, on_delete=models.CASCADE)
     nombre_redoublements = models.PositiveIntegerField(default=0)
@@ -107,7 +106,7 @@ class HistoriqueStatut(TimestampedModel):
     etudiant = models.ForeignKey(Etudiant, on_delete=models.CASCADE)
     statut = models.ForeignKey(StatutEtudiant, on_delete=models.CASCADE)
     date_changement = models.DateTimeField(auto_now_add=True)
-    annee_academique = models.ForeignKey(AnneeAcademique, on_delete=models.CASCADE)
+    annee_academique = models.ForeignKey('academics.AnneeAcademique', on_delete=models.CASCADE)  # String référence
     motif = models.TextField(blank=True)
     
     class Meta:
