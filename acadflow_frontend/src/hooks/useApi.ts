@@ -1,7 +1,6 @@
-// src/hooks/useApi.ts
-import { useState, useCallback } from 'react'
+// src/hooks/useApi.ts - Hook pour les appels API avec gestion d'erreur
+import { useState, useEffect } from 'react'
 import { ApiError } from '../lib/api'
-import { useNotifications } from '@/components/ui/notification-system'
 
 interface UseApiState<T> {
   data: T | null
@@ -9,68 +8,41 @@ interface UseApiState<T> {
   error: string | null
 }
 
-interface UseApiOptions {
-  showErrorNotification?: boolean
-  showSuccessNotification?: boolean
-  successMessage?: string
-}
-
-export function useApi<T>() {
+export function useApi<T>(
+  apiCall: () => Promise<T>,
+  dependencies: any[] = []
+): UseApiState<T> & { refetch: () => Promise<void> } {
   const [state, setState] = useState<UseApiState<T>>({
     data: null,
-    loading: false,
+    loading: true,
     error: null
   })
-  
-  const { notifyError, notifySuccess } = useNotifications()
 
-  const execute = useCallback(async (
-    apiCall: () => Promise<T>,
-    options: UseApiOptions = {}
-  ): Promise<T | null> => {
-    const {
-      showErrorNotification = true,
-      showSuccessNotification = false,
-      successMessage = 'Opération réussie'
-    } = options
-
+  const fetchData = async () => {
     setState(prev => ({ ...prev, loading: true, error: null }))
-
+    
     try {
-      const result = await apiCall()
-      setState(prev => ({ ...prev, data: result, loading: false }))
-      
-      if (showSuccessNotification) {
-        notifySuccess('Succès', successMessage)
-      }
-      
-      return result
+      const data = await apiCall()
+      setState({ data, loading: false, error: null })
     } catch (error) {
-      const errorMessage = error instanceof ApiError 
-        ? error.message 
-        : 'Une erreur inattendue s\'est produite'
+      let errorMessage = 'Une erreur est survenue'
       
-      setState(prev => ({ ...prev, error: errorMessage, loading: false }))
-      
-      if (showErrorNotification) {
-        notifyError('Erreur', errorMessage)
+      if (error instanceof ApiError) {
+        errorMessage = error.message
+      } else if (error instanceof Error) {
+        errorMessage = error.message
       }
       
-      return null
+      setState({ data: null, loading: false, error: errorMessage })
     }
-  }, [notifyError, notifySuccess])
+  }
 
-  const reset = useCallback(() => {
-    setState({
-      data: null,
-      loading: false,
-      error: null
-    })
-  }, [])
+  useEffect(() => {
+    fetchData()
+  }, dependencies)
 
   return {
     ...state,
-    execute,
-    reset
+    refetch: fetchData
   }
 }
