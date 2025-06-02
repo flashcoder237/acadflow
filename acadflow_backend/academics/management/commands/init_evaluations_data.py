@@ -112,7 +112,6 @@ class Command(BaseCommand):
                         defaults={
                             'date_evaluation': date_eval,
                             'note_sur': Decimal('20.00'),
-                            'coefficient': Decimal('1.0'),
                             'saisie_terminee': True
                         }
                     )

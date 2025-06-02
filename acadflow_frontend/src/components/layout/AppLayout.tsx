@@ -11,7 +11,7 @@ export const AppLayout: React.FC = () => {
       <AppSidebar />
       <SidebarInset>
         <Header />
-        <main className="flex-1 space-y-4 p-4 pt-6">
+        <main className="flex-1 p-4 pt-6">
           <Outlet />
         </main>
       </SidebarInset>

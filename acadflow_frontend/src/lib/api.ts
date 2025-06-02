@@ -460,4 +460,6 @@ export const coreApi = {
     apiClient.get<any>(`/core/niveaux/${id}/ues_par_semestre/`),
 }
 
+
+
 export default apiClient

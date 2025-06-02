@@ -61,8 +61,8 @@ class EnseignementAdmin(admin.ModelAdmin):
 @admin.register(Evaluation)
 class EvaluationAdmin(admin.ModelAdmin):
     list_display = [
-        'nom', 'ec_info', 'type_evaluation', 'session', 'date_evaluation',
-        'coefficient', 'nombre_notes', 'saisie_terminee', 'created_at'
+        'nom', 'ec_info', 'type_evaluation', 'session', 'date_evaluation'
+       , 'nombre_notes', 'saisie_terminee', 'created_at'
     ]
     list_filter = [
         'type_evaluation', 'session', 'saisie_terminee',
@@ -81,7 +81,7 @@ class EvaluationAdmin(admin.ModelAdmin):
             'fields': ('nom', 'enseignement', 'type_evaluation', 'session')
         }),
         ('Configuration', {
-            'fields': ('date_evaluation', 'note_sur', 'coefficient')
+            'fields': ('date_evaluation', 'note_sur')
         }),
         ('Statut', {
             'fields': ('saisie_terminee',)

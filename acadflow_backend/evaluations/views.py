@@ -276,6 +276,66 @@ class EvaluationViewSet(viewsets.ModelViewSet):
         }
         
         return Response(stats)
+    @action(detail=True, methods=['get'])
+    def verifier_delai_saisie(self, request, pk=None):
+        """Vérifie si la saisie est encore autorisée pour cette évaluation"""
+        evaluation = self.get_object()
+        
+        delai_info = {
+            'peut_saisir': evaluation.peut_saisir_notes,
+            'peut_modifier': evaluation.peut_modifier_notes,
+            'date_limite': evaluation.date_limite_saisie,
+            'delai_depasse': timezone.now() > evaluation.date_limite_saisie if evaluation.date_limite_saisie else False,
+            'nb_modifications': evaluation.nb_modifications,
+            'saisie_terminee': evaluation.saisie_terminee
+        }
+        
+        return Response(delai_info)
+    
+    @action(detail=True, methods=['post'])
+    def autoriser_modification(self, request, pk=None):
+        """Autorise la modification des notes pour cette évaluation"""
+        if request.user.type_utilisateur not in ['admin', 'scolarite']:
+            return Response(
+                {'error': 'Permission refusée'}, 
+                status=status.HTTP_403_FORBIDDEN
+            )
+        
+        evaluation = self.get_object()
+        autoriser = request.data.get('autoriser', True)
+        
+        evaluation.modification_autorisee = autoriser
+        evaluation.save()
+        
+        return Response({
+            'message': f'Modification {"autorisée" if autoriser else "interdite"} pour {evaluation.nom}',
+            'modification_autorisee': evaluation.modification_autorisee
+        })
+    
+    @action(detail=True, methods=['post'])
+    def prolonger_delai(self, request, pk=None):
+        """Prolonge le délai de saisie des notes"""
+        if request.user.type_utilisateur not in ['admin', 'scolarite']:
+            return Response(
+                {'error': 'Permission refusée'}, 
+                status=status.HTTP_403_FORBIDDEN
+            )
+        
+        evaluation = self.get_object()
+        jours_supplementaires = request.data.get('jours', 7)
+        
+        if evaluation.date_limite_saisie:
+            evaluation.date_limite_saisie += timedelta(days=jours_supplementaires)
+        else:
+            evaluation.date_limite_saisie = timezone.now() + timedelta(days=jours_supplementaires)
+        
+        evaluation.saisie_autorisee = True
+        evaluation.save()
+        
+        return Response({
+            'message': f'Délai prolongé de {jours_supplementaires} jours',
+            'nouvelle_date_limite': evaluation.date_limite_saisie
+        })
 
 class NoteViewSet(viewsets.ModelViewSet):
     queryset = Note.objects.all()

@@ -259,7 +259,6 @@ class Command(BaseCommand):
                 'nom': 'Anatomie Générale',
                 'code': 'ANAT101',
                 'credits': 6,
-                'coefficient': 2.0,
                 'ecs': [
                     ('Anatomie Descriptive', 'ANAT101A', 60),
                     ('Travaux Pratiques Anatomie', 'ANAT101B', 40)
@@ -269,7 +268,6 @@ class Command(BaseCommand):
                 'nom': 'Physiologie Humaine',
                 'code': 'PHYS101',
                 'credits': 5,
-                'coefficient': 1.5,
                 'ecs': [
                     ('Physiologie Générale', 'PHYS101A', 70),
                     ('TP Physiologie', 'PHYS101B', 30)
@@ -279,7 +277,6 @@ class Command(BaseCommand):
                 'nom': 'Biochimie Structurale',
                 'code': 'BIOC101',
                 'credits': 4,
-                'coefficient': 1.5,
                 'ecs': [
                     ('Biochimie Fondamentale', 'BIOC101A', 80),
                     ('TP Biochimie', 'BIOC101B', 20)
@@ -289,7 +286,6 @@ class Command(BaseCommand):
                 'nom': 'Biophysique',
                 'code': 'BIOP101',
                 'credits': 3,
-                'coefficient': 1.0,
                 'ecs': [
                     ('Biophysique Théorique', 'BIOP101A', 100)
                 ]
@@ -298,7 +294,7 @@ class Command(BaseCommand):
                 'nom': 'Histologie',
                 'code': 'HIST101',
                 'credits': 4,
-                'coefficient': 1.5,
+                
                 'ecs': [
                     ('Histologie Générale', 'HIST101A', 60),
                     ('TP Histologie', 'HIST101B', 40)
@@ -314,7 +310,7 @@ class Command(BaseCommand):
                 'nom': 'Anatomie Systémique',
                 'code': 'ANAT102',
                 'credits': 6,
-                'coefficient': 2.0,
+                
                 'ecs': [
                     ('Système Cardiovasculaire', 'ANAT102A', 50),
                     ('Système Respiratoire', 'ANAT102B', 50)
@@ -324,7 +320,7 @@ class Command(BaseCommand):
                 'nom': 'Physiologie Spécialisée',
                 'code': 'PHYS102',
                 'credits': 5,
-                'coefficient': 1.5,
+                
                 'ecs': [
                     ('Physiologie Cardiovasculaire', 'PHYS102A', 60),
                     ('Physiologie Respiratoire', 'PHYS102B', 40)
@@ -334,7 +330,7 @@ class Command(BaseCommand):
                 'nom': 'Microbiologie',
                 'code': 'MICR101',
                 'credits': 4,
-                'coefficient': 1.5,
+                
                 'ecs': [
                     ('Microbiologie Générale', 'MICR101A', 70),
                     ('TP Microbiologie', 'MICR101B', 30)
@@ -344,7 +340,7 @@ class Command(BaseCommand):
                 'nom': 'Génétique Médicale',
                 'code': 'GENE101',
                 'credits': 3,
-                'coefficient': 1.0,
+                
                 'ecs': [
                     ('Génétique Fondamentale', 'GENE101A', 100)
                 ]
@@ -353,7 +349,7 @@ class Command(BaseCommand):
                 'nom': 'Embryologie',
                 'code': 'EMBR101',
                 'credits': 4,
-                'coefficient': 1.5,
+                
                 'ecs': [
                     ('Embryologie Générale', 'EMBR101A', 60),
                     ('TP Embryologie', 'EMBR101B', 40)
@@ -369,7 +365,7 @@ class Command(BaseCommand):
                 'nom': 'Pathologie Générale',
                 'code': 'PATH201',
                 'credits': 6,
-                'coefficient': 2.0,
+                
                 'ecs': [
                     ('Pathologie Cellulaire', 'PATH201A', 60),
                     ('Anatomie Pathologique', 'PATH201B', 40)
@@ -379,7 +375,7 @@ class Command(BaseCommand):
                 'nom': 'Pharmacologie Générale',
                 'code': 'PHAR201',
                 'credits': 5,
-                'coefficient': 1.5,
+                
                 'ecs': [
                     ('Pharmacologie Fondamentale', 'PHAR201A', 70),
                     ('Toxicologie', 'PHAR201B', 30)
@@ -389,7 +385,7 @@ class Command(BaseCommand):
                 'nom': 'Immunologie',
                 'code': 'IMMU201',
                 'credits': 4,
-                'coefficient': 1.5,
+                
                 'ecs': [
                     ('Immunologie Générale', 'IMMU201A', 80),
                     ('TP Immunologie', 'IMMU201B', 20)
@@ -412,7 +408,6 @@ class Command(BaseCommand):
                 semestre=semestre,
                 defaults={
                     'credits': ue_data['credits'],
-                    'coefficient': ue_data['coefficient'],
                     'type_ue': 'obligatoire'
                 }
             )

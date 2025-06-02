@@ -4,10 +4,15 @@ from core.models import TimestampedModel, Filiere, Option, Niveau
 
 class AnneeAcademique(TimestampedModel):
     """Années académiques"""
-    libelle = models.CharField(max_length=20, unique=True)  # 2024-2025
+    libelle = models.CharField(max_length=20, unique=True)
     date_debut = models.DateField()
     date_fin = models.DateField()
     active = models.BooleanField(default=False)
+    
+    # Nouvelles fonctionnalités
+    delai_saisie_notes = models.PositiveIntegerField(default=2)
+    autoriser_modification_notes = models.BooleanField(default=False)
+    generation_auto_recaps = models.BooleanField(default=True)
     
     def __str__(self):
         return self.libelle
@@ -17,11 +22,16 @@ class AnneeAcademique(TimestampedModel):
         ordering = ['-date_debut']
 
 class Session(TimestampedModel):
-    """Sessions d'évaluation (Normale, Rattrapage)"""
+    """Sessions d'évaluation"""
     nom = models.CharField(max_length=50)
     code = models.CharField(max_length=10, unique=True)
-    ordre = models.PositiveIntegerField()  # 1 pour normale, 2 pour rattrapage
+    ordre = models.PositiveIntegerField()
     actif = models.BooleanField(default=True)
+    
+    # Nouvelles fonctionnalités
+    date_debut_session = models.DateField(null=True, blank=True)
+    date_fin_session = models.DateField(null=True, blank=True)
+    generation_recaps_auto = models.BooleanField(default=True)
     
     def __str__(self):
         return self.nom
@@ -32,8 +42,12 @@ class Session(TimestampedModel):
 
 class Semestre(TimestampedModel):
     """Semestres"""
-    nom = models.CharField(max_length=20)  # Semestre 1, Semestre 2
+    nom = models.CharField(max_length=20)
     numero = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(2)])
+    
+    # Nouvelles fonctionnalités
+    date_debut = models.DateField(null=True, blank=True)
+    date_fin = models.DateField(null=True, blank=True)
     
     def __str__(self):
         return self.nom
@@ -52,6 +66,19 @@ class Classe(TimestampedModel):
     effectif_max = models.PositiveIntegerField(default=50)
     active = models.BooleanField(default=True)
     
+    # Nouvelles fonctionnalités
+    responsable_classe = models.ForeignKey(
+        'users.Enseignant', 
+        on_delete=models.SET_NULL, 
+        null=True, 
+        blank=True,
+        related_name='classes_responsables'
+    )
+    recap_s1_genere = models.BooleanField(default=False)
+    recap_s2_genere = models.BooleanField(default=False)
+    date_recap_s1 = models.DateTimeField(null=True, blank=True)
+    date_recap_s2 = models.DateTimeField(null=True, blank=True)
+    
     def __str__(self):
         return f"{self.nom} - {self.annee_academique}"
     
@@ -69,14 +96,22 @@ class UE(TimestampedModel):
     nom = models.CharField(max_length=200)
     code = models.CharField(max_length=20)
     credits = models.PositiveIntegerField(validators=[MinValueValidator(1)])
-    coefficient = models.DecimalField(max_digits=4, decimal_places=2, default=1.0)
     type_ue = models.CharField(max_length=15, choices=TYPES_UE, default='obligatoire')
     niveau = models.ForeignKey(Niveau, on_delete=models.CASCADE)
     semestre = models.ForeignKey(Semestre, on_delete=models.CASCADE)
     actif = models.BooleanField(default=True)
     
+    # Nouvelles fonctionnalités
+    volume_horaire_cm = models.PositiveIntegerField(default=0)
+    volume_horaire_td = models.PositiveIntegerField(default=0)
+    volume_horaire_tp = models.PositiveIntegerField(default=0)
+    
     def __str__(self):
         return f"{self.code} - {self.nom}"
+    
+    @property
+    def volume_horaire_total(self):
+        return self.volume_horaire_cm + self.volume_horaire_td + self.volume_horaire_tp
     
     class Meta:
         db_table = 'ues'
@@ -102,11 +137,14 @@ class EC(TimestampedModel):
         unique_together = ['code', 'ue']
 
 class TypeEvaluation(TimestampedModel):
-    """Types d'évaluations (CC, Partiel, Examen, etc.)"""
+    """Types d'évaluations"""
     nom = models.CharField(max_length=50, unique=True)
     code = models.CharField(max_length=10, unique=True)
     description = models.TextField(blank=True)
     actif = models.BooleanField(default=True)
+    
+    # Nouvelles fonctionnalités
+    delai_saisie_defaut = models.PositiveIntegerField(null=True, blank=True)
     
     def __str__(self):
         return self.nom
@@ -127,3 +165,91 @@ class ConfigurationEvaluationEC(TimestampedModel):
     class Meta:
         db_table = 'configuration_evaluations_ec'
         unique_together = ['ec', 'type_evaluation']
+
+# Modèles supplémentaires avec gestion d'erreur
+try:
+    class ECClasse(TimestampedModel):
+        """Liaison EC-Classe"""
+        ec = models.ForeignKey(EC, on_delete=models.CASCADE)
+        classe = models.ForeignKey(Classe, on_delete=models.CASCADE)
+        obligatoire = models.BooleanField(default=True)
+        
+        class Meta:
+            db_table = 'ec_classes'
+            unique_together = ['ec', 'classe']
+
+    class RecapitulatifSemestriel(TimestampedModel):
+        """Récapitulatifs semestriels"""
+        classe = models.ForeignKey(Classe, on_delete=models.CASCADE)
+        semestre = models.ForeignKey(Semestre, on_delete=models.CASCADE)
+        session = models.ForeignKey(Session, on_delete=models.CASCADE)
+        annee_academique = models.ForeignKey(AnneeAcademique, on_delete=models.CASCADE)
+        
+        date_generation = models.DateTimeField(auto_now_add=True)
+        genere_par = models.ForeignKey(
+            'users.User', 
+            on_delete=models.SET_NULL, 
+            null=True,
+            blank=True
+        )
+        statut = models.CharField(
+            max_length=20,
+            choices=[
+                ('en_cours', 'En cours'),
+                ('termine', 'Terminé'),
+                ('erreur', 'Erreur'),
+            ],
+            default='en_cours'
+        )
+        
+        nombre_etudiants = models.PositiveIntegerField(default=0)
+        moyenne_classe = models.DecimalField(max_digits=4, decimal_places=2, null=True, blank=True)
+        taux_reussite = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+        
+        fichier_pdf = models.FileField(upload_to='recapitulatifs/', null=True, blank=True)
+        fichier_excel = models.FileField(upload_to='recapitulatifs/', null=True, blank=True)
+        
+        def __str__(self):
+            return f"Récap {self.classe.nom} - {self.semestre.nom} - {self.session.nom}"
+        
+        class Meta:
+            db_table = 'recapitulatifs_semestriels'
+            unique_together = ['classe', 'semestre', 'session', 'annee_academique']
+
+    class ParametrageSysteme(TimestampedModel):
+        """Paramètres système"""
+        cle = models.CharField(max_length=100, unique=True)
+        valeur = models.TextField()
+        description = models.TextField()
+        type_valeur = models.CharField(
+            max_length=20,
+            choices=[
+                ('int', 'Entier'),
+                ('float', 'Décimal'),
+                ('bool', 'Booléen'),
+                ('str', 'Chaîne'),
+                ('date', 'Date'),
+            ],
+            default='str'
+        )
+        
+        def get_valeur(self):
+            """Retourne la valeur convertie selon son type"""
+            if self.type_valeur == 'int':
+                return int(self.valeur)
+            elif self.type_valeur == 'float':
+                return float(self.valeur)
+            elif self.type_valeur == 'bool':
+                return self.valeur.lower() in ['true', '1', 'yes', 'oui']
+            elif self.type_valeur == 'date':
+                from datetime import datetime
+                return datetime.strptime(self.valeur, '%Y-%m-%d').date()
+            return self.valeur
+        
+        class Meta:
+            db_table = 'parametrage_systeme'
+
+except Exception as e:
+    # Si certains modèles échouent, on continue avec les modèles de base
+    print(f"Attention: Certains modèles avancés non créés: {e}")
+

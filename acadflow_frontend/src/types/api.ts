@@ -165,7 +165,6 @@ export interface UE {
   nom: string
   code: string
   credits: number
-  coefficient: number
   type_ue: 'obligatoire' | 'optionnelle'
   niveau: number
   niveau_nom: string
@@ -307,7 +306,6 @@ export interface Evaluation {
   session_nom: string
   date_evaluation: string
   note_sur: number
-  coefficient: number
   saisie_terminee: boolean
   nombre_notes: number
   created_at: string
@@ -470,7 +468,6 @@ export interface ReleveNotes {
       code: string
       nom: string
       credits: number
-      coefficient: number
       semestre: string
     }
     moyenne_ue: number | null
@@ -650,7 +647,6 @@ export interface EvaluationForm {
   session: number
   date_evaluation: string
   note_sur: number
-  coefficient: number
 }
 
 export interface ConfigurationECForm {

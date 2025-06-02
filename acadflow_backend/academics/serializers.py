@@ -27,18 +27,23 @@ class ClasseSerializer(serializers.ModelSerializer):
     niveau_nom = serializers.CharField(source='niveau.nom', read_only=True)
     annee_academique_libelle = serializers.CharField(source='annee_academique.libelle', read_only=True)
     effectif_actuel = serializers.SerializerMethodField()
+    responsable_nom = serializers.CharField(source='responsable_classe.user.get_full_name', read_only=True)
     
     class Meta:
         model = Classe
         fields = '__all__'
     
     def get_effectif_actuel(self, obj):
-        return obj.inscription_set.filter(active=True).count()
+        try:
+            return obj.inscription_set.filter(active=True).count()
+        except:
+            return 0
 
 class UESerializer(serializers.ModelSerializer):
     niveau_nom = serializers.CharField(source='niveau.nom', read_only=True)
     semestre_nom = serializers.CharField(source='semestre.nom', read_only=True)
     nombre_ec = serializers.SerializerMethodField()
+    volume_horaire_total = serializers.ReadOnlyField()
     
     class Meta:
         model = UE
@@ -50,15 +55,24 @@ class UESerializer(serializers.ModelSerializer):
 class ECSerializer(serializers.ModelSerializer):
     ue_nom = serializers.CharField(source='ue.nom', read_only=True)
     ue_code = serializers.CharField(source='ue.code', read_only=True)
+    nombre_classes = serializers.SerializerMethodField()
     
     class Meta:
         model = EC
         fields = '__all__'
+    
+    def get_nombre_classes(self, obj):
+        return obj.classes.filter(active=True).count()
 
 class TypeEvaluationSerializer(serializers.ModelSerializer):
+    nombre_utilisations = serializers.SerializerMethodField()
+    
     class Meta:
         model = TypeEvaluation
         fields = '__all__'
+    
+    def get_nombre_utilisations(self, obj):
+        return obj.configurationevaluationec_set.count()
 
 class ConfigurationEvaluationECSerializer(serializers.ModelSerializer):
     ec_nom = serializers.CharField(source='ec.nom', read_only=True)
@@ -71,12 +85,28 @@ class ConfigurationEvaluationECSerializer(serializers.ModelSerializer):
 class UEDetailSerializer(serializers.ModelSerializer):
     """Serializer détaillé pour UE avec ses EC"""
     elements_constitutifs = ECSerializer(many=True, read_only=True)
-    niveau_nom = serializers.CharField(source='niveau.nom', read_only=True)
-    semestre_nom = serializers.CharField(source='semestre.nom', read_only=True)
+    niveau = NiveauSerializer(read_only=True)
+    semestre = SemestreSerializer(read_only=True)
+    configuration_evaluations = serializers.SerializerMethodField()
     
     class Meta:
         model = UE
         fields = '__all__'
+
+    def get_configuration_evaluations(self, obj):
+        configurations = {}
+        for ec in obj.elements_constitutifs.filter(actif=True):
+            configs = ConfigurationEvaluationEC.objects.filter(ec=ec).select_related('type_evaluation')
+            
+            configurations[ec.code] = [
+                {
+                    'type_evaluation': config.type_evaluation.nom,
+                    'pourcentage': float(config.pourcentage)
+                }
+                for config in configs
+            ]
+        
+        return configurations
 
 class ClasseDetailSerializer(serializers.ModelSerializer):
     """Serializer détaillé pour les classes"""

@@ -98,14 +98,14 @@ class ClasseAdmin(admin.ModelAdmin):
 class UEAdmin(admin.ModelAdmin):
     list_display = [
         'code', 'nom', 'niveau', 'semestre', 'credits', 
-        'coefficient', 'type_ue', 'nombre_ec', 'actif'
+         'type_ue', 'nombre_ec', 'actif'
     ]
     list_filter = [
         'niveau__cycle', 'niveau', 'semestre', 'type_ue', 
         'actif', 'created_at'
     ]
     search_fields = ['code', 'nom']
-    list_editable = ['actif', 'credits', 'coefficient']
+    list_editable = ['actif', 'credits']
     readonly_fields = ['created_at', 'updated_at']
     
     fieldsets = (
@@ -116,7 +116,7 @@ class UEAdmin(admin.ModelAdmin):
             'fields': ('niveau', 'semestre')
         }),
         ('Configuration', {
-            'fields': ('credits', 'coefficient', 'actif')
+            'fields': ('credits', 'actif')
         }),
         ('Timestamps', {
             'fields': ('created_at', 'updated_at'),

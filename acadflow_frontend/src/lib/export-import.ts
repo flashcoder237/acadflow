@@ -452,13 +452,12 @@ export const acadflowExports = {
 
   // Export des évaluations
   exportEvaluations: (evaluations: any[], options: ExportOptions = {}) => {
-    const columns = ['nom', 'type_evaluation_nom', 'date_evaluation', 'session_nom', 'coefficient', 'nombre_notes', 'saisie_terminee']
+    const columns = ['nom', 'type_evaluation_nom', 'date_evaluation', 'session_nom', 'nombre_notes', 'saisie_terminee']
     const customHeaders = {
       nom: 'Nom évaluation',
       type_evaluation_nom: 'Type',
       date_evaluation: 'Date',
       session_nom: 'Session',
-      coefficient: 'Coefficient',
       nombre_notes: 'Nb notes',
       saisie_terminee: 'Terminée'
     }

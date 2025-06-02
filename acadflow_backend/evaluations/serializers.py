@@ -300,7 +300,6 @@ class RelveNotesSerializer(serializers.Serializer):
                     'code': ue.code,
                     'nom': ue.nom,
                     'credits': ue.credits,
-                    'coefficient': ue.coefficient,
                     'semestre': ue.semestre.nom
                 },
                 'moyenne_ue': moyenne_ue.moyenne if moyenne_ue else None,

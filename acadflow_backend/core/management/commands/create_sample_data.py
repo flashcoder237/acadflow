@@ -128,7 +128,6 @@ class Command(BaseCommand):
                             defaults={
                                 'nom': ue_data['nom'],
                                 'credits': ue_data['credits'],
-                                'coefficient': 1.0
                             }
                         )
                         
