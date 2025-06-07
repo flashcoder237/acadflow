@@ -1,5 +1,5 @@
 // ========================================
-// FICHIER: src/pages/NotesPage.tsx - Saisie des notes avec import
+// FICHIER: src/pages/NotesPage.tsx - Saisie des notes avec vraies données backend
 // ========================================
 
 import React, { useState, useEffect, useMemo, useRef } from 'react';
@@ -16,16 +16,12 @@ import {
   Calculator,
   Clock,
   Eye,
-  EyeOff,
   Search,
   Download,
   Upload,
   Lock,
   Unlock,
   RotateCcw,
-  Filter,
-  SortAsc,
-  SortDesc,
   Target,
   TrendingUp,
   UserCheck,
@@ -33,8 +29,6 @@ import {
   Edit3,
   Trash2,
   Keyboard,
-  ArrowDown,
-  ArrowUp,
   FileSpreadsheet,
   AlertTriangle,
   Info
@@ -92,7 +86,7 @@ const NotesPage: React.FC = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { user } = useAuthStore();
-  const { showSuccess, showError } = useNotificationActions();
+  const { showSuccess, showError, showWarning, showInfo } = useNotificationActions();
 
   // États pour la saisie
   const [notes, setNotes] = useState<Record<number, SaisieNote & { locked?: boolean }>>({});
@@ -119,42 +113,73 @@ const NotesPage: React.FC = () => {
   const noteInputRefs = useRef<Record<number, HTMLInputElement>>({});
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Queries et mutations existantes...
+  // Query pour charger la feuille de notes
   const { data: feuilleNotes, isLoading, error, refetch } = useQuery({
     queryKey: ['feuille-notes', evaluationId],
-    queryFn: () => apiClient.getFeuilleNotes(parseInt(evaluationId!)),
-    enabled: !!evaluationId,
-    refetchInterval: 30000
-  });
-
-  const { data: delaiInfo } = useQuery({
-    queryKey: ['delai-saisie', evaluationId],
-    queryFn: () => apiClient.verifierDelaiSaisie(parseInt(evaluationId!)),
-    enabled: !!evaluationId,
-    refetchInterval: 60000
-  });
-
-  const saveMutation = useMutation({
-    mutationFn: (data: { notes: SaisieNote[] }) => 
-      apiClient.saisirNotes(parseInt(evaluationId!), data),
-    onSuccess: () => {
-      showSuccess('Notes sauvegardées', 'Les notes ont été enregistrées avec succès');
-      queryClient.invalidateQueries({ queryKey: ['feuille-notes', evaluationId] });
-      queryClient.invalidateQueries({ queryKey: ['evaluations'] });
+    queryFn: () => {
+      if (!evaluationId) throw new Error('ID d\'évaluation manquant');
+      return apiClient.getFeuilleNotes(parseInt(evaluationId));
     },
+    enabled: !!evaluationId,
+    refetchInterval: 30000,
+    retry: 2,
     onError: (error: any) => {
-      showError('Erreur de sauvegarde', error.message || 'Impossible de sauvegarder les notes');
+      showError(
+        'Erreur de chargement',
+        error.message || 'Impossible de charger la feuille de notes'
+      );
     }
   });
 
+  // Query pour vérifier les délais de saisie
+  const { data: delaiInfo } = useQuery({
+    queryKey: ['delai-saisie', evaluationId],
+    queryFn: () => {
+      if (!evaluationId) throw new Error('ID d\'évaluation manquant');
+      return apiClient.verifierDelaiSaisie(parseInt(evaluationId));
+    },
+    enabled: !!evaluationId,
+    refetchInterval: 60000,
+    retry: 1,
+    onError: (error: any) => {
+      console.warn('Impossible de vérifier les délais:', error);
+    }
+  });
+
+  // Mutation pour sauvegarder les notes
+  const saveMutation = useMutation({
+    mutationFn: (data: { notes: SaisieNote[] }) => {
+      if (!evaluationId) throw new Error('ID d\'évaluation manquant');
+      return apiClient.saisirNotes(parseInt(evaluationId), data);
+    },
+    onSuccess: (response) => {
+      showSuccess(
+        'Notes sauvegardées', 
+        `${response.message || 'Les notes ont été enregistrées avec succès'}`
+      );
+      queryClient.invalidateQueries({ queryKey: ['feuille-notes', evaluationId] });
+      queryClient.invalidateQueries({ queryKey: ['evaluations'] });
+      queryClient.invalidateQueries({ queryKey: ['dashboard-stats'] });
+    },
+    onError: (error: any) => {
+      showError(
+        'Erreur de sauvegarde', 
+        error.message || 'Impossible de sauvegarder les notes'
+      );
+    }
+  });
+
+  // Mutation pour l'export
   const exportMutation = useMutation({
-    mutationFn: (format: 'xlsx' | 'csv' | 'pdf') => 
-      apiClient.exporterNotes(parseInt(evaluationId!), format),
+    mutationFn: (format: 'xlsx' | 'csv' | 'pdf') => {
+      if (!evaluationId) throw new Error('ID d\'évaluation manquant');
+      return apiClient.exporterNotes(parseInt(evaluationId), format);
+    },
     onSuccess: (blob, format) => {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `notes_${feuilleNotes?.evaluation.nom}_${new Date().toISOString().split('T')[0]}.${format}`;
+      a.download = `notes_${feuilleNotes?.evaluation.nom || 'evaluation'}_${new Date().toISOString().split('T')[0]}.${format}`;
       document.body.appendChild(a);
       a.click();
       window.URL.revokeObjectURL(url);
@@ -166,9 +191,12 @@ const NotesPage: React.FC = () => {
     }
   });
 
-  // Nouvelle mutation pour l'import
+  // Mutation pour l'import
   const importMutation = useMutation({
-    mutationFn: (file: File) => apiClient.importerNotes(parseInt(evaluationId!), file),
+    mutationFn: (file: File) => {
+      if (!evaluationId) throw new Error('ID d\'évaluation manquant');
+      return apiClient.importerNotes(parseInt(evaluationId), file);
+    },
     onSuccess: (result: ImportResult) => {
       setImportResult(result);
       if (result.success > 0) {
@@ -177,6 +205,12 @@ const NotesPage: React.FC = () => {
           `${result.success} note(s) importée(s) avec succès`
         );
         queryClient.invalidateQueries({ queryKey: ['feuille-notes', evaluationId] });
+      }
+      if (result.warnings.length > 0) {
+        showWarning(
+          'Avertissements d\'import', 
+          `${result.warnings.length} ligne(s) avec des avertissements`
+        );
       }
       if (result.errors.length > 0) {
         showError(
@@ -190,6 +224,61 @@ const NotesPage: React.FC = () => {
       setImportResult(null);
     }
   });
+
+  // Initialiser les notes depuis les données du backend
+  useEffect(() => {
+    if (feuilleNotes?.etudiants) {
+      const initialNotes: Record<number, SaisieNote & { locked?: boolean }> = {};
+      feuilleNotes.etudiants.forEach(etudiant => {
+        const hasExistingNote = etudiant.note_obtenue !== null && etudiant.note_obtenue !== undefined;
+        initialNotes[etudiant.etudiant_id] = {
+          etudiant_id: etudiant.etudiant_id,
+          note_obtenue: etudiant.note_obtenue || undefined,
+          absent: etudiant.absent,
+          justifie: etudiant.justifie,
+          commentaire: etudiant.commentaire || '',
+          locked: hasExistingNote
+        };
+      });
+      setNotes(initialNotes);
+    }
+  }, [feuilleNotes]);
+
+  // Raccourcis clavier
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.ctrlKey || e.metaKey) {
+        switch (e.key) {
+          case 's':
+            e.preventDefault();
+            handleSave();
+            break;
+          case 'f':
+            e.preventDefault();
+            searchInputRef.current?.focus();
+            break;
+          case 'e':
+            e.preventDefault();
+            if (peutExporter) setShowExportDialog(true);
+            break;
+          case 'i':
+            e.preventDefault();
+            if (peutSaisir) setShowImportDialog(true);
+            break;
+        }
+      }
+      
+      if (e.key === 'Escape') {
+        setSelectedEtudiant(null);
+        setSearchTerm('');
+        setShowImportDialog(false);
+        setShowExportDialog(false);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   // Fonction pour traiter le fichier et générer un aperçu
   const handleFileSelect = async (file: File) => {
@@ -262,61 +351,7 @@ const NotesPage: React.FC = () => {
     document.body.removeChild(a);
   };
 
-  // Fonctions existantes...
-  useEffect(() => {
-    if (feuilleNotes?.etudiants) {
-      const initialNotes: Record<number, SaisieNote & { locked?: boolean }> = {};
-      feuilleNotes.etudiants.forEach(etudiant => {
-        const hasExistingNote = etudiant.note_obtenue !== null && etudiant.note_obtenue !== undefined;
-        initialNotes[etudiant.etudiant_id] = {
-          etudiant_id: etudiant.etudiant_id,
-          note_obtenue: etudiant.note_obtenue || undefined,
-          absent: etudiant.absent,
-          justifie: etudiant.justifie,
-          commentaire: etudiant.commentaire || '',
-          locked: hasExistingNote
-        };
-      });
-      setNotes(initialNotes);
-    }
-  }, [feuilleNotes]);
-
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.ctrlKey || e.metaKey) {
-        switch (e.key) {
-          case 's':
-            e.preventDefault();
-            handleSave();
-            break;
-          case 'f':
-            e.preventDefault();
-            searchInputRef.current?.focus();
-            break;
-          case 'e':
-            e.preventDefault();
-            if (peutExporter) setShowExportDialog(true);
-            break;
-          case 'i':
-            e.preventDefault();
-            if (peutSaisir) setShowImportDialog(true);
-            break;
-        }
-      }
-      
-      if (e.key === 'Escape') {
-        setSelectedEtudiant(null);
-        setSearchTerm('');
-        setShowImportDialog(false);
-        setShowExportDialog(false);
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
-
-  // Fonctions de filtrage et tri (inchangées)...
+  // Filtrage et tri des étudiants
   const etudiantsFiltres = useMemo(() => {
     if (!feuilleNotes?.etudiants) return [];
 
@@ -375,7 +410,7 @@ const NotesPage: React.FC = () => {
     return filtered;
   }, [feuilleNotes?.etudiants, notes, searchTerm, filterType, sortField, sortOrder]);
 
-  // Autres fonctions (inchangées)...
+  // Gestion des changements de notes
   const handleNoteChange = (etudiantId: number, field: keyof SaisieNote, value: any) => {
     const currentNote = notes[etudiantId];
     
@@ -397,6 +432,7 @@ const NotesPage: React.FC = () => {
         }
       };
       
+      // Auto-save après un délai
       if (field === 'note_obtenue' || field === 'absent') {
         setTimeout(() => handleSave(), 500);
       }
@@ -416,12 +452,12 @@ const NotesPage: React.FC = () => {
   };
 
   const handleSave = async () => {
-    if (saving) return;
+    if (saving || saveMutation.isPending) return;
     
     setSaving(true);
     try {
       const notesToSave = Object.values(notes).filter(note => 
-        note.note_obtenue !== undefined || note.absent || note.commentaire
+        note.note_obtenue !== undefined || note.absent || note.commentaire?.trim()
       );
       
       await saveMutation.mutateAsync({ notes: notesToSave });
@@ -465,6 +501,7 @@ const NotesPage: React.FC = () => {
     handleSave();
   };
 
+  // Calcul des statistiques
   const calculerStatistiques = () => {
     const notesValides = Object.values(notes)
       .filter(note => note.note_obtenue !== undefined)
@@ -486,8 +523,12 @@ const NotesPage: React.FC = () => {
   const notesSaisies = Object.values(notes).filter(n => n.note_obtenue !== undefined || n.absent).length;
   const absents = Object.values(notes).filter(n => n.absent).length;
   const justifies = Object.values(notes).filter(n => n.justifie).length;
-  const progression = (notesSaisies / totalEtudiants) * 100;
+  const progression = totalEtudiants > 0 ? (notesSaisies / totalEtudiants) * 100 : 0;
   const peutExporter = progression === 100;
+
+  // Vérification des permissions
+  const peutSaisir = delaiInfo?.peut_saisir ?? true;
+  const delaiDepasse = delaiInfo?.delai_depasse ?? false;
 
   if (isLoading) {
     return (
@@ -499,27 +540,40 @@ const NotesPage: React.FC = () => {
 
   if (error || !feuilleNotes) {
     return (
-      <div className="text-center py-8">
-        <FileText className="w-16 h-16 mx-auto mb-4 text-gray-300" />
-        <h3 className="text-lg font-medium text-gray-900 mb-2">
-          Impossible de charger la feuille de notes
-        </h3>
-        <Button onClick={() => navigate('/evaluations')} variant="outline">
-          <ArrowLeft className="w-4 h-4 mr-2" />
-          Retour aux évaluations
-        </Button>
+      <div className="space-y-6">
+        <Alert className="border-red-200 bg-red-50">
+          <XCircle className="w-4 h-4 text-red-600" />
+          <AlertDescription className="text-red-800">
+            {error?.message || 'Impossible de charger la feuille de notes'}
+          </AlertDescription>
+        </Alert>
+        
+        <div className="text-center py-8">
+          <FileText className="w-16 h-16 mx-auto mb-4 text-gray-300" />
+          <h3 className="text-lg font-medium text-gray-900 mb-2">
+            Feuille de notes non disponible
+          </h3>
+          <div className="flex justify-center gap-3">
+            <Button onClick={() => refetch()} variant="outline">
+              <RotateCcw className="w-4 h-4 mr-2" />
+              Réessayer
+            </Button>
+            <Button onClick={() => navigate('/evaluations')} variant="outline">
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Retour aux évaluations
+            </Button>
+          </div>
+        </div>
       </div>
     );
   }
 
   const evaluation = feuilleNotes.evaluation;
-  const peutSaisir = delaiInfo?.peut_saisir ?? true;
-  const delaiDepasse = delaiInfo?.delai_depasse ?? false;
 
   return (
     <TooltipProvider>
       <div className="space-y-6">
-        {/* Header avec raccourcis clavier */}
+        {/* Header avec informations et raccourcis */}
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-4">
             <Button 
@@ -546,6 +600,7 @@ const NotesPage: React.FC = () => {
               </div>
             </div>
           </div>
+          
           <div className="flex items-center gap-2">
             {peutSaisir && (
               <Button
@@ -568,7 +623,9 @@ const NotesPage: React.FC = () => {
               </Button>
             )}
             {evaluation.saisie_terminee ? (
-              <Badge variant="success">Saisie terminée</Badge>
+              <Badge variant="default" className="bg-green-100 text-green-800">
+                Saisie terminée
+              </Badge>
             ) : delaiDepasse ? (
               <Badge variant="destructive">Délai dépassé</Badge>
             ) : (
@@ -577,10 +634,45 @@ const NotesPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Barre de recherche et filtres - INCHANGÉE */}
+        {/* Alerte si délai dépassé */}
+        {!peutSaisir && (
+          <Alert className="border-red-200 bg-red-50">
+            <AlertTriangle className="w-4 h-4 text-red-600" />
+            <AlertDescription className="text-red-800">
+              <strong>Saisie non autorisée :</strong> Le délai de saisie est dépassé. 
+              Contactez l'administration pour obtenir une autorisation spéciale.
+            </AlertDescription>
+          </Alert>
+        )}
+
+        {/* Alerte pour évaluations urgentes */}
+        {peutSaisir && evaluation.date_limite_saisie && (
+          (() => {
+            const limite = new Date(evaluation.date_limite_saisie);
+            const maintenant = new Date();
+            const diff = limite.getTime() - maintenant.getTime();
+            const joursRestants = Math.ceil(diff / (24 * 60 * 60 * 1000));
+            
+            if (diff > 0 && joursRestants <= 3) {
+              return (
+                <Alert className="border-orange-200 bg-orange-50">
+                  <Clock className="w-4 h-4 text-orange-600" />
+                  <AlertDescription className="text-orange-800">
+                    <strong>Attention :</strong> Il vous reste {joursRestants} jour(s) pour terminer la saisie 
+                    (limite : {formatDateTime(evaluation.date_limite_saisie)})
+                  </AlertDescription>
+                </Alert>
+              );
+            }
+            return null;
+          })()
+        )}
+
+        {/* Filtres et recherche */}
         <Card>
           <CardContent className="p-4">
             <div className="flex flex-col md:flex-row gap-4">
+              {/* Recherche */}
               <div className="flex-1 relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
                 <Input
@@ -592,6 +684,7 @@ const NotesPage: React.FC = () => {
                 />
               </div>
               
+              {/* Filtres */}
               <Select value={filterType} onValueChange={(value) => setFilterType(value as FilterType)}>
                 <SelectTrigger className="w-48">
                   <SelectValue />
@@ -622,17 +715,21 @@ const NotesPage: React.FC = () => {
                 size="icon"
                 onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
               >
-                {sortOrder === 'asc' ? <SortAsc className="w-4 h-4" /> : <SortDesc className="w-4 h-4" />}
+                {sortOrder === 'asc' ? 
+                  <TrendingUp className="w-4 h-4 rotate-0" /> : 
+                  <TrendingUp className="w-4 h-4 rotate-180" />
+                }
               </Button>
             </div>
 
+            {/* Statistiques et actions */}
             <div className="flex items-center justify-between mt-4 pt-4 border-t">
               <div className="flex items-center gap-4 text-sm text-gray-600">
                 <span>{etudiantsFiltres.length} étudiant(s) affiché(s)</span>
                 <Separator orientation="vertical" className="h-4" />
                 <span className="flex items-center gap-1">
                   <Target className="w-3 h-3" />
-                  {notesSaisies}/{totalEtudiants} saisies
+                  {notesSaisies}/{totalEtudiants} saisies ({Math.round(progression)}%)
                 </span>
                 <span className="flex items-center gap-1">
                   <UserX className="w-3 h-3" />
@@ -641,7 +738,7 @@ const NotesPage: React.FC = () => {
                 {stats && (
                   <span className="flex items-center gap-1">
                     <TrendingUp className="w-3 h-3" />
-                    Moy: {stats.moyenne.toFixed(2)}
+                    Moy: {stats.moyenne.toFixed(2)}/20
                   </span>
                 )}
               </div>
@@ -688,7 +785,7 @@ const NotesPage: React.FC = () => {
         </Card>
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          {/* Feuille de notes - INCHANGÉE (trop longue pour reproduire) */}
+          {/* Feuille de notes principale */}
           <div className="lg:col-span-3">
             <Card>
               <CardHeader>
@@ -699,6 +796,12 @@ const NotesPage: React.FC = () => {
                     {etudiantsFiltres.length} étudiant(s)
                   </Badge>
                 </CardTitle>
+                {evaluation.date_limite_saisie && (
+                  <CardDescription>
+                    Note sur {evaluation.note_sur} • 
+                    Limite de saisie : {formatDateTime(evaluation.date_limite_saisie)}
+                  </CardDescription>
+                )}
               </CardHeader>
               <CardContent>
                 <div className="space-y-2">
@@ -742,7 +845,7 @@ const NotesPage: React.FC = () => {
                           </div>
                         )}
 
-                        {/* Étudiant */}
+                        {/* Informations étudiant */}
                         <div className={cn("col-span-4", bulkMode && "col-span-3")}>
                           <p className="font-medium text-gray-900">{etudiant.nom_complet}</p>
                           <p className="text-sm text-gray-500">{etudiant.matricule}</p>
@@ -872,6 +975,16 @@ const NotesPage: React.FC = () => {
                   <div className="text-center py-8">
                     <Search className="w-12 h-12 mx-auto mb-4 text-gray-300" />
                     <p className="text-gray-500">Aucun étudiant trouvé avec ces critères</p>
+                    <Button 
+                      variant="outline" 
+                      onClick={() => {
+                        setSearchTerm('');
+                        setFilterType('tous');
+                      }}
+                      className="mt-3"
+                    >
+                      Réinitialiser les filtres
+                    </Button>
                   </div>
                 )}
 
@@ -911,7 +1024,7 @@ const NotesPage: React.FC = () => {
 
           {/* Sidebar avec statistiques et actions */}
           <div className="space-y-4">
-            {/* Progression - INCHANGÉE */}
+            {/* Progression */}
             <Card>
               <CardHeader className="pb-3">
                 <CardTitle className="text-lg">Progression</CardTitle>
@@ -1043,9 +1156,10 @@ const NotesPage: React.FC = () => {
               <Button
                 variant="outline"
                 onClick={() => refetch()}
+                disabled={isLoading}
                 className="w-full"
               >
-                <RotateCcw className="w-4 h-4 mr-2" />
+                <RotateCcw className={cn("w-4 h-4 mr-2", isLoading && "animate-spin")} />
                 Actualiser
               </Button>
             </div>

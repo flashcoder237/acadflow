@@ -1,5 +1,5 @@
 // ========================================
-// FICHIER: src/lib/api.ts - Client API corrigé
+// FICHIER: src/lib/api.ts - Client API complet et corrigé
 // ========================================
 
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
@@ -19,15 +19,12 @@ import {
   StatistiquesEvaluation,
   CreateEvaluationRequest,
   UpdateEvaluationRequest,
-  MoyenneEC,
-  MoyenneUE,
-  MoyenneSemestre,
+  TypeEvaluation,
   PaginatedResponse,
-  ApiError,
-  TypeEvaluation
+  ApiError
 } from '@/types';
 
-// Configuration de base d'Axios
+// Configuration de base
 const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
 
 class ApiClient {
@@ -39,10 +36,10 @@ class ApiClient {
       headers: {
         'Content-Type': 'application/json',
       },
-      timeout: 15000, // 15 secondes de timeout
+      timeout: 30000,
     });
 
-    // Intercepteur pour ajouter le token d'authentification
+    // Intercepteur pour ajouter le token
     this.client.interceptors.request.use(
       (config) => {
         const token = localStorage.getItem('acadflow_token');
@@ -54,21 +51,15 @@ class ApiClient {
       (error) => Promise.reject(error)
     );
 
-    // Intercepteur pour gérer les erreurs de réponse
+    // Intercepteur pour gérer les réponses
     this.client.interceptors.response.use(
       (response) => response,
       (error) => {
         if (error.response?.status === 401) {
-          // Token expiré ou invalide
           localStorage.removeItem('acadflow_token');
           localStorage.removeItem('acadflow_user');
           window.location.href = '/login';
         }
-        
-        if (error.response?.status === 403) {
-          console.warn('Accès refusé:', error.response.data);
-        }
-        
         return Promise.reject(this.handleError(error));
       }
     );
@@ -76,30 +67,18 @@ class ApiClient {
 
   private handleError(error: any): ApiError {
     if (error.response) {
-      // Erreur de réponse du serveur
       const data = error.response.data;
       
       if (typeof data === 'string') {
-        return {
-          message: data,
-          status: error.response.status
-        };
+        return { message: data, status: error.response.status };
       }
       
       if (data?.detail) {
-        return {
-          message: data.detail,
-          status: error.response.status,
-          errors: data
-        };
+        return { message: data.detail, status: error.response.status, errors: data };
       }
       
       if (data?.error) {
-        return {
-          message: data.error,
-          status: error.response.status,
-          errors: data
-        };
+        return { message: data.error, status: error.response.status, errors: data };
       }
       
       // Gestion des erreurs de validation Django
@@ -121,24 +100,15 @@ class ApiClient {
         status: error.response.status
       };
     } else if (error.request) {
-      return {
-        message: 'Problème de connexion au serveur',
-        status: 0
-      };
+      return { message: 'Problème de connexion au serveur', status: 0 };
     } else {
-      return {
-        message: error.message || 'Une erreur inattendue est survenue'
-      };
+      return { message: error.message || 'Une erreur inattendue est survenue' };
     }
   }
 
   private async request<T>(config: AxiosRequestConfig): Promise<T> {
-    try {
-      const response: AxiosResponse<T> = await this.client.request(config);
-      return response.data;
-    } catch (error) {
-      throw error;
-    }
+    const response: AxiosResponse<T> = await this.client.request(config);
+    return response.data;
   }
 
   // ========================================
@@ -195,7 +165,8 @@ class ApiClient {
   async getSessions(): Promise<Session[]> {
     const response = await this.request<PaginatedResponse<Session>>({
       method: 'GET',
-      url: '/academics/sessions/'
+      url: '/academics/sessions/',
+      params: { actif: true }
     });
     return response.results;
   }
@@ -211,13 +182,14 @@ class ApiClient {
   async getTypesEvaluation(): Promise<TypeEvaluation[]> {
     const response = await this.request<PaginatedResponse<TypeEvaluation>>({
       method: 'GET',
-      url: '/academics/types-evaluation/'
+      url: '/academics/types-evaluation/',
+      params: { actif: true }
     });
     return response.results;
   }
 
   // ========================================
-  // ENSEIGNEMENTS (pour enseignants)
+  // ENSEIGNEMENTS
   // ========================================
 
   async getEnseignements(params?: Record<string, any>): Promise<PaginatedResponse<Enseignement>> {
@@ -318,7 +290,7 @@ class ApiClient {
   }
 
   // ========================================
-  // STATISTIQUES ÉVALUATIONS
+  // STATISTIQUES
   // ========================================
 
   async getStatistiquesEvaluation(evaluationId: number): Promise<StatistiquesEvaluation> {
@@ -336,26 +308,57 @@ class ApiClient {
   }
 
   // ========================================
+  // IMPORT/EXPORT
+  // ========================================
+
+  async importerNotes(evaluationId: number, file: File): Promise<any> {
+    const formData = new FormData();
+    formData.append('file', file);
+    
+    return this.request<any>({
+      method: 'POST',
+      url: `/evaluations/evaluations/${evaluationId}/importer_notes/`,
+      data: formData,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      }
+    });
+  }
+
+  async exporterNotes(evaluationId: number, format: 'xlsx' | 'csv' | 'pdf'): Promise<Blob> {
+    const response = await this.client.request({
+      method: 'GET',
+      url: `/evaluations/evaluations/${evaluationId}/exporter_notes/`,
+      params: { format },
+      responseType: 'blob'
+    });
+    
+    return response.data;
+  }
+
+  // ========================================
   // DASHBOARD STATISTIQUES
   // ========================================
 
   async getDashboardStats(): Promise<any> {
     try {
-      // Récupérer les stats en parallèle
-      const [enseignements, evaluations, evaluationsEnAttente] = await Promise.all([
+      const [enseignements, evaluations] = await Promise.all([
         this.getEnseignements({ page_size: 100 }),
-        this.getEvaluations({ page_size: 100 }),
-        this.getEvaluations({ saisie_terminee: false, page_size: 100 })
+        this.getEvaluations({ page_size: 100 })
       ]);
+
+      const evaluationsEnAttente = evaluations.results.filter(e => !e.saisie_terminee);
+      const evaluationsTerminees = evaluations.results.filter(e => e.saisie_terminee);
 
       return {
         totalEnseignements: enseignements.count,
         totalEvaluations: evaluations.count,
-        evaluationsEnAttente: evaluationsEnAttente.count,
+        evaluationsEnAttente: evaluationsEnAttente.length,
+        evaluationsTerminees: evaluationsTerminees.length,
         evaluationsRecentes: evaluations.results.slice(0, 5),
         enseignementsRecents: enseignements.results.slice(0, 5),
         tauxSaisie: evaluations.count > 0 
-          ? Math.round(((evaluations.count - evaluationsEnAttente.count) / evaluations.count) * 100)
+          ? Math.round((evaluationsTerminees.length / evaluations.count) * 100)
           : 0
       };
     } catch (error) {
@@ -364,6 +367,7 @@ class ApiClient {
         totalEnseignements: 0,
         totalEvaluations: 0,
         evaluationsEnAttente: 0,
+        evaluationsTerminees: 0,
         evaluationsRecentes: [],
         enseignementsRecents: [],
         tauxSaisie: 0
@@ -379,7 +383,7 @@ class ApiClient {
     try {
       await this.request<any>({
         method: 'GET',
-        url: '/health/', // Endpoint de santé si disponible
+        url: '/health/',
         timeout: 5000
       });
       return true;
@@ -392,7 +396,7 @@ class ApiClient {
 // Instance unique du client API
 export const apiClient = new ApiClient();
 
-// Export des méthodes principales pour faciliter l'utilisation
+// Export des méthodes principales
 export const {
   login,
   logout,
@@ -415,6 +419,8 @@ export const {
   saisirNotes,
   getStatistiquesEvaluation,
   verifierDelaiSaisie,
+  importerNotes,
+  exporterNotes,
   getDashboardStats,
   healthCheck
 } = apiClient;
