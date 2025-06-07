@@ -1,3 +1,7 @@
+# ========================================
+# FICHIER: acadflow_backend/academics/models.py (Corrections)
+# ========================================
+
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from core.models import TimestampedModel, Filiere, Option, Niveau
@@ -13,6 +17,17 @@ class AnneeAcademique(TimestampedModel):
     delai_saisie_notes = models.PositiveIntegerField(default=2)
     autoriser_modification_notes = models.BooleanField(default=False)
     generation_auto_recaps = models.BooleanField(default=True)
+    
+    def clean(self):
+        from django.core.exceptions import ValidationError
+        if self.date_debut >= self.date_fin:
+            raise ValidationError('La date de début doit être antérieure à la date de fin.')
+    
+    def save(self, *args, **kwargs):
+        # S'assurer qu'une seule année est active
+        if self.active:
+            AnneeAcademique.objects.filter(active=True).exclude(pk=self.pk).update(active=False)
+        super().save(*args, **kwargs)
     
     def __str__(self):
         return self.libelle
@@ -33,6 +48,12 @@ class Session(TimestampedModel):
     date_fin_session = models.DateField(null=True, blank=True)
     generation_recaps_auto = models.BooleanField(default=True)
     
+    def clean(self):
+        from django.core.exceptions import ValidationError
+        if self.date_debut_session and self.date_fin_session:
+            if self.date_debut_session >= self.date_fin_session:
+                raise ValidationError('La date de début doit être antérieure à la date de fin.')
+    
     def __str__(self):
         return self.nom
     
@@ -49,11 +70,18 @@ class Semestre(TimestampedModel):
     date_debut = models.DateField(null=True, blank=True)
     date_fin = models.DateField(null=True, blank=True)
     
+    def clean(self):
+        from django.core.exceptions import ValidationError
+        if self.date_debut and self.date_fin:
+            if self.date_debut >= self.date_fin:
+                raise ValidationError('La date de début doit être antérieure à la date de fin.')
+    
     def __str__(self):
         return self.nom
     
     class Meta:
         db_table = 'semestres'
+        unique_together = ['numero']
 
 class Classe(TimestampedModel):
     """Classes/Promotions"""
@@ -78,6 +106,15 @@ class Classe(TimestampedModel):
     recap_s2_genere = models.BooleanField(default=False)
     date_recap_s1 = models.DateTimeField(null=True, blank=True)
     date_recap_s2 = models.DateTimeField(null=True, blank=True)
+    
+    def clean(self):
+        from django.core.exceptions import ValidationError
+        if self.effectif_max <= 0:
+            raise ValidationError('L\'effectif maximum doit être supérieur à 0.')
+        
+        # Vérifier que l'option appartient à la filière
+        if self.option and self.option.filiere != self.filiere:
+            raise ValidationError('L\'option sélectionnée n\'appartient pas à cette filière.')
     
     def __str__(self):
         return f"{self.nom} - {self.annee_academique}"
@@ -106,6 +143,11 @@ class UE(TimestampedModel):
     volume_horaire_td = models.PositiveIntegerField(default=0)
     volume_horaire_tp = models.PositiveIntegerField(default=0)
     
+    def clean(self):
+        from django.core.exceptions import ValidationError
+        if self.credits <= 0:
+            raise ValidationError('Le nombre de crédits doit être supérieur à 0.')
+    
     def __str__(self):
         return f"{self.code} - {self.nom}"
     
@@ -128,6 +170,19 @@ class EC(TimestampedModel):
         validators=[MinValueValidator(0.01), MaxValueValidator(100.00)]
     )
     actif = models.BooleanField(default=True)
+    
+    def clean(self):
+        from django.core.exceptions import ValidationError
+        from django.db.models import Sum
+        
+        # Vérifier que la somme des poids des EC de l'UE ne dépasse pas 100%
+        if self.ue:
+            total_poids = EC.objects.filter(ue=self.ue, actif=True).exclude(pk=self.pk).aggregate(
+                total=Sum('poids_ec')
+            )['total'] or 0
+            
+            if total_poids + self.poids_ec > 100:
+                raise ValidationError(f'Le total des poids des EC ne peut pas dépasser 100%. Actuel: {total_poids}%')
     
     def __str__(self):
         return f"{self.code} - {self.nom}"
@@ -162,79 +217,96 @@ class ConfigurationEvaluationEC(TimestampedModel):
         validators=[MinValueValidator(0.01), MaxValueValidator(100.00)]
     )
     
+    def clean(self):
+        from django.core.exceptions import ValidationError
+        from django.db.models import Sum
+        
+        # Vérifier que le total des pourcentages pour un EC ne dépasse pas 100%
+        if self.ec:
+            total_pourcentage = ConfigurationEvaluationEC.objects.filter(
+                ec=self.ec
+            ).exclude(pk=self.pk).aggregate(
+                total=Sum('pourcentage')
+            )['total'] or 0
+            
+            if total_pourcentage + self.pourcentage > 100:
+                raise ValidationError(
+                    f'Le total des pourcentages ne peut pas dépasser 100%. Actuel: {total_pourcentage}%'
+                )
+    
     class Meta:
         db_table = 'configuration_evaluations_ec'
         unique_together = ['ec', 'type_evaluation']
 
 # Modèles supplémentaires avec gestion d'erreur
-try:
-    class ECClasse(TimestampedModel):
-        """Liaison EC-Classe"""
-        ec = models.ForeignKey(EC, on_delete=models.CASCADE)
-        classe = models.ForeignKey(Classe, on_delete=models.CASCADE)
-        obligatoire = models.BooleanField(default=True)
-        
-        class Meta:
-            db_table = 'ec_classes'
-            unique_together = ['ec', 'classe']
+class ECClasse(TimestampedModel):
+    """Liaison EC-Classe"""
+    ec = models.ForeignKey(EC, on_delete=models.CASCADE)
+    classe = models.ForeignKey(Classe, on_delete=models.CASCADE)
+    obligatoire = models.BooleanField(default=True)
+    
+    class Meta:
+        db_table = 'ec_classes'
+        unique_together = ['ec', 'classe']
 
-    class RecapitulatifSemestriel(TimestampedModel):
-        """Récapitulatifs semestriels"""
-        classe = models.ForeignKey(Classe, on_delete=models.CASCADE)
-        semestre = models.ForeignKey(Semestre, on_delete=models.CASCADE)
-        session = models.ForeignKey(Session, on_delete=models.CASCADE)
-        annee_academique = models.ForeignKey(AnneeAcademique, on_delete=models.CASCADE)
-        
-        date_generation = models.DateTimeField(auto_now_add=True)
-        genere_par = models.ForeignKey(
-            'users.User', 
-            on_delete=models.SET_NULL, 
-            null=True,
-            blank=True
-        )
-        statut = models.CharField(
-            max_length=20,
-            choices=[
-                ('en_cours', 'En cours'),
-                ('termine', 'Terminé'),
-                ('erreur', 'Erreur'),
-            ],
-            default='en_cours'
-        )
-        
-        nombre_etudiants = models.PositiveIntegerField(default=0)
-        moyenne_classe = models.DecimalField(max_digits=4, decimal_places=2, null=True, blank=True)
-        taux_reussite = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
-        
-        fichier_pdf = models.FileField(upload_to='recapitulatifs/', null=True, blank=True)
-        fichier_excel = models.FileField(upload_to='recapitulatifs/', null=True, blank=True)
-        
-        def __str__(self):
-            return f"Récap {self.classe.nom} - {self.semestre.nom} - {self.session.nom}"
-        
-        class Meta:
-            db_table = 'recapitulatifs_semestriels'
-            unique_together = ['classe', 'semestre', 'session', 'annee_academique']
+class RecapitulatifSemestriel(TimestampedModel):
+    """Récapitulatifs semestriels"""
+    classe = models.ForeignKey(Classe, on_delete=models.CASCADE)
+    semestre = models.ForeignKey(Semestre, on_delete=models.CASCADE)
+    session = models.ForeignKey(Session, on_delete=models.CASCADE)
+    annee_academique = models.ForeignKey(AnneeAcademique, on_delete=models.CASCADE)
+    
+    date_generation = models.DateTimeField(auto_now_add=True)
+    genere_par = models.ForeignKey(
+        'users.User', 
+        on_delete=models.SET_NULL, 
+        null=True,
+        blank=True
+    )
+    statut = models.CharField(
+        max_length=20,
+        choices=[
+            ('en_cours', 'En cours'),
+            ('termine', 'Terminé'),
+            ('erreur', 'Erreur'),
+        ],
+        default='en_cours'
+    )
+    
+    nombre_etudiants = models.PositiveIntegerField(default=0)
+    moyenne_classe = models.DecimalField(max_digits=4, decimal_places=2, null=True, blank=True)
+    taux_reussite = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    
+    fichier_pdf = models.FileField(upload_to='recapitulatifs/', null=True, blank=True)
+    fichier_excel = models.FileField(upload_to='recapitulatifs/', null=True, blank=True)
+    
+    def __str__(self):
+        return f"Récap {self.classe.nom} - {self.semestre.nom} - {self.session.nom}"
+    
+    class Meta:
+        db_table = 'recapitulatifs_semestriels'
+        unique_together = ['classe', 'semestre', 'session', 'annee_academique']
 
-    class ParametrageSysteme(TimestampedModel):
-        """Paramètres système"""
-        cle = models.CharField(max_length=100, unique=True)
-        valeur = models.TextField()
-        description = models.TextField()
-        type_valeur = models.CharField(
-            max_length=20,
-            choices=[
-                ('int', 'Entier'),
-                ('float', 'Décimal'),
-                ('bool', 'Booléen'),
-                ('str', 'Chaîne'),
-                ('date', 'Date'),
-            ],
-            default='str'
-        )
-        
-        def get_valeur(self):
-            """Retourne la valeur convertie selon son type"""
+class ParametrageSysteme(TimestampedModel):
+    """Paramètres système"""
+    cle = models.CharField(max_length=100, unique=True)
+    valeur = models.TextField()
+    description = models.TextField()
+    type_valeur = models.CharField(
+        max_length=20,
+        choices=[
+            ('int', 'Entier'),
+            ('float', 'Décimal'),
+            ('bool', 'Booléen'),
+            ('str', 'Chaîne'),
+            ('date', 'Date'),
+        ],
+        default='str'
+    )
+    
+    def get_valeur(self):
+        """Retourne la valeur convertie selon son type"""
+        try:
             if self.type_valeur == 'int':
                 return int(self.valeur)
             elif self.type_valeur == 'float':
@@ -245,11 +317,8 @@ try:
                 from datetime import datetime
                 return datetime.strptime(self.valeur, '%Y-%m-%d').date()
             return self.valeur
-        
-        class Meta:
-            db_table = 'parametrage_systeme'
-
-except Exception as e:
-    # Si certains modèles échouent, on continue avec les modèles de base
-    print(f"Attention: Certains modèles avancés non créés: {e}")
-
+        except (ValueError, TypeError):
+            return self.valeur  # Retourner la valeur brute en cas d'erreur
+    
+    class Meta:
+        db_table = 'parametrage_systeme'

@@ -1,9 +1,13 @@
+# ========================================
+# FICHIER: acadflow_backend/users/models.py
+# ========================================
+
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from core.models import TimestampedModel
 
 class User(AbstractUser):
-    """Utilisateur de base étendu"""
+    """Utilisateur de base étendu - Version corrigée"""
     TYPES_UTILISATEUR = (
         ('etudiant', 'Étudiant'),
         ('enseignant', 'Enseignant'),
@@ -21,13 +25,13 @@ class User(AbstractUser):
     photo = models.ImageField(upload_to='photos/', null=True, blank=True)
     actif = models.BooleanField(default=True)
     
-    # Résoudre le conflit des related_name
+    # Résoudre les conflits related_name avec auth.User
     groups = models.ManyToManyField(
         'auth.Group',
         verbose_name='groups',
         blank=True,
         help_text='The groups this user belongs to.',
-        related_name='acadflow_users',
+        related_name='acadflow_user_set',  # Changé pour éviter les conflits
         related_query_name='acadflow_user',
     )
     user_permissions = models.ManyToManyField(
@@ -35,13 +39,19 @@ class User(AbstractUser):
         verbose_name='user permissions',
         blank=True,
         help_text='Specific permissions for this user.',
-        related_name='acadflow_users',
+        related_name='acadflow_user_set',  # Changé pour éviter les conflits
         related_query_name='acadflow_user',
     )
     
     def __str__(self):
         return f"{self.matricule} - {self.get_full_name()}"
+    
+    class Meta:
+        db_table = 'users'  # Table explicite
+        verbose_name = 'Utilisateur'
+        verbose_name_plural = 'Utilisateurs'
 
+# Autres modèles inchangés...
 class Enseignant(TimestampedModel):
     """Profil enseignant"""
     GRADES = (
@@ -54,7 +64,7 @@ class Enseignant(TimestampedModel):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     grade = models.CharField(max_length=20, choices=GRADES)
     specialite = models.CharField(max_length=200)
-    statut = models.CharField(max_length=50)  # Permanent, Vacataire, etc.
+    statut = models.CharField(max_length=50)
     
     def __str__(self):
         return f"{self.user.get_full_name()} ({self.grade})"
@@ -90,8 +100,8 @@ class StatutEtudiant(TimestampedModel):
 class Inscription(TimestampedModel):
     """Inscriptions des étudiants aux classes"""
     etudiant = models.ForeignKey(Etudiant, on_delete=models.CASCADE)
-    classe = models.ForeignKey('academics.Classe', on_delete=models.CASCADE)  # String référence
-    annee_academique = models.ForeignKey('academics.AnneeAcademique', on_delete=models.CASCADE)  # String référence
+    classe = models.ForeignKey('academics.Classe', on_delete=models.CASCADE)
+    annee_academique = models.ForeignKey('academics.AnneeAcademique', on_delete=models.CASCADE)
     date_inscription = models.DateField(auto_now_add=True)
     statut = models.ForeignKey(StatutEtudiant, on_delete=models.CASCADE)
     nombre_redoublements = models.PositiveIntegerField(default=0)
@@ -106,7 +116,7 @@ class HistoriqueStatut(TimestampedModel):
     etudiant = models.ForeignKey(Etudiant, on_delete=models.CASCADE)
     statut = models.ForeignKey(StatutEtudiant, on_delete=models.CASCADE)
     date_changement = models.DateTimeField(auto_now_add=True)
-    annee_academique = models.ForeignKey('academics.AnneeAcademique', on_delete=models.CASCADE)  # String référence
+    annee_academique = models.ForeignKey('academics.AnneeAcademique', on_delete=models.CASCADE)
     motif = models.TextField(blank=True)
     
     class Meta:

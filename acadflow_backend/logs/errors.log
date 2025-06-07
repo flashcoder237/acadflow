@@ -1,0 +1,760 @@
+ERROR 2025-06-02 08:06:27,524 log 10664 19400 Internal Server Error: /admin/core/cycle/add/
+Traceback (most recent call last):
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+psycopg2.errors.UndefinedTable: ERREUR:  la relation « users » n'existe pas
+LINE 1: ...naissance", "users"."photo", "users"."actif" FROM "users" WH...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\contrib\admin\options.py", line 719, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\utils\decorators.py", line 192, in _view_wrapper
+    result = _process_exception(request, e)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\utils\decorators.py", line 190, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\contrib\admin\sites.py", line 234, in inner
+    if not self.has_permission(request):
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\contrib\admin\sites.py", line 207, in has_permission
+    return request.user.is_active and request.user.is_staff
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\utils\functional.py", line 251, in inner
+    self._setup()
+    ~~~~~~~~~~~^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\utils\functional.py", line 404, in _setup
+    self._wrapped = self._setupfunc()
+                    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\contrib\auth\middleware.py", line 39, in <lambda>
+    request.user = SimpleLazyObject(lambda: get_user(request))
+                                            ~~~~~~~~^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\contrib\auth\middleware.py", line 19, in get_user
+    request._cached_user = auth.get_user(request)
+                           ~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\contrib\auth\__init__.py", line 311, in get_user
+    user = backend.get_user(user_id)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\contrib\auth\backends.py", line 232, in get_user
+    user = UserModel._default_manager.get(pk=user_id)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\models\query.py", line 629, in get
+    num = len(clone)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\models\query.py", line 366, in __len__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\models\query.py", line 1945, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+django.db.utils.ProgrammingError: ERREUR:  la relation « users » n'existe pas
+LINE 1: ...naissance", "users"."photo", "users"."actif" FROM "users" WH...
+                                                             ^
+
+ERROR 2025-06-02 08:06:27,529 basehttp 10664 19400 "POST /admin/core/cycle/add/ HTTP/1.1" 500 194714
+ERROR 2025-06-02 08:06:30,824 log 10664 19400 Internal Server Error: /admin/core/cycle/add/
+Traceback (most recent call last):
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+psycopg2.errors.UndefinedTable: ERREUR:  la relation « users » n'existe pas
+LINE 1: ...naissance", "users"."photo", "users"."actif" FROM "users" WH...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\contrib\admin\options.py", line 719, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\utils\decorators.py", line 192, in _view_wrapper
+    result = _process_exception(request, e)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\utils\decorators.py", line 190, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\contrib\admin\sites.py", line 234, in inner
+    if not self.has_permission(request):
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\contrib\admin\sites.py", line 207, in has_permission
+    return request.user.is_active and request.user.is_staff
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\utils\functional.py", line 251, in inner
+    self._setup()
+    ~~~~~~~~~~~^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\utils\functional.py", line 404, in _setup
+    self._wrapped = self._setupfunc()
+                    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\contrib\auth\middleware.py", line 39, in <lambda>
+    request.user = SimpleLazyObject(lambda: get_user(request))
+                                            ~~~~~~~~^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\contrib\auth\middleware.py", line 19, in get_user
+    request._cached_user = auth.get_user(request)
+                           ~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\contrib\auth\__init__.py", line 311, in get_user
+    user = backend.get_user(user_id)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\contrib\auth\backends.py", line 232, in get_user
+    user = UserModel._default_manager.get(pk=user_id)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\models\query.py", line 629, in get
+    num = len(clone)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\models\query.py", line 366, in __len__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\models\query.py", line 1945, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+django.db.utils.ProgrammingError: ERREUR:  la relation « users » n'existe pas
+LINE 1: ...naissance", "users"."photo", "users"."actif" FROM "users" WH...
+                                                             ^
+
+ERROR 2025-06-02 08:06:30,831 basehttp 10664 19400 "POST /admin/core/cycle/add/ HTTP/1.1" 500 194714
+ERROR 2025-06-02 08:06:33,812 log 10664 19400 Internal Server Error: /admin/core/cycle/add/
+Traceback (most recent call last):
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+psycopg2.errors.UndefinedTable: ERREUR:  la relation « users » n'existe pas
+LINE 1: ...naissance", "users"."photo", "users"."actif" FROM "users" WH...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\contrib\admin\options.py", line 719, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\utils\decorators.py", line 192, in _view_wrapper
+    result = _process_exception(request, e)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\utils\decorators.py", line 190, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\contrib\admin\sites.py", line 234, in inner
+    if not self.has_permission(request):
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\contrib\admin\sites.py", line 207, in has_permission
+    return request.user.is_active and request.user.is_staff
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\utils\functional.py", line 251, in inner
+    self._setup()
+    ~~~~~~~~~~~^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\utils\functional.py", line 404, in _setup
+    self._wrapped = self._setupfunc()
+                    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\contrib\auth\middleware.py", line 39, in <lambda>
+    request.user = SimpleLazyObject(lambda: get_user(request))
+                                            ~~~~~~~~^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\contrib\auth\middleware.py", line 19, in get_user
+    request._cached_user = auth.get_user(request)
+                           ~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\contrib\auth\__init__.py", line 311, in get_user
+    user = backend.get_user(user_id)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\contrib\auth\backends.py", line 232, in get_user
+    user = UserModel._default_manager.get(pk=user_id)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\models\query.py", line 629, in get
+    num = len(clone)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\models\query.py", line 366, in __len__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\models\query.py", line 1945, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+django.db.utils.ProgrammingError: ERREUR:  la relation « users » n'existe pas
+LINE 1: ...naissance", "users"."photo", "users"."actif" FROM "users" WH...
+                                                             ^
+
+ERROR 2025-06-02 08:06:33,819 basehttp 10664 19400 "GET /admin/core/cycle/add/ HTTP/1.1" 500 193218
+ERROR 2025-06-02 08:06:34,752 log 10664 19400 Internal Server Error: /admin/core/cycle/
+Traceback (most recent call last):
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+psycopg2.errors.UndefinedTable: ERREUR:  la relation « users » n'existe pas
+LINE 1: ...naissance", "users"."photo", "users"."actif" FROM "users" WH...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\contrib\admin\options.py", line 719, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\utils\decorators.py", line 192, in _view_wrapper
+    result = _process_exception(request, e)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\utils\decorators.py", line 190, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\contrib\admin\sites.py", line 234, in inner
+    if not self.has_permission(request):
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\contrib\admin\sites.py", line 207, in has_permission
+    return request.user.is_active and request.user.is_staff
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\utils\functional.py", line 251, in inner
+    self._setup()
+    ~~~~~~~~~~~^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\utils\functional.py", line 404, in _setup
+    self._wrapped = self._setupfunc()
+                    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\contrib\auth\middleware.py", line 39, in <lambda>
+    request.user = SimpleLazyObject(lambda: get_user(request))
+                                            ~~~~~~~~^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\contrib\auth\middleware.py", line 19, in get_user
+    request._cached_user = auth.get_user(request)
+                           ~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\contrib\auth\__init__.py", line 311, in get_user
+    user = backend.get_user(user_id)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\contrib\auth\backends.py", line 232, in get_user
+    user = UserModel._default_manager.get(pk=user_id)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\models\query.py", line 629, in get
+    num = len(clone)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\models\query.py", line 366, in __len__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\models\query.py", line 1945, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+django.db.utils.ProgrammingError: ERREUR:  la relation « users » n'existe pas
+LINE 1: ...naissance", "users"."photo", "users"."actif" FROM "users" WH...
+                                                             ^
+
+ERROR 2025-06-02 08:06:34,758 basehttp 10664 19400 "GET /admin/core/cycle/ HTTP/1.1" 500 193181
+ERROR 2025-06-02 08:06:36,911 log 10664 19400 Internal Server Error: /admin/core/niveau/add/
+Traceback (most recent call last):
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+psycopg2.errors.UndefinedTable: ERREUR:  la relation « users » n'existe pas
+LINE 1: ...naissance", "users"."photo", "users"."actif" FROM "users" WH...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\contrib\admin\options.py", line 719, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\utils\decorators.py", line 192, in _view_wrapper
+    result = _process_exception(request, e)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\utils\decorators.py", line 190, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\contrib\admin\sites.py", line 234, in inner
+    if not self.has_permission(request):
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\contrib\admin\sites.py", line 207, in has_permission
+    return request.user.is_active and request.user.is_staff
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\utils\functional.py", line 251, in inner
+    self._setup()
+    ~~~~~~~~~~~^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\utils\functional.py", line 404, in _setup
+    self._wrapped = self._setupfunc()
+                    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\contrib\auth\middleware.py", line 39, in <lambda>
+    request.user = SimpleLazyObject(lambda: get_user(request))
+                                            ~~~~~~~~^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\contrib\auth\middleware.py", line 19, in get_user
+    request._cached_user = auth.get_user(request)
+                           ~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\contrib\auth\__init__.py", line 311, in get_user
+    user = backend.get_user(user_id)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\contrib\auth\backends.py", line 232, in get_user
+    user = UserModel._default_manager.get(pk=user_id)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\models\query.py", line 629, in get
+    num = len(clone)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\models\query.py", line 366, in __len__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\models\query.py", line 1945, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+django.db.utils.ProgrammingError: ERREUR:  la relation « users » n'existe pas
+LINE 1: ...naissance", "users"."photo", "users"."actif" FROM "users" WH...
+                                                             ^
+
+ERROR 2025-06-02 08:06:36,917 basehttp 10664 19400 "GET /admin/core/niveau/add/ HTTP/1.1" 500 193243
+ERROR 2025-06-02 08:06:37,525 log 10664 19400 Internal Server Error: /admin/core/niveau/
+Traceback (most recent call last):
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+psycopg2.errors.UndefinedTable: ERREUR:  la relation « users » n'existe pas
+LINE 1: ...naissance", "users"."photo", "users"."actif" FROM "users" WH...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\contrib\admin\options.py", line 719, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\utils\decorators.py", line 192, in _view_wrapper
+    result = _process_exception(request, e)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\utils\decorators.py", line 190, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\contrib\admin\sites.py", line 234, in inner
+    if not self.has_permission(request):
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\contrib\admin\sites.py", line 207, in has_permission
+    return request.user.is_active and request.user.is_staff
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\utils\functional.py", line 251, in inner
+    self._setup()
+    ~~~~~~~~~~~^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\utils\functional.py", line 404, in _setup
+    self._wrapped = self._setupfunc()
+                    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\contrib\auth\middleware.py", line 39, in <lambda>
+    request.user = SimpleLazyObject(lambda: get_user(request))
+                                            ~~~~~~~~^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\contrib\auth\middleware.py", line 19, in get_user
+    request._cached_user = auth.get_user(request)
+                           ~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\contrib\auth\__init__.py", line 311, in get_user
+    user = backend.get_user(user_id)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\contrib\auth\backends.py", line 232, in get_user
+    user = UserModel._default_manager.get(pk=user_id)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\models\query.py", line 629, in get
+    num = len(clone)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\models\query.py", line 366, in __len__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\models\query.py", line 1945, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+django.db.utils.ProgrammingError: ERREUR:  la relation « users » n'existe pas
+LINE 1: ...naissance", "users"."photo", "users"."actif" FROM "users" WH...
+                                                             ^
+
+ERROR 2025-06-02 08:06:37,531 basehttp 10664 19400 "GET /admin/core/niveau/ HTTP/1.1" 500 193211
+ERROR 2025-06-02 08:06:40,051 log 10664 19400 Internal Server Error: /admin/
+Traceback (most recent call last):
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+psycopg2.errors.UndefinedTable: ERREUR:  la relation « users » n'existe pas
+LINE 1: ...naissance", "users"."photo", "users"."actif" FROM "users" WH...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\contrib\admin\sites.py", line 265, in wrapper
+    return self.admin_view(view, cacheable)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\utils\decorators.py", line 192, in _view_wrapper
+    result = _process_exception(request, e)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\utils\decorators.py", line 190, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\contrib\admin\sites.py", line 234, in inner
+    if not self.has_permission(request):
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\contrib\admin\sites.py", line 207, in has_permission
+    return request.user.is_active and request.user.is_staff
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\utils\functional.py", line 251, in inner
+    self._setup()
+    ~~~~~~~~~~~^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\utils\functional.py", line 404, in _setup
+    self._wrapped = self._setupfunc()
+                    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\contrib\auth\middleware.py", line 39, in <lambda>
+    request.user = SimpleLazyObject(lambda: get_user(request))
+                                            ~~~~~~~~^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\contrib\auth\middleware.py", line 19, in get_user
+    request._cached_user = auth.get_user(request)
+                           ~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\contrib\auth\__init__.py", line 311, in get_user
+    user = backend.get_user(user_id)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\contrib\auth\backends.py", line 232, in get_user
+    user = UserModel._default_manager.get(pk=user_id)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\models\query.py", line 629, in get
+    num = len(clone)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\models\query.py", line 366, in __len__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\models\query.py", line 1945, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+django.db.utils.ProgrammingError: ERREUR:  la relation « users » n'existe pas
+LINE 1: ...naissance", "users"."photo", "users"."actif" FROM "users" WH...
+                                                             ^
+
+ERROR 2025-06-02 08:06:40,055 basehttp 10664 19400 "GET /admin/ HTTP/1.1" 500 193219
+ERROR 2025-06-02 08:15:03,509 log 17880 12588 Internal Server Error: /admin/login/
+Traceback (most recent call last):
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: users
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\contrib\admin\sites.py", line 449, in login
+    return LoginView.as_view(**defaults)(request)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\views\decorators\debug.py", line 143, in sensitive_post_parameters_wrapper
+    return view(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\utils\decorators.py", line 192, in _view_wrapper
+    result = _process_exception(request, e)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\utils\decorators.py", line 190, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\contrib\auth\views.py", line 89, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\views\generic\base.py", line 143, in dispatch
+    return handler(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\views\generic\edit.py", line 150, in post
+    if form.is_valid():
+       ~~~~~~~~~~~~~^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\forms\forms.py", line 206, in is_valid
+    return self.is_bound and not self.errors
+                                 ^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\forms\forms.py", line 201, in errors
+    self.full_clean()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\forms\forms.py", line 338, in full_clean
+    self._clean_form()
+    ~~~~~~~~~~~~~~~~^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\forms\forms.py", line 354, in _clean_form
+    cleaned_data = self.clean()
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\views\decorators\debug.py", line 75, in sensitive_variables_wrapper
+    return func(*func_args, **func_kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\contrib\auth\forms.py", line 366, in clean
+    self.user_cache = authenticate(
+                      ~~~~~~~~~~~~^
+        self.request, username=username, password=password
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\views\decorators\debug.py", line 75, in sensitive_variables_wrapper
+    return func(*func_args, **func_kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\contrib\auth\__init__.py", line 114, in authenticate
+    user = backend.authenticate(request, **credentials)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\contrib\auth\backends.py", line 65, in authenticate
+    user = UserModel._default_manager.get_by_natural_key(username)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\contrib\auth\base_user.py", line 37, in get_by_natural_key
+    return self.get(**{self.model.USERNAME_FIELD: username})
+           ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\models\query.py", line 629, in get
+    num = len(clone)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\models\query.py", line 366, in __len__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\models\query.py", line 1945, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such table: users
+ERROR 2025-06-02 08:15:03,546 basehttp 17880 12588 "POST /admin/login/?next=/admin/ HTTP/1.1" 500 265147

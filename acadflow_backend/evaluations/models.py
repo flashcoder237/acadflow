@@ -1,16 +1,33 @@
+# ========================================
+# FICHIER: acadflow_backend/evaluations/models.py (Corrections)
+# ========================================
+
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from core.models import TimestampedModel
-from academics.models import EC, Classe, Session, AnneeAcademique
-from users.models import Etudiant, Enseignant
+from django.utils import timezone
+from datetime import timedelta
 
 class Enseignement(TimestampedModel):
     """Affectation enseignant-EC-classe"""
-    enseignant = models.ForeignKey(Enseignant, on_delete=models.CASCADE)
-    ec = models.ForeignKey(EC, on_delete=models.CASCADE)
-    classe = models.ForeignKey(Classe, on_delete=models.CASCADE)
-    annee_academique = models.ForeignKey(AnneeAcademique, on_delete=models.CASCADE)
+    enseignant = models.ForeignKey('users.Enseignant', on_delete=models.CASCADE)
+    ec = models.ForeignKey('academics.EC', on_delete=models.CASCADE)
+    classe = models.ForeignKey('academics.Classe', on_delete=models.CASCADE)
+    annee_academique = models.ForeignKey('academics.AnneeAcademique', on_delete=models.CASCADE)
     actif = models.BooleanField(default=True)
+    
+    def clean(self):
+        from django.core.exceptions import ValidationError
+        
+        # Vérifier que l'enseignant, l'EC et la classe sont cohérents
+        if self.ec and self.classe:
+            if self.ec.ue.niveau != self.classe.niveau:
+                raise ValidationError(
+                    'L\'EC et la classe doivent être du même niveau.'
+                )
+    
+    def __str__(self):
+        return f"{self.enseignant} - {self.ec} - {self.classe}"
     
     class Meta:
         db_table = 'enseignements'
@@ -20,88 +37,6 @@ class Evaluation(TimestampedModel):
     """Évaluations concrètes"""
     nom = models.CharField(max_length=200)
     enseignement = models.ForeignKey(Enseignement, on_delete=models.CASCADE)
-    type_evaluation = models.ForeignKey('academics.TypeEvaluation', on_delete=models.CASCADE)
-    session = models.ForeignKey(Session, on_delete=models.CASCADE)
-    date_evaluation = models.DateField()
-    note_sur = models.DecimalField(max_digits=4, decimal_places=2, default=20.00)
-    saisie_terminee = models.BooleanField(default=False)
-    
-    def __str__(self):
-        return f"{self.nom} - {self.enseignement.ec.nom}"
-    
-    class Meta:
-        db_table = 'evaluations'
-
-class Note(TimestampedModel):
-    """Notes individuelles des étudiants"""
-    etudiant = models.ForeignKey(Etudiant, on_delete=models.CASCADE)
-    evaluation = models.ForeignKey(Evaluation, on_delete=models.CASCADE)
-    note_obtenue = models.DecimalField(
-        max_digits=4, 
-        decimal_places=2,
-        validators=[MinValueValidator(0)]
-    )
-    absent = models.BooleanField(default=False)
-    justifie = models.BooleanField(default=False)
-    commentaire = models.TextField(blank=True)
-    
-    class Meta:
-        db_table = 'notes'
-        unique_together = ['etudiant', 'evaluation']
-
-class MoyenneEC(TimestampedModel):
-    """Moyennes par EC"""
-    etudiant = models.ForeignKey(Etudiant, on_delete=models.CASCADE)
-    ec = models.ForeignKey(EC, on_delete=models.CASCADE)
-    session = models.ForeignKey(Session, on_delete=models.CASCADE)
-    annee_academique = models.ForeignKey(AnneeAcademique, on_delete=models.CASCADE)
-    moyenne = models.DecimalField(max_digits=4, decimal_places=2)
-    validee = models.BooleanField(default=False)
-    
-    class Meta:
-        db_table = 'moyennes_ecs'
-        unique_together = ['etudiant', 'ec', 'session', 'annee_academique']
-
-class MoyenneUE(TimestampedModel):
-    """Moyennes par UE"""
-    etudiant = models.ForeignKey(Etudiant, on_delete=models.CASCADE)
-    ue = models.ForeignKey('academics.UE', on_delete=models.CASCADE)
-    session = models.ForeignKey(Session, on_delete=models.CASCADE)
-    annee_academique = models.ForeignKey(AnneeAcademique, on_delete=models.CASCADE)
-    moyenne = models.DecimalField(max_digits=4, decimal_places=2)
-    credits_obtenus = models.PositiveIntegerField(default=0)
-    validee = models.BooleanField(default=False)
-    
-    class Meta:
-        db_table = 'moyennes_ues'
-        unique_together = ['etudiant', 'ue', 'session', 'annee_academique']
-
-class MoyenneSemestre(TimestampedModel):
-    """Moyennes semestrielles"""
-    etudiant = models.ForeignKey(Etudiant, on_delete=models.CASCADE)
-    classe = models.ForeignKey(Classe, on_delete=models.CASCADE)
-    semestre = models.ForeignKey('academics.Semestre', on_delete=models.CASCADE)
-    session = models.ForeignKey(Session, on_delete=models.CASCADE)
-    annee_academique = models.ForeignKey(AnneeAcademique, on_delete=models.CASCADE)
-    moyenne_generale = models.DecimalField(max_digits=4, decimal_places=2)
-    credits_obtenus = models.PositiveIntegerField(default=0)
-    credits_requis = models.PositiveIntegerField(default=30)
-    
-    class Meta:
-        db_table = 'moyennes_semestres'
-        unique_together = ['etudiant', 'classe', 'semestre', 'session', 'annee_academique']
-
-
-from datetime import timedelta, timezone
-from django.db import models
-from django.core.validators import MinValueValidator, MaxValueValidator
-
-from core.models import TimestampedModel
-
-class Evaluation(TimestampedModel):
-    """Évaluations concrètes"""
-    nom = models.CharField(max_length=200)
-    enseignement = models.ForeignKey('Enseignement', on_delete=models.CASCADE)
     type_evaluation = models.ForeignKey('academics.TypeEvaluation', on_delete=models.CASCADE)
     session = models.ForeignKey('academics.Session', on_delete=models.CASCADE)
     date_evaluation = models.DateField()
@@ -114,13 +49,22 @@ class Evaluation(TimestampedModel):
     modification_autorisee = models.BooleanField(default=False)
     nb_modifications = models.PositiveIntegerField(default=0)
     
+    def clean(self):
+        from django.core.exceptions import ValidationError
+        if self.note_sur <= 0:
+            raise ValidationError('La note maximale doit être supérieure à 0.')
+        
+        if self.date_evaluation and self.date_evaluation > timezone.now().date():
+            # Permettre les dates futures mais avertir
+            pass
+    
     def save(self, *args, **kwargs):
         # Calculer automatiquement la date limite de saisie
         if not self.date_limite_saisie and self.date_evaluation:
             delai_defaut = 14  # 2 semaines par défaut
             
             # Vérifier s'il y a un délai spécifique pour ce type d'évaluation
-            if self.type_evaluation.delai_saisie_defaut:
+            if self.type_evaluation and self.type_evaluation.delai_saisie_defaut:
                 delai = self.type_evaluation.delai_saisie_defaut
             else:
                 # Utiliser le délai de l'année académique
@@ -203,20 +147,59 @@ class Note(TimestampedModel):
         blank=True
     )
     
+    def clean(self):
+        from django.core.exceptions import ValidationError
+        
+        # Validation de la note selon le barème de l'évaluation
+        if not self.absent and self.evaluation:
+            if self.note_obtenue > self.evaluation.note_sur:
+                raise ValidationError(
+                    f'La note ne peut pas dépasser {self.evaluation.note_sur}'
+                )
+    
     def save(self, *args, **kwargs):
         # Traçabilité des modifications
         if self.pk:  # Si la note existe déjà
-            old_note = Note.objects.get(pk=self.pk)
-            if old_note.note_obtenue != self.note_obtenue:
-                self.modifiee = True
-                self.date_modification = timezone.now()
-                self.note_precedente = old_note.note_obtenue
+            try:
+                old_note = Note.objects.get(pk=self.pk)
+                if old_note.note_obtenue != self.note_obtenue:
+                    self.modifiee = True
+                    self.date_modification = timezone.now()
+                    self.note_precedente = old_note.note_obtenue
+            except Note.DoesNotExist:
+                pass
         
         super().save(*args, **kwargs)
+    
+    def __str__(self):
+        return f"{self.etudiant.user.matricule} - {self.evaluation.nom}: {self.note_obtenue}"
     
     class Meta:
         db_table = 'notes'
         unique_together = ['etudiant', 'evaluation']
+
+class MoyenneEC(TimestampedModel):
+    """Moyennes par EC"""
+    etudiant = models.ForeignKey('users.Etudiant', on_delete=models.CASCADE)
+    ec = models.ForeignKey('academics.EC', on_delete=models.CASCADE)
+    session = models.ForeignKey('academics.Session', on_delete=models.CASCADE)
+    annee_academique = models.ForeignKey('academics.AnneeAcademique', on_delete=models.CASCADE)
+    moyenne = models.DecimalField(max_digits=4, decimal_places=2)
+    validee = models.BooleanField(default=False)
+    
+    def clean(self):
+        from django.core.exceptions import ValidationError
+        if self.moyenne < 0 or self.moyenne > 20:
+            raise ValidationError('La moyenne doit être comprise entre 0 et 20.')
+    
+    def save(self, *args, **kwargs):
+        # Auto-validation si moyenne >= 10
+        self.validee = self.moyenne >= 10
+        super().save(*args, **kwargs)
+    
+    class Meta:
+        db_table = 'moyennes_ecs'
+        unique_together = ['etudiant', 'ec', 'session', 'annee_academique']
 
 class MoyenneUE(TimestampedModel):
     """Moyennes par UE - sans coefficient, juste crédits"""
@@ -228,9 +211,70 @@ class MoyenneUE(TimestampedModel):
     credits_obtenus = models.PositiveIntegerField(default=0)
     validee = models.BooleanField(default=False)
     
+    def clean(self):
+        from django.core.exceptions import ValidationError
+        if self.moyenne < 0 or self.moyenne > 20:
+            raise ValidationError('La moyenne doit être comprise entre 0 et 20.')
+        
+        if self.ue and self.credits_obtenus > self.ue.credits:
+            raise ValidationError('Les crédits obtenus ne peuvent pas dépasser les crédits de l\'UE.')
+    
+    def save(self, *args, **kwargs):
+        # Auto-validation et calcul des crédits
+        self.validee = self.moyenne >= 10
+        if self.validee and self.ue:
+            self.credits_obtenus = self.ue.credits
+        else:
+            self.credits_obtenus = 0
+        super().save(*args, **kwargs)
+    
     class Meta:
         db_table = 'moyennes_ues'
         unique_together = ['etudiant', 'ue', 'session', 'annee_academique']
+
+class MoyenneSemestre(TimestampedModel):
+    """Moyennes semestrielles"""
+    etudiant = models.ForeignKey('users.Etudiant', on_delete=models.CASCADE)
+    classe = models.ForeignKey('academics.Classe', on_delete=models.CASCADE)
+    semestre = models.ForeignKey('academics.Semestre', on_delete=models.CASCADE)
+    session = models.ForeignKey('academics.Session', on_delete=models.CASCADE)
+    annee_academique = models.ForeignKey('academics.AnneeAcademique', on_delete=models.CASCADE)
+    moyenne_generale = models.DecimalField(max_digits=4, decimal_places=2)
+    credits_obtenus = models.PositiveIntegerField(default=0)
+    credits_requis = models.PositiveIntegerField(default=30)
+    
+    def clean(self):
+        from django.core.exceptions import ValidationError
+        if self.moyenne_generale < 0 or self.moyenne_generale > 20:
+            raise ValidationError('La moyenne générale doit être comprise entre 0 et 20.')
+        
+        if self.credits_obtenus > self.credits_requis:
+            raise ValidationError('Les crédits obtenus ne peuvent pas dépasser les crédits requis.')
+    
+    @property
+    def taux_validation(self):
+        """Calcule le taux de validation des crédits"""
+        if self.credits_requis > 0:
+            return (self.credits_obtenus / self.credits_requis) * 100
+        return 0
+    
+    @property
+    def mention(self):
+        """Retourne la mention selon la moyenne"""
+        if self.moyenne_generale >= 16:
+            return "Très Bien"
+        elif self.moyenne_generale >= 14:
+            return "Bien"
+        elif self.moyenne_generale >= 12:
+            return "Assez Bien"
+        elif self.moyenne_generale >= 10:
+            return "Passable"
+        else:
+            return "Insuffisant"
+    
+    class Meta:
+        db_table = 'moyennes_semestres'
+        unique_together = ['etudiant', 'classe', 'semestre', 'session', 'annee_academique']
 
 class InscriptionEC(TimestampedModel):
     """Inscription automatique des étudiants aux ECs de leur classe"""

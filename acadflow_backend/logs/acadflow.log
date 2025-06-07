@@ -166,3 +166,42 @@ Traceback (most recent call last):
 ValueError: Unknown format code 'f' for object of type 'SafeString'
 ERROR 2025-06-01 22:18:16,952 basehttp 93716 23192 "GET /admin/academics/ec/ HTTP/1.1" 500 414109
 INFO 2025-06-02 07:37:03,188 autoreload 4388 16804 Watching for file changes with StatReloader
+INFO 2025-06-02 07:37:12,590 basehttp 4388 15076 "GET /admin/ HTTP/1.1" 200 29535
+INFO 2025-06-02 07:37:12,629 basehttp 4388 17536 "GET /static/admin/css/nav_sidebar.css HTTP/1.1" 304 0
+INFO 2025-06-02 07:37:12,631 basehttp 4388 20236 "GET /static/admin/css/dark_mode.css HTTP/1.1" 304 0
+INFO 2025-06-02 07:37:12,632 basehttp 4388 15076 "GET /static/admin/css/base.css HTTP/1.1" 304 0
+INFO 2025-06-02 07:37:12,634 basehttp 4388 15076 "GET /static/admin/css/dashboard.css HTTP/1.1" 304 0
+INFO 2025-06-02 07:37:12,634 basehttp 4388 20236 "GET /static/admin/js/theme.js HTTP/1.1" 304 0
+INFO 2025-06-02 07:37:12,634 basehttp 4388 17536 "GET /static/admin/css/responsive.css HTTP/1.1" 304 0
+INFO 2025-06-02 07:37:12,811 basehttp 4388 15076 "GET /static/admin/js/nav_sidebar.js HTTP/1.1" 304 0
+WARNING 2025-06-02 07:37:13,338 log 4388 15076 Not Found: /favicon.ico
+WARNING 2025-06-02 07:37:13,340 basehttp 4388 15076 "GET /favicon.ico HTTP/1.1" 404 3007
+INFO 2025-06-02 07:37:19,582 basehttp 4388 15076 "GET /admin/academics/ue/ HTTP/1.1" 200 27471
+INFO 2025-06-02 07:37:19,610 basehttp 4388 17536 "GET /static/admin/css/forms.css HTTP/1.1" 304 0
+INFO 2025-06-02 07:37:19,611 basehttp 4388 15076 "GET /static/admin/css/changelists.css HTTP/1.1" 304 0
+INFO 2025-06-02 07:37:19,616 basehttp 4388 15076 "GET /static/admin/img/search.svg HTTP/1.1" 304 0
+INFO 2025-06-02 07:37:19,675 basehttp 4388 15076 "GET /static/admin/css/widgets.css HTTP/1.1" 304 0
+INFO 2025-06-02 07:37:19,677 basehttp 4388 20236 "GET /admin/jsi18n/ HTTP/1.1" 200 8634
+INFO 2025-06-02 07:37:19,679 basehttp 4388 15076 "GET /static/admin/js/filters.js HTTP/1.1" 304 0
+INFO 2025-06-02 07:37:19,702 basehttp 4388 15076 "GET /static/admin/img/tooltag-add.svg HTTP/1.1" 304 0
+INFO 2025-06-02 07:37:21,915 basehttp 4388 15076 "GET /admin/academics/ue/add/ HTTP/1.1" 200 33494
+INFO 2025-06-02 07:37:21,999 basehttp 4388 15076 "GET /admin/jsi18n/ HTTP/1.1" 200 8634
+INFO 2025-06-02 07:37:52,824 basehttp 4388 15076 "GET /admin/core/niveau/ HTTP/1.1" 200 26519
+INFO 2025-06-02 07:37:52,933 basehttp 4388 15076 "GET /admin/jsi18n/ HTTP/1.1" 200 8634
+INFO 2025-06-02 07:37:54,598 basehttp 4388 15076 "GET /admin/core/niveau/add/ HTTP/1.1" 200 30257
+INFO 2025-06-02 07:37:54,683 basehttp 4388 15076 "GET /admin/jsi18n/ HTTP/1.1" 200 8634
+INFO 2025-06-02 07:38:11,216 basehttp 4388 15076 "GET /admin/core/cycle/ HTTP/1.1" 200 26524
+INFO 2025-06-02 07:38:11,300 basehttp 4388 15076 "GET /admin/jsi18n/ HTTP/1.1" 200 8634
+INFO 2025-06-02 07:38:13,418 basehttp 4388 15076 "GET /admin/core/cycle/add/ HTTP/1.1" 200 28537
+INFO 2025-06-02 07:38:13,504 basehttp 4388 15076 "GET /admin/jsi18n/ HTTP/1.1" 200 8634
+ERROR 2025-06-02 07:38:31,141 basehttp 4388 15076 "POST /admin/core/cycle/add/ HTTP/1.1" 500 157870
+INFO 2025-06-02 07:38:43,461 basehttp 4388 15076 "GET /admin/core/cycle/add/ HTTP/1.1" 200 28745
+INFO 2025-06-02 07:38:50,181 basehttp 4388 15076 "GET /admin/core/cycle/ HTTP/1.1" 200 26524
+INFO 2025-06-02 07:38:50,283 basehttp 4388 15076 "GET /admin/jsi18n/ HTTP/1.1" 200 8634
+INFO 2025-06-02 07:38:54,854 basehttp 4388 15076 "GET /admin/core/cycle/ HTTP/1.1" 200 26524
+INFO 2025-06-02 07:38:54,938 basehttp 4388 15076 "GET /admin/jsi18n/ HTTP/1.1" 200 8634
+INFO 2025-06-02 07:38:59,914 basehttp 4388 15076 "GET /admin/core/cycle/add/ HTTP/1.1" 200 28537
+INFO 2025-06-02 07:39:00,011 basehttp 4388 15076 "GET /admin/jsi18n/ HTTP/1.1" 200 8634
+INFO 2025-06-02 07:39:02,279 basehttp 4388 15076 "POST /admin/core/cycle/add/ HTTP/1.1" 200 29059
+INFO 2025-06-02 07:39:02,363 basehttp 4388 15076 "GET /admin/jsi18n/ HTTP/1.1" 200 8634
+ERROR 2025-06-02 07:39:14,989 basehttp 4388 15076 "POST /admin/core/cycle/add/ HTTP/1.1" 500 157874
