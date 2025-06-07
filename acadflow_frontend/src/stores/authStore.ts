@@ -89,17 +89,16 @@ export const useAuthStore = create<AuthStore>()(
             user: null,
             token: null,
             isAuthenticated: false,
-            isLoading: false
+            isLoading: false,
+            error: null
           });
           return;
         }
 
-        // Ne pas définir loading à true pour éviter les re-renders multiples
         try {
-          // Pour le développement, on peut utiliser les données en cache
-          // et vérifier l'utilisateur en arrière-plan
           const cachedUser = JSON.parse(userStr);
           
+          // Restaurer immédiatement depuis le cache
           set({
             user: cachedUser,
             token,
@@ -109,26 +108,31 @@ export const useAuthStore = create<AuthStore>()(
           });
 
           // Vérifier en arrière-plan si le token est toujours valide
-          try {
-            const user = await apiClient.getCurrentUser();
-            // Mettre à jour avec les données fraîches si différentes
-            if (JSON.stringify(user) !== JSON.stringify(cachedUser)) {
-              localStorage.setItem('acadflow_user', JSON.stringify(user));
-              set({ user });
-            }
-          } catch (error) {
-            // Token invalide, déconnecter silencieusement
-            localStorage.removeItem('acadflow_token');
-            localStorage.removeItem('acadflow_user');
-            set({
-              user: null,
-              token: null,
-              isAuthenticated: false,
-              error: null
+          // Mais ne pas bloquer l'interface
+          apiClient.getCurrentUser()
+            .then((user) => {
+              // Mettre à jour avec les données fraîches si différentes
+              if (JSON.stringify(user) !== JSON.stringify(cachedUser)) {
+                localStorage.setItem('acadflow_user', JSON.stringify(user));
+                set({ user });
+              }
+            })
+            .catch((error) => {
+              // Token invalide, déconnecter
+              console.warn('Token invalide, déconnexion automatique:', error);
+              localStorage.removeItem('acadflow_token');
+              localStorage.removeItem('acadflow_user');
+              set({
+                user: null,
+                token: null,
+                isAuthenticated: false,
+                error: null
+              });
             });
-          }
+            
         } catch (error: any) {
           // Erreur de parsing ou autre
+          console.error('Erreur lors de la vérification d\'authentification:', error);
           localStorage.removeItem('acadflow_token');
           localStorage.removeItem('acadflow_user');
           
@@ -162,21 +166,13 @@ export const useAuthStore = create<AuthStore>()(
     {
       name: 'acadflow-auth',
       partialize: (state) => ({
-        // Ne persister que les données essentielles
-        user: state.user,
-        token: state.token,
+        // Persister seulement l'état d'authentification, pas les données
         isAuthenticated: state.isAuthenticated
       }),
-      // Éviter la rehydratation automatique qui peut causer des boucles
-      skipHydration: true
+      skipHydration: false
     }
   )
 );
-
-// Initialiser le store manuellement après le montage
-if (typeof window !== 'undefined') {
-  useAuthStore.persist.rehydrate();
-}
 
 // Sélecteurs pour faciliter l'utilisation
 export const useAuth = () => useAuthStore();

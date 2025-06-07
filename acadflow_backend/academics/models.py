@@ -94,9 +94,9 @@ class Classe(TimestampedModel):
     effectif_max = models.PositiveIntegerField(default=50)
     active = models.BooleanField(default=True)
     
-    # CHANGEMENT: Référence vers users avec une chaîne (évite la circularité)
+    # Référence vers users avec une chaîne
     responsable_classe = models.ForeignKey(
-        'users.Enseignant',  # Chaîne au lieu d'import
+        'users.Enseignant',
         on_delete=models.SET_NULL, 
         null=True, 
         blank=True,
@@ -113,7 +113,7 @@ class Classe(TimestampedModel):
         if self.effectif_max <= 0:
             raise ValidationError('L\'effectif maximum doit être supérieur à 0.')
         
-        if self.option and self.option.filiere != self.filiere:
+        if self.option and hasattr(self.option, 'filiere') and self.option.filiere != self.filiere:
             raise ValidationError('L\'option sélectionnée n\'appartient pas à cette filière.')
     
     def __str__(self):
@@ -175,8 +175,8 @@ class EC(TimestampedModel):
         from django.core.exceptions import ValidationError
         from django.db.models import Sum
         
-        if self.ue:
-            total_poids = EC.objects.filter(ue=self.ue, actif=True).exclude(pk=self.pk).aggregate(
+        if self.ue_id:
+            total_poids = EC.objects.filter(ue_id=self.ue_id, actif=True).exclude(pk=self.pk).aggregate(
                 total=Sum('poids_ec')
             )['total'] or 0
             
@@ -219,9 +219,9 @@ class ConfigurationEvaluationEC(TimestampedModel):
         from django.core.exceptions import ValidationError
         from django.db.models import Sum
         
-        if self.ec:
+        if self.ec_id:
             total_pourcentage = ConfigurationEvaluationEC.objects.filter(
-                ec=self.ec
+                ec_id=self.ec_id
             ).exclude(pk=self.pk).aggregate(
                 total=Sum('pourcentage')
             )['total'] or 0
@@ -235,7 +235,6 @@ class ConfigurationEvaluationEC(TimestampedModel):
         db_table = 'configuration_evaluations_ec'
         unique_together = ['ec', 'type_evaluation']
 
-# Modèles supplémentaires sans dépendances circulaires
 class ECClasse(TimestampedModel):
     """Liaison EC-Classe"""
     ec = models.ForeignKey(EC, on_delete=models.CASCADE)
@@ -257,7 +256,7 @@ class RecapitulatifSemestriel(TimestampedModel):
     
     # Référence vers users avec une chaîne
     genere_par = models.ForeignKey(
-        'users.User',  # Chaîne au lieu d'import
+        'users.User',
         on_delete=models.SET_NULL, 
         null=True,
         blank=True

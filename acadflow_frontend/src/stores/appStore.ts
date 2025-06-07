@@ -1,5 +1,5 @@
 // ========================================
-// FICHIER: src/stores/appStore.ts - Store avec vraies données du backend
+// FICHIER: src/stores/appStore.ts - Store global de l'application corrigé
 // ========================================
 
 import { create } from 'zustand';
@@ -19,7 +19,6 @@ interface AppStore extends AppContextType {
   
   // Actions pour les données globales
   loadInitialData: () => Promise<void>;
-  refreshData: () => Promise<void>;
   setEtablissement: (etablissement: Etablissement) => void;
   setAnneeAcademique: (anneeAcademique: AnneeAcademique) => void;
   setSessions: (sessions: Session[]) => void;
@@ -48,7 +47,7 @@ export const useAppStore = create<AppStore>((set, get) => ({
   error: null,
   notifications: [],
 
-  // Actions pour charger les données initiales depuis le backend
+  // Actions pour charger les données initiales
   loadInitialData: async () => {
     // Éviter les chargements multiples
     if (get().loading) return;
@@ -56,132 +55,115 @@ export const useAppStore = create<AppStore>((set, get) => ({
     set({ loading: true, error: null });
     
     try {
-      // Charger les données en parallèle depuis le backend
-      const [
-        etablissement,
-        anneeAcademique,
-        sessions,
-        semestres
-      ] = await Promise.allSettled([
-        apiClient.getEtablissementPrincipal(),
-        apiClient.getAnneeAcademiqueActive(),
-        apiClient.getSessions(),
-        apiClient.getSemestres()
-      ]);
-
-      // Traiter les résultats
-      const result = {
-        etablissement: etablissement.status === 'fulfilled' ? etablissement.value : null,
-        anneeAcademique: anneeAcademique.status === 'fulfilled' ? anneeAcademique.value : null,
-        sessions: sessions.status === 'fulfilled' ? sessions.value : [],
-        semestres: semestres.status === 'fulfilled' ? semestres.value : []
+      // Données mockées pour le développement
+      const mockEtablissement: Etablissement = {
+        id: 1,
+        nom: "École Supérieure Polytechnique",
+        nom_complet: "École Supérieure Polytechnique de Douala",
+        acronyme: "ESP",
+        type_etablissement: 1,
+        universite_tutelle: 1,
+        universite_tutelle_nom: "Université de Douala",
+        adresse: "BP 8390 Douala",
+        ville: "Douala",
+        region: "Littoral",
+        pays: "Cameroun",
+        telephone: "+237 233 427 935",
+        email: "contact@esp.cm",
+        site_web: "https://esp.cm",
+        numero_autorisation: "ESP/2024/001",
+        date_creation: "2024-01-01",
+        date_autorisation: "2024-01-15",
+        ministre_tutelle: "Ministère de l'Enseignement Supérieur",
+        couleur_principale: "#1e40af",
+        couleur_secondaire: "#3b82f6",
+        systeme_credits: "LMD",
+        note_maximale: 20,
+        note_passage: 10,
+        actif: true,
+        etablissement_principal: true,
+        created_at: "2024-01-01T00:00:00Z",
+        updated_at: "2024-01-01T00:00:00Z"
       };
 
-      // Log des erreurs s'il y en a
-      if (etablissement.status === 'rejected') {
-        console.warn('Impossible de charger l\'établissement:', etablissement.reason);
-      }
-      if (anneeAcademique.status === 'rejected') {
-        console.warn('Impossible de charger l\'année académique:', anneeAcademique.reason);
-      }
-      if (sessions.status === 'rejected') {
-        console.warn('Impossible de charger les sessions:', sessions.reason);
-      }
-      if (semestres.status === 'rejected') {
-        console.warn('Impossible de charger les semestres:', semestres.reason);
-      }
+      const mockAnneeAcademique: AnneeAcademique = {
+        id: 1,
+        libelle: "2024-2025",
+        date_debut: "2024-09-01",
+        date_fin: "2025-07-31",
+        active: true,
+        delai_saisie_notes: 14,
+        autoriser_modification_notes: true,
+        generation_auto_recaps: false,
+        created_at: "2024-01-01T00:00:00Z",
+        updated_at: "2024-01-01T00:00:00Z"
+      };
+
+      const mockSessions: Session[] = [
+        {
+          id: 1,
+          nom: "Session Normale",
+          code: "SN",
+          ordre: 1,
+          actif: true,
+          date_debut_session: "2024-11-01",
+          date_fin_session: "2024-12-15",
+          generation_recaps_auto: false,
+          created_at: "2024-01-01T00:00:00Z",
+          updated_at: "2024-01-01T00:00:00Z"
+        },
+        {
+          id: 2,
+          nom: "Session de Rattrapage",
+          code: "SR",
+          ordre: 2,
+          actif: true,
+          date_debut_session: "2025-01-15",
+          date_fin_session: "2025-02-28",
+          generation_recaps_auto: false,
+          created_at: "2024-01-01T00:00:00Z",
+          updated_at: "2024-01-01T00:00:00Z"
+        }
+      ];
+
+      const mockSemestres: Semestre[] = [
+        {
+          id: 1,
+          nom: "Semestre 1",
+          numero: 1,
+          date_debut: "2024-09-01",
+          date_fin: "2025-01-31",
+          created_at: "2024-01-01T00:00:00Z",
+          updated_at: "2024-01-01T00:00:00Z"
+        },
+        {
+          id: 2,
+          nom: "Semestre 2",
+          numero: 2,
+          date_debut: "2025-02-01",
+          date_fin: "2025-07-31",
+          created_at: "2024-01-01T00:00:00Z",
+          updated_at: "2024-01-01T00:00:00Z"
+        }
+      ];
+
+      // Simuler un délai d'API
+      await new Promise(resolve => setTimeout(resolve, 500));
 
       set({
-        ...result,
+        etablissement: mockEtablissement,
+        anneeAcademique: mockAnneeAcademique,
+        sessions: mockSessions,
+        semestres: mockSemestres,
         loading: false,
         error: null
       });
-
-      // Afficher un avertissement si certaines données critiques manquent
-      if (!result.etablissement || !result.anneeAcademique) {
-        get().addNotification({
-          type: 'warning',
-          title: 'Données incomplètes',
-          message: 'Certaines données de configuration sont manquantes. Contactez l\'administration.',
-          duration: 8000
-        });
-      }
 
     } catch (error: any) {
       console.error('Erreur lors du chargement des données:', error);
       set({
         loading: false,
         error: error.message || 'Erreur lors du chargement des données'
-      });
-
-      // Fallback avec des données minimales pour permettre le fonctionnement
-      set({
-        etablissement: {
-          id: 0,
-          nom: "Établissement par défaut",
-          nom_complet: "Établissement par défaut",
-          acronyme: "ETAB",
-          type_etablissement: 1,
-          adresse: "",
-          ville: "Douala",
-          region: "Littoral",
-          pays: "Cameroun",
-          telephone: "",
-          email: "",
-          numero_autorisation: "",
-          date_creation: new Date().toISOString().split('T')[0],
-          date_autorisation: new Date().toISOString().split('T')[0],
-          ministre_tutelle: "",
-          couleur_principale: "#1e40af",
-          couleur_secondaire: "#3b82f6",
-          systeme_credits: "LMD",
-          note_maximale: 20,
-          note_passage: 10,
-          actif: true,
-          etablissement_principal: true,
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString()
-        },
-        anneeAcademique: {
-          id: 0,
-          libelle: "2024-2025",
-          date_debut: "2024-09-01",
-          date_fin: "2025-07-31",
-          active: true,
-          delai_saisie_notes: 14,
-          autoriser_modification_notes: true,
-          generation_auto_recaps: false,
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString()
-        },
-        sessions: [
-          {
-            id: 1,
-            nom: "Session Normale",
-            code: "SN",
-            ordre: 1,
-            actif: true,
-            generation_recaps_auto: false,
-            created_at: new Date().toISOString(),
-            updated_at: new Date().toISOString()
-          }
-        ],
-        semestres: [
-          {
-            id: 1,
-            nom: "Semestre 1",
-            numero: 1,
-            created_at: new Date().toISOString(),
-            updated_at: new Date().toISOString()
-          },
-          {
-            id: 2,
-            nom: "Semestre 2",
-            numero: 2,
-            created_at: new Date().toISOString(),
-            updated_at: new Date().toISOString()
-          }
-        ]
       });
     }
   },
@@ -291,8 +273,5 @@ export const useNotificationActions = () => {
       addNotification({ type: 'info', title, message })
   };
 };
-
-// Hook pour l'action de rafraîchissement
-export const useRefreshData = () => useAppStore((state) => state.refreshData);
 
 export default useAppStore;

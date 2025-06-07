@@ -1,10 +1,9 @@
 # ========================================
-# FICHIER: acadflow_backend/core/models.py (Mise à jour avec Établissement)
+# FICHIER: core/models.py - VERSION CORRIGÉE
 # ========================================
 
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
-from django.contrib.auth.models import AbstractUser
 
 class TimestampedModel(models.Model):
     """Modèle de base avec timestamps"""
@@ -79,7 +78,7 @@ class Etablissement(TimestampedModel):
     
     # Configuration système
     logo = models.ImageField(upload_to='logos/', null=True, blank=True)
-    couleur_principale = models.CharField(max_length=7, default='#1976d2')  # Couleur hex
+    couleur_principale = models.CharField(max_length=7, default='#1976d2')
     couleur_secondaire = models.CharField(max_length=7, default='#f5f5f5')
     
     # Paramètres académiques
@@ -108,7 +107,6 @@ class Etablissement(TimestampedModel):
             raise ValidationError('La note de passage doit être inférieure à la note maximale.')
     
     def save(self, *args, **kwargs):
-        # S'assurer qu'un seul établissement est principal
         if self.etablissement_principal:
             Etablissement.objects.filter(etablissement_principal=True).exclude(pk=self.pk).update(etablissement_principal=False)
         super().save(*args, **kwargs)
@@ -131,7 +129,6 @@ class Campus(TimestampedModel):
     actif = models.BooleanField(default=True)
     
     def save(self, *args, **kwargs):
-        # S'assurer qu'un seul campus est principal par établissement
         if self.campus_principal:
             Campus.objects.filter(
                 etablissement=self.etablissement,
@@ -146,8 +143,6 @@ class Campus(TimestampedModel):
         db_table = 'campus'
         verbose_name = 'Campus'
         verbose_name_plural = 'Campus'
-
-# Modèles académiques existants avec ajout des références établissement
 
 class Domaine(TimestampedModel):
     """Domaines d'études (Sciences et Technologies, Sciences Humaines, etc.)"""

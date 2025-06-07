@@ -1,5 +1,5 @@
 # ========================================
-# FICHIER: acadflow_backend/evaluations/models.py (Corrections)
+# FICHIER: evaluations/models.py - VERSION CORRIGÉE
 # ========================================
 
 from django.db import models
@@ -10,6 +10,7 @@ from datetime import timedelta
 
 class Enseignement(TimestampedModel):
     """Affectation enseignant-EC-classe"""
+    # Références via chaînes pour éviter les imports circulaires
     enseignant = models.ForeignKey('users.Enseignant', on_delete=models.CASCADE) 
     ec = models.ForeignKey('academics.EC', on_delete=models.CASCADE) 
     classe = models.ForeignKey('academics.Classe', on_delete=models.CASCADE) 
@@ -19,12 +20,16 @@ class Enseignement(TimestampedModel):
     def clean(self):
         from django.core.exceptions import ValidationError
         
-        # Vérifier que l'enseignant, l'EC et la classe sont cohérents
-        if self.ec and self.classe:
-            if self.ec.ue.niveau != self.classe.niveau:
-                raise ValidationError(
-                    'L\'EC et la classe doivent être du même niveau.'
-                )
+        # Vérification de cohérence - utiliser les IDs pour éviter les problèmes d'accès
+        if hasattr(self, 'ec') and hasattr(self, 'classe'):
+            try:
+                if self.ec.ue.niveau_id != self.classe.niveau_id:
+                    raise ValidationError(
+                        'L\'EC et la classe doivent être du même niveau.'
+                    )
+            except AttributeError:
+                # Si les relations ne sont pas encore disponibles, ignorer cette validation
+                pass
     
     def __str__(self):
         return f"{self.enseignant} - {self.ec} - {self.classe}"
@@ -43,7 +48,7 @@ class Evaluation(TimestampedModel):
     note_sur = models.DecimalField(max_digits=4, decimal_places=2, default=20.00)
     saisie_terminee = models.BooleanField(default=False)
     
-    # Nouvelles fonctionnalités pour gestion des délais
+    # Gestion des délais de saisie
     date_limite_saisie = models.DateTimeField(null=True, blank=True)
     saisie_autorisee = models.BooleanField(default=True)
     modification_autorisee = models.BooleanField(default=False)
@@ -53,26 +58,22 @@ class Evaluation(TimestampedModel):
         from django.core.exceptions import ValidationError
         if self.note_sur <= 0:
             raise ValidationError('La note maximale doit être supérieure à 0.')
-        
-        if self.date_evaluation and self.date_evaluation > timezone.now().date():
-            # Permettre les dates futures mais avertir
-            pass
     
     def save(self, *args, **kwargs):
         # Calculer automatiquement la date limite de saisie
         if not self.date_limite_saisie and self.date_evaluation:
             delai_defaut = 14  # 2 semaines par défaut
             
-            # Vérifier s'il y a un délai spécifique pour ce type d'évaluation
-            if self.type_evaluation and self.type_evaluation.delai_saisie_defaut:
-                delai = self.type_evaluation.delai_saisie_defaut
-            else:
-                # Utiliser le délai de l'année académique
-                try:
-                    annee = self.enseignement.annee_academique
-                    delai = annee.delai_saisie_notes * 7  # Convertir semaines en jours
-                except:
+            # Vérifier s'il y a un délai spécifique
+            try:
+                if hasattr(self.type_evaluation, 'delai_saisie_defaut') and self.type_evaluation.delai_saisie_defaut:
+                    delai = self.type_evaluation.delai_saisie_defaut
+                elif hasattr(self.enseignement, 'annee_academique'):
+                    delai = self.enseignement.annee_academique.delai_saisie_notes * 7
+                else:
                     delai = delai_defaut
+            except AttributeError:
+                delai = delai_defaut
             
             self.date_limite_saisie = timezone.make_aware(
                 timezone.datetime.combine(
@@ -90,11 +91,9 @@ class Evaluation(TimestampedModel):
             return False
         
         if self.date_limite_saisie and timezone.now() > self.date_limite_saisie:
-            # Vérifier si l'admin autorise les modifications tardives
             try:
-                annee = self.enseignement.annee_academique
-                return annee.autoriser_modification_notes
-            except:
+                return self.enseignement.annee_academique.autoriser_modification_notes
+            except AttributeError:
                 return False
         
         return True
@@ -106,9 +105,9 @@ class Evaluation(TimestampedModel):
             return self.peut_saisir_notes
         
         try:
-            annee = self.enseignement.annee_academique
-            return annee.autoriser_modification_notes and self.modification_autorisee
-        except:
+            return (self.enseignement.annee_academique.autoriser_modification_notes 
+                   and self.modification_autorisee)
+        except AttributeError:
             return False
     
     def __str__(self):
@@ -151,11 +150,15 @@ class Note(TimestampedModel):
         from django.core.exceptions import ValidationError
         
         # Validation de la note selon le barème de l'évaluation
-        if not self.absent and self.evaluation:
-            if self.note_obtenue > self.evaluation.note_sur:
-                raise ValidationError(
-                    f'La note ne peut pas dépasser {self.evaluation.note_sur}'
-                )
+        if not self.absent and self.evaluation_id:
+            try:
+                if self.note_obtenue > self.evaluation.note_sur:
+                    raise ValidationError(
+                        f'La note ne peut pas dépasser {self.evaluation.note_sur}'
+                    )
+            except AttributeError:
+                # Si l'évaluation n'est pas encore accessible, ignorer
+                pass
     
     def save(self, *args, **kwargs):
         # Traçabilité des modifications
@@ -202,7 +205,7 @@ class MoyenneEC(TimestampedModel):
         unique_together = ['etudiant', 'ec', 'session', 'annee_academique']
 
 class MoyenneUE(TimestampedModel):
-    """Moyennes par UE - sans coefficient, juste crédits"""
+    """Moyennes par UE"""
     etudiant = models.ForeignKey('users.Etudiant', on_delete=models.CASCADE)
     ue = models.ForeignKey('academics.UE', on_delete=models.CASCADE)
     session = models.ForeignKey('academics.Session', on_delete=models.CASCADE)
@@ -216,14 +219,22 @@ class MoyenneUE(TimestampedModel):
         if self.moyenne < 0 or self.moyenne > 20:
             raise ValidationError('La moyenne doit être comprise entre 0 et 20.')
         
-        if self.ue and self.credits_obtenus > self.ue.credits:
-            raise ValidationError('Les crédits obtenus ne peuvent pas dépasser les crédits de l\'UE.')
+        # Validation des crédits - utiliser l'ID pour éviter les problèmes d'accès
+        try:
+            if hasattr(self, 'ue') and self.credits_obtenus > self.ue.credits:
+                raise ValidationError('Les crédits obtenus ne peuvent pas dépasser les crédits de l\'UE.')
+        except AttributeError:
+            pass
     
     def save(self, *args, **kwargs):
         # Auto-validation et calcul des crédits
         self.validee = self.moyenne >= 10
-        if self.validee and self.ue:
-            self.credits_obtenus = self.ue.credits
+        if self.validee:
+            try:
+                if hasattr(self, 'ue'):
+                    self.credits_obtenus = self.ue.credits
+            except AttributeError:
+                pass
         else:
             self.credits_obtenus = 0
         super().save(*args, **kwargs)

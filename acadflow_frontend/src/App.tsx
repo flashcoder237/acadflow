@@ -1,5 +1,5 @@
 // ========================================
-// FICHIER: src/App.tsx - Application principale corrigée
+// FICHIER: src/App.tsx - Application principale corrigée (sans boucle)
 // ========================================
 
 import React, { useEffect, useState } from 'react';
@@ -26,7 +26,7 @@ import { Loading } from '@/components/ui/loading';
 import NotificationSystem from '@/components/NotificationSystem';
 import ProtectedRoute from '@/components/ProtectedRoute';
 
-// Pages de détails (à créer plus tard ou simplifiées)
+// Pages de détails (simplifiées)
 const EnseignementDetailPage: React.FC = () => {
   return (
     <div className="p-6">
@@ -57,27 +57,28 @@ const queryClient = new QueryClient({
 });
 
 const App: React.FC = () => {
-  const { checkAuth, isLoading, isAuthenticated } = useAuthStore();
-  const { loadInitialData } = useAppStore();
-  const [appInitialized, setAppInitialized] = useState(false);
+  const { checkAuth, isLoading: authLoading, isAuthenticated } = useAuthStore();
+  const { loadInitialData, loading: appLoading } = useAppStore();
+  const [initialized, setInitialized] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
 
     const initializeApp = async () => {
       try {
-        // Vérifier l'authentification d'abord
+        // 1. Vérifier l'authentification d'abord (synchrone avec cache)
         await checkAuth();
         
         if (isMounted) {
-          // Charger les données initiales seulement si nécessaire
+          // 2. Charger les données initiales seulement si authentifié
+          // ou si on veut les charger pour la page de login
           await loadInitialData();
-          setAppInitialized(true);
+          setInitialized(true);
         }
       } catch (error) {
         console.error('Erreur lors de l\'initialisation:', error);
         if (isMounted) {
-          setAppInitialized(true); // Permettre le rendu même en cas d'erreur
+          setInitialized(true); // Permettre le rendu même en cas d'erreur
         }
       }
     };
@@ -90,11 +91,11 @@ const App: React.FC = () => {
   }, []); // Dépendances vides pour éviter les boucles
 
   // Afficher le loading pendant l'initialisation
-  if (!appInitialized || isLoading) {
+  if (!initialized || authLoading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <Loading size="lg" text="Initialisation de l'application..." />
+          <Loading size="lg" text="Chargement de l'application..." />
           <p className="mt-4 text-sm text-gray-600">AcadFlow</p>
         </div>
       </div>
@@ -106,11 +107,15 @@ const App: React.FC = () => {
       <BrowserRouter>
         <div className="min-h-screen bg-gray-50">
           <Routes>
-            {/* Route publique */}
+            {/* Route publique - page de login */}
             <Route 
               path="/login" 
               element={
-                isAuthenticated ? <Navigate to="/dashboard" replace /> : <LoginPage />
+                isAuthenticated ? (
+                  <Navigate to="/dashboard" replace />
+                ) : (
+                  <LoginPage />
+                )
               } 
             />
             
@@ -118,13 +123,15 @@ const App: React.FC = () => {
             <Route 
               path="/" 
               element={
-                <ProtectedRoute requiredRole={['enseignant', 'admin', 'scolarite', 'direction']}>
+                <ProtectedRoute requiredRole={['enseignant', 'admin', 'scolarite', 'direction', 'etudiant']}>
                   <DashboardLayout />
                 </ProtectedRoute>
               }
             >
               <Route index element={<Navigate to="/dashboard" replace />} />
               <Route path="dashboard" element={<DashboardPage />} />
+              
+              {/* Routes enseignants */}
               <Route path="enseignements" element={<EnseignementsPage />} />
               <Route path="enseignements/:id" element={<EnseignementDetailPage />} />
               <Route path="evaluations" element={<EvaluationsPage />} />
@@ -133,16 +140,19 @@ const App: React.FC = () => {
               <Route path="evaluations/:id/notes" element={<NotesPage />} />
               <Route path="notes" element={<NotesPage />} />
               <Route path="statistiques" element={<StatistiquesPage />} />
+              
+              {/* Routes communes */}
               <Route path="profile" element={<ProfilePage />} />
             </Route>
 
-            {/* Route par défaut - rediriger selon l'état d'authentification */}
+            {/* Route par défaut */}
             <Route 
               path="*" 
               element={
-                isAuthenticated ? 
-                  <Navigate to="/dashboard" replace /> : 
-                  <Navigate to="/login" replace />
+                <Navigate 
+                  to={isAuthenticated ? "/dashboard" : "/login"} 
+                  replace 
+                />
               } 
             />
           </Routes>

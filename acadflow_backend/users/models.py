@@ -7,7 +7,7 @@ from django.db import models
 from core.models import TimestampedModel
 
 class User(AbstractUser):
-    """Utilisateur de base étendu - Version corrigée"""
+    """Utilisateur de base étendu"""
     TYPES_UTILISATEUR = (
         ('etudiant', 'Étudiant'),
         ('enseignant', 'Enseignant'),
@@ -96,13 +96,10 @@ class StatutEtudiant(TimestampedModel):
     class Meta:
         db_table = 'statuts_etudiant'
 
-
-
 class Inscription(TimestampedModel):
-    """Inscriptions étudiants - À ajouter après les migrations de base"""
+    """Inscriptions étudiants"""
     etudiant = models.ForeignKey(Etudiant, on_delete=models.CASCADE)
-    
-    # Relations vers academics - utiliser des chaînes pour éviter les imports circulaires
+    # Références vers academics via chaînes
     classe = models.ForeignKey('academics.Classe', on_delete=models.CASCADE)
     annee_academique = models.ForeignKey('academics.AnneeAcademique', on_delete=models.CASCADE)
     
@@ -124,14 +121,11 @@ class Inscription(TimestampedModel):
         unique_together = ['etudiant', 'annee_academique', 'active']
 
 class HistoriqueStatut(TimestampedModel):
-    """Historique des changements de statut - À ajouter après les migrations de base"""
+    """Historique des changements de statut"""
     etudiant = models.ForeignKey(Etudiant, on_delete=models.CASCADE)
     statut = models.ForeignKey(StatutEtudiant, on_delete=models.CASCADE)
     date_changement = models.DateTimeField(auto_now_add=True)
-    
-    # Relation vers academics - utiliser une chaîne
     annee_academique = models.ForeignKey('academics.AnneeAcademique', on_delete=models.CASCADE)
-    
     motif = models.TextField(blank=True)
     
     def __str__(self):
