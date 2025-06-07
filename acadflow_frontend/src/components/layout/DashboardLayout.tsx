@@ -1,5 +1,5 @@
 // ========================================
-// FICHIER: src/components/layout/DashboardLayout.tsx - Layout principal du dashboard complet
+// FICHIER: src/components/layout/DashboardLayout.tsx - Layout principal du dashboard corrigé
 // ========================================
 
 import React, { useState, useEffect } from 'react';
@@ -234,6 +234,11 @@ const DashboardLayout: React.FC = () => {
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, []);
 
+  // Fermer la sidebar mobile quand on change de route
+  useEffect(() => {
+    setSidebarOpen(false);
+  }, [location.pathname]);
+
   const filteredSidebarItems = sidebarItems.filter(item => 
     !item.roles || item.roles.includes(user?.type_utilisateur || '')
   );
@@ -241,7 +246,7 @@ const DashboardLayout: React.FC = () => {
   const unreadNotifications = notifications.filter(n => !n.read).length;
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 flex">
       {/* Sidebar Mobile Overlay */}
       {sidebarOpen && (
         <div 
@@ -252,9 +257,9 @@ const DashboardLayout: React.FC = () => {
 
       {/* Sidebar */}
       <aside className={cn(
-        "fixed left-0 top-0 h-full w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out z-50 flex flex-col",
-        "lg:translate-x-0 lg:static lg:z-auto",
-        sidebarOpen ? "translate-x-0" : "-translate-x-full"
+        "fixed lg:static inset-y-0 left-0 z-50 w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out flex flex-col",
+        "lg:translate-x-0",
+        sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
       )}>
         {/* Logo et établissement */}
         <div className="p-6 border-b border-gray-200">
@@ -278,6 +283,15 @@ const DashboardLayout: React.FC = () => {
                 Gestion académique
               </p>
             </div>
+            {/* Bouton fermer pour mobile */}
+            <Button
+              variant="ghost"
+              size="icon"
+              className="lg:hidden"
+              onClick={() => setSidebarOpen(false)}
+            >
+              <X className="w-4 h-4" />
+            </Button>
           </div>
         </div>
 
@@ -344,8 +358,8 @@ const DashboardLayout: React.FC = () => {
         </div>
       </aside>
 
-      {/* Main Content */}
-      <div className="lg:ml-64">
+      {/* Main Content Container */}
+      <div className="flex-1 flex flex-col min-w-0">
         {/* Header */}
         <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-30">
           <div className="px-4 sm:px-6 lg:px-8">
@@ -519,7 +533,7 @@ const DashboardLayout: React.FC = () => {
         </header>
 
         {/* Page Content */}
-        <main className="p-4 sm:p-6 lg:p-8">
+        <main className="flex-1 p-4 sm:p-6 lg:p-8 overflow-auto">
           <Outlet />
         </main>
       </div>

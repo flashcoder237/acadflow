@@ -1,5 +1,5 @@
 // ========================================
-// FICHIER: src/stores/authStore.ts - Store Zustand pour l'authentification
+// FICHIER: src/stores/authStore.ts - Store Zustand pour l'authentification corrigé
 // ========================================
 
 import { create } from 'zustand';
@@ -94,21 +94,41 @@ export const useAuthStore = create<AuthStore>()(
           return;
         }
 
-        set({ isLoading: true });
-
+        // Ne pas définir loading à true pour éviter les re-renders multiples
         try {
-          // Vérifier si le token est toujours valide en récupérant l'utilisateur actuel
-          const user = await apiClient.getCurrentUser();
+          // Pour le développement, on peut utiliser les données en cache
+          // et vérifier l'utilisateur en arrière-plan
+          const cachedUser = JSON.parse(userStr);
           
           set({
-            user,
+            user: cachedUser,
             token,
             isAuthenticated: true,
             isLoading: false,
             error: null
           });
+
+          // Vérifier en arrière-plan si le token est toujours valide
+          try {
+            const user = await apiClient.getCurrentUser();
+            // Mettre à jour avec les données fraîches si différentes
+            if (JSON.stringify(user) !== JSON.stringify(cachedUser)) {
+              localStorage.setItem('acadflow_user', JSON.stringify(user));
+              set({ user });
+            }
+          } catch (error) {
+            // Token invalide, déconnecter silencieusement
+            localStorage.removeItem('acadflow_token');
+            localStorage.removeItem('acadflow_user');
+            set({
+              user: null,
+              token: null,
+              isAuthenticated: false,
+              error: null
+            });
+          }
         } catch (error: any) {
-          // Token invalide ou expiré
+          // Erreur de parsing ou autre
           localStorage.removeItem('acadflow_token');
           localStorage.removeItem('acadflow_user');
           
@@ -142,13 +162,21 @@ export const useAuthStore = create<AuthStore>()(
     {
       name: 'acadflow-auth',
       partialize: (state) => ({
+        // Ne persister que les données essentielles
         user: state.user,
         token: state.token,
         isAuthenticated: state.isAuthenticated
-      })
+      }),
+      // Éviter la rehydratation automatique qui peut causer des boucles
+      skipHydration: true
     }
   )
 );
+
+// Initialiser le store manuellement après le montage
+if (typeof window !== 'undefined') {
+  useAuthStore.persist.rehydrate();
+}
 
 // Sélecteurs pour faciliter l'utilisation
 export const useAuth = () => useAuthStore();

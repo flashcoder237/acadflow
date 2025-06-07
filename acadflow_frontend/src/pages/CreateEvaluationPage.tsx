@@ -1,5 +1,5 @@
 // ========================================
-// FICHIER: src/pages/CreateEvaluationPage.tsx - Création d'évaluation
+// FICHIER: src/pages/CreateEvaluationPage.tsx - Création d'évaluation avec vraies données
 // ========================================
 
 import React, { useState, useEffect } from 'react';
@@ -16,7 +16,8 @@ import {
   Users, 
   AlertCircle,
   BookOpen,
-  Clock
+  Clock,
+  Loader2
 } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -56,7 +57,8 @@ const CreateEvaluationPage: React.FC = () => {
     formState: { errors, isSubmitting },
     watch,
     setValue,
-    setFocus
+    setFocus,
+    reset
   } = useForm<EvaluationForm>({
     resolver: zodResolver(evaluationSchema),
     defaultValues: {
@@ -72,25 +74,20 @@ const CreateEvaluationPage: React.FC = () => {
   const watchedEnseignement = watch('enseignement');
 
   // Charger les enseignements
-  const { data: enseignements, isLoading: loadingEnseignements } = useQuery({
+  const { data: enseignements, isLoading: loadingEnseignements, error: errorEnseignements } = useQuery({
     queryKey: ['enseignements'],
-    queryFn: () => apiClient.getEnseignements(),
-    enabled: !!user?.enseignant_id
+    queryFn: () => apiClient.getEnseignements({ page_size: 100 }),
+    enabled: !!user?.enseignant_id,
+    retry: 2,
+    staleTime: 5 * 60 * 1000
   });
 
   // Charger les types d'évaluation
-  const { data: typesEvaluation, isLoading: loadingTypes } = useQuery({
+  const { data: typesEvaluation, isLoading: loadingTypes, error: errorTypes } = useQuery({
     queryKey: ['types-evaluation'],
-    queryFn: async () => {
-      // Simuler des types d'évaluation (à adapter selon votre API)
-      return [
-        { id: 1, nom: 'Contrôle Continu', code: 'CC' },
-        { id: 2, nom: 'Devoir Surveillé', code: 'DS' },
-        { id: 3, nom: 'Examen Final', code: 'EF' },
-        { id: 4, nom: 'Travaux Pratiques', code: 'TP' },
-        { id: 5, nom: 'Exposé', code: 'EXP' }
-      ] as TypeEvaluation[];
-    }
+    queryFn: () => apiClient.getTypesEvaluation(),
+    retry: 2,
+    staleTime: 10 * 60 * 1000
   });
 
   // Mutation pour créer l'évaluation
@@ -104,6 +101,7 @@ const CreateEvaluationPage: React.FC = () => {
       navigate('/evaluations');
     },
     onError: (error: any) => {
+      console.error('Erreur création évaluation:', error);
       showError(
         'Erreur de création',
         error.message || 'Impossible de créer l\'évaluation'
@@ -113,7 +111,10 @@ const CreateEvaluationPage: React.FC = () => {
 
   // Focus sur le nom au chargement
   useEffect(() => {
-    setFocus('nom');
+    const timer = setTimeout(() => {
+      setFocus('nom');
+    }, 100);
+    return () => clearTimeout(timer);
   }, [setFocus]);
 
   // Pré-remplir l'enseignement si fourni dans l'URL
@@ -126,6 +127,21 @@ const CreateEvaluationPage: React.FC = () => {
     }
   }, [preSelectedEnseignement, enseignements, setValue]);
 
+  // Préremplir avec des valeurs par défaut intelligentes
+  useEffect(() => {
+    if (sessions.length > 0 && !watch('session')) {
+      // Sélectionner la première session active
+      const sessionActive = sessions.find(s => s.actif) || sessions[0];
+      setValue('session', sessionActive.id);
+    }
+    
+    // Date d'évaluation par défaut : aujourd'hui
+    if (!watch('date_evaluation')) {
+      const today = new Date().toISOString().split('T')[0];
+      setValue('date_evaluation', today);
+    }
+  }, [sessions, setValue, watch]);
+
   const onSubmit = async (data: EvaluationForm) => {
     try {
       await createMutation.mutateAsync(data);
@@ -135,6 +151,32 @@ const CreateEvaluationPage: React.FC = () => {
   };
 
   const selectedEnseignement = enseignements?.results.find(e => e.id === watchedEnseignement);
+
+  // Gestion des erreurs de chargement
+  if (errorEnseignements || errorTypes) {
+    return (
+      <div className="max-w-4xl mx-auto">
+        <div className="text-center py-12">
+          <AlertCircle className="w-16 h-16 mx-auto mb-4 text-red-500" />
+          <h3 className="text-lg font-medium text-gray-900 mb-2">
+            Erreur de chargement
+          </h3>
+          <p className="text-gray-600 mb-4">
+            Impossible de charger les données nécessaires pour créer une évaluation
+          </p>
+          <div className="space-x-3">
+            <Button onClick={() => window.location.reload()} variant="outline">
+              Recharger la page
+            </Button>
+            <Button onClick={() => navigate('/evaluations')} variant="outline">
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Retour aux évaluations
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (loadingEnseignements || loadingTypes) {
     return (
@@ -223,6 +265,12 @@ const CreateEvaluationPage: React.FC = () => {
                     <p className="text-sm text-red-600 mt-1 flex items-center gap-1">
                       <AlertCircle className="w-4 h-4" />
                       {errors.enseignement.message}
+                    </p>
+                  )}
+                  {enseignements?.results.length === 0 && (
+                    <p className="text-sm text-amber-600 mt-1 flex items-center gap-1">
+                      <AlertCircle className="w-4 h-4" />
+                      Aucun enseignement disponible. Contactez l'administration.
                     </p>
                   )}
                 </div>
@@ -403,7 +451,7 @@ const CreateEvaluationPage: React.FC = () => {
               >
                 {isSubmitting || createMutation.isPending ? (
                   <>
-                    <Loading size="sm" className="mr-2" />
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
                     Création en cours...
                   </>
                 ) : (
@@ -418,7 +466,10 @@ const CreateEvaluationPage: React.FC = () => {
                 type="button"
                 variant="outline"
                 className="w-full"
-                onClick={() => navigate('/evaluations')}
+                onClick={() => {
+                  reset();
+                  navigate('/evaluations');
+                }}
                 disabled={isSubmitting || createMutation.isPending}
               >
                 Annuler

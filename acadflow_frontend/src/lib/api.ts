@@ -1,5 +1,5 @@
 // ========================================
-// FICHIER: src/lib/api.ts - Client API
+// FICHIER: src/lib/api.ts - Client API corrigé
 // ========================================
 
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
@@ -23,7 +23,8 @@ import {
   MoyenneUE,
   MoyenneSemestre,
   PaginatedResponse,
-  ApiError
+  ApiError,
+  TypeEvaluation
 } from '@/types';
 
 // Configuration de base d'Axios
@@ -38,6 +39,7 @@ class ApiClient {
       headers: {
         'Content-Type': 'application/json',
       },
+      timeout: 15000, // 15 secondes de timeout
     });
 
     // Intercepteur pour ajouter le token d'authentification
@@ -62,6 +64,11 @@ class ApiClient {
           localStorage.removeItem('acadflow_user');
           window.location.href = '/login';
         }
+        
+        if (error.response?.status === 403) {
+          console.warn('Accès refusé:', error.response.data);
+        }
+        
         return Promise.reject(this.handleError(error));
       }
     );
@@ -69,10 +76,49 @@ class ApiClient {
 
   private handleError(error: any): ApiError {
     if (error.response) {
+      // Erreur de réponse du serveur
+      const data = error.response.data;
+      
+      if (typeof data === 'string') {
+        return {
+          message: data,
+          status: error.response.status
+        };
+      }
+      
+      if (data?.detail) {
+        return {
+          message: data.detail,
+          status: error.response.status,
+          errors: data
+        };
+      }
+      
+      if (data?.error) {
+        return {
+          message: data.error,
+          status: error.response.status,
+          errors: data
+        };
+      }
+      
+      // Gestion des erreurs de validation Django
+      if (data && typeof data === 'object') {
+        const firstError = Object.values(data)[0];
+        const message = Array.isArray(firstError) 
+          ? firstError[0] 
+          : firstError || 'Erreur de validation';
+        
+        return {
+          message: String(message),
+          status: error.response.status,
+          errors: data
+        };
+      }
+      
       return {
-        message: error.response.data?.message || error.response.data?.detail || 'Une erreur est survenue',
-        status: error.response.status,
-        errors: error.response.data?.errors || error.response.data
+        message: `Erreur ${error.response.status}`,
+        status: error.response.status
       };
     } else if (error.request) {
       return {
@@ -122,32 +168,22 @@ class ApiClient {
   }
 
   // ========================================
-  // ÉTABLISSEMENT ET CONFIGURATION
+  // DONNÉES DE BASE
   // ========================================
 
   async getEtablissementPrincipal(): Promise<Etablissement> {
-    const etablissements = await this.request<Etablissement[]>({
+    const response = await this.request<PaginatedResponse<Etablissement>>({
       method: 'GET',
-      url: '/core/etablissements/?etablissement_principal=true'
+      url: '/core/etablissements/',
+      params: { etablissement_principal: true }
     });
     
-    if (etablissements.length === 0) {
+    if (response.results.length === 0) {
       throw new Error('Aucun établissement principal configuré');
     }
     
-    return etablissements[0];
+    return response.results[0];
   }
-
-  async getEtablissementPublic(): Promise<Etablissement> {
-    return this.request<Etablissement>({
-      method: 'GET',
-      url: '/core/etablissements/public/'
-    });
-  }
-
-  // ========================================
-  // DONNÉES ACADÉMIQUES
-  // ========================================
 
   async getAnneeAcademiqueActive(): Promise<AnneeAcademique> {
     return this.request<AnneeAcademique>({
@@ -157,17 +193,27 @@ class ApiClient {
   }
 
   async getSessions(): Promise<Session[]> {
-    return this.request<Session[]>({
+    const response = await this.request<PaginatedResponse<Session>>({
       method: 'GET',
       url: '/academics/sessions/'
     });
+    return response.results;
   }
 
   async getSemestres(): Promise<Semestre[]> {
-    return this.request<Semestre[]>({
+    const response = await this.request<PaginatedResponse<Semestre>>({
       method: 'GET',
       url: '/academics/semestres/'
     });
+    return response.results;
+  }
+
+  async getTypesEvaluation(): Promise<TypeEvaluation[]> {
+    const response = await this.request<PaginatedResponse<TypeEvaluation>>({
+      method: 'GET',
+      url: '/academics/types-evaluation/'
+    });
+    return response.results;
   }
 
   // ========================================
@@ -178,7 +224,10 @@ class ApiClient {
     return this.request<PaginatedResponse<Enseignement>>({
       method: 'GET',
       url: '/evaluations/enseignements/',
-      params
+      params: {
+        page_size: 20,
+        ...params
+      }
     });
   }
 
@@ -211,7 +260,11 @@ class ApiClient {
     return this.request<PaginatedResponse<Evaluation>>({
       method: 'GET',
       url: '/evaluations/evaluations/',
-      params
+      params: {
+        page_size: 20,
+        ordering: '-date_evaluation',
+        ...params
+      }
     });
   }
 
@@ -282,152 +335,57 @@ class ApiClient {
     });
   }
 
-  async autoriserModification(evaluationId: number, autoriser: boolean): Promise<any> {
-    return this.request<any>({
-      method: 'POST',
-      url: `/evaluations/evaluations/${evaluationId}/autoriser_modification/`,
-      data: { autoriser }
-    });
-  }
-
-  async prolongerDelai(evaluationId: number, jours: number): Promise<any> {
-    return this.request<any>({
-      method: 'POST',
-      url: `/evaluations/evaluations/${evaluationId}/prolonger_delai/`,
-      data: { jours }
-    });
-  }
-
   // ========================================
-  // NOTES
+  // DASHBOARD STATISTIQUES
   // ========================================
 
-  async getNotes(params?: Record<string, any>): Promise<PaginatedResponse<Note>> {
-    return this.request<PaginatedResponse<Note>>({
-      method: 'GET',
-      url: '/evaluations/notes/',
-      params
-    });
-  }
+  async getDashboardStats(): Promise<any> {
+    try {
+      // Récupérer les stats en parallèle
+      const [enseignements, evaluations, evaluationsEnAttente] = await Promise.all([
+        this.getEnseignements({ page_size: 100 }),
+        this.getEvaluations({ page_size: 100 }),
+        this.getEvaluations({ saisie_terminee: false, page_size: 100 })
+      ]);
 
-  async getNote(id: number): Promise<Note> {
-    return this.request<Note>({
-      method: 'GET',
-      url: `/evaluations/notes/${id}/`
-    });
-  }
-
-  async updateNote(id: number, data: Partial<Note>): Promise<Note> {
-    return this.request<Note>({
-      method: 'PATCH',
-      url: `/evaluations/notes/${id}/`,
-      data
-    });
-  }
-
-  async getReleveNotesEtudiant(etudiantId: number, sessionId: number): Promise<any> {
-    return this.request<any>({
-      method: 'GET',
-      url: '/evaluations/notes/releve_notes_etudiant/',
-      params: { etudiant: etudiantId, session: sessionId }
-    });
-  }
-
-  // ========================================
-  // MOYENNES
-  // ========================================
-
-  async getMoyennesEC(params?: Record<string, any>): Promise<PaginatedResponse<MoyenneEC>> {
-    return this.request<PaginatedResponse<MoyenneEC>>({
-      method: 'GET',
-      url: '/evaluations/moyennes-ec/',
-      params
-    });
-  }
-
-  async getMoyennesUE(params?: Record<string, any>): Promise<PaginatedResponse<MoyenneUE>> {
-    return this.request<PaginatedResponse<MoyenneUE>>({
-      method: 'GET',
-      url: '/evaluations/moyennes-ue/',
-      params
-    });
-  }
-
-  async getMoyennesSemestre(params?: Record<string, any>): Promise<PaginatedResponse<MoyenneSemestre>> {
-    return this.request<PaginatedResponse<MoyenneSemestre>>({
-      method: 'GET',
-      url: '/evaluations/moyennes-semestre/',
-      params
-    });
-  }
-
-  async recalculerMoyennesEC(classeId: number, sessionId: number, ecId?: number): Promise<any> {
-    return this.request<any>({
-      method: 'POST',
-      url: '/evaluations/moyennes-ec/recalculer_moyennes/',
-      data: { classe_id: classeId, session_id: sessionId, ec_id: ecId }
-    });
-  }
-
-  async recalculerMoyennesUE(classeId: number, sessionId: number): Promise<any> {
-    return this.request<any>({
-      method: 'POST',
-      url: '/evaluations/moyennes-ue/recalculer_moyennes/',
-      data: { classe_id: classeId, session_id: sessionId }
-    });
-  }
-
-  async recalculerMoyennesSemestre(classeId: number, sessionId: number): Promise<any> {
-    return this.request<any>({
-      method: 'POST',
-      url: '/evaluations/moyennes-semestre/recalculer_moyennes/',
-      data: { classe_id: classeId, session_id: sessionId }
-    });
-  }
-
-  // ========================================
-  // STATISTIQUES ET TABLEAUX
-  // ========================================
-
-  async getStatistiquesClasse(classeId: number, sessionId: number): Promise<any> {
-    return this.request<any>({
-      method: 'GET',
-      url: '/evaluations/moyennes-semestre/statistiques/',
-      params: { classe: classeId, session: sessionId }
-    });
-  }
-
-  async getTableauNotesClasse(classeId: number, sessionId: number): Promise<any> {
-    return this.request<any>({
-      method: 'GET',
-      url: '/evaluations/moyennes-semestre/tableau_notes_classe/',
-      params: { classe: classeId, session: sessionId }
-    });
+      return {
+        totalEnseignements: enseignements.count,
+        totalEvaluations: evaluations.count,
+        evaluationsEnAttente: evaluationsEnAttente.count,
+        evaluationsRecentes: evaluations.results.slice(0, 5),
+        enseignementsRecents: enseignements.results.slice(0, 5),
+        tauxSaisie: evaluations.count > 0 
+          ? Math.round(((evaluations.count - evaluationsEnAttente.count) / evaluations.count) * 100)
+          : 0
+      };
+    } catch (error) {
+      console.error('Erreur lors du chargement des stats dashboard:', error);
+      return {
+        totalEnseignements: 0,
+        totalEvaluations: 0,
+        evaluationsEnAttente: 0,
+        evaluationsRecentes: [],
+        enseignementsRecents: [],
+        tauxSaisie: 0
+      };
+    }
   }
 
   // ========================================
   // UTILITAIRES
   // ========================================
 
-  async uploadFile(file: File, endpoint: string): Promise<any> {
-    const formData = new FormData();
-    formData.append('file', file);
-
-    return this.request<any>({
-      method: 'POST',
-      url: endpoint,
-      data: formData,
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    });
-  }
-
-  async downloadFile(url: string): Promise<Blob> {
-    const response = await this.client.get(url, {
-      responseType: 'blob'
-    });
-    return response.data;
+  async healthCheck(): Promise<boolean> {
+    try {
+      await this.request<any>({
+        method: 'GET',
+        url: '/health/', // Endpoint de santé si disponible
+        timeout: 5000
+      });
+      return true;
+    } catch (error) {
+      return false;
+    }
   }
 }
 
@@ -440,10 +398,10 @@ export const {
   logout,
   getCurrentUser,
   getEtablissementPrincipal,
-  getEtablissementPublic,
   getAnneeAcademiqueActive,
   getSessions,
   getSemestres,
+  getTypesEvaluation,
   getEnseignements,
   getEnseignement,
   getEnseignementEvaluations,
@@ -457,22 +415,8 @@ export const {
   saisirNotes,
   getStatistiquesEvaluation,
   verifierDelaiSaisie,
-  autoriserModification,
-  prolongerDelai,
-  getNotes,
-  getNote,
-  updateNote,
-  getReleveNotesEtudiant,
-  getMoyennesEC,
-  getMoyennesUE,
-  getMoyennesSemestre,
-  recalculerMoyennesEC,
-  recalculerMoyennesUE,
-  recalculerMoyennesSemestre,
-  getStatistiquesClasse,
-  getTableauNotesClasse,
-  uploadFile,
-  downloadFile
+  getDashboardStats,
+  healthCheck
 } = apiClient;
 
 export default apiClient;

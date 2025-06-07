@@ -1,8 +1,8 @@
 // ========================================
-// FICHIER: src/pages/DashboardPage.tsx - Tableau de bord enseignant
+// FICHIER: src/pages/DashboardPage.tsx - Tableau de bord avec vraies données
 // ========================================
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { 
@@ -18,7 +18,8 @@ import {
   XCircle,
   Plus,
   Eye,
-  Edit
+  Edit,
+  Loader2
 } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -28,41 +29,22 @@ import { useAuthStore } from '@/stores/authStore';
 import { useAppStore } from '@/stores/appStore';
 import { apiClient } from '@/lib/api';
 import { formatDate, formatDateTime, cn } from '@/lib/utils';
-import { Enseignement, Evaluation, PaginatedResponse } from '@/types';
+import { Enseignement, Evaluation } from '@/types';
 
 const DashboardPage: React.FC = () => {
   const { user } = useAuthStore();
   const { anneeAcademique, sessions } = useAppStore();
 
-  // Requêtes pour charger les données du dashboard
-  const { data: enseignements, isLoading: loadingEnseignements } = useQuery({
-    queryKey: ['enseignements', 'dashboard'],
-    queryFn: () => apiClient.getEnseignements({ page_size: 10 }),
-    enabled: !!user?.enseignant_id
+  // Requête pour charger les données du dashboard
+  const { data: dashboardData, isLoading, error, refetch } = useQuery({
+    queryKey: ['dashboard-stats'],
+    queryFn: () => apiClient.getDashboardStats(),
+    enabled: !!user?.enseignant_id,
+    refetchInterval: 5 * 60 * 1000, // Actualiser toutes les 5 minutes
+    staleTime: 2 * 60 * 1000, // Considérer les données fraîches pendant 2 minutes
   });
 
-  const { data: evaluations, isLoading: loadingEvaluations } = useQuery({
-    queryKey: ['evaluations', 'recent'],
-    queryFn: () => apiClient.getEvaluations({ page_size: 5, ordering: '-date_evaluation' }),
-    enabled: !!user?.enseignant_id
-  });
-
-  const { data: evaluationsEnAttente, isLoading: loadingEnAttente } = useQuery({
-    queryKey: ['evaluations', 'en-attente'],
-    queryFn: () => apiClient.getEvaluations({ saisie_terminee: false, page_size: 10 }),
-    enabled: !!user?.enseignant_id
-  });
-
-  // Statistiques calculées
-  const stats = {
-    totalEnseignements: enseignements?.count || 0,
-    totalEvaluations: evaluations?.count || 0,
-    evaluationsEnAttente: evaluationsEnAttente?.count || 0,
-    tauxSaisie: evaluations?.count 
-      ? Math.round(((evaluations.count - (evaluationsEnAttente?.count || 0)) / evaluations.count) * 100)
-      : 0
-  };
-
+  // Session active
   const sessionActuelle = sessions.find(s => {
     if (!s.date_debut_session || !s.date_fin_session) return false;
     const now = new Date();
@@ -71,10 +53,31 @@ const DashboardPage: React.FC = () => {
     return now >= debut && now <= fin;
   });
 
-  if (loadingEnseignements || loadingEvaluations) {
+  // Calcul des évaluations urgentes
+  const evaluationsUrgentes = dashboardData?.evaluationsRecentes?.filter((evaluation: Evaluation) => {
+    if (!evaluation.date_limite_saisie || evaluation.saisie_terminee) return false;
+    const limite = new Date(evaluation.date_limite_saisie);
+    const maintenant = new Date();
+    const diff = limite.getTime() - maintenant.getTime();
+    return diff > 0 && diff < 3 * 24 * 60 * 60 * 1000; // 3 jours
+  }) || [];
+
+  if (error) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <Loading size="lg" text="Chargement du tableau de bord..." />
+      <div className="flex flex-col items-center justify-center h-64 space-y-4">
+        <XCircle className="w-16 h-16 text-red-500" />
+        <div className="text-center">
+          <h3 className="text-lg font-medium text-gray-900 mb-2">
+            Erreur de chargement
+          </h3>
+          <p className="text-gray-600 mb-4">
+            Impossible de charger les données du tableau de bord
+          </p>
+          <Button onClick={() => refetch()} variant="outline">
+            <Loader2 className="w-4 h-4 mr-2" />
+            Réessayer
+          </Button>
+        </div>
       </div>
     );
   }
@@ -120,34 +123,81 @@ const DashboardPage: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard
           title="Enseignements"
-          value={stats.totalEnseignements}
+          value={dashboardData?.totalEnseignements || 0}
           icon={BookOpen}
           description="Cours assignés"
           color="blue"
+          isLoading={isLoading}
         />
         <StatCard
           title="Évaluations"
-          value={stats.totalEvaluations}
+          value={dashboardData?.totalEvaluations || 0}
           icon={FileText}
           description="Total créées"
           color="green"
+          isLoading={isLoading}
         />
         <StatCard
           title="En attente"
-          value={stats.evaluationsEnAttente}
+          value={dashboardData?.evaluationsEnAttente || 0}
           icon={Clock}
           description="Notes à saisir"
           color="yellow"
-          alert={stats.evaluationsEnAttente > 0}
+          alert={(dashboardData?.evaluationsEnAttente || 0) > 0}
+          isLoading={isLoading}
         />
         <StatCard
           title="Taux de saisie"
-          value={`${stats.tauxSaisie}%`}
+          value={`${dashboardData?.tauxSaisie || 0}%`}
           icon={TrendingUp}
           description="Notes complétées"
           color="indigo"
+          isLoading={isLoading}
         />
       </div>
+
+      {/* Alertes urgentes */}
+      {evaluationsUrgentes.length > 0 && (
+        <Card className="border-orange-200 bg-orange-50">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-orange-800">
+              <AlertTriangle className="w-5 h-5" />
+              Évaluations urgentes
+            </CardTitle>
+            <CardDescription className="text-orange-700">
+              {evaluationsUrgentes.length} évaluation(s) nécessitent une attention immédiate
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-2">
+              {evaluationsUrgentes.slice(0, 3).map((evaluation: Evaluation) => (
+                <div key={evaluation.id} className="flex items-center justify-between p-2 bg-white rounded border">
+                  <div>
+                    <p className="font-medium text-gray-900">{evaluation.nom}</p>
+                    <p className="text-sm text-gray-600">
+                      Limite : {evaluation.date_limite_saisie ? formatDateTime(evaluation.date_limite_saisie) : 'Non définie'}
+                    </p>
+                  </div>
+                  <Button asChild size="sm">
+                    <Link to={`/evaluations/${evaluation.id}/notes`}>
+                      Saisir
+                    </Link>
+                  </Button>
+                </div>
+              ))}
+              {evaluationsUrgentes.length > 3 && (
+                <div className="text-center pt-2">
+                  <Button asChild variant="outline" size="sm">
+                    <Link to="/evaluations?status=urgent">
+                      Voir toutes ({evaluationsUrgentes.length})
+                    </Link>
+                  </Button>
+                </div>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Enseignements récents */}
@@ -162,9 +212,13 @@ const DashboardPage: React.FC = () => {
             </Button>
           </CardHeader>
           <CardContent>
-            {enseignements?.results.length ? (
+            {isLoading ? (
+              <div className="flex items-center justify-center py-8">
+                <Loading size="md" text="Chargement..." />
+              </div>
+            ) : dashboardData?.enseignementsRecents?.length ? (
               <div className="space-y-3">
-                {enseignements.results.slice(0, 5).map((enseignement) => (
+                {dashboardData.enseignementsRecents.map((enseignement: Enseignement) => (
                   <EnseignementCard key={enseignement.id} enseignement={enseignement} />
                 ))}
               </div>
@@ -189,11 +243,18 @@ const DashboardPage: React.FC = () => {
             </Button>
           </CardHeader>
           <CardContent>
-            {evaluationsEnAttente?.results.length ? (
+            {isLoading ? (
+              <div className="flex items-center justify-center py-8">
+                <Loading size="md" text="Chargement..." />
+              </div>
+            ) : dashboardData?.evaluationsRecentes?.filter((e: Evaluation) => !e.saisie_terminee)?.length ? (
               <div className="space-y-3">
-                {evaluationsEnAttente.results.slice(0, 5).map((evaluation) => (
-                  <EvaluationCard key={evaluation.id} evaluation={evaluation} />
-                ))}
+                {dashboardData.evaluationsRecentes
+                  .filter((e: Evaluation) => !e.saisie_terminee)
+                  .slice(0, 5)
+                  .map((evaluation: Evaluation) => (
+                    <EvaluationCard key={evaluation.id} evaluation={evaluation} />
+                  ))}
               </div>
             ) : (
               <div className="text-center py-6 text-green-600">
@@ -226,7 +287,7 @@ const DashboardPage: React.FC = () => {
               title="Saisir des notes"
               description="Remplir une feuille de notes"
               icon={Edit}
-              to="/notes"
+              to="/evaluations?filter=en_attente"
               color="green"
             />
             <QuickActionButton
@@ -258,6 +319,7 @@ interface StatCardProps {
   description: string;
   color: 'blue' | 'green' | 'yellow' | 'indigo';
   alert?: boolean;
+  isLoading?: boolean;
 }
 
 const StatCard: React.FC<StatCardProps> = ({ 
@@ -266,7 +328,8 @@ const StatCard: React.FC<StatCardProps> = ({
   icon: Icon, 
   description, 
   color,
-  alert = false 
+  alert = false,
+  isLoading = false
 }) => {
   const colorClasses = {
     blue: 'bg-blue-50 text-blue-600 border-blue-200',
@@ -281,10 +344,17 @@ const StatCard: React.FC<StatCardProps> = ({
         <div className="flex items-center justify-between">
           <div>
             <p className="text-sm font-medium text-gray-600 mb-1">{title}</p>
-            <p className="text-2xl font-bold text-gray-900">
-              {value}
-              {alert && <AlertTriangle className="inline w-5 h-5 ml-2 text-yellow-500" />}
-            </p>
+            {isLoading ? (
+              <div className="flex items-center space-x-2">
+                <div className="w-8 h-8 bg-gray-200 rounded animate-pulse"></div>
+                <div className="w-16 h-6 bg-gray-200 rounded animate-pulse"></div>
+              </div>
+            ) : (
+              <p className="text-2xl font-bold text-gray-900">
+                {value}
+                {alert && <AlertTriangle className="inline w-5 h-5 ml-2 text-yellow-500" />}
+              </p>
+            )}
             <p className="text-xs text-gray-500 mt-1">{description}</p>
           </div>
           <div className={cn('p-3 rounded-lg border', colorClasses[color])}>

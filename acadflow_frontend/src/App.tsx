@@ -2,7 +2,7 @@
 // FICHIER: src/App.tsx - Application principale corrigée
 // ========================================
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useAuthStore } from '@/stores/authStore';
@@ -15,8 +15,8 @@ import EnseignementsPage from '@/pages/EnseignementsPage';
 import EvaluationsPage from '@/pages/EvaluationsPage';
 import CreateEvaluationPage from '@/pages/CreateEvaluationPage';
 import NotesPage from '@/pages/NotesPage';
-import ProfilePage  from '@/pages/ProfilePage';
-import StatistiquesPage  from '@/pages/StatistiquesPage';
+import ProfilePage from '@/pages/ProfilePage';
+import StatistiquesPage from '@/pages/StatistiquesPage';
 
 // Layout
 import DashboardLayout from '@/components/layout/DashboardLayout';
@@ -57,22 +57,46 @@ const queryClient = new QueryClient({
 });
 
 const App: React.FC = () => {
-  const { checkAuth, isLoading } = useAuthStore();
+  const { checkAuth, isLoading, isAuthenticated } = useAuthStore();
   const { loadInitialData } = useAppStore();
+  const [appInitialized, setAppInitialized] = useState(false);
 
   useEffect(() => {
+    let isMounted = true;
+
     const initializeApp = async () => {
-      await checkAuth();
-      await loadInitialData();
+      try {
+        // Vérifier l'authentification d'abord
+        await checkAuth();
+        
+        if (isMounted) {
+          // Charger les données initiales seulement si nécessaire
+          await loadInitialData();
+          setAppInitialized(true);
+        }
+      } catch (error) {
+        console.error('Erreur lors de l\'initialisation:', error);
+        if (isMounted) {
+          setAppInitialized(true); // Permettre le rendu même en cas d'erreur
+        }
+      }
     };
 
     initializeApp();
-  }, [checkAuth, loadInitialData]);
 
-  if (isLoading) {
+    return () => {
+      isMounted = false;
+    };
+  }, []); // Dépendances vides pour éviter les boucles
+
+  // Afficher le loading pendant l'initialisation
+  if (!appInitialized || isLoading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <Loading size="lg" text="Initialisation de l'application..." />
+        <div className="text-center">
+          <Loading size="lg" text="Initialisation de l'application..." />
+          <p className="mt-4 text-sm text-gray-600">AcadFlow</p>
+        </div>
       </div>
     );
   }
@@ -83,14 +107,22 @@ const App: React.FC = () => {
         <div className="min-h-screen bg-gray-50">
           <Routes>
             {/* Route publique */}
-            <Route path="/login" element={<LoginPage />} />
+            <Route 
+              path="/login" 
+              element={
+                isAuthenticated ? <Navigate to="/dashboard" replace /> : <LoginPage />
+              } 
+            />
             
             {/* Routes protégées */}
-            <Route path="/" element={
-              <ProtectedRoute requiredRole={['enseignant', 'admin', 'scolarite', 'direction']}>
-                <DashboardLayout />
-              </ProtectedRoute>
-            }>
+            <Route 
+              path="/" 
+              element={
+                <ProtectedRoute requiredRole={['enseignant', 'admin', 'scolarite', 'direction']}>
+                  <DashboardLayout />
+                </ProtectedRoute>
+              }
+            >
               <Route index element={<Navigate to="/dashboard" replace />} />
               <Route path="dashboard" element={<DashboardPage />} />
               <Route path="enseignements" element={<EnseignementsPage />} />
@@ -104,8 +136,15 @@ const App: React.FC = () => {
               <Route path="profile" element={<ProfilePage />} />
             </Route>
 
-            {/* Route par défaut */}
-            <Route path="*" element={<Navigate to="/dashboard" replace />} />
+            {/* Route par défaut - rediriger selon l'état d'authentification */}
+            <Route 
+              path="*" 
+              element={
+                isAuthenticated ? 
+                  <Navigate to="/dashboard" replace /> : 
+                  <Navigate to="/login" replace />
+              } 
+            />
           </Routes>
 
           {/* Système de notifications global */}
