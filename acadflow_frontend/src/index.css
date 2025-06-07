@@ -4,84 +4,26 @@
 
 @layer base {
   :root {
-    /* Couleurs de base */
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
-    
-    /* Couleurs primaires - Thème éducatif bleu */
     --primary: 221.2 83.2% 53.3%;
     --primary-foreground: 210 40% 98%;
-    
-    /* Couleurs secondaires */
     --secondary: 210 40% 96%;
     --secondary-foreground: 222.2 84% 4.9%;
-    
-    /* États et feedback */
     --muted: 210 40% 96%;
     --muted-foreground: 215.4 16.3% 46.9%;
     --accent: 210 40% 96%;
     --accent-foreground: 222.2 84% 4.9%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-    
-    /* Bordures et champs */
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
     --ring: 221.2 83.2% 53.3%;
     --radius: 0.5rem;
-    
-    /* Couleurs pour les notes et mentions */
-    --grade-excellent: 142.1 76.2% 36.3%; /* Vert pour Très Bien */
-    --grade-good: 221.2 83.2% 53.3%;      /* Bleu pour Bien */
-    --grade-average: 32.1 94.6% 43.7%;    /* Orange pour Assez Bien */
-    --grade-passing: 215.4 16.3% 46.9%;   /* Gris pour Passable */
-    --grade-failing: 0 84.2% 60.2%;       /* Rouge pour Insuffisant */
-    
-    /* Couleurs pour les statuts académiques */
-    --status-present: 142.1 76.2% 36.3%;   /* Vert pour présent */
-    --status-absent: 0 84.2% 60.2%;        /* Rouge pour absent */
-    --status-justified: 32.1 94.6% 43.7%;  /* Orange pour justifié */
-    --status-active: 142.1 76.2% 36.3%;    /* Vert pour actif */
-    --status-inactive: 215.4 16.3% 46.9%;  /* Gris pour inactif */
-    
-    /* Couleurs spécialisées pour les rôles */
-    --role-student: 198.6 88.7% 48.4%;     /* Cyan pour étudiant */
-    --role-teacher: 262.1 83.3% 57.8%;     /* Violet pour enseignant */
-    --role-admin: 32.1 94.6% 43.7%;        /* Orange pour admin */
-    --role-scolarite: 221.2 83.2% 53.3%;   /* Bleu pour scolarité */
-    --role-direction: 262.1 83.3% 57.8%;   /* Violet pour direction */
-    
-    /* Sidebar et navigation */
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-    
-    /* Variables pour les graphiques et visualisations */
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
-    
-    /* Variables pour les espacements spécialisés */
-    --header-height: 3.5rem;
-    --sidebar-width: 16rem;
-    --sidebar-collapsed-width: 4rem;
-    --footer-height: 4rem;
-    
-    /* Variables pour les animations */
-    --transition-fast: 150ms ease-in-out;
-    --transition-normal: 250ms ease-in-out;
-    --transition-slow: 350ms ease-in-out;
   }
 
   .dark {
@@ -91,39 +33,19 @@
     --card-foreground: 210 40% 98%;
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
-    
     --primary: 217.2 91.2% 59.8%;
     --primary-foreground: 222.2 84% 4.9%;
-    
     --secondary: 217.2 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;
-    
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
     --accent: 217.2 32.6% 17.5%;
     --accent-foreground: 210 40% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
-    
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
-    --ring: 224.3 76.3% 48%;
-    
-    /* Ajustements pour le mode sombre */
-    --grade-excellent: 142.1 70.6% 45.3%;
-    --grade-good: 217.2 91.2% 59.8%;
-    --grade-average: 32.1 94.6% 53.7%;
-    --grade-passing: 215 20.2% 65.1%;
-    --grade-failing: 0 62.8% 50.6%;
-    
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --ring: 224.3 76.3% 94.1%;
   }
 }
 
@@ -131,248 +53,38 @@
   * {
     @apply border-border;
   }
-  
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
-  
-  /* Classes utilitaires pour l'interface académique */
-  .academic-container {
-    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+@layer components {
+  .animate-fade-in {
+    animation: fadeIn 0.3s ease-out;
   }
   
-  .academic-header {
-    @apply bg-white border-b border-gray-200 shadow-sm;
-    height: var(--header-height);
+  .animate-slide-up {
+    animation: slideUp 0.3s ease-out;
   }
-  
-  .academic-sidebar {
-    @apply bg-white border-r border-gray-200 shadow-sm;
-    width: var(--sidebar-width);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
   }
-  
-  .academic-main {
-    @apply flex-1 overflow-auto;
-    margin-left: var(--sidebar-width);
+  to {
+    opacity: 1;
   }
-  
-  .academic-footer {
-    @apply bg-gray-50 border-t border-gray-200;
-    height: var(--footer-height);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
   }
-  
-  /* Classes pour les cartes de notes */
-  .grade-card {
-    @apply bg-white rounded-lg border border-gray-200 p-4 shadow-sm hover:shadow-md transition-shadow;
-  }
-  
-  .grade-card.excellent {
-    @apply border-green-200 bg-green-50;
-  }
-  
-  .grade-card.good {
-    @apply border-blue-200 bg-blue-50;
-  }
-  
-  .grade-card.average {
-    @apply border-yellow-200 bg-yellow-50;
-  }
-  
-  .grade-card.passing {
-    @apply border-gray-200 bg-gray-50;
-  }
-  
-  .grade-card.failing {
-    @apply border-red-200 bg-red-50;
-  }
-  
-  /* Classes pour les badges de statut */
-  .status-badge {
-    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
-  }
-  
-  .status-badge.present {
-    @apply bg-green-100 text-green-800;
-  }
-  
-  .status-badge.absent {
-    @apply bg-red-100 text-red-800;
-  }
-  
-  .status-badge.justified {
-    @apply bg-yellow-100 text-yellow-800;
-  }
-  
-  .status-badge.active {
-    @apply bg-green-100 text-green-800;
-  }
-  
-  .status-badge.inactive {
-    @apply bg-gray-100 text-gray-800;
-  }
-  
-  /* Classes pour les rôles d'utilisateur */
-  .role-badge {
-    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
-  }
-  
-  .role-badge.student {
-    @apply bg-cyan-100 text-cyan-800;
-  }
-  
-  .role-badge.teacher {
-    @apply bg-purple-100 text-purple-800;
-  }
-  
-  .role-badge.admin {
-    @apply bg-orange-100 text-orange-800;
-  }
-  
-  .role-badge.scolarite {
-    @apply bg-blue-100 text-blue-800;
-  }
-  
-  .role-badge.direction {
-    @apply bg-purple-100 text-purple-800;
-  }
-  
-  /* Classes pour les tableaux de données académiques */
-  .academic-table {
-    @apply w-full border-collapse bg-white;
-  }
-  
-  .academic-table th {
-    @apply bg-gray-50 border-b-2 border-gray-200 px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider;
-  }
-  
-  .academic-table td {
-    @apply border-b border-gray-200 px-4 py-3 text-sm text-gray-900;
-  }
-  
-  .academic-table tr:hover {
-    @apply bg-gray-50;
-  }
-  
-  /* Classes pour les formulaires académiques */
-  .academic-form {
-    @apply space-y-6 bg-white rounded-lg border border-gray-200 p-6;
-  }
-  
-  .academic-form-group {
-    @apply space-y-2;
-  }
-  
-  .academic-form-label {
-    @apply block text-sm font-medium text-gray-700;
-  }
-  
-  .academic-form-input {
-    @apply block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm;
-  }
-  
-  .academic-form-error {
-    @apply text-sm text-red-600;
-  }
-  
-  /* Classes pour les barres de progression de notes */
-  .grade-progress {
-    @apply w-full bg-gray-200 rounded-full h-2.5;
-  }
-  
-  .grade-progress-bar {
-    @apply h-2.5 rounded-full transition-all duration-300 ease-in-out;
-  }
-  
-  .grade-progress-bar.excellent {
-    @apply bg-green-500;
-  }
-  
-  .grade-progress-bar.good {
-    @apply bg-blue-500;
-  }
-  
-  .grade-progress-bar.average {
-    @apply bg-yellow-500;
-  }
-  
-  .grade-progress-bar.passing {
-    @apply bg-gray-500;
-  }
-  
-  .grade-progress-bar.failing {
-    @apply bg-red-500;
-  }
-  
-  /* Classes pour les animations académiques */
-  .academic-fade-in {
-    animation: fadeIn var(--transition-normal);
-  }
-  
-  .academic-slide-in {
-    animation: slideInFromLeft var(--transition-normal);
-  }
-  
-  .academic-bounce {
-    animation: bounceSubtle 1s ease-in-out infinite;
-  }
-  
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-  
-  @keyframes slideInFromLeft {
-    from { transform: translateX(-100%); }
-    to { transform: translateX(0); }
-  }
-  
-  @keyframes bounceSubtle {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-2px); }
-  }
-  
-  /* Classes responsives pour l'interface académique */
-  @media (max-width: 768px) {
-    .academic-main {
-      margin-left: 0;
-    }
-    
-    .academic-sidebar {
-      width: 100%;
-      position: fixed;
-      top: var(--header-height);
-      left: -100%;
-      height: calc(100vh - var(--header-height));
-      transition: left var(--transition-normal);
-      z-index: 50;
-    }
-    
-    .academic-sidebar.open {
-      left: 0;
-    }
-  }
-  
-  /* Classes pour l'impression */
-  @media print {
-    .no-print {
-      display: none !important;
-    }
-    
-    .academic-table {
-      border-collapse: collapse;
-    }
-    
-    .academic-table th,
-    .academic-table td {
-      border: 1px solid #000;
-      padding: 8px;
-    }
-    
-    .grade-card {
-      border: 1px solid #000;
-      margin-bottom: 1rem;
-      break-inside: avoid;
-    }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

@@ -1,183 +1,119 @@
-// src/App.tsx - Version complète mise à jour
-import React from 'react'
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
-import { AuthProvider } from './contexts/AuthContext'
-import { NotificationProvider } from '@/components/ui/notification-system'
-import { ProtectedRoute } from '@/components/auth/ProtectedRoute'
-import { AppLayout } from '@/components/layout/AppLayout'
+// ========================================
+// FICHIER: src/App.tsx - Application principale corrigée
+// ========================================
 
-// Pages d'authentification
-import { LoginPage } from '@/pages/LoginPage'
-import { UnauthorizedPage } from '@/pages/UnauthorizedPage'
+import React, { useEffect } from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { useAuthStore } from '@/stores/authStore';
+import { useAppStore } from '@/stores/appStore';
 
-// Pages principales
-import { DashboardPage } from '@/pages/DashboardPage'
+// Pages
+import LoginPage from '@/pages/LoginPage';
+import DashboardPage from '@/pages/DashboardPage';
+import EnseignementsPage from '@/pages/EnseignementsPage';
+import EvaluationsPage from '@/pages/EvaluationsPage';
+import CreateEvaluationPage from '@/pages/CreateEvaluationPage';
+import NotesPage from '@/pages/NotesPage';
+import ProfilePage  from '@/pages/ProfilePage';
+import StatistiquesPage  from '@/pages/StatistiquesPage';
 
-// Pages gestion institutionnelle
-import { DomainesPage } from '@/pages/DomainesPage'
-import { FilieresPage } from '@/pages/FilieresPage'
-import { MultiniveauPage } from '@/pages/MultiniveauPage'
+// Layout
+import DashboardLayout from '@/components/layout/DashboardLayout';
 
-// Pages gestion académique de base
-import { ClassesPage } from '@/pages/ClassesPage'
-import { EtudiantsPage } from '@/pages/EtudiantsPage'
-// import { EnseignementsPage } from '@/pages/EnseignementsPage'
+// Composants
+import { Loading } from '@/components/ui/loading';
+import NotificationSystem from '@/components/NotificationSystem';
+import ProtectedRoute from '@/components/ProtectedRoute';
 
-// Pages gestion pédagogique
-import { UEsPage } from '@/pages/UEsPage'
-import { EvaluationsPage } from '@/pages/EvaluationsPage'
-import { NotesPage } from '@/pages/NotesPage'
-
-// Pages parcours et exports
-import { ParcoursPage } from '@/pages/ParcoursPage'
-import { ExportsPage } from '@/pages/ExportsPage'
-import { RapportsPage } from '@/pages/RapportsPage'
-import { StatistiquesPage } from '@/pages/StatistiquesPage'
-
-// Pages administration
-import { ConfigurationPage } from '@/pages/ConfigurationPage'
-
-import './App.css'
-
-function App() {
+// Pages de détails (à créer plus tard ou simplifiées)
+const EnseignementDetailPage: React.FC = () => {
   return (
-    <NotificationProvider>
-      <AuthProvider>
-        <Router>
+    <div className="p-6">
+      <h1 className="text-2xl font-bold">Détails de l'enseignement</h1>
+      <p className="text-gray-600">Cette page sera développée prochainement.</p>
+    </div>
+  );
+};
+
+const EvaluationDetailPage: React.FC = () => {
+  return (
+    <div className="p-6">
+      <h1 className="text-2xl font-bold">Détails de l'évaluation</h1>
+      <p className="text-gray-600">Cette page sera développée prochainement.</p>
+    </div>
+  );
+};
+
+// Configuration React Query
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 1,
+      refetchOnWindowFocus: false,
+      staleTime: 5 * 60 * 1000, // 5 minutes
+    },
+  },
+});
+
+const App: React.FC = () => {
+  const { checkAuth, isLoading } = useAuthStore();
+  const { loadInitialData } = useAppStore();
+
+  useEffect(() => {
+    const initializeApp = async () => {
+      await checkAuth();
+      await loadInitialData();
+    };
+
+    initializeApp();
+  }, [checkAuth, loadInitialData]);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <Loading size="lg" text="Initialisation de l'application..." />
+      </div>
+    );
+  }
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <div className="min-h-screen bg-gray-50">
           <Routes>
-            {/* Routes publiques */}
+            {/* Route publique */}
             <Route path="/login" element={<LoginPage />} />
-            <Route path="/unauthorized" element={<UnauthorizedPage />} />
             
-            {/* Routes protégées avec layout */}
+            {/* Routes protégées */}
             <Route path="/" element={
-              <ProtectedRoute>
-                <AppLayout />
+              <ProtectedRoute requiredRole={['enseignant', 'admin', 'scolarite', 'direction']}>
+                <DashboardLayout />
               </ProtectedRoute>
             }>
-              {/* Dashboard */}
               <Route index element={<Navigate to="/dashboard" replace />} />
               <Route path="dashboard" element={<DashboardPage />} />
-              
-              {/* === GESTION INSTITUTIONNELLE === */}
-              <Route path="domaines" element={
-                <ProtectedRoute requiredRole={['admin', 'direction']}>
-                  <DomainesPage />
-                </ProtectedRoute>
-              } />
-              
-              <Route path="filieres" element={
-                <ProtectedRoute requiredRole={['admin', 'scolarite', 'direction']}>
-                  <FilieresPage />
-                </ProtectedRoute>
-              } />
-              
-              <Route path="multiniveau" element={
-                <ProtectedRoute requiredRole={['admin', 'scolarite', 'direction']}>
-                  <MultiniveauPage />
-                </ProtectedRoute>
-              } />
-              
-              {/* === GESTION ACADÉMIQUE DE BASE === */}
-              <Route path="classes" element={
-                <ProtectedRoute requiredRole={['admin', 'scolarite', 'direction', 'enseignant']}>
-                  <ClassesPage />
-                </ProtectedRoute>
-              } />
-              
-              <Route path="etudiants" element={
-                <ProtectedRoute requiredRole={['admin', 'scolarite', 'direction', 'enseignant']}>
-                  <EtudiantsPage />
-                </ProtectedRoute>
-              } />
-              
-              {/* <Route path="enseignements" element={
-                <ProtectedRoute requiredRole={['admin', 'scolarite', 'direction', 'enseignant']}>
-                  <EnseignementsPage />
-                </ProtectedRoute>
-              } /> */}
-              
-              {/* === GESTION PÉDAGOGIQUE === */}
-              <Route path="ues" element={
-                <ProtectedRoute requiredRole={['admin', 'scolarite', 'direction', 'enseignant']}>
-                  <UEsPage />
-                </ProtectedRoute>
-              } />
-              
-              <Route path="evaluations" element={
-                <ProtectedRoute requiredRole={['admin', 'scolarite', 'direction', 'enseignant']}>
-                  <EvaluationsPage />
-                </ProtectedRoute>
-              } />
-              
+              <Route path="enseignements" element={<EnseignementsPage />} />
+              <Route path="enseignements/:id" element={<EnseignementDetailPage />} />
+              <Route path="evaluations" element={<EvaluationsPage />} />
+              <Route path="evaluations/create" element={<CreateEvaluationPage />} />
+              <Route path="evaluations/:id" element={<EvaluationDetailPage />} />
+              <Route path="evaluations/:id/notes" element={<NotesPage />} />
               <Route path="notes" element={<NotesPage />} />
-              
-              {/* === PARCOURS PERSONNALISÉS === */}
-              <Route path="parcours" element={
-                <ProtectedRoute requiredRole={['etudiant']}>
-                  <ParcoursPage />
-                </ProtectedRoute>
-              } />
-              
-              {/* === EXPORTS ET RAPPORTS === */}
-              <Route path="exports" element={<ExportsPage />} />
-              
-              <Route path="rapports" element={
-                <ProtectedRoute requiredRole={['admin', 'scolarite', 'direction']}>
-                  <RapportsPage />
-                </ProtectedRoute>
-              } />
-              
-              <Route path="statistiques" element={
-                <ProtectedRoute requiredRole={['admin', 'scolarite', 'direction']}>
-                  <StatistiquesPage />
-                </ProtectedRoute>
-              } />
-              
-              {/* === ADMINISTRATION === */}
-              <Route path="configuration" element={
-                <ProtectedRoute requiredRole={['admin']}>
-                  <ConfigurationPage />
-                </ProtectedRoute>
-              } />
-              
-              {/* === ROUTES SUPPLÉMENTAIRES (À IMPLÉMENTER) === */}
-              <Route path="sessions" element={
-                <ProtectedRoute requiredRole={['admin', 'scolarite']}>
-                  <div className="p-6">
-                    <h2 className="text-2xl font-bold">Gestion des Sessions</h2>
-                    <p className="text-muted-foreground">Page en cours de développement</p>
-                  </div>
-                </ProtectedRoute>
-              } />
-              
-              <Route path="annee-academique" element={
-                <ProtectedRoute requiredRole={['admin', 'scolarite']}>
-                  <div className="p-6">
-                    <h2 className="text-2xl font-bold">Année Académique</h2>
-                    <p className="text-muted-foreground">Page en cours de développement</p>
-                  </div>
-                </ProtectedRoute>
-              } />
-              
-              <Route path="utilisateurs" element={
-                <ProtectedRoute requiredRole={['admin', 'scolarite']}>
-                  <div className="p-6">
-                    <h2 className="text-2xl font-bold">Gestion des Utilisateurs</h2>
-                    <p className="text-muted-foreground">Page en cours de développement</p>
-                  </div>
-                </ProtectedRoute>
-              } />
+              <Route path="statistiques" element={<StatistiquesPage />} />
+              <Route path="profile" element={<ProfilePage />} />
             </Route>
-            
-            {/* Route de fallback */}
+
+            {/* Route par défaut */}
             <Route path="*" element={<Navigate to="/dashboard" replace />} />
           </Routes>
-        </Router>
-      </AuthProvider>
-    </NotificationProvider>
-  )
-}
 
-export default App
+          {/* Système de notifications global */}
+          <NotificationSystem />
+        </div>
+      </BrowserRouter>
+    </QueryClientProvider>
+  );
+};
 
+export default App;

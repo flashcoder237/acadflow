@@ -1,434 +1,458 @@
-// src/pages/NotesPage.tsx - Version améliorée
-import React, { useEffect, useState } from 'react'
+// ========================================
+// FICHIER: src/pages/NotesPage.tsx - Saisie des notes
+// ========================================
+
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { 
-  Eye, 
-  Download, 
-  Upload, 
-  TrendingUp, 
-  TrendingDown, 
-  Award, 
-  AlertTriangle,
-  BarChart3,
+  Save, 
+  ArrowLeft, 
+  Users, 
+  AlertCircle, 
+  CheckCircle,
+  XCircle,
   FileText,
-  Target,
-  Users
-} from 'lucide-react'
-import { DataTable, DataTableColumn, DataTableFilter, DataTableAction } from '@/components/ui/data-table/DataTable'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import { Progress } from '@/components/ui/progress'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { useApi } from '../hooks/useApi'
-import { usePermissions } from '../hooks/usePermissions'
-import { useAuth } from '../contexts/AuthContext'
-import { useNotifications } from '@/components/ui/notification-system'
-import { evaluationsApi } from '../lib/api'
-import { Note } from '../types/api'
-import { acadflowExports, acadflowImports } from '../lib/export-import'
-import { getMentionFromNote, getMentionColor, formatDate } from '../lib/utils'
+  Calculator,
+  Clock,
+  Eye,
+  EyeOff
+} from 'lucide-react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Badge } from '@/components/ui/badge';
+import { Loading } from '@/components/ui/loading';
+import { useAuthStore } from '@/stores/authStore';
+import { useNotificationActions } from '@/stores/appStore';
+import { apiClient } from '@/lib/api';
+import { formatDate, formatDateTime, cn } from '@/lib/utils';
+import { FeuilleNotes, SaisieNote, Evaluation } from '@/types';
 
-export const NotesPage: React.FC = () => {
-  const [notes, setNotes] = useState<Note[]>([])
-  const { canViewAllNotes, isEtudiant, canModifyNotes } = usePermissions()
-  const { user } = useAuth()
-  const { notifySuccess, notifyError } = useNotifications()
-  const { execute: fetchNotes, loading } = useApi<{ results: Note[] }>()
+const NotesPage: React.FC = () => {
+  const { id: evaluationId } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const { user } = useAuthStore();
+  const { showSuccess, showError } = useNotificationActions();
 
+  const [notes, setNotes] = useState<Record<number, SaisieNote>>({});
+  const [showAbsents, setShowAbsents] = useState(true);
+  const [saving, setSaving] = useState(false);
+
+  // Charger la feuille de notes
+  const { data: feuilleNotes, isLoading, error } = useQuery({
+    queryKey: ['feuille-notes', evaluationId],
+    queryFn: () => apiClient.getFeuilleNotes(parseInt(evaluationId!)),
+    enabled: !!evaluationId
+  });
+
+  // Vérifier les délais de saisie
+  const { data: delaiInfo } = useQuery({
+    queryKey: ['delai-saisie', evaluationId],
+    queryFn: () => apiClient.verifierDelaiSaisie(parseInt(evaluationId!)),
+    enabled: !!evaluationId
+  });
+
+  // Mutation pour sauvegarder les notes
+  const saveMutation = useMutation({
+    mutationFn: (data: { notes: SaisieNote[] }) => 
+      apiClient.saisirNotes(parseInt(evaluationId!), data),
+    onSuccess: () => {
+      showSuccess(
+        'Notes sauvegardées',
+        'Les notes ont été enregistrées avec succès'
+      );
+      queryClient.invalidateQueries({ queryKey: ['feuille-notes', evaluationId] });
+      queryClient.invalidateQueries({ queryKey: ['evaluations'] });
+    },
+    onError: (error: any) => {
+      showError(
+        'Erreur de sauvegarde',
+        error.message || 'Impossible de sauvegarder les notes'
+      );
+    }
+  });
+
+  // Initialiser les notes depuis la feuille
   useEffect(() => {
-    loadNotes()
-  }, [])
+    if (feuilleNotes?.etudiants) {
+      const initialNotes: Record<number, SaisieNote> = {};
+      feuilleNotes.etudiants.forEach(etudiant => {
+        initialNotes[etudiant.etudiant_id] = {
+          etudiant_id: etudiant.etudiant_id,
+          note_obtenue: etudiant.note_obtenue || undefined,
+          absent: etudiant.absent,
+          justifie: etudiant.justifie,
+          commentaire: etudiant.commentaire || ''
+        };
+      });
+      setNotes(initialNotes);
+    }
+  }, [feuilleNotes]);
 
-  const loadNotes = async () => {
+  const handleNoteChange = (etudiantId: number, field: keyof SaisieNote, value: any) => {
+    setNotes(prev => ({
+      ...prev,
+      [etudiantId]: {
+        ...prev[etudiantId],
+        [field]: value,
+        // Si on marque comme absent, effacer la note
+        ...(field === 'absent' && value ? { note_obtenue: undefined } : {}),
+        // Si on saisit une note, décocher absent
+        ...(field === 'note_obtenue' && value !== undefined ? { absent: false } : {})
+      }
+    }));
+  };
+
+  const handleSave = async () => {
+    setSaving(true);
     try {
-      const params = isEtudiant ? { etudiant: user?.etudiant_id } : {}
-      const result = await fetchNotes(() => evaluationsApi.getNotes(params))
-      if (result?.results) {
-        setNotes(result.results)
-      }
-    } catch (error) {
-      notifyError('Erreur', 'Impossible de charger les notes')
-    }
-  }
-
-  const getNoteBadgeVariant = (note: number) => {
-    if (note >= 16) return 'success'
-    if (note >= 14) return 'info'
-    if (note >= 12) return 'warning'
-    if (note >= 10) return 'secondary'
-    return 'destructive'
-  }
-
-  const getProgressColor = (note: number) => {
-    if (note >= 16) return 'bg-green-500'
-    if (note >= 14) return 'bg-blue-500'
-    if (note >= 12) return 'bg-yellow-500'
-    if (note >= 10) return 'bg-orange-500'
-    return 'bg-red-500'
-  }
-
-  // Configuration des colonnes
-  const columns: DataTableColumn<Note>[] = [
-    ...(isEtudiant ? [] : [{
-      key: 'etudiant_nom' as keyof Note,
-      title: 'Étudiant',
-      sortable: true,
-      render: (value: any, item: Note) => (
-        <div>
-          <div className="font-medium">{value}</div>
-          <div className="text-sm text-muted-foreground font-mono">
-            {item.etudiant_matricule}
-          </div>
-        </div>
-      )
-    }]),
-    {
-      key: 'evaluation_nom',
-      title: 'Évaluation',
-      sortable: true,
-      filterable: true,
-      render: (value, item) => (
-        <div>
-          <div className="font-medium">{value}</div>
-          <div className="text-sm text-muted-foreground">
-            {formatDate(item.created_at)}
-          </div>
-        </div>
-      )
-    },
-    {
-      key: 'note_obtenue',
-      title: 'Note',
-      sortable: true,
-      render: (value, item) => {
-        if (item.absent) {
-          return (
-            <div className="flex items-center space-x-2">
-              <span className="text-lg font-bold text-red-600">ABS</span>
-              <Badge variant={item.justifie ? 'warning' : 'destructive'}>
-                {item.justifie ? 'Justifiée' : 'Non justifiée'}
-              </Badge>
-            </div>
-          )
-        }
-        
-        return (
-          <div className="space-y-2">
-            <div className="flex items-center space-x-3">
-              <span className="text-2xl font-bold">{item.note_sur_20}/20</span>
-              <div className="flex-1">
-                <Progress 
-                  value={(item.note_sur_20 / 20) * 100} 
-                  className="h-2"
-                />
-              </div>
-            </div>
-            <Badge variant={getNoteBadgeVariant(item.note_sur_20)}>
-              {getMentionFromNote(item.note_sur_20)}
-            </Badge>
-          </div>
-        )
-      }
-    },
-    {
-      key: 'note_sur_20',
-      title: 'Mention',
-      sortable: true,
-      filterable: true,
-      render: (value, item) => {
-        if (item.absent) return null
-        
-        return (
-          <div className="flex items-center space-x-2">
-            <div className={`w-3 h-3 rounded-full ${getProgressColor(value)}`} />
-            <span className={getMentionColor(value)}>
-              {getMentionFromNote(value)}
-            </span>
-          </div>
-        )
-      }
-    },
-    {
-      key: 'commentaire',
-      title: 'Commentaire',
-      render: (value) => (
-        <div className="max-w-xs truncate">
-          {value || '-'}
-        </div>
-      )
-    },
-    {
-      key: 'created_at',
-      title: 'Date saisie',
-      sortable: true,
-      render: (value) => formatDate(value)
-    }
-  ]
-
-  // Configuration des filtres
-  const filters: DataTableFilter[] = [
-    {
-      key: 'evaluation_nom',
-      label: 'Évaluation',
-      type: 'select',
-      options: [
-        ...new Set(notes.map(n => n.evaluation_nom))
-      ].map(evaluationName => ({ label: evaluationName, value: evaluationName }))
-    },
-    {
-      key: 'mention',
-      label: 'Mention',
-      type: 'select',
-      options: [
-        { label: 'Très Bien (≥16)', value: 'tres_bien' },
-        { label: 'Bien (14-15.99)', value: 'bien' },
-        { label: 'Assez Bien (12-13.99)', value: 'assez_bien' },
-        { label: 'Passable (10-11.99)', value: 'passable' },
-        { label: 'Insuffisant (<10)', value: 'insuffisant' }
-      ]
-    },
-    {
-      key: 'absent',
-      label: 'Présence',
-      type: 'select',
-      options: [
-        { label: 'Présent', value: false },
-        { label: 'Absent', value: true }
-      ]
-    },
-    {
-      key: 'justifie',
-      label: 'Absence justifiée',
-      type: 'select',
-      options: [
-        { label: 'Justifiée', value: true },
-        { label: 'Non justifiée', value: false }
-      ]
-    },
-    {
-      key: 'note_min',
-      label: 'Note minimum',
-      type: 'number',
-      placeholder: '0'
-    },
-    {
-      key: 'note_max',
-      label: 'Note maximum',
-      type: 'number',
-      placeholder: '20'
-    }
-  ]
-
-  // Actions sur les lignes
-  const actions: DataTableAction<Note>[] = [
-    {
-      label: 'Voir détails',
-      icon: Eye,
-      onClick: (note) => {
-        console.log('Voir détails note:', note.id)
-        // Modal avec détails complets
-      }
-    },
-    ...(canModifyNotes ? [
-      {
-        label: 'Modifier',
-        icon: FileText,
-        onClick: (note: Note) => {
-          console.log('Modifier note:', note.id)
-          // Ouvrir formulaire de modification
-        }
-      }
-    ] : [])
-  ]
-
-  // Gestion de l'export
-  const handleExport = (data: Note[], selectedColumns: string[]) => {
-    try {
-      acadflowExports.exportNotes(data)
-      notifySuccess('Export réussi', 'Les notes ont été exportées avec succès')
-    } catch (error) {
-      notifyError('Erreur d\'export', 'Impossible d\'exporter les données')
-    }
-  }
-
-  // Gestion de l'import (pour les enseignants/admin)
-  const handleImport = async (file: File) => {
-    try {
-      const result = await acadflowImports.importNotes(file)
+      const notesToSave = Object.values(notes).filter(note => 
+        note.note_obtenue !== undefined || note.absent || note.commentaire
+      );
       
-      if (result.errors.length > 0) {
-        notifyError(
-          'Erreurs d\'import',
-          `${result.errors.length} erreur(s) détectée(s). ${result.summary.validRows} ligne(s) valide(s).`
-        )
-      } else {
-        notifySuccess(
-          'Import réussi',
-          `${result.summary.validRows} note(s) importée(s) avec succès`
-        )
-        loadNotes()
-      }
-    } catch (error) {
-      notifyError('Erreur d\'import', 'Impossible d\'importer le fichier')
+      await saveMutation.mutateAsync({ notes: notesToSave });
+    } finally {
+      setSaving(false);
     }
+  };
+
+  const calculerStatistiques = () => {
+    const notesValides = Object.values(notes)
+      .filter(note => note.note_obtenue !== undefined)
+      .map(note => note.note_obtenue!);
+
+    if (notesValides.length === 0) return null;
+
+    const moyenne = notesValides.reduce((sum, note) => sum + note, 0) / notesValides.length;
+    const noteMax = Math.max(...notesValides);
+    const noteMin = Math.min(...notesValides);
+
+    return { moyenne, noteMax, noteMin, count: notesValides.length };
+  };
+
+  const stats = calculerStatistiques();
+  const totalEtudiants = feuilleNotes?.etudiants.length || 0;
+  const notesSaisies = Object.values(notes).filter(n => n.note_obtenue !== undefined || n.absent).length;
+  const absents = Object.values(notes).filter(n => n.absent).length;
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <Loading size="lg" text="Chargement de la feuille de notes..." />
+      </div>
+    );
   }
 
-  // Calcul des statistiques
-  const calculateStats = () => {
-    if (notes.length === 0) return null
-    
-    const notesValues = notes.filter(n => !n.absent).map(n => n.note_sur_20)
-    const moyenne = notesValues.length > 0 ? notesValues.reduce((sum, note) => sum + note, 0) / notesValues.length : 0
-    
-    const mentions = {
-      'Très Bien': notesValues.filter(n => n >= 16).length,
-      'Bien': notesValues.filter(n => n >= 14 && n < 16).length,
-      'Assez Bien': notesValues.filter(n => n >= 12 && n < 14).length,
-      'Passable': notesValues.filter(n => n >= 10 && n < 12).length,
-      'Insuffisant': notesValues.filter(n => n < 10).length,
-    }
-    
-    const absences = notes.filter(n => n.absent)
-    
-    return { 
-      moyenne, 
-      mentions, 
-      total: notesValues.length,
-      absences: absences.length,
-      absencesJustifiees: absences.filter(a => a.justifie).length
-    }
+  if (error || !feuilleNotes) {
+    return (
+      <div className="text-center py-8">
+        <FileText className="w-16 h-16 mx-auto mb-4 text-gray-300" />
+        <h3 className="text-lg font-medium text-gray-900 mb-2">
+          Impossible de charger la feuille de notes
+        </h3>
+        <Button onClick={() => navigate('/evaluations')} variant="outline">
+          <ArrowLeft className="w-4 h-4 mr-2" />
+          Retour aux évaluations
+        </Button>
+      </div>
+    );
   }
 
-  const stats = calculateStats()
+  const evaluation = feuilleNotes.evaluation;
+  const peutSaisir = delaiInfo?.peut_saisir ?? true;
+  const delaiDepasse = delaiInfo?.delai_depasse ?? false;
 
   return (
-    <div className="flex-1 space-y-6 p-6">
-      {/* En-tête */}
-      <div>
-        <h2 className="text-3xl font-bold tracking-tight">
-          {isEtudiant ? 'Mes Notes' : 'Gestion des Notes'}
-        </h2>
-        <p className="text-muted-foreground">
-          {isEtudiant 
-            ? 'Consultez vos résultats et suivez votre progression académique'
-            : 'Consultez et gérez les notes des évaluations'
-          }
-        </p>
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex items-start justify-between">
+        <div className="flex items-center gap-4">
+          <Button 
+            variant="ghost" 
+            size="icon"
+            onClick={() => navigate('/evaluations')}
+          >
+            <ArrowLeft className="w-4 h-4" />
+          </Button>
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900">{evaluation.nom}</h1>
+            <p className="text-gray-600">
+              Saisie des notes • {formatDate(evaluation.date_evaluation)}
+            </p>
+          </div>
+        </div>
+        <div className="flex items-center gap-2">
+          {evaluation.saisie_terminee ? (
+            <Badge variant="success">Saisie terminée</Badge>
+          ) : delaiDepasse ? (
+            <Badge variant="destructive">Délai dépassé</Badge>
+          ) : (
+            <Badge variant="secondary">En cours</Badge>
+          )}
+        </div>
       </div>
 
-      {/* Statistiques (surtout pour les étudiants) */}
-      {stats && (
-        <div className="grid gap-4 md:grid-cols-4">
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Moyenne générale</CardTitle>
-              <TrendingUp className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">
-                {stats.moyenne.toFixed(2)}/20
+      {/* Alerte délai */}
+      {!peutSaisir && (
+        <Card className="border-red-200 bg-red-50">
+          <CardContent className="p-4">
+            <div className="flex items-center gap-2 text-red-700">
+              <AlertCircle className="w-5 h-5" />
+              <div>
+                <p className="font-medium">Saisie non autorisée</p>
+                <p className="text-sm">
+                  Le délai de saisie est dépassé. Contactez l'administration pour autoriser la modification.
+                </p>
               </div>
-              <p className={`text-xs ${getMentionColor(stats.moyenne)}`}>
-                {getMentionFromNote(stats.moyenne)}
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Évaluations</CardTitle>
-              <FileText className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{stats.total}</div>
-              <p className="text-xs text-muted-foreground">
-                notes saisies
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Excellentes notes</CardTitle>
-              <Award className="h-4 w-4 text-green-600" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-green-600">
-                {stats.mentions['Très Bien'] + stats.mentions['Bien']}
-              </div>
-              <p className="text-xs text-muted-foreground">
-                notes ≥ 14/20
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Absences</CardTitle>
-              <AlertTriangle className="h-4 w-4 text-red-600" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-red-600">
-                {stats.absences}
-              </div>
-              <p className="text-xs text-muted-foreground">
-                {stats.absencesJustifiees} justifiée(s)
-              </p>
-            </CardContent>
-          </Card>
-        </div>
-      )}
-
-      {/* Répartition des mentions (pour les étudiants) */}
-      {isEtudiant && stats && (
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center space-x-2">
-              <BarChart3 className="h-5 w-5" />
-              <span>Répartition de mes notes</span>
-            </CardTitle>
-            <CardDescription>
-              Distribution de vos notes par mention
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              {Object.entries(stats.mentions).map(([mention, count]) => (
-                <div key={mention} className="flex items-center justify-between">
-                  <span className="text-sm font-medium">{mention}</span>
-                  <div className="flex items-center space-x-2 flex-1 max-w-xs">
-                    <Progress 
-                      value={stats.total > 0 ? (count / stats.total) * 100 : 0} 
-                      className="flex-1 h-2"
-                    />
-                    <span className="text-sm font-bold w-8">{count}</span>
-                  </div>
-                </div>
-              ))}
             </div>
           </CardContent>
         </Card>
       )}
 
-      {/* Tableau des données */}
-      <DataTable
-        data={notes}
-        columns={columns}
-        filters={filters}
-        actions={actions}
-        loading={loading}
-        title={isEtudiant ? "Mes notes" : "Liste des notes"}
-        description={`${notes.length} note(s) au total`}
-        searchable={true}
-        searchPlaceholder={isEtudiant ? "Rechercher une évaluation..." : "Rechercher (étudiant, évaluation)..."}
-        selectable={!isEtudiant}
-        exportable={true}
-        importable={canModifyNotes}
-        onExport={handleExport}
-        onImport={handleImport}
-        onRefresh={loadNotes}
-        emptyMessage="Aucune note trouvée"
-        className="w-full"
-      />
+      {/* Informations délai */}
+      {evaluation.date_limite_saisie && (
+        <Card>
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Clock className="w-5 h-5 text-gray-400" />
+                <span className="text-sm text-gray-600">
+                  Limite de saisie : {formatDateTime(evaluation.date_limite_saisie)}
+                </span>
+              </div>
+              {delaiInfo && (
+                <Badge variant={delaiDepasse ? "destructive" : "warning"}>
+                  {delaiDepasse ? "Dépassé" : "En cours"}
+                </Badge>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        {/* Feuille de notes */}
+        <div className="lg:col-span-3">
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
+              <div>
+                <CardTitle className="flex items-center gap-2">
+                  <Users className="w-5 h-5" />
+                  Feuille de notes
+                </CardTitle>
+                <CardDescription>
+                  Note sur {evaluation.note_sur} • {totalEtudiants} étudiant(s)
+                </CardDescription>
+              </div>
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setShowAbsents(!showAbsents)}
+                >
+                  {showAbsents ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  {showAbsents ? 'Masquer' : 'Afficher'} absents
+                </Button>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                {feuilleNotes.etudiants
+                  .filter(etudiant => showAbsents || !notes[etudiant.etudiant_id]?.absent)
+                  .map((etudiant) => (
+                  <div
+                    key={etudiant.etudiant_id}
+                    className={cn(
+                      "grid grid-cols-12 gap-3 p-3 rounded-lg border",
+                      notes[etudiant.etudiant_id]?.absent 
+                        ? "bg-gray-50 border-gray-200" 
+                        : "bg-white border-gray-200 hover:border-gray-300"
+                    )}
+                  >
+                    {/* Étudiant */}
+                    <div className="col-span-4">
+                      <p className="font-medium text-gray-900">{etudiant.nom_complet}</p>
+                      <p className="text-sm text-gray-500">{etudiant.matricule}</p>
+                    </div>
+
+                    {/* Note */}
+                    <div className="col-span-2">
+                      <Input
+                        type="number"
+                        min="0"
+                        max={evaluation.note_sur}
+                        step="0.25"
+                        placeholder="Note"
+                        value={notes[etudiant.etudiant_id]?.note_obtenue || ''}
+                        onChange={(e) => handleNoteChange(
+                          etudiant.etudiant_id, 
+                          'note_obtenue', 
+                          e.target.value ? parseFloat(e.target.value) : undefined
+                        )}
+                        disabled={!peutSaisir || notes[etudiant.etudiant_id]?.absent}
+                        className={cn(
+                          "text-center",
+                          notes[etudiant.etudiant_id]?.absent && "bg-gray-100"
+                        )}
+                      />
+                    </div>
+
+                    {/* Absent */}
+                    <div className="col-span-1 flex items-center justify-center">
+                      <input
+                        type="checkbox"
+                        checked={notes[etudiant.etudiant_id]?.absent || false}
+                        onChange={(e) => handleNoteChange(
+                          etudiant.etudiant_id, 
+                          'absent', 
+                          e.target.checked
+                        )}
+                        disabled={!peutSaisir}
+                        className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
+                      />
+                    </div>
+
+                    {/* Justifié */}
+                    <div className="col-span-1 flex items-center justify-center">
+                      <input
+                        type="checkbox"
+                        checked={notes[etudiant.etudiant_id]?.justifie || false}
+                        onChange={(e) => handleNoteChange(
+                          etudiant.etudiant_id, 
+                          'justifie', 
+                          e.target.checked
+                        )}
+                        disabled={!peutSaisir || !notes[etudiant.etudiant_id]?.absent}
+                        className="w-4 h-4 text-green-600 rounded focus:ring-green-500"
+                      />
+                    </div>
+
+                    {/* Commentaire */}
+                    <div className="col-span-4">
+                      <Input
+                        type="text"
+                        placeholder="Commentaire (optionnel)"
+                        value={notes[etudiant.etudiant_id]?.commentaire || ''}
+                        onChange={(e) => handleNoteChange(
+                          etudiant.etudiant_id, 
+                          'commentaire', 
+                          e.target.value
+                        )}
+                        disabled={!peutSaisir}
+                        className="text-sm"
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Légende */}
+              <div className="mt-6 p-4 bg-gray-50 rounded-lg">
+                <h4 className="text-sm font-medium text-gray-900 mb-2">Légende</h4>
+                <div className="grid grid-cols-12 gap-3 text-xs text-gray-600">
+                  <div className="col-span-4">Étudiant</div>
+                  <div className="col-span-2">Note (/{evaluation.note_sur})</div>
+                  <div className="col-span-1">Absent</div>
+                  <div className="col-span-1">Justifié</div>
+                  <div className="col-span-4">Commentaire</div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Sidebar avec statistiques et actions */}
+        <div className="space-y-6">
+          {/* Statistiques */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Calculator className="w-5 h-5" />
+                Statistiques
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="text-center">
+                <div className="text-2xl font-bold text-blue-600">
+                  {notesSaisies}/{totalEtudiants}
+                </div>
+                <div className="text-sm text-gray-500">Notes saisies</div>
+              </div>
+
+              {stats && (
+                <div className="space-y-3 pt-3 border-t">
+                  <div className="flex justify-between">
+                    <span className="text-sm text-gray-600">Moyenne</span>
+                    <span className="font-medium">{stats.moyenne.toFixed(2)}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-sm text-gray-600">Note max</span>
+                    <span className="font-medium">{stats.noteMax}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-sm text-gray-600">Note min</span>
+                    <span className="font-medium">{stats.noteMin}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-sm text-gray-600">Absents</span>
+                    <span className="font-medium">{absents}</span>
+                  </div>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
+          {/* Actions */}
+          <div className="space-y-3">
+            <Button
+              onClick={handleSave}
+              disabled={!peutSaisir || saving || saveMutation.isPending}
+              className="w-full"
+            >
+              {saving || saveMutation.isPending ? (
+                <>
+                  <Loading size="sm" className="mr-2" />
+                  Sauvegarde...
+                </>
+              ) : (
+                <>
+                  <Save className="w-4 h-4 mr-2" />
+                  Sauvegarder
+                </>
+              )}
+            </Button>
+
+            <Button
+              variant="outline"
+              onClick={() => navigate(`/evaluations/${evaluationId}`)}
+              className="w-full"
+            >
+              <Eye className="w-4 h-4 mr-2" />
+              Voir détails
+            </Button>
+          </div>
+
+          {/* Progression */}
+          <Card>
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between text-sm text-gray-600 mb-2">
+                <span>Progression</span>
+                <span>{Math.round((notesSaisies / totalEtudiants) * 100)}%</span>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-2">
+                <div 
+                  className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+                  style={{ width: `${(notesSaisies / totalEtudiants) * 100}%` }}
+                />
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
     </div>
-  )
-}
+  );
+};
+
+export default NotesPage;
