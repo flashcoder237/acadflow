@@ -1,5 +1,5 @@
 # ========================================
-# FICHIER: acadflow_backend/users/models.py
+# FICHIER: users/models.py - VERSION CORRIGÉE
 # ========================================
 
 from django.contrib.auth.models import AbstractUser
@@ -31,7 +31,7 @@ class User(AbstractUser):
         verbose_name='groups',
         blank=True,
         help_text='The groups this user belongs to.',
-        related_name='acadflow_user_set',  # Changé pour éviter les conflits
+        related_name='acadflow_user_set',
         related_query_name='acadflow_user',
     )
     user_permissions = models.ManyToManyField(
@@ -39,7 +39,7 @@ class User(AbstractUser):
         verbose_name='user permissions',
         blank=True,
         help_text='Specific permissions for this user.',
-        related_name='acadflow_user_set',  # Changé pour éviter les conflits
+        related_name='acadflow_user_set',
         related_query_name='acadflow_user',
     )
     
@@ -47,11 +47,10 @@ class User(AbstractUser):
         return f"{self.matricule} - {self.get_full_name()}"
     
     class Meta:
-        db_table = 'users'  # Table explicite
+        db_table = 'users'
         verbose_name = 'Utilisateur'
         verbose_name_plural = 'Utilisateurs'
 
-# Autres modèles inchangés...
 class Enseignant(TimestampedModel):
     """Profil enseignant"""
     GRADES = (
@@ -97,20 +96,47 @@ class StatutEtudiant(TimestampedModel):
     class Meta:
         db_table = 'statuts_etudiant'
 
+
+
 class Inscription(TimestampedModel):
+    """Inscriptions étudiants - À ajouter après les migrations de base"""
     etudiant = models.ForeignKey(Etudiant, on_delete=models.CASCADE)
-    # CHANGEZ CES LIGNES - utilisez des chaînes au lieu d'imports
-    classe = models.ForeignKey('academics.Classe', on_delete=models.CASCADE)  # <- Chaîne
-    annee_academique = models.ForeignKey('academics.AnneeAcademique', on_delete=models.CASCADE)  # <- Chaîne
+    
+    # Relations vers academics - utiliser des chaînes pour éviter les imports circulaires
+    classe = models.ForeignKey('academics.Classe', on_delete=models.CASCADE)
+    annee_academique = models.ForeignKey('academics.AnneeAcademique', on_delete=models.CASCADE)
+    
     date_inscription = models.DateField(auto_now_add=True)
     statut = models.ForeignKey(StatutEtudiant, on_delete=models.CASCADE)
     nombre_redoublements = models.PositiveIntegerField(default=0)
     active = models.BooleanField(default=True)
+    
+    def clean(self):
+        from django.core.exceptions import ValidationError
+        if self.nombre_redoublements < 0:
+            raise ValidationError('Le nombre de redoublements ne peut être négatif.')
+    
+    def __str__(self):
+        return f"{self.etudiant.user.matricule} - {self.classe.nom} ({self.annee_academique})"
+    
+    class Meta:
+        db_table = 'inscriptions'
+        unique_together = ['etudiant', 'annee_academique', 'active']
 
 class HistoriqueStatut(TimestampedModel):
+    """Historique des changements de statut - À ajouter après les migrations de base"""
     etudiant = models.ForeignKey(Etudiant, on_delete=models.CASCADE)
     statut = models.ForeignKey(StatutEtudiant, on_delete=models.CASCADE)
     date_changement = models.DateTimeField(auto_now_add=True)
-    # CHANGEZ CETTE LIGNE
-    annee_academique = models.ForeignKey('academics.AnneeAcademique', on_delete=models.CASCADE)  # <- Chaîne
+    
+    # Relation vers academics - utiliser une chaîne
+    annee_academique = models.ForeignKey('academics.AnneeAcademique', on_delete=models.CASCADE)
+    
     motif = models.TextField(blank=True)
+    
+    def __str__(self):
+        return f"{self.etudiant.user.matricule} - {self.statut.nom} ({self.date_changement.date()})"
+    
+    class Meta:
+        db_table = 'historique_statuts'
+        ordering = ['-date_changement']

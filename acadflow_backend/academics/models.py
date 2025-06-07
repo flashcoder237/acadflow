@@ -1,12 +1,10 @@
 # ========================================
-# FICHIER: acadflow_backend/academics/models.py (Version corrigée)
+# FICHIER: academics/models.py - VERSION CORRIGÉE
 # ========================================
 
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from core.models import TimestampedModel
-
-# CORRIGER LES IMPORTS CIRCULAIRES : Utiliser des chaînes de caractères pour les ForeignKey
 
 class AnneeAcademique(TimestampedModel):
     """Années académiques"""
@@ -26,7 +24,6 @@ class AnneeAcademique(TimestampedModel):
             raise ValidationError('La date de début doit être antérieure à la date de fin.')
     
     def save(self, *args, **kwargs):
-        # S'assurer qu'une seule année est active
         if self.active:
             AnneeAcademique.objects.filter(active=True).exclude(pk=self.pk).update(active=False)
         super().save(*args, **kwargs)
@@ -45,7 +42,6 @@ class Session(TimestampedModel):
     ordre = models.PositiveIntegerField()
     actif = models.BooleanField(default=True)
     
-    # Nouvelles fonctionnalités
     date_debut_session = models.DateField(null=True, blank=True)
     date_fin_session = models.DateField(null=True, blank=True)
     generation_recaps_auto = models.BooleanField(default=True)
@@ -68,7 +64,6 @@ class Semestre(TimestampedModel):
     nom = models.CharField(max_length=20)
     numero = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(2)])
     
-    # Nouvelles fonctionnalités
     date_debut = models.DateField(null=True, blank=True)
     date_fin = models.DateField(null=True, blank=True)
     
@@ -90,7 +85,7 @@ class Classe(TimestampedModel):
     nom = models.CharField(max_length=100)
     code = models.CharField(max_length=20)
     
-    # CORRECTION: Utiliser des chaînes pour éviter les imports circulaires
+    # Relations vers core (pas de problème de circularité)
     filiere = models.ForeignKey('core.Filiere', on_delete=models.CASCADE)
     option = models.ForeignKey('core.Option', on_delete=models.CASCADE, null=True, blank=True)
     niveau = models.ForeignKey('core.Niveau', on_delete=models.CASCADE)
@@ -99,14 +94,15 @@ class Classe(TimestampedModel):
     effectif_max = models.PositiveIntegerField(default=50)
     active = models.BooleanField(default=True)
     
-    # Nouvelles fonctionnalités - CORRECTION: utiliser une chaîne
+    # CHANGEMENT: Référence vers users avec une chaîne (évite la circularité)
     responsable_classe = models.ForeignKey(
-        'users.Enseignant', 
+        'users.Enseignant',  # Chaîne au lieu d'import
         on_delete=models.SET_NULL, 
         null=True, 
         blank=True,
         related_name='classes_responsables'
     )
+    
     recap_s1_genere = models.BooleanField(default=False)
     recap_s2_genere = models.BooleanField(default=False)
     date_recap_s1 = models.DateTimeField(null=True, blank=True)
@@ -117,7 +113,6 @@ class Classe(TimestampedModel):
         if self.effectif_max <= 0:
             raise ValidationError('L\'effectif maximum doit être supérieur à 0.')
         
-        # Vérifier que l'option appartient à la filière
         if self.option and self.option.filiere != self.filiere:
             raise ValidationError('L\'option sélectionnée n\'appartient pas à cette filière.')
     
@@ -140,12 +135,10 @@ class UE(TimestampedModel):
     credits = models.PositiveIntegerField(validators=[MinValueValidator(1)])
     type_ue = models.CharField(max_length=15, choices=TYPES_UE, default='obligatoire')
     
-    # CORRECTION: Utiliser des chaînes
     niveau = models.ForeignKey('core.Niveau', on_delete=models.CASCADE)
     semestre = models.ForeignKey(Semestre, on_delete=models.CASCADE)
     actif = models.BooleanField(default=True)
     
-    # Nouvelles fonctionnalités
     volume_horaire_cm = models.PositiveIntegerField(default=0)
     volume_horaire_td = models.PositiveIntegerField(default=0)
     volume_horaire_tp = models.PositiveIntegerField(default=0)
@@ -182,7 +175,6 @@ class EC(TimestampedModel):
         from django.core.exceptions import ValidationError
         from django.db.models import Sum
         
-        # Vérifier que la somme des poids des EC de l'UE ne dépasse pas 100%
         if self.ue:
             total_poids = EC.objects.filter(ue=self.ue, actif=True).exclude(pk=self.pk).aggregate(
                 total=Sum('poids_ec')
@@ -205,7 +197,6 @@ class TypeEvaluation(TimestampedModel):
     description = models.TextField(blank=True)
     actif = models.BooleanField(default=True)
     
-    # Nouvelles fonctionnalités
     delai_saisie_defaut = models.PositiveIntegerField(null=True, blank=True)
     
     def __str__(self):
@@ -228,7 +219,6 @@ class ConfigurationEvaluationEC(TimestampedModel):
         from django.core.exceptions import ValidationError
         from django.db.models import Sum
         
-        # Vérifier que le total des pourcentages pour un EC ne dépasse pas 100%
         if self.ec:
             total_pourcentage = ConfigurationEvaluationEC.objects.filter(
                 ec=self.ec
@@ -245,7 +235,7 @@ class ConfigurationEvaluationEC(TimestampedModel):
         db_table = 'configuration_evaluations_ec'
         unique_together = ['ec', 'type_evaluation']
 
-# Modèles supplémentaires avec gestion d'erreur
+# Modèles supplémentaires sans dépendances circulaires
 class ECClasse(TimestampedModel):
     """Liaison EC-Classe"""
     ec = models.ForeignKey(EC, on_delete=models.CASCADE)
@@ -265,13 +255,14 @@ class RecapitulatifSemestriel(TimestampedModel):
     
     date_generation = models.DateTimeField(auto_now_add=True)
     
-    # CORRECTION: utiliser une chaîne
+    # Référence vers users avec une chaîne
     genere_par = models.ForeignKey(
-        'users.User', 
+        'users.User',  # Chaîne au lieu d'import
         on_delete=models.SET_NULL, 
         null=True,
         blank=True
     )
+    
     statut = models.CharField(
         max_length=20,
         choices=[
@@ -327,7 +318,7 @@ class ParametrageSysteme(TimestampedModel):
                 return datetime.strptime(self.valeur, '%Y-%m-%d').date()
             return self.valeur
         except (ValueError, TypeError):
-            return self.valeur  # Retourner la valeur brute en cas d'erreur
+            return self.valeur
     
     class Meta:
         db_table = 'parametrage_systeme'
