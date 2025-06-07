@@ -10,10 +10,10 @@ from datetime import timedelta
 
 class Enseignement(TimestampedModel):
     """Affectation enseignant-EC-classe"""
-    enseignant = models.ForeignKey('users.Enseignant', on_delete=models.CASCADE)
-    ec = models.ForeignKey('academics.EC', on_delete=models.CASCADE)
-    classe = models.ForeignKey('academics.Classe', on_delete=models.CASCADE)
-    annee_academique = models.ForeignKey('academics.AnneeAcademique', on_delete=models.CASCADE)
+    enseignant = models.ForeignKey('users.Enseignant', on_delete=models.CASCADE) 
+    ec = models.ForeignKey('academics.EC', on_delete=models.CASCADE) 
+    classe = models.ForeignKey('academics.Classe', on_delete=models.CASCADE) 
+    annee_academique = models.ForeignKey('academics.AnneeAcademique', on_delete=models.CASCADE) 
     actif = models.BooleanField(default=True)
     
     def clean(self):

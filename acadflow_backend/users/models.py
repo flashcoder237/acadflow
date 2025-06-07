@@ -98,27 +98,19 @@ class StatutEtudiant(TimestampedModel):
         db_table = 'statuts_etudiant'
 
 class Inscription(TimestampedModel):
-    """Inscriptions des étudiants aux classes"""
     etudiant = models.ForeignKey(Etudiant, on_delete=models.CASCADE)
-    classe = models.ForeignKey('academics.Classe', on_delete=models.CASCADE)
-    annee_academique = models.ForeignKey('academics.AnneeAcademique', on_delete=models.CASCADE)
+    # CHANGEZ CES LIGNES - utilisez des chaînes au lieu d'imports
+    classe = models.ForeignKey('academics.Classe', on_delete=models.CASCADE)  # <- Chaîne
+    annee_academique = models.ForeignKey('academics.AnneeAcademique', on_delete=models.CASCADE)  # <- Chaîne
     date_inscription = models.DateField(auto_now_add=True)
     statut = models.ForeignKey(StatutEtudiant, on_delete=models.CASCADE)
     nombre_redoublements = models.PositiveIntegerField(default=0)
     active = models.BooleanField(default=True)
-    
-    class Meta:
-        db_table = 'inscriptions'
-        unique_together = ['etudiant', 'classe', 'annee_academique']
 
 class HistoriqueStatut(TimestampedModel):
-    """Historique des statuts étudiants"""
     etudiant = models.ForeignKey(Etudiant, on_delete=models.CASCADE)
     statut = models.ForeignKey(StatutEtudiant, on_delete=models.CASCADE)
     date_changement = models.DateTimeField(auto_now_add=True)
-    annee_academique = models.ForeignKey('academics.AnneeAcademique', on_delete=models.CASCADE)
+    # CHANGEZ CETTE LIGNE
+    annee_academique = models.ForeignKey('academics.AnneeAcademique', on_delete=models.CASCADE)  # <- Chaîne
     motif = models.TextField(blank=True)
-    
-    class Meta:
-        db_table = 'historique_statuts'
-        ordering = ['-date_changement']

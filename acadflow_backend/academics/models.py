@@ -1,10 +1,12 @@
 # ========================================
-# FICHIER: acadflow_backend/academics/models.py (Corrections)
+# FICHIER: acadflow_backend/academics/models.py (Version corrigée)
 # ========================================
 
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
-from core.models import TimestampedModel, Filiere, Option, Niveau
+from core.models import TimestampedModel
+
+# CORRIGER LES IMPORTS CIRCULAIRES : Utiliser des chaînes de caractères pour les ForeignKey
 
 class AnneeAcademique(TimestampedModel):
     """Années académiques"""
@@ -87,14 +89,17 @@ class Classe(TimestampedModel):
     """Classes/Promotions"""
     nom = models.CharField(max_length=100)
     code = models.CharField(max_length=20)
-    filiere = models.ForeignKey(Filiere, on_delete=models.CASCADE)
-    option = models.ForeignKey(Option, on_delete=models.CASCADE, null=True, blank=True)
-    niveau = models.ForeignKey(Niveau, on_delete=models.CASCADE)
+    
+    # CORRECTION: Utiliser des chaînes pour éviter les imports circulaires
+    filiere = models.ForeignKey('core.Filiere', on_delete=models.CASCADE)
+    option = models.ForeignKey('core.Option', on_delete=models.CASCADE, null=True, blank=True)
+    niveau = models.ForeignKey('core.Niveau', on_delete=models.CASCADE)
+    
     annee_academique = models.ForeignKey(AnneeAcademique, on_delete=models.CASCADE)
     effectif_max = models.PositiveIntegerField(default=50)
     active = models.BooleanField(default=True)
     
-    # Nouvelles fonctionnalités
+    # Nouvelles fonctionnalités - CORRECTION: utiliser une chaîne
     responsable_classe = models.ForeignKey(
         'users.Enseignant', 
         on_delete=models.SET_NULL, 
@@ -134,7 +139,9 @@ class UE(TimestampedModel):
     code = models.CharField(max_length=20)
     credits = models.PositiveIntegerField(validators=[MinValueValidator(1)])
     type_ue = models.CharField(max_length=15, choices=TYPES_UE, default='obligatoire')
-    niveau = models.ForeignKey(Niveau, on_delete=models.CASCADE)
+    
+    # CORRECTION: Utiliser des chaînes
+    niveau = models.ForeignKey('core.Niveau', on_delete=models.CASCADE)
     semestre = models.ForeignKey(Semestre, on_delete=models.CASCADE)
     actif = models.BooleanField(default=True)
     
@@ -257,6 +264,8 @@ class RecapitulatifSemestriel(TimestampedModel):
     annee_academique = models.ForeignKey(AnneeAcademique, on_delete=models.CASCADE)
     
     date_generation = models.DateTimeField(auto_now_add=True)
+    
+    # CORRECTION: utiliser une chaîne
     genere_par = models.ForeignKey(
         'users.User', 
         on_delete=models.SET_NULL, 
