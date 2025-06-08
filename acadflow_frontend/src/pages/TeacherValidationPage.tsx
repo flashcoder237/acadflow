@@ -2,7 +2,7 @@
 // FICHIER: src/pages/TeacherValidationPage.tsx - Validation des notes par l'enseignant
 // ========================================
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { 
@@ -57,6 +57,57 @@ const TeacherValidationPage: React.FC = () => {
   const [validationComment, setValidationComment] = useState('');
   const [cancelReason, setCancelReason] = useState('');
   const [validating, setValidating] = useState(false);
+
+  // New states for import/export
+  const [importing, setImporting] = useState(false);
+  const [importResult, setImportResult] = useState<{ success: boolean; notes_importees?: number; erreurs?: string[]; avertissements?: string[] } | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Handler to download the feuille de presence
+  const handleDownloadFeuillePresence = async (format: 'xlsx' | 'pdf') => {
+    if (!evaluationId) return;
+    try {
+      const blob = await teacherApi.exporterFeuillePresence(parseInt(evaluationId), format);
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `feuille_presence_${evaluationId}.${format}`;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+      showSuccess('Téléchargement réussi', `Feuille de présence téléchargée en format ${format.toUpperCase()}`);
+    } catch (error) {
+      showError('Erreur de téléchargement', 'Impossible de télécharger la feuille de présence');
+    }
+  };
+
+  // Handler to import notes from file
+  const handleImportNotes = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (!evaluationId) return;
+    const files = event.target.files;
+    if (!files || files.length === 0) return;
+    const file = files[0];
+    setImporting(true);
+    setImportResult(null);
+    try {
+      const result = await teacherApi.importerNotesDepuisFichier(parseInt(evaluationId), file, { format: file.name.endsWith('.csv') ? 'csv' : 'xlsx' });
+      setImportResult(result);
+      if (result.success) {
+        showSuccess('Import réussi', `${result.notes_importees} notes importées avec succès`);
+        queryClient.invalidateQueries({ queryKey: ['evaluation-validation', evaluationId] });
+      } else {
+        showWarning('Import partiel', `Import partiel avec ${result.erreurs?.length || 0} erreurs`);
+      }
+    } catch (error) {
+      showError('Erreur d\'import', 'Impossible d\'importer les notes');
+    } finally {
+      setImporting(false);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+    }
+  };
 
   // Query pour charger l'évaluation
   const { data: evaluation, isLoading: loadingEvaluation, error } = useQuery({
@@ -640,6 +691,59 @@ const TeacherValidationPage: React.FC = () => {
                   Aperçu export
                 </Button>
               </div>
+
+              {/* New buttons for feuille de presence download and import */}
+              <div className="flex items-center gap-3 mt-4">
+                <Button 
+                  onClick={() => handleDownloadFeuillePresence('xlsx')}
+                  variant="outline"
+                >
+                  <Download className="w-4 h-4 mr-2" />
+                  Télécharger feuille (XLSX)
+                </Button>
+                <Button 
+                  onClick={() => handleDownloadFeuillePresence('pdf')}
+                  variant="outline"
+                >
+                  <Download className="w-4 h-4 mr-2" />
+                  Télécharger feuille (PDF)
+                </Button>
+                <input 
+                  type="file" 
+                  accept=".xlsx,.csv" 
+                  ref={fileInputRef} 
+                  onChange={handleImportNotes} 
+                  className="hidden" 
+                  id="import-file-input"
+                />
+                <label htmlFor="import-file-input" className="btn btn-outline cursor-pointer">
+                  <Button asChild variant="outline">
+                    <span>Importer notes</span>
+                  </Button>
+                </label>
+              </div>
+
+              {importing && (
+                <div className="mt-2 text-sm text-gray-600 flex items-center gap-2">
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                  Import en cours...
+                </div>
+              )}
+
+              {importResult && (
+                <div className={`mt-2 p-2 rounded ${importResult.success ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+                  {importResult.success 
+                    ? `${importResult.notes_importees} notes importées avec succès.` 
+                    : `Import échoué avec ${importResult.erreurs?.length || 0} erreurs.`}
+                  {importResult.erreurs && importResult.erreurs.length > 0 && (
+                    <ul className="list-disc list-inside mt-1">
+                      {importResult.erreurs.map((err, idx) => (
+                        <li key={idx}>{err}</li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              )}
             </div>
           )}
         </CardContent>

@@ -3832,3 +3832,346 @@ INFO 2025-06-08 08:15:17,007 basehttp 43788 392 "GET /api/academics/types-evalua
 INFO 2025-06-08 08:15:17,055 basehttp 43788 45732 "GET /api/evaluations/enseignements/?page_size=100 HTTP/1.1" 200 1331
 INFO 2025-06-08 08:21:06,889 autoreload 43788 53004 C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_backend\evaluations\views.py changed, reloading.
 INFO 2025-06-08 08:21:08,346 autoreload 53896 36436 Watching for file changes with StatReloader
+INFO 2025-06-08 08:21:28,505 basehttp 53896 35512 "GET /api/evaluations/enseignements/?page_size=100 HTTP/1.1" 200 1331
+INFO 2025-06-08 08:21:29,565 basehttp 53896 29944 "GET /api/evaluations/enseignants/etudiants/?page_size=50 HTTP/1.1" 200 28765
+INFO 2025-06-08 08:21:34,818 basehttp 53896 29944 "OPTIONS /api/auth/users/me/ HTTP/1.1" 200 0
+INFO 2025-06-08 08:21:34,819 basehttp 53896 35512 "OPTIONS /api/auth/users/me/ HTTP/1.1" 200 0
+WARNING 2025-06-08 08:21:34,907 log 53896 35512 Forbidden: /api/auth/users/me/
+WARNING 2025-06-08 08:21:34,908 basehttp 53896 35512 "GET /api/auth/users/me/ HTTP/1.1" 403 68
+WARNING 2025-06-08 08:21:35,011 log 53896 29944 Forbidden: /api/auth/users/me/
+WARNING 2025-06-08 08:21:35,012 basehttp 53896 29944 "GET /api/auth/users/me/ HTTP/1.1" 403 68
+INFO 2025-06-08 08:21:40,622 basehttp 53896 29944 "POST /api/auth/login/ HTTP/1.1" 200 427
+WARNING 2025-06-08 08:21:40,700 log 53896 29944 Not Found: /api/evaluations/enseignants/statistiques/
+WARNING 2025-06-08 08:21:40,709 log 53896 35512 Not Found: /api/evaluations/enseignants/12/planning/
+WARNING 2025-06-08 08:21:40,718 log 53896 8804 Not Found: /api/evaluations/enseignants/12/notifications/
+WARNING 2025-06-08 08:21:40,720 basehttp 53896 29944 "GET /api/evaluations/enseignants/statistiques/ HTTP/1.1" 404 29024
+WARNING 2025-06-08 08:21:40,720 basehttp 53896 35512 "GET /api/evaluations/enseignants/12/planning/ HTTP/1.1" 404 29021
+WARNING 2025-06-08 08:21:40,720 basehttp 53896 8804 "GET /api/evaluations/enseignants/12/notifications/ HTTP/1.1" 404 29036
+INFO 2025-06-08 08:21:40,884 basehttp 53896 29944 "GET /api/evaluations/enseignements/?page_size=50 HTTP/1.1" 200 1331
+INFO 2025-06-08 08:21:41,005 basehttp 53896 35512 "GET /api/evaluations/evaluations/?page_size=20&ordering=-date_evaluation HTTP/1.1" 200 7622
+WARNING 2025-06-08 08:21:41,747 log 53896 35512 Not Found: /api/evaluations/enseignants/statistiques/
+WARNING 2025-06-08 08:21:41,778 log 53896 8804 Not Found: /api/evaluations/enseignants/12/notifications/
+WARNING 2025-06-08 08:21:41,785 log 53896 29944 Not Found: /api/evaluations/enseignants/12/planning/
+WARNING 2025-06-08 08:21:41,786 basehttp 53896 35512 "GET /api/evaluations/enseignants/statistiques/ HTTP/1.1" 404 29024
+WARNING 2025-06-08 08:21:41,787 basehttp 53896 29944 "GET /api/evaluations/enseignants/12/planning/ HTTP/1.1" 404 29021
+WARNING 2025-06-08 08:21:41,787 basehttp 53896 8804 "GET /api/evaluations/enseignants/12/notifications/ HTTP/1.1" 404 29036
+INFO 2025-06-08 08:21:43,536 basehttp 53896 35512 "GET /api/evaluations/enseignements/?page_size=100 HTTP/1.1" 200 1331
+INFO 2025-06-08 08:21:44,650 basehttp 53896 29944 "GET /api/evaluations/enseignants/etudiants/?page_size=50 HTTP/1.1" 200 28765
+WARNING 2025-06-08 08:21:47,560 log 53896 29944 Forbidden: /api/auth/users/me/
+WARNING 2025-06-08 08:21:47,561 basehttp 53896 29944 "GET /api/auth/users/me/ HTTP/1.1" 403 68
+WARNING 2025-06-08 08:21:47,648 log 53896 35512 Forbidden: /api/auth/users/me/
+WARNING 2025-06-08 08:21:47,649 basehttp 53896 35512 "GET /api/auth/users/me/ HTTP/1.1" 403 68
+INFO 2025-06-08 08:22:34,689 basehttp 53896 35512 "POST /api/auth/login/ HTTP/1.1" 200 427
+WARNING 2025-06-08 08:22:34,754 log 53896 35512 Not Found: /api/evaluations/enseignants/statistiques/
+WARNING 2025-06-08 08:22:34,760 log 53896 29944 Not Found: /api/evaluations/enseignants/12/planning/
+WARNING 2025-06-08 08:22:34,765 log 53896 8804 Not Found: /api/evaluations/enseignants/12/notifications/
+WARNING 2025-06-08 08:22:34,766 basehttp 53896 35512 "GET /api/evaluations/enseignants/statistiques/ HTTP/1.1" 404 29024
+WARNING 2025-06-08 08:22:34,766 basehttp 53896 29944 "GET /api/evaluations/enseignants/12/planning/ HTTP/1.1" 404 29021
+WARNING 2025-06-08 08:22:34,767 basehttp 53896 8804 "GET /api/evaluations/enseignants/12/notifications/ HTTP/1.1" 404 29036
+INFO 2025-06-08 08:22:34,860 basehttp 53896 26464 "GET /api/evaluations/enseignements/?page_size=50 HTTP/1.1" 200 1331
+INFO 2025-06-08 08:22:34,921 basehttp 53896 30220 "GET /api/evaluations/evaluations/?page_size=20&ordering=-date_evaluation HTTP/1.1" 200 7622
+WARNING 2025-06-08 08:22:35,788 log 53896 30220 Not Found: /api/evaluations/enseignants/statistiques/
+WARNING 2025-06-08 08:22:35,793 log 53896 8804 Not Found: /api/evaluations/enseignants/12/notifications/
+WARNING 2025-06-08 08:22:35,798 log 53896 26464 Not Found: /api/evaluations/enseignants/12/planning/
+WARNING 2025-06-08 08:22:35,799 basehttp 53896 30220 "GET /api/evaluations/enseignants/statistiques/ HTTP/1.1" 404 29024
+WARNING 2025-06-08 08:22:35,800 basehttp 53896 26464 "GET /api/evaluations/enseignants/12/planning/ HTTP/1.1" 404 29021
+WARNING 2025-06-08 08:22:35,800 basehttp 53896 8804 "GET /api/evaluations/enseignants/12/notifications/ HTTP/1.1" 404 29036
+INFO 2025-06-08 08:22:46,962 basehttp 53896 26464 "GET /api/evaluations/enseignements/?page_size=100 HTTP/1.1" 200 1331
+INFO 2025-06-08 08:22:47,595 basehttp 53896 8804 "GET /api/evaluations/enseignants/etudiants/?page_size=50 HTTP/1.1" 200 28765
+WARNING 2025-06-08 08:23:28,956 log 53896 8804 Forbidden: /api/auth/users/me/
+WARNING 2025-06-08 08:23:28,957 basehttp 53896 8804 "GET /api/auth/users/me/ HTTP/1.1" 403 68
+WARNING 2025-06-08 08:23:29,046 log 53896 26464 Forbidden: /api/auth/users/me/
+WARNING 2025-06-08 08:23:29,047 basehttp 53896 26464 "GET /api/auth/users/me/ HTTP/1.1" 403 68
+INFO 2025-06-08 08:26:21,677 basehttp 53896 41940 "OPTIONS /api/auth/login/ HTTP/1.1" 200 0
+INFO 2025-06-08 08:26:22,643 basehttp 53896 41940 "POST /api/auth/login/ HTTP/1.1" 200 427
+INFO 2025-06-08 08:26:22,706 basehttp 53896 41940 "OPTIONS /api/evaluations/enseignants/statistiques/ HTTP/1.1" 200 0
+INFO 2025-06-08 08:26:22,706 basehttp 53896 51224 "OPTIONS /api/evaluations/enseignants/12/planning/ HTTP/1.1" 200 0
+INFO 2025-06-08 08:26:22,711 basehttp 53896 51224 "OPTIONS /api/evaluations/enseignants/12/notifications/ HTTP/1.1" 200 0
+INFO 2025-06-08 08:26:22,712 basehttp 53896 41940 "OPTIONS /api/evaluations/enseignements/?page_size=50 HTTP/1.1" 200 0
+INFO 2025-06-08 08:26:22,719 basehttp 53896 51224 "OPTIONS /api/evaluations/evaluations/?page_size=20&ordering=-date_evaluation HTTP/1.1" 200 0
+WARNING 2025-06-08 08:26:22,733 log 53896 41940 Not Found: /api/evaluations/enseignants/statistiques/
+WARNING 2025-06-08 08:26:22,749 log 53896 51224 Not Found: /api/evaluations/enseignants/12/planning/
+WARNING 2025-06-08 08:26:22,749 basehttp 53896 41940 "GET /api/evaluations/enseignants/statistiques/ HTTP/1.1" 404 29024
+WARNING 2025-06-08 08:26:22,763 basehttp 53896 51224 "GET /api/evaluations/enseignants/12/planning/ HTTP/1.1" 404 29021
+WARNING 2025-06-08 08:26:22,767 log 53896 41940 Not Found: /api/evaluations/enseignants/12/notifications/
+WARNING 2025-06-08 08:26:22,771 basehttp 53896 41940 "GET /api/evaluations/enseignants/12/notifications/ HTTP/1.1" 404 29036
+INFO 2025-06-08 08:26:22,921 basehttp 53896 51224 "GET /api/evaluations/enseignements/?page_size=50 HTTP/1.1" 200 1331
+INFO 2025-06-08 08:26:23,015 basehttp 53896 41940 "GET /api/evaluations/evaluations/?page_size=20&ordering=-date_evaluation HTTP/1.1" 200 7622
+WARNING 2025-06-08 08:26:23,766 log 53896 41940 Not Found: /api/evaluations/enseignants/statistiques/
+WARNING 2025-06-08 08:26:23,779 log 53896 51224 Not Found: /api/evaluations/enseignants/12/planning/
+WARNING 2025-06-08 08:26:23,780 basehttp 53896 41940 "GET /api/evaluations/enseignants/statistiques/ HTTP/1.1" 404 29024
+WARNING 2025-06-08 08:26:23,781 basehttp 53896 51224 "GET /api/evaluations/enseignants/12/planning/ HTTP/1.1" 404 29021
+WARNING 2025-06-08 08:26:23,835 log 53896 51224 Not Found: /api/evaluations/enseignants/12/notifications/
+WARNING 2025-06-08 08:26:23,839 basehttp 53896 51224 "GET /api/evaluations/enseignants/12/notifications/ HTTP/1.1" 404 29036
+INFO 2025-06-08 08:26:38,303 basehttp 53896 41940 "GET /api/evaluations/enseignements/?page_size=100 HTTP/1.1" 200 1331
+INFO 2025-06-08 08:26:39,754 basehttp 53896 51224 "GET /api/evaluations/enseignants/etudiants/?page_size=50 HTTP/1.1" 200 28765
+WARNING 2025-06-08 08:26:47,703 log 53896 51224 Forbidden: /api/auth/users/me/
+WARNING 2025-06-08 08:26:47,704 basehttp 53896 51224 "GET /api/auth/users/me/ HTTP/1.1" 403 68
+WARNING 2025-06-08 08:26:47,830 log 53896 41940 Forbidden: /api/auth/users/me/
+WARNING 2025-06-08 08:26:47,831 basehttp 53896 41940 "GET /api/auth/users/me/ HTTP/1.1" 403 68
+INFO 2025-06-08 08:31:03,044 basehttp 53896 41940 "POST /api/auth/login/ HTTP/1.1" 200 427
+WARNING 2025-06-08 08:31:03,104 log 53896 51224 Not Found: /api/evaluations/enseignants/12/planning/
+WARNING 2025-06-08 08:31:03,109 log 53896 41940 Not Found: /api/evaluations/enseignants/statistiques/
+WARNING 2025-06-08 08:31:03,110 basehttp 53896 51224 "GET /api/evaluations/enseignants/12/planning/ HTTP/1.1" 404 29021
+WARNING 2025-06-08 08:31:03,110 basehttp 53896 41940 "GET /api/evaluations/enseignants/statistiques/ HTTP/1.1" 404 29024
+WARNING 2025-06-08 08:31:03,120 log 53896 51224 Not Found: /api/evaluations/enseignants/12/notifications/
+WARNING 2025-06-08 08:31:03,123 basehttp 53896 51224 "GET /api/evaluations/enseignants/12/notifications/ HTTP/1.1" 404 29036
+INFO 2025-06-08 08:31:03,225 basehttp 53896 41940 "GET /api/evaluations/enseignements/?page_size=50 HTTP/1.1" 200 1331
+INFO 2025-06-08 08:31:03,286 basehttp 53896 51224 "GET /api/evaluations/evaluations/?page_size=20&ordering=-date_evaluation HTTP/1.1" 200 7622
+WARNING 2025-06-08 08:31:04,129 log 53896 41940 Not Found: /api/evaluations/enseignants/statistiques/
+WARNING 2025-06-08 08:31:04,135 log 53896 51224 Not Found: /api/evaluations/enseignants/12/planning/
+WARNING 2025-06-08 08:31:04,137 basehttp 53896 41940 "GET /api/evaluations/enseignants/statistiques/ HTTP/1.1" 404 29024
+WARNING 2025-06-08 08:31:04,140 basehttp 53896 51224 "GET /api/evaluations/enseignants/12/planning/ HTTP/1.1" 404 29021
+WARNING 2025-06-08 08:31:04,147 log 53896 62144 Not Found: /api/evaluations/enseignants/12/notifications/
+WARNING 2025-06-08 08:31:04,149 basehttp 53896 62144 "GET /api/evaluations/enseignants/12/notifications/ HTTP/1.1" 404 29036
+WARNING 2025-06-08 08:35:21,285 log 53896 62144 Not Found: /api/evaluations/enseignants/12/notifications/
+WARNING 2025-06-08 08:35:21,287 basehttp 53896 62144 "GET /api/evaluations/enseignants/12/notifications/ HTTP/1.1" 404 29036
+WARNING 2025-06-08 08:35:22,310 log 53896 62144 Not Found: /api/evaluations/enseignants/12/notifications/
+WARNING 2025-06-08 08:35:22,313 basehttp 53896 62144 "GET /api/evaluations/enseignants/12/notifications/ HTTP/1.1" 404 29036
+WARNING 2025-06-08 08:40:52,639 log 53896 16388 Not Found: /api/evaluations/enseignants/12/notifications/
+WARNING 2025-06-08 08:40:52,641 basehttp 53896 16388 "GET /api/evaluations/enseignants/12/notifications/ HTTP/1.1" 404 29036
+WARNING 2025-06-08 08:40:53,681 log 53896 16388 Not Found: /api/evaluations/enseignants/12/notifications/
+WARNING 2025-06-08 08:40:53,683 basehttp 53896 16388 "GET /api/evaluations/enseignants/12/notifications/ HTTP/1.1" 404 29036
+WARNING 2025-06-08 08:41:04,158 log 53896 16388 Not Found: /api/evaluations/enseignants/statistiques/
+WARNING 2025-06-08 08:41:04,160 basehttp 53896 16388 "GET /api/evaluations/enseignants/statistiques/ HTTP/1.1" 404 29024
+WARNING 2025-06-08 08:41:04,187 log 53896 16388 Not Found: /api/evaluations/enseignants/12/planning/
+WARNING 2025-06-08 08:41:04,188 basehttp 53896 16388 "GET /api/evaluations/enseignants/12/planning/ HTTP/1.1" 404 29021
+WARNING 2025-06-08 08:41:05,180 log 53896 16388 Not Found: /api/evaluations/enseignants/statistiques/
+WARNING 2025-06-08 08:41:05,181 basehttp 53896 16388 "GET /api/evaluations/enseignants/statistiques/ HTTP/1.1" 404 29024
+WARNING 2025-06-08 08:41:05,210 log 53896 16388 Not Found: /api/evaluations/enseignants/12/planning/
+WARNING 2025-06-08 08:41:05,212 basehttp 53896 16388 "GET /api/evaluations/enseignants/12/planning/ HTTP/1.1" 404 29021
+INFO 2025-06-08 08:41:12,631 basehttp 53896 48228 "GET /api/evaluations/enseignements/?page_size=100 HTTP/1.1" 200 1331
+INFO 2025-06-08 08:41:13,786 basehttp 53896 16388 "GET /api/evaluations/enseignants/etudiants/?page_size=50 HTTP/1.1" 200 28765
+INFO 2025-06-08 08:43:09,686 autoreload 53896 36436 C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_backend\evaluations\views.py changed, reloading.
+INFO 2025-06-08 08:43:11,039 autoreload 53080 25036 Watching for file changes with StatReloader
+INFO 2025-06-08 08:43:21,855 autoreload 53080 25036 C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_backend\evaluations\views.py changed, reloading.
+INFO 2025-06-08 08:43:22,769 autoreload 29644 54284 Watching for file changes with StatReloader
+WARNING 2025-06-08 08:46:36,334 log 29644 41848 Forbidden: /api/auth/users/me/
+WARNING 2025-06-08 08:46:36,334 basehttp 29644 41848 "GET /api/auth/users/me/ HTTP/1.1" 403 68
+WARNING 2025-06-08 08:46:36,429 log 29644 41848 Forbidden: /api/auth/users/me/
+WARNING 2025-06-08 08:46:36,430 basehttp 29644 41848 "GET /api/auth/users/me/ HTTP/1.1" 403 68
+INFO 2025-06-08 08:47:17,177 basehttp 29644 41848 "POST /api/auth/login/ HTTP/1.1" 200 427
+WARNING 2025-06-08 08:47:17,226 log 29644 41848 Not Found: /api/evaluations/enseignants/statistiques/
+WARNING 2025-06-08 08:47:17,235 log 29644 25840 Not Found: /api/evaluations/enseignants/12/notifications/
+WARNING 2025-06-08 08:47:17,247 log 29644 47732 Not Found: /api/evaluations/enseignants/12/planning/
+WARNING 2025-06-08 08:47:17,247 basehttp 29644 41848 "GET /api/evaluations/enseignants/statistiques/ HTTP/1.1" 404 29024
+WARNING 2025-06-08 08:47:17,248 basehttp 29644 25840 "GET /api/evaluations/enseignants/12/notifications/ HTTP/1.1" 404 29036
+WARNING 2025-06-08 08:47:17,249 basehttp 29644 47732 "GET /api/evaluations/enseignants/12/planning/ HTTP/1.1" 404 29021
+INFO 2025-06-08 08:47:17,391 basehttp 29644 41848 "GET /api/evaluations/enseignements/?page_size=50 HTTP/1.1" 200 1331
+INFO 2025-06-08 08:47:17,541 basehttp 29644 25840 "GET /api/evaluations/evaluations/?page_size=20&ordering=-date_evaluation HTTP/1.1" 200 7622
+WARNING 2025-06-08 08:47:18,270 log 29644 41848 Not Found: /api/evaluations/enseignants/12/notifications/
+WARNING 2025-06-08 08:47:18,286 log 29644 25840 Not Found: /api/evaluations/enseignants/statistiques/
+WARNING 2025-06-08 08:47:18,298 log 29644 47732 Not Found: /api/evaluations/enseignants/12/planning/
+WARNING 2025-06-08 08:47:18,300 basehttp 29644 41848 "GET /api/evaluations/enseignants/12/notifications/ HTTP/1.1" 404 29036
+WARNING 2025-06-08 08:47:18,302 basehttp 29644 25840 "GET /api/evaluations/enseignants/statistiques/ HTTP/1.1" 404 29024
+WARNING 2025-06-08 08:47:18,304 basehttp 29644 47732 "GET /api/evaluations/enseignants/12/planning/ HTTP/1.1" 404 29021
+INFO 2025-06-08 08:47:20,281 basehttp 29644 41848 "GET /api/evaluations/enseignements/?page_size=100 HTTP/1.1" 200 1331
+INFO 2025-06-08 08:47:21,334 basehttp 29644 47732 "GET /api/evaluations/enseignants/etudiants/?page_size=50 HTTP/1.1" 200 28765
+WARNING 2025-06-08 08:47:23,542 log 29644 47732 Forbidden: /api/auth/users/me/
+WARNING 2025-06-08 08:47:23,543 basehttp 29644 47732 "GET /api/auth/users/me/ HTTP/1.1" 403 68
+WARNING 2025-06-08 08:47:23,640 log 29644 41848 Forbidden: /api/auth/users/me/
+WARNING 2025-06-08 08:47:23,641 basehttp 29644 41848 "GET /api/auth/users/me/ HTTP/1.1" 403 68
+INFO 2025-06-08 08:48:59,171 basehttp 29644 41848 "POST /api/auth/login/ HTTP/1.1" 200 427
+WARNING 2025-06-08 08:48:59,232 log 29644 41848 Not Found: /api/evaluations/enseignants/statistiques/
+WARNING 2025-06-08 08:48:59,239 log 29644 47732 Not Found: /api/evaluations/enseignants/12/planning/
+WARNING 2025-06-08 08:48:59,247 log 29644 25840 Not Found: /api/evaluations/enseignants/12/notifications/
+WARNING 2025-06-08 08:48:59,248 basehttp 29644 41848 "GET /api/evaluations/enseignants/statistiques/ HTTP/1.1" 404 29024
+WARNING 2025-06-08 08:48:59,248 basehttp 29644 47732 "GET /api/evaluations/enseignants/12/planning/ HTTP/1.1" 404 29021
+WARNING 2025-06-08 08:48:59,251 basehttp 29644 25840 "GET /api/evaluations/enseignants/12/notifications/ HTTP/1.1" 404 29036
+INFO 2025-06-08 08:48:59,521 basehttp 29644 41848 "GET /api/evaluations/enseignements/?page_size=50 HTTP/1.1" 200 1331
+INFO 2025-06-08 08:48:59,527 basehttp 29644 47732 "GET /api/evaluations/evaluations/?page_size=20&ordering=-date_evaluation HTTP/1.1" 200 7622
+WARNING 2025-06-08 08:49:00,275 log 29644 47732 Not Found: /api/evaluations/enseignants/statistiques/
+WARNING 2025-06-08 08:49:00,282 log 29644 41848 Not Found: /api/evaluations/enseignants/12/planning/
+WARNING 2025-06-08 08:49:00,288 log 29644 25840 Not Found: /api/evaluations/enseignants/12/notifications/
+WARNING 2025-06-08 08:49:00,289 basehttp 29644 47732 "GET /api/evaluations/enseignants/statistiques/ HTTP/1.1" 404 29024
+WARNING 2025-06-08 08:49:00,289 basehttp 29644 41848 "GET /api/evaluations/enseignants/12/planning/ HTTP/1.1" 404 29021
+WARNING 2025-06-08 08:49:00,290 basehttp 29644 25840 "GET /api/evaluations/enseignants/12/notifications/ HTTP/1.1" 404 29036
+WARNING 2025-06-08 08:51:30,324 log 29644 25840 Not Found: /api/evaluations/enseignants/12/notifications/
+WARNING 2025-06-08 08:51:30,326 basehttp 29644 25840 "GET /api/evaluations/enseignants/12/notifications/ HTTP/1.1" 404 29036
+WARNING 2025-06-08 08:51:31,363 log 29644 25840 Not Found: /api/evaluations/enseignants/12/notifications/
+WARNING 2025-06-08 08:51:31,367 basehttp 29644 25840 "GET /api/evaluations/enseignants/12/notifications/ HTTP/1.1" 404 29036
+INFO 2025-06-08 08:53:59,105 autoreload 29644 54284 C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_backend\evaluations\views.py changed, reloading.
+INFO 2025-06-08 08:54:00,282 autoreload 24772 24488 Watching for file changes with StatReloader
+INFO 2025-06-08 08:54:51,442 autoreload 24772 24488 C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_backend\evaluations\urls.py changed, reloading.
+INFO 2025-06-08 08:54:52,990 autoreload 48136 34528 Watching for file changes with StatReloader
+ERROR 2025-06-08 08:55:47,394 log 48136 23728 Internal Server Error: /api/evaluations/enseignants/12/notifications/
+Traceback (most recent call last):
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_backend\evaluations\views.py", line 51, in get
+    notifications = NotificationService.get_notifications_for_enseignant(enseignant_id)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: type object 'NotificationService' has no attribute 'get_notifications_for_enseignant'
+ERROR 2025-06-08 08:55:47,397 basehttp 48136 23728 "GET /api/evaluations/enseignants/12/notifications/ HTTP/1.1" 500 106116
+ERROR 2025-06-08 08:55:48,522 log 48136 23728 Internal Server Error: /api/evaluations/enseignants/12/notifications/
+Traceback (most recent call last):
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_backend\evaluations\views.py", line 51, in get
+    notifications = NotificationService.get_notifications_for_enseignant(enseignant_id)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: type object 'NotificationService' has no attribute 'get_notifications_for_enseignant'
+ERROR 2025-06-08 08:55:48,526 basehttp 48136 23728 "GET /api/evaluations/enseignants/12/notifications/ HTTP/1.1" 500 106116
+WARNING 2025-06-08 08:55:49,450 log 48136 23728 Forbidden: /api/auth/users/me/
+WARNING 2025-06-08 08:55:49,451 basehttp 48136 23728 "GET /api/auth/users/me/ HTTP/1.1" 403 68
+WARNING 2025-06-08 08:55:49,543 log 48136 23284 Forbidden: /api/auth/users/me/
+WARNING 2025-06-08 08:55:49,543 basehttp 48136 23284 "GET /api/auth/users/me/ HTTP/1.1" 403 68
+INFO 2025-06-08 08:55:55,806 basehttp 48136 23284 "POST /api/auth/login/ HTTP/1.1" 200 427
+INFO 2025-06-08 08:55:55,967 basehttp 48136 23284 "GET /api/evaluations/enseignants/statistiques/ HTTP/1.1" 200 184
+INFO 2025-06-08 08:55:55,979 basehttp 48136 23728 "GET /api/evaluations/enseignants/12/planning/ HTTP/1.1" 200 52
+ERROR 2025-06-08 08:55:56,161 log 48136 23284 Internal Server Error: /api/evaluations/enseignants/12/notifications/
+Traceback (most recent call last):
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_backend\evaluations\views.py", line 51, in get
+    notifications = NotificationService.get_notifications_for_enseignant(enseignant_id)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: type object 'NotificationService' has no attribute 'get_notifications_for_enseignant'
+ERROR 2025-06-08 08:55:56,172 basehttp 48136 23284 "GET /api/evaluations/enseignants/12/notifications/ HTTP/1.1" 500 106116
+INFO 2025-06-08 08:55:56,238 basehttp 48136 23728 "GET /api/evaluations/enseignements/?page_size=50 HTTP/1.1" 200 1331
+INFO 2025-06-08 08:55:56,430 basehttp 48136 44740 "GET /api/evaluations/evaluations/?page_size=20&ordering=-date_evaluation HTTP/1.1" 200 7622
+ERROR 2025-06-08 08:55:57,343 log 48136 44740 Internal Server Error: /api/evaluations/enseignants/12/notifications/
+Traceback (most recent call last):
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_backend\evaluations\views.py", line 51, in get
+    notifications = NotificationService.get_notifications_for_enseignant(enseignant_id)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: type object 'NotificationService' has no attribute 'get_notifications_for_enseignant'
+ERROR 2025-06-08 08:55:57,348 basehttp 48136 44740 "GET /api/evaluations/enseignants/12/notifications/ HTTP/1.1" 500 106116
+INFO 2025-06-08 08:56:17,373 basehttp 48136 44740 "OPTIONS /api/academics/types-evaluation/?actif=true HTTP/1.1" 200 0
+INFO 2025-06-08 08:56:17,496 basehttp 48136 44740 "GET /api/academics/types-evaluation/?actif=true HTTP/1.1" 200 1068
+INFO 2025-06-08 08:56:17,505 basehttp 48136 23728 "GET /api/evaluations/enseignements/?page_size=100 HTTP/1.1" 200 1331
+INFO 2025-06-08 08:56:33,585 basehttp 48136 23728 "OPTIONS /api/evaluations/evaluations/ HTTP/1.1" 200 0
+WARNING 2025-06-08 08:56:33,681 log 48136 23728 Bad Request: /api/evaluations/evaluations/
+WARNING 2025-06-08 08:56:33,682 basehttp 48136 23728 "POST /api/evaluations/evaluations/ HTTP/1.1" 400 74
+WARNING 2025-06-08 08:56:49,920 log 48136 23728 Bad Request: /api/evaluations/evaluations/
+WARNING 2025-06-08 08:56:49,920 basehttp 48136 23728 "POST /api/evaluations/evaluations/ HTTP/1.1" 400 74
+WARNING 2025-06-08 08:57:28,987 log 48136 23728 Forbidden: /api/auth/users/me/
+WARNING 2025-06-08 08:57:28,987 basehttp 48136 23728 "GET /api/auth/users/me/ HTTP/1.1" 403 68
+WARNING 2025-06-08 08:57:29,075 log 48136 44740 Forbidden: /api/auth/users/me/
+WARNING 2025-06-08 08:57:29,076 basehttp 48136 44740 "GET /api/auth/users/me/ HTTP/1.1" 403 68
+INFO 2025-06-08 08:58:02,103 basehttp 48136 44740 "POST /api/auth/login/ HTTP/1.1" 200 427
+INFO 2025-06-08 08:58:02,337 basehttp 48136 44740 "GET /api/evaluations/enseignants/statistiques/ HTTP/1.1" 200 184
+INFO 2025-06-08 08:58:02,370 basehttp 48136 23728 "GET /api/evaluations/enseignants/12/planning/ HTTP/1.1" 200 52
+ERROR 2025-06-08 08:58:02,415 log 48136 23284 Internal Server Error: /api/evaluations/enseignants/12/notifications/
+Traceback (most recent call last):
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_backend\evaluations\views.py", line 51, in get
+    notifications = NotificationService.get_notifications_for_enseignant(enseignant_id)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: type object 'NotificationService' has no attribute 'get_notifications_for_enseignant'
+ERROR 2025-06-08 08:58:02,428 basehttp 48136 23284 "GET /api/evaluations/enseignants/12/notifications/ HTTP/1.1" 500 106116
+INFO 2025-06-08 08:58:02,517 basehttp 48136 44740 "GET /api/evaluations/enseignements/?page_size=50 HTTP/1.1" 200 1331
+INFO 2025-06-08 08:58:02,670 basehttp 48136 23728 "GET /api/evaluations/evaluations/?page_size=20&ordering=-date_evaluation HTTP/1.1" 200 7622
+ERROR 2025-06-08 08:58:03,748 log 48136 23728 Internal Server Error: /api/evaluations/enseignants/12/notifications/
+Traceback (most recent call last):
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_backend\evaluations\views.py", line 51, in get
+    notifications = NotificationService.get_notifications_for_enseignant(enseignant_id)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: type object 'NotificationService' has no attribute 'get_notifications_for_enseignant'
+ERROR 2025-06-08 08:58:03,770 basehttp 48136 23728 "GET /api/evaluations/enseignants/12/notifications/ HTTP/1.1" 500 106116
+INFO 2025-06-08 08:58:04,136 basehttp 48136 23728 "OPTIONS /api/evaluations/enseignements/?page_size=20 HTTP/1.1" 200 0
+INFO 2025-06-08 08:58:04,288 basehttp 48136 23728 "GET /api/evaluations/enseignements/?page_size=20 HTTP/1.1" 200 1331
+INFO 2025-06-08 08:58:06,505 basehttp 48136 44740 "GET /api/evaluations/enseignements/?page_size=100 HTTP/1.1" 200 1331
+INFO 2025-06-08 08:58:07,799 basehttp 48136 23728 "GET /api/evaluations/enseignants/etudiants/?page_size=50 HTTP/1.1" 200 28765
+INFO 2025-06-08 09:33:27,884 autoreload 66148 64488 Watching for file changes with StatReloader

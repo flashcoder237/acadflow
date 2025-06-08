@@ -32,6 +32,113 @@ except ImportError:
     def calculer_moyenne_semestre(etudiant, classe, semestre, session, annee_academique):
         return None
 
+# New imports for notifications and planning
+from core.services import AutomationService, NotificationService
+from academics.models import Classe, Session
+from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.generics import get_object_or_404
+
+class EnseignantNotificationsView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, enseignant_id):
+        # Check if the user is the teacher or admin
+        if not (request.user.type_utilisateur == 'enseignant' and request.user.enseignant.id == int(enseignant_id)) and request.user.type_utilisateur not in ['admin', 'scolarite']:
+            return Response({'error': 'Permission refusée'}, status=status.HTTP_403_FORBIDDEN)
+
+        # Fetch notifications for the teacher
+        notifications = NotificationService.get_notifications_for_enseignant(enseignant_id)
+        # Assuming notifications is a list of dicts with keys: id, titre, message, date_creation, lue, urgence, type, evaluation_id
+
+        return Response(notifications)
+
+class EnseignantPlanningView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, enseignant_id):
+        # Check if the user is the teacher or admin
+        if not (request.user.type_utilisateur == 'enseignant' and request.user.enseignant.id == int(enseignant_id)) and request.user.type_utilisateur not in ['admin', 'scolarite']:
+            return Response({'error': 'Permission refusée'}, status=status.HTTP_403_FORBIDDEN)
+
+        # Fetch planning data for the teacher
+        # For example, upcoming evaluations and deadlines
+        evaluations_a_venir = Evaluation.objects.filter(
+            enseignement__enseignant__id=enseignant_id,
+            date_evaluation__gte=timezone.now()
+        ).order_by('date_evaluation')[:10]
+
+        prochaines_echeances = Evaluation.objects.filter(
+            enseignement__enseignant__id=enseignant_id,
+            date_limite_saisie__gte=timezone.now()
+        ).order_by('date_limite_saisie')[:10]
+
+        data = {
+            'evaluations_a_venir': EvaluationSerializer(evaluations_a_venir, many=True).data,
+            'prochaines_echeances': EvaluationSerializer(prochaines_echeances, many=True).data
+        }
+
+        return Response(data)
+
+class EnseignantStatistiquesView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        # Check if user is teacher or admin
+        if request.user.type_utilisateur != 'enseignant' and request.user.type_utilisateur not in ['admin', 'scolarite']:
+            return Response({'error': 'Permission refusée'}, status=status.HTTP_403_FORBIDDEN)
+
+        enseignant = request.user.enseignant
+
+        # Aggregate statistics for the teacher's students
+        classes_ids = Enseignement.objects.filter(
+            enseignant=enseignant,
+            actif=True
+        ).values_list('classe_id', flat=True).distinct()
+
+        total_etudiants = Inscription.objects.filter(
+            classe_id__in=classes_ids,
+            active=True
+        ).count()
+
+        repartition_niveau = Inscription.objects.filter(
+            classe_id__in=classes_ids,
+            active=True
+        ).values(
+            'classe__niveau__nom'
+        ).annotate(
+            count=Count('id')
+        ).order_by('classe__niveau__numero')
+
+        repartition_classe = Inscription.objects.filter(
+            classe_id__in=classes_ids,
+            active=True
+        ).values(
+            'classe__nom'
+        ).annotate(
+            count=Count('id')
+        ).order_by('classe__nom')
+
+        stats = {
+            'total_etudiants': total_etudiants,
+            'repartition_par_niveau': [
+                {
+                    'niveau': item['classe__niveau__nom'],
+                    'nombre': item['count']
+                }
+                for item in repartition_niveau
+            ],
+            'repartition_par_classe': [
+                {
+                    'classe': item['classe__nom'],
+                    'nombre': item['count']
+                }
+                for item in repartition_classe
+            ]
+        }
+
+        return Response(stats)
+
 class EnseignementViewSet(viewsets.ModelViewSet):
     queryset = Enseignement.objects.filter(actif=True)
     serializer_class = EnseignementSerializer
