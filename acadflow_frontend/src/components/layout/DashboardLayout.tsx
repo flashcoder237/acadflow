@@ -1,5 +1,5 @@
 // ========================================
-// FICHIER: src/components/layout/DashboardLayout.tsx - Layout principal du dashboard corrigé
+// FICHIER: src/components/layout/DashboardLayout.tsx - Layout complet avec router centralisé
 // ========================================
 
 import React, { useState, useEffect } from 'react';
@@ -24,23 +24,43 @@ import {
   HelpCircle,
   Search,
   Plus,
-  MessageSquare
+  MessageSquare,
+  Edit,
+  Loader2,
+  RefreshCw
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { useAuthStore, useIsEnseignant, useIsAdmin } from '@/stores/authStore';
 import { useAppStore, useNotificationActions } from '@/stores/appStore';
+import { getNavigationForRole, getDefaultRouteForRole } from '@/router';
 import { cn } from '@/lib/utils';
 
-interface SidebarItem {
-  id: string;
+// Mapping des icônes pour la navigation
+const iconMap = {
+  Home,
+  BookOpen,
+  FileText,
+  BarChart3,
+  Settings,
+  Users,
+  GraduationCap,
+  Award,
+  Calendar,
+  User,
+  HelpCircle,
+  Edit,
+  ClipboardList,
+  Plus
+};
+
+interface NavigationItem {
   label: string;
-  icon: React.ElementType;
   path: string;
+  icon: string;
   badge?: string;
-  roles?: string[];
-  children?: Omit<SidebarItem, 'children'>[];
+  children?: Omit<NavigationItem, 'children'>[];
 }
 
 const DashboardLayout: React.FC = () => {
@@ -56,8 +76,8 @@ const DashboardLayout: React.FC = () => {
   ]);
   
   const { user, logout, isAuthenticated } = useAuthStore();
-  const { etablissement, anneeAcademique } = useAppStore();
-  const { showSuccess } = useNotificationActions();
+  const { etablissement, anneeAcademique, loadInitialData } = useAppStore();
+  const { showSuccess, showError } = useNotificationActions();
   const isEnseignant = useIsEnseignant();
   const isAdmin = useIsAdmin();
 
@@ -66,131 +86,42 @@ const DashboardLayout: React.FC = () => {
     return <Navigate to="/login" replace />;
   }
 
-  // Navigation principale selon le rôle
-  const sidebarItems: SidebarItem[] = [
-    {
-      id: 'dashboard',
-      label: 'Tableau de bord',
-      icon: Home,
-      path: '/dashboard'
-    },
-    // Section Enseignement (pour enseignants)
-    ...(isEnseignant ? [
-      {
-        id: 'enseignements',
-        label: 'Mes enseignements',
-        icon: BookOpen,
-        path: '/enseignements',
-        roles: ['enseignant']
-      },
-      {
-        id: 'evaluations',
-        label: 'Évaluations',
-        icon: FileText,
-        path: '/evaluations',
-        roles: ['enseignant'],
-        children: [
-          {
-            id: 'evaluations-list',
-            label: 'Mes évaluations',
-            icon: FileText,
-            path: '/evaluations'
-          },
-          {
-            id: 'evaluations-create',
-            label: 'Nouvelle évaluation',
-            icon: Plus,
-            path: '/evaluations/create'
-          }
-        ]
-      },
-      {
-        id: 'notes',
-        label: 'Saisie des notes',
-        icon: ClipboardList,
-        path: '/notes',
-        roles: ['enseignant'],
-        badge: '3'
-      },
-      {
-        id: 'statistiques',
-        label: 'Statistiques',
-        icon: BarChart3,
-        path: '/statistiques',
-        roles: ['enseignant']
-      }
-    ] : []),
+  // Obtenir la navigation selon le rôle de l'utilisateur depuis le router centralisé
+  const navigationItems = React.useMemo(() => {
+    if (!user?.type_utilisateur) return [];
     
-    // Section Administration (pour admins)
-    ...(isAdmin ? [
-      {
-        id: 'gestion',
-        label: 'Gestion',
-        icon: Settings,
-        path: '/admin',
-        roles: ['admin', 'scolarite', 'direction'],
-        children: [
-          {
-            id: 'users',
-            label: 'Utilisateurs',
-            icon: Users,
-            path: '/admin/users'
-          },
-          {
-            id: 'classes',
-            label: 'Classes',
-            icon: GraduationCap,
-            path: '/admin/classes'
-          },
-          {
-            id: 'curriculum',
-            label: 'Programmes',
-            icon: BookOpen,
-            path: '/admin/curriculum'
-          }
-        ]
-      },
-      {
-        id: 'rapports',
-        label: 'Rapports',
-        icon: Award,
-        path: '/admin/rapports',
-        roles: ['admin', 'direction']
-      }
-    ] : []),
+    const routerNavigation = getNavigationForRole(user.type_utilisateur);
     
-    // Section Étudiant (pour étudiants)
-    ...(user?.type_utilisateur === 'etudiant' ? [
-      {
-        id: 'notes-etudiant',
-        label: 'Mes notes',
-        icon: Award,
-        path: '/student/notes',
-        roles: ['etudiant']
-      },
-      {
-        id: 'planning',
-        label: 'Planning',
-        icon: Calendar,
-        path: '/student/planning',
-        roles: ['etudiant']
-      }
-    ] : []),
+    // Convertir la navigation du router en format attendu par le layout
+    const convertNavigation = (navItems: any[]): NavigationItem[] => {
+      return navItems.map(item => ({
+        label: item.label,
+        path: item.path,
+        icon: item.icon,
+        badge: item.badge,
+        children: item.children ? convertNavigation(item.children) : undefined
+      }));
+    };
     
-    // Section commune
-    {
-      id: 'profile',
-      label: 'Mon profil',
-      icon: User,
-      path: '/profile'
-    },
-    {
-      id: 'help',
-      label: 'Aide & Support',
-      icon: HelpCircle,
-      path: '/help'
-    }
-  ];
+    return convertNavigation(routerNavigation);
+  }, [user?.type_utilisateur]);
+
+  // Ajouter les badges dynamiques selon les données réelles
+  const enhancedNavigationItems = React.useMemo(() => {
+    return navigationItems.map(item => {
+      // Ajouter des badges dynamiques selon le contexte
+      let badge = item.badge;
+      
+      if (isEnseignant) {
+        if (item.path === '/evaluations?filter=en_attente' || item.path.includes('notes')) {
+          // Badge pour les évaluations en attente (à récupérer depuis l'API)
+          badge = '3'; // Exemple
+        }
+      }
+      
+      return { ...item, badge };
+    });
+  }, [navigationItems, isEnseignant]);
 
   const handleLogout = async () => {
     try {
@@ -199,14 +130,28 @@ const DashboardLayout: React.FC = () => {
       navigate('/login');
     } catch (error) {
       console.error('Erreur lors de la déconnexion:', error);
+      showError('Erreur', 'Problème lors de la déconnexion');
+    }
+  };
+
+  const handleRefreshData = async () => {
+    try {
+      await loadInitialData();
+      showSuccess('Données actualisées');
+    } catch (error) {
+      showError('Erreur', 'Impossible d\'actualiser les données');
     }
   };
 
   const isActivePath = (path: string) => {
-    if (path === '/dashboard') {
-      return location.pathname === '/dashboard';
+    // Nettoyer le path des paramètres de requête pour la comparaison
+    const cleanPath = path.split('?')[0];
+    const defaultRoute = getDefaultRouteForRole(user?.type_utilisateur || '');
+    
+    if (cleanPath === defaultRoute) {
+      return location.pathname === cleanPath;
     }
-    return location.pathname.startsWith(path);
+    return location.pathname.startsWith(cleanPath);
   };
 
   // Fermer les menus quand on clique ailleurs
@@ -238,10 +183,6 @@ const DashboardLayout: React.FC = () => {
   useEffect(() => {
     setSidebarOpen(false);
   }, [location.pathname]);
-
-  const filteredSidebarItems = sidebarItems.filter(item => 
-    !item.roles || item.roles.includes(user?.type_utilisateur || '')
-  );
 
   const unreadNotifications = notifications.filter(n => !n.read).length;
 
@@ -304,7 +245,7 @@ const DashboardLayout: React.FC = () => {
                 {anneeAcademique.libelle}
               </span>
               {anneeAcademique.active && (
-                <Badge variant="success" className="text-xs">
+                <Badge variant="default" className="text-xs bg-green-100 text-green-800">
                   Active
                 </Badge>
               )}
@@ -329,8 +270,8 @@ const DashboardLayout: React.FC = () => {
 
         {/* Navigation */}
         <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
-          {filteredSidebarItems.map((item) => (
-            <div key={item.id}>
+          {enhancedNavigationItems.map((item) => (
+            <div key={item.path}>
               <SidebarItem 
                 item={item} 
                 isActive={isActivePath(item.path)}
@@ -340,11 +281,26 @@ const DashboardLayout: React.FC = () => {
           ))}
         </nav>
 
-        {/* Profil utilisateur dans la sidebar */}
-        <div className="p-4 border-t border-gray-200">
+        {/* Informations utilisateur et actions rapides */}
+        <div className="p-4 border-t border-gray-200 space-y-3">
+          {/* Statut de connexion */}
+          <div className="flex items-center gap-2 text-xs text-gray-500">
+            <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+            <span>En ligne</span>
+          </div>
+
+          {/* Profil utilisateur dans la sidebar */}
           <div className="flex items-center gap-3 p-3 rounded-lg bg-gray-50">
             <div className="w-8 h-8 bg-gradient-to-r from-gray-400 to-gray-600 rounded-full flex items-center justify-center">
-              <User className="w-4 h-4 text-white" />
+              {user?.photo ? (
+                <img 
+                  src={user.photo} 
+                  alt={`${user.first_name} ${user.last_name}`}
+                  className="w-8 h-8 rounded-full object-cover"
+                />
+              ) : (
+                <User className="w-4 h-4 text-white" />
+              )}
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-sm font-medium text-gray-900 truncate">
@@ -353,6 +309,9 @@ const DashboardLayout: React.FC = () => {
               <p className="text-xs text-gray-500 truncate">
                 {user?.matricule}
               </p>
+              <Badge variant="outline" className="mt-1 text-xs">
+                {user?.type_utilisateur}
+              </Badge>
             </div>
           </div>
         </div>
@@ -378,8 +337,14 @@ const DashboardLayout: React.FC = () => {
                 {/* Titre de la page */}
                 <div>
                   <h1 className="text-lg font-semibold text-gray-900">
-                    {getPageTitle(location.pathname)}
+                    {getPageTitle(location.pathname, user?.type_utilisateur)}
                   </h1>
+                  {/* Breadcrumb ou sous-titre si nécessaire */}
+                  {location.pathname.includes('/evaluations/') && (
+                    <p className="text-sm text-gray-500">
+                      Gestion des évaluations et notes
+                    </p>
+                  )}
                 </div>
               </div>
 
@@ -402,6 +367,16 @@ const DashboardLayout: React.FC = () => {
 
               {/* Actions header */}
               <div className="flex items-center gap-3">
+                {/* Bouton de rafraîchissement */}
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={handleRefreshData}
+                  title="Actualiser les données"
+                >
+                  <RefreshCw className="w-4 h-4" />
+                </Button>
+
                 {/* Actions rapides selon le rôle */}
                 {isEnseignant && (
                   <Button 
@@ -411,6 +386,18 @@ const DashboardLayout: React.FC = () => {
                   >
                     <Plus className="w-4 h-4 mr-2" />
                     Évaluation
+                  </Button>
+                )}
+
+                {isAdmin && (
+                  <Button 
+                    size="sm" 
+                    variant="outline"
+                    onClick={() => navigate('/admin/users')}
+                    className="hidden sm:flex"
+                  >
+                    <Users className="w-4 h-4 mr-2" />
+                    Gestion
                   </Button>
                 )}
 
@@ -451,7 +438,15 @@ const DashboardLayout: React.FC = () => {
                     }}
                   >
                     <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full flex items-center justify-center">
-                      <User className="w-4 h-4 text-white" />
+                      {user?.photo ? (
+                        <img 
+                          src={user.photo} 
+                          alt={`${user?.first_name} ${user?.last_name}`}
+                          className="w-8 h-8 rounded-full object-cover"
+                        />
+                      ) : (
+                        <User className="w-4 h-4 text-white" />
+                      )}
                     </div>
                     <div className="hidden sm:block text-left">
                       <p className="text-sm font-medium">
@@ -473,12 +468,13 @@ const DashboardLayout: React.FC = () => {
                           {user?.first_name} {user?.last_name}
                         </p>
                         <p className="text-sm text-gray-500">{user?.email}</p>
+                        <p className="text-xs text-gray-400">{user?.matricule}</p>
                         <Badge variant="outline" className="mt-1 text-xs">
                           {user?.type_utilisateur}
                         </Badge>
                       </div>
 
-                      {/* Actions */}
+                      {/* Actions du menu */}
                       <button
                         className="flex items-center gap-2 w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
                         onClick={() => {
@@ -501,6 +497,32 @@ const DashboardLayout: React.FC = () => {
                         Paramètres
                       </button>
 
+                      {/* Actions spécifiques selon le rôle */}
+                      {isEnseignant && (
+                        <>
+                          <button
+                            className="flex items-center gap-2 w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
+                            onClick={() => {
+                              setUserMenuOpen(false);
+                              navigate('/statistiques');
+                            }}
+                          >
+                            <BarChart3 className="w-4 h-4" />
+                            Mes statistiques
+                          </button>
+                          <button
+                            className="flex items-center gap-2 w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
+                            onClick={() => {
+                              setUserMenuOpen(false);
+                              navigate('/historique');
+                            }}
+                          >
+                            <ClipboardList className="w-4 h-4" />
+                            Historique
+                          </button>
+                        </>
+                      )}
+
                       <button
                         className="flex items-center gap-2 w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
                         onClick={() => {
@@ -509,7 +531,7 @@ const DashboardLayout: React.FC = () => {
                         }}
                       >
                         <HelpCircle className="w-4 h-4" />
-                        Aide
+                        Aide & Support
                       </button>
 
                       <hr className="my-1" />
@@ -543,7 +565,7 @@ const DashboardLayout: React.FC = () => {
 
 // Composant pour les éléments de la sidebar
 interface SidebarItemProps {
-  item: SidebarItem;
+  item: NavigationItem;
   isActive: boolean;
   onItemClick: () => void;
 }
@@ -551,6 +573,10 @@ interface SidebarItemProps {
 const SidebarItem: React.FC<SidebarItemProps> = ({ item, isActive, onItemClick }) => {
   const [expanded, setExpanded] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // Obtenir l'icône depuis le mapping
+  const IconComponent = iconMap[item.icon as keyof typeof iconMap] || HelpCircle;
 
   const handleClick = () => {
     if (item.children) {
@@ -561,20 +587,25 @@ const SidebarItem: React.FC<SidebarItemProps> = ({ item, isActive, onItemClick }
     }
   };
 
+  // Vérifier si un des enfants est actif
+  const hasActiveChild = item.children?.some(child => 
+    location.pathname.startsWith(child.path.split('?')[0])
+  );
+
   return (
     <div>
       <button
         onClick={handleClick}
         className={cn(
           "w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
-          isActive 
+          isActive || hasActiveChild
             ? "bg-blue-50 text-blue-700 border border-blue-200" 
             : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
         )}
       >
-        <item.icon className={cn(
+        <IconComponent className={cn(
           "w-5 h-5",
-          isActive ? "text-blue-600" : "text-gray-400"
+          isActive || hasActiveChild ? "text-blue-600" : "text-gray-400"
         )} />
         <span className="flex-1 text-left">{item.label}</span>
         {item.badge && (
@@ -591,56 +622,105 @@ const SidebarItem: React.FC<SidebarItemProps> = ({ item, isActive, onItemClick }
       </button>
 
       {/* Sous-menu */}
-      {item.children && expanded && (
+      {item.children && (expanded || hasActiveChild) && (
         <div className="ml-6 mt-2 space-y-1">
-          {item.children.map((child) => (
-            <button
-              key={child.id}
-              onClick={() => {
-                onItemClick();
-                navigate(child.path);
-              }}
-              className={cn(
-                "w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors",
-                isActive && location.pathname === child.path
-                  ? "bg-blue-50 text-blue-700"
-                  : "text-gray-500 hover:bg-gray-50 hover:text-gray-700"
-              )}
-            >
-              <child.icon className="w-4 h-4" />
-              <span>{child.label}</span>
-            </button>
-          ))}
+          {item.children.map((child) => {
+            const ChildIcon = iconMap[child.icon as keyof typeof iconMap] || FileText;
+            const childActive = location.pathname.startsWith(child.path.split('?')[0]);
+            
+            return (
+              <button
+                key={child.path}
+                onClick={() => {
+                  onItemClick();
+                  navigate(child.path);
+                }}
+                className={cn(
+                  "w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors",
+                  childActive
+                    ? "bg-blue-50 text-blue-700"
+                    : "text-gray-500 hover:bg-gray-50 hover:text-gray-700"
+                )}
+              >
+                <ChildIcon className="w-4 h-4" />
+                <span>{child.label}</span>
+                {child.badge && (
+                  <Badge variant="secondary" className="text-xs">
+                    {child.badge}
+                  </Badge>
+                )}
+              </button>
+            );
+          })}
         </div>
       )}
     </div>
   );
 };
 
-// Fonction helper pour obtenir le titre de la page
-const getPageTitle = (pathname: string): string => {
-  const routes: Record<string, string> = {
+// Fonction helper pour obtenir le titre de la page basé sur la configuration des routes
+const getPageTitle = (pathname: string, userType?: string): string => {
+  // Titres par défaut basés sur les routes du router
+  const routeTitles: Record<string, string> = {
     '/dashboard': 'Tableau de bord',
     '/enseignements': 'Mes enseignements',
     '/evaluations': 'Évaluations',
     '/evaluations/create': 'Nouvelle évaluation',
-    '/notes': 'Saisie des notes',
+    '/etudiants': 'Mes étudiants',
     '/statistiques': 'Statistiques',
+    '/rapports': 'Rapports',
+    '/historique': 'Historique',
     '/profile': 'Mon profil',
+    '/help': 'Aide & Support',
+    
+    // Routes admin
     '/admin': 'Administration',
     '/admin/users': 'Gestion des utilisateurs',
     '/admin/classes': 'Gestion des classes',
-    '/admin/rapports': 'Rapports',
+    '/admin/curriculum': 'Gestion des programmes',
+    '/admin/rapports': 'Rapports administratifs',
+    
+    // Routes étudiant
+    '/student': 'Espace étudiant',
     '/student/notes': 'Mes notes',
-    '/student/planning': 'Mon planning',
-    '/help': 'Aide & Support'
+    '/student/planning': 'Mon planning'
   };
 
   // Chercher la route la plus spécifique
-  const sortedRoutes = Object.keys(routes).sort((a, b) => b.length - a.length);
+  const sortedRoutes = Object.keys(routeTitles).sort((a, b) => b.length - a.length);
   const matchedRoute = sortedRoutes.find(route => pathname.startsWith(route));
   
-  return matchedRoute ? routes[matchedRoute] : 'AcadFlow';
+  if (matchedRoute) {
+    return routeTitles[matchedRoute];
+  }
+
+  // Extraire l'ID de la route pour les pages de détail
+  const dynamicRoutePatterns = [
+    { pattern: /^\/evaluations\/(\d+)\/notes$/, title: 'Saisie des notes' },
+    { pattern: /^\/evaluations\/(\d+)\/validation$/, title: 'Validation des notes' },
+    { pattern: /^\/evaluations\/(\d+)$/, title: 'Détails de l\'évaluation' },
+    { pattern: /^\/enseignements\/(\d+)$/, title: 'Détails de l\'enseignement' }
+  ];
+
+  for (const route of dynamicRoutePatterns) {
+    if (route.pattern.test(pathname)) {
+      return route.title;
+    }
+  }
+
+  // Titre par défaut selon le rôle
+  switch (userType) {
+    case 'enseignant':
+      return 'Espace enseignant';
+    case 'etudiant':
+      return 'Espace étudiant';
+    case 'admin':
+    case 'scolarite':
+    case 'direction':
+      return 'Administration';
+    default:
+      return 'AcadFlow';
+  }
 };
 
 export default DashboardLayout;

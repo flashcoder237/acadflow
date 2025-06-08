@@ -2540,3 +2540,1295 @@ WARNING 2025-06-07 19:28:54,763 basehttp 26196 66328 "POST /api/evaluations/eval
 INFO 2025-06-07 19:36:47,528 basehttp 26196 55180 "OPTIONS /api/evaluations/enseignements/?page_size=20&search=n HTTP/1.1" 200 0
 INFO 2025-06-07 19:36:47,654 basehttp 26196 55180 "GET /api/evaluations/enseignements/?page_size=20&search=n HTTP/1.1" 200 1331
 INFO 2025-06-07 19:37:29,841 basehttp 26196 55180 "GET /api/evaluations/evaluations/?page_size=20&ordering=-date_evaluation HTTP/1.1" 200 7622
+INFO 2025-06-07 20:44:35,741 basehttp 26196 35192 "GET /admin/academics/anneeacademique/ HTTP/1.1" 200 32876
+INFO 2025-06-07 20:44:35,878 basehttp 26196 35192 "GET /admin/jsi18n/ HTTP/1.1" 200 8634
+INFO 2025-06-07 20:44:35,956 basehttp 26196 35192 "GET /static/admin/img/sorting-icons.svg HTTP/1.1" 200 1097
+INFO 2025-06-07 20:44:48,811 basehttp 26196 35192 "GET /admin/core/configurationetablissement/ HTTP/1.1" 200 30783
+INFO 2025-06-07 20:44:48,834 basehttp 26196 35192 "GET /static/admin/img/icon-no.svg HTTP/1.1" 200 560
+INFO 2025-06-07 20:44:48,908 basehttp 26196 62132 "GET /admin/jsi18n/ HTTP/1.1" 200 8634
+INFO 2025-06-07 20:44:54,483 basehttp 26196 62132 "GET /admin/core/configurationetablissement/4/change/ HTTP/1.1" 200 42065
+INFO 2025-06-07 20:44:54,677 basehttp 26196 62132 "GET /admin/jsi18n/ HTTP/1.1" 200 8634
+INFO 2025-06-07 20:45:02,624 basehttp 26196 62132 "GET /admin/core/etablissement/5/change/?_to_field=id&_popup=1 HTTP/1.1" 200 59946
+INFO 2025-06-07 20:45:02,817 basehttp 26196 62132 "GET /admin/jsi18n/ HTTP/1.1" 200 8634
+INFO 2025-06-07 20:45:29,720 basehttp 26196 62132 "POST /admin/core/etablissement/5/change/?_to_field=id&_popup=1 HTTP/1.1" 200 423
+INFO 2025-06-07 20:45:38,740 basehttp 26196 35500 "OPTIONS /api/auth/users/me/ HTTP/1.1" 200 0
+INFO 2025-06-07 20:45:38,741 basehttp 26196 48600 "OPTIONS /api/auth/users/me/ HTTP/1.1" 200 0
+WARNING 2025-06-07 20:45:38,862 log 26196 48600 Forbidden: /api/auth/users/me/
+WARNING 2025-06-07 20:45:38,862 basehttp 26196 48600 "GET /api/auth/users/me/ HTTP/1.1" 403 68
+WARNING 2025-06-07 20:45:39,065 log 26196 35500 Forbidden: /api/auth/users/me/
+WARNING 2025-06-07 20:45:39,065 basehttp 26196 35500 "GET /api/auth/users/me/ HTTP/1.1" 403 68
+INFO 2025-06-07 20:46:26,399 basehttp 26196 35500 "OPTIONS /api/auth/login/ HTTP/1.1" 200 0
+INFO 2025-06-07 20:46:26,919 basehttp 26196 35500 "POST /api/auth/login/ HTTP/1.1" 200 454
+INFO 2025-06-07 20:46:26,978 basehttp 26196 35500 "OPTIONS /api/evaluations/enseignements/?page_size=100 HTTP/1.1" 200 0
+INFO 2025-06-07 20:46:26,979 basehttp 26196 48600 "OPTIONS /api/evaluations/evaluations/?page_size=100&ordering=-date_evaluation HTTP/1.1" 200 0
+INFO 2025-06-07 20:46:27,083 basehttp 26196 48600 "GET /api/evaluations/enseignements/?page_size=100 HTTP/1.1" 200 1351
+INFO 2025-06-07 20:46:27,266 basehttp 26196 35500 "GET /api/evaluations/evaluations/?page_size=100&ordering=-date_evaluation HTTP/1.1" 200 5063
+INFO 2025-06-07 20:53:06,787 basehttp 26196 50272 "OPTIONS /api/evaluations/enseignements/?page_size=20 HTTP/1.1" 200 0
+INFO 2025-06-07 20:53:06,935 basehttp 26196 50272 "GET /api/evaluations/enseignements/?page_size=20 HTTP/1.1" 200 1351
+INFO 2025-06-07 20:53:07,636 basehttp 26196 50272 "GET /api/evaluations/enseignements/?page_size=100 HTTP/1.1" 200 1351
+INFO 2025-06-07 20:53:07,676 basehttp 26196 23720 "GET /api/evaluations/evaluations/?page_size=100&ordering=-date_evaluation HTTP/1.1" 200 5063
+WARNING 2025-06-07 21:09:58,769 log 26196 7036 Forbidden: /api/auth/users/me/
+WARNING 2025-06-07 21:09:58,769 basehttp 26196 7036 "GET /api/auth/users/me/ HTTP/1.1" 403 68
+WARNING 2025-06-07 21:09:58,847 log 26196 7036 Forbidden: /api/auth/users/me/
+WARNING 2025-06-07 21:09:58,848 basehttp 26196 7036 "GET /api/auth/users/me/ HTTP/1.1" 403 68
+INFO 2025-06-07 21:10:16,706 basehttp 26196 7036 "POST /api/auth/login/ HTTP/1.1" 200 454
+INFO 2025-06-07 21:10:16,742 basehttp 26196 7036 "OPTIONS /api/evaluations/enseignants/statistiques/ HTTP/1.1" 200 0
+INFO 2025-06-07 21:10:16,743 basehttp 26196 29960 "OPTIONS /api/evaluations/enseignants/15/notifications/ HTTP/1.1" 200 0
+INFO 2025-06-07 21:10:16,743 basehttp 26196 21068 "OPTIONS /api/evaluations/enseignants/15/planning/ HTTP/1.1" 200 0
+INFO 2025-06-07 21:10:16,745 basehttp 26196 7036 "OPTIONS /api/evaluations/enseignements/?page_size=50 HTTP/1.1" 200 0
+INFO 2025-06-07 21:10:16,747 basehttp 26196 21068 "OPTIONS /api/evaluations/evaluations/?page_size=20&ordering=-date_evaluation HTTP/1.1" 200 0
+WARNING 2025-06-07 21:10:16,769 log 26196 21068 Not Found: /api/evaluations/enseignants/15/notifications/
+WARNING 2025-06-07 21:10:16,772 log 26196 29960 Not Found: /api/evaluations/enseignants/statistiques/
+WARNING 2025-06-07 21:10:16,784 log 26196 7036 Not Found: /api/evaluations/enseignants/15/planning/
+WARNING 2025-06-07 21:10:16,786 basehttp 26196 21068 "GET /api/evaluations/enseignants/15/notifications/ HTTP/1.1" 404 25588
+WARNING 2025-06-07 21:10:16,787 basehttp 26196 29960 "GET /api/evaluations/enseignants/statistiques/ HTTP/1.1" 404 25576
+WARNING 2025-06-07 21:10:16,792 basehttp 26196 7036 "GET /api/evaluations/enseignants/15/planning/ HTTP/1.1" 404 25573
+INFO 2025-06-07 21:10:16,927 basehttp 26196 21068 "GET /api/evaluations/enseignements/?page_size=50 HTTP/1.1" 200 1351
+INFO 2025-06-07 21:10:16,987 basehttp 26196 29960 "GET /api/evaluations/evaluations/?page_size=20&ordering=-date_evaluation HTTP/1.1" 200 5063
+WARNING 2025-06-07 21:10:17,801 log 26196 29960 Not Found: /api/evaluations/enseignants/15/notifications/
+WARNING 2025-06-07 21:10:17,821 log 26196 21068 Not Found: /api/evaluations/enseignants/statistiques/
+WARNING 2025-06-07 21:10:17,830 log 26196 7036 Not Found: /api/evaluations/enseignants/15/planning/
+WARNING 2025-06-07 21:10:17,832 basehttp 26196 29960 "GET /api/evaluations/enseignants/15/notifications/ HTTP/1.1" 404 25588
+WARNING 2025-06-07 21:10:17,832 basehttp 26196 21068 "GET /api/evaluations/enseignants/statistiques/ HTTP/1.1" 404 25576
+WARNING 2025-06-07 21:10:17,833 basehttp 26196 7036 "GET /api/evaluations/enseignants/15/planning/ HTTP/1.1" 404 25573
+INFO 2025-06-07 21:10:21,416 basehttp 26196 7036 "GET /api/evaluations/enseignements/?page_size=20 HTTP/1.1" 200 1351
+WARNING 2025-06-07 21:10:36,802 log 26196 7036 Not Found: /api/evaluations/enseignants/statistiques/
+WARNING 2025-06-07 21:10:36,808 log 26196 21068 Not Found: /api/evaluations/enseignants/15/planning/
+WARNING 2025-06-07 21:10:36,813 log 26196 29960 Not Found: /api/evaluations/enseignants/15/notifications/
+WARNING 2025-06-07 21:10:36,814 basehttp 26196 7036 "GET /api/evaluations/enseignants/statistiques/ HTTP/1.1" 404 25576
+WARNING 2025-06-07 21:10:36,814 basehttp 26196 29960 "GET /api/evaluations/enseignants/15/notifications/ HTTP/1.1" 404 25588
+WARNING 2025-06-07 21:10:36,814 basehttp 26196 21068 "GET /api/evaluations/enseignants/15/planning/ HTTP/1.1" 404 25573
+WARNING 2025-06-07 21:10:37,830 log 26196 29960 Not Found: /api/evaluations/enseignants/15/planning/
+WARNING 2025-06-07 21:10:37,835 log 26196 21068 Not Found: /api/evaluations/enseignants/statistiques/
+WARNING 2025-06-07 21:10:37,842 log 26196 7036 Not Found: /api/evaluations/enseignants/15/notifications/
+WARNING 2025-06-07 21:10:37,842 basehttp 26196 29960 "GET /api/evaluations/enseignants/15/planning/ HTTP/1.1" 404 25573
+WARNING 2025-06-07 21:10:37,842 basehttp 26196 21068 "GET /api/evaluations/enseignants/statistiques/ HTTP/1.1" 404 25576
+WARNING 2025-06-07 21:10:37,843 basehttp 26196 7036 "GET /api/evaluations/enseignants/15/notifications/ HTTP/1.1" 404 25588
+WARNING 2025-06-07 22:55:51,256 log 26196 65060 Not Found: /api/evaluations/enseignants/15/planning/
+WARNING 2025-06-07 22:55:51,260 log 26196 31244 Not Found: /api/evaluations/enseignants/15/notifications/
+WARNING 2025-06-07 22:55:51,260 basehttp 26196 65060 "GET /api/evaluations/enseignants/15/planning/ HTTP/1.1" 404 25573
+WARNING 2025-06-07 22:55:51,260 basehttp 26196 31244 "GET /api/evaluations/enseignants/15/notifications/ HTTP/1.1" 404 25588
+WARNING 2025-06-07 22:55:52,278 log 26196 65060 Not Found: /api/evaluations/enseignants/15/notifications/
+WARNING 2025-06-07 22:55:52,282 log 26196 31244 Not Found: /api/evaluations/enseignants/15/planning/
+WARNING 2025-06-07 22:55:52,283 basehttp 26196 65060 "GET /api/evaluations/enseignants/15/notifications/ HTTP/1.1" 404 25588
+WARNING 2025-06-07 22:55:52,283 basehttp 26196 31244 "GET /api/evaluations/enseignants/15/planning/ HTTP/1.1" 404 25573
+WARNING 2025-06-07 22:56:22,299 log 26196 31244 Not Found: /api/evaluations/enseignants/15/notifications/
+WARNING 2025-06-07 22:56:22,300 basehttp 26196 31244 "GET /api/evaluations/enseignants/15/notifications/ HTTP/1.1" 404 25588
+WARNING 2025-06-07 22:56:23,331 log 26196 31244 Not Found: /api/evaluations/enseignants/15/notifications/
+WARNING 2025-06-07 22:56:23,332 basehttp 26196 31244 "GET /api/evaluations/enseignants/15/notifications/ HTTP/1.1" 404 25588
+WARNING 2025-06-07 22:56:37,862 log 26196 31244 Not Found: /api/evaluations/enseignants/statistiques/
+WARNING 2025-06-07 22:56:37,863 basehttp 26196 31244 "GET /api/evaluations/enseignants/statistiques/ HTTP/1.1" 404 25576
+WARNING 2025-06-07 22:56:38,882 log 26196 31244 Not Found: /api/evaluations/enseignants/statistiques/
+WARNING 2025-06-07 22:56:38,882 basehttp 26196 31244 "GET /api/evaluations/enseignants/statistiques/ HTTP/1.1" 404 25576
+WARNING 2025-06-07 22:56:53,344 log 26196 31244 Not Found: /api/evaluations/enseignants/15/notifications/
+WARNING 2025-06-07 22:56:53,345 basehttp 26196 31244 "GET /api/evaluations/enseignants/15/notifications/ HTTP/1.1" 404 25588
+WARNING 2025-06-07 22:56:54,362 log 26196 31244 Not Found: /api/evaluations/enseignants/15/notifications/
+WARNING 2025-06-07 22:56:54,363 basehttp 26196 31244 "GET /api/evaluations/enseignants/15/notifications/ HTTP/1.1" 404 25588
+WARNING 2025-06-07 22:57:24,380 log 26196 31244 Not Found: /api/evaluations/enseignants/15/notifications/
+WARNING 2025-06-07 22:57:24,380 basehttp 26196 31244 "GET /api/evaluations/enseignants/15/notifications/ HTTP/1.1" 404 25588
+WARNING 2025-06-07 22:57:25,398 log 26196 31244 Not Found: /api/evaluations/enseignants/15/notifications/
+WARNING 2025-06-07 22:57:25,400 basehttp 26196 31244 "GET /api/evaluations/enseignants/15/notifications/ HTTP/1.1" 404 25588
+WARNING 2025-06-07 22:57:55,425 log 26196 31244 Not Found: /api/evaluations/enseignants/15/notifications/
+WARNING 2025-06-07 22:57:55,425 basehttp 26196 31244 "GET /api/evaluations/enseignants/15/notifications/ HTTP/1.1" 404 25588
+WARNING 2025-06-07 22:57:56,443 log 26196 31244 Not Found: /api/evaluations/enseignants/15/notifications/
+WARNING 2025-06-07 22:57:56,443 basehttp 26196 31244 "GET /api/evaluations/enseignants/15/notifications/ HTTP/1.1" 404 25588
+WARNING 2025-06-07 22:58:26,467 log 26196 31244 Not Found: /api/evaluations/enseignants/15/notifications/
+WARNING 2025-06-07 22:58:26,468 basehttp 26196 31244 "GET /api/evaluations/enseignants/15/notifications/ HTTP/1.1" 404 25588
+WARNING 2025-06-07 22:58:27,495 log 26196 31244 Not Found: /api/evaluations/enseignants/15/notifications/
+WARNING 2025-06-07 22:58:27,495 basehttp 26196 31244 "GET /api/evaluations/enseignants/15/notifications/ HTTP/1.1" 404 25588
+WARNING 2025-06-07 22:58:38,906 log 26196 31244 Not Found: /api/evaluations/enseignants/statistiques/
+WARNING 2025-06-07 22:58:38,907 basehttp 26196 31244 "GET /api/evaluations/enseignants/statistiques/ HTTP/1.1" 404 25576
+WARNING 2025-06-07 22:58:39,928 log 26196 31244 Not Found: /api/evaluations/enseignants/statistiques/
+WARNING 2025-06-07 22:58:39,929 basehttp 26196 31244 "GET /api/evaluations/enseignants/statistiques/ HTTP/1.1" 404 25576
+WARNING 2025-06-07 22:58:57,521 log 26196 31244 Not Found: /api/evaluations/enseignants/15/notifications/
+WARNING 2025-06-07 22:58:57,522 basehttp 26196 31244 "GET /api/evaluations/enseignants/15/notifications/ HTTP/1.1" 404 25588
+WARNING 2025-06-07 22:58:58,549 log 26196 31244 Not Found: /api/evaluations/enseignants/15/notifications/
+WARNING 2025-06-07 22:58:58,550 basehttp 26196 31244 "GET /api/evaluations/enseignants/15/notifications/ HTTP/1.1" 404 25588
+WARNING 2025-06-07 22:59:28,571 log 26196 31244 Not Found: /api/evaluations/enseignants/15/notifications/
+WARNING 2025-06-07 22:59:28,572 basehttp 26196 31244 "GET /api/evaluations/enseignants/15/notifications/ HTTP/1.1" 404 25588
+WARNING 2025-06-07 22:59:29,590 log 26196 31244 Not Found: /api/evaluations/enseignants/15/notifications/
+WARNING 2025-06-07 22:59:29,590 basehttp 26196 31244 "GET /api/evaluations/enseignants/15/notifications/ HTTP/1.1" 404 25588
+WARNING 2025-06-07 22:59:59,614 log 26196 31244 Not Found: /api/evaluations/enseignants/15/notifications/
+WARNING 2025-06-07 22:59:59,616 basehttp 26196 31244 "GET /api/evaluations/enseignants/15/notifications/ HTTP/1.1" 404 25588
+WARNING 2025-06-07 23:00:00,653 log 26196 31244 Not Found: /api/evaluations/enseignants/15/notifications/
+WARNING 2025-06-07 23:00:00,654 basehttp 26196 31244 "GET /api/evaluations/enseignants/15/notifications/ HTTP/1.1" 404 25588
+WARNING 2025-06-07 23:00:30,686 log 26196 31244 Not Found: /api/evaluations/enseignants/15/notifications/
+WARNING 2025-06-07 23:00:30,687 basehttp 26196 31244 "GET /api/evaluations/enseignants/15/notifications/ HTTP/1.1" 404 25588
+WARNING 2025-06-07 23:00:31,710 log 26196 31244 Not Found: /api/evaluations/enseignants/15/notifications/
+WARNING 2025-06-07 23:00:31,711 basehttp 26196 31244 "GET /api/evaluations/enseignants/15/notifications/ HTTP/1.1" 404 25588
+WARNING 2025-06-07 23:00:39,965 log 26196 31244 Not Found: /api/evaluations/enseignants/statistiques/
+WARNING 2025-06-07 23:00:39,966 basehttp 26196 31244 "GET /api/evaluations/enseignants/statistiques/ HTTP/1.1" 404 25576
+WARNING 2025-06-07 23:00:40,994 log 26196 31244 Not Found: /api/evaluations/enseignants/statistiques/
+WARNING 2025-06-07 23:00:40,995 basehttp 26196 31244 "GET /api/evaluations/enseignants/statistiques/ HTTP/1.1" 404 25576
+WARNING 2025-06-07 23:00:52,328 log 26196 31244 Not Found: /api/evaluations/enseignants/15/planning/
+WARNING 2025-06-07 23:00:52,329 basehttp 26196 31244 "GET /api/evaluations/enseignants/15/planning/ HTTP/1.1" 404 25573
+WARNING 2025-06-07 23:00:53,351 log 26196 31244 Not Found: /api/evaluations/enseignants/15/planning/
+WARNING 2025-06-07 23:00:53,352 basehttp 26196 31244 "GET /api/evaluations/enseignants/15/planning/ HTTP/1.1" 404 25573
+WARNING 2025-06-07 23:01:01,724 log 26196 31244 Not Found: /api/evaluations/enseignants/15/notifications/
+WARNING 2025-06-07 23:01:01,725 basehttp 26196 31244 "GET /api/evaluations/enseignants/15/notifications/ HTTP/1.1" 404 25588
+WARNING 2025-06-07 23:01:02,737 log 26196 31244 Not Found: /api/evaluations/enseignants/15/notifications/
+WARNING 2025-06-07 23:01:02,738 basehttp 26196 31244 "GET /api/evaluations/enseignants/15/notifications/ HTTP/1.1" 404 25588
+WARNING 2025-06-07 23:01:32,747 log 26196 31244 Not Found: /api/evaluations/enseignants/15/notifications/
+WARNING 2025-06-07 23:01:32,747 basehttp 26196 31244 "GET /api/evaluations/enseignants/15/notifications/ HTTP/1.1" 404 25588
+WARNING 2025-06-07 23:01:33,761 log 26196 31244 Not Found: /api/evaluations/enseignants/15/notifications/
+WARNING 2025-06-07 23:01:33,761 basehttp 26196 31244 "GET /api/evaluations/enseignants/15/notifications/ HTTP/1.1" 404 25588
+WARNING 2025-06-07 23:09:34,097 log 26196 45480 Not Found: /api/evaluations/enseignants/15/notifications/
+WARNING 2025-06-07 23:09:34,098 basehttp 26196 45480 "GET /api/evaluations/enseignants/15/notifications/ HTTP/1.1" 404 25588
+WARNING 2025-06-07 23:09:35,108 log 26196 45480 Not Found: /api/evaluations/enseignants/15/notifications/
+WARNING 2025-06-07 23:09:35,108 basehttp 26196 45480 "GET /api/evaluations/enseignants/15/notifications/ HTTP/1.1" 404 25588
+INFO 2025-06-07 23:09:36,259 basehttp 26196 45480 "OPTIONS /api/evaluations/enseignements/?page_size=20 HTTP/1.1" 200 0
+INFO 2025-06-07 23:09:36,410 basehttp 26196 45480 "GET /api/evaluations/enseignements/?page_size=20 HTTP/1.1" 200 1351
+INFO 2025-06-07 23:11:04,231 basehttp 26196 45480 "OPTIONS /api/evaluations/evaluations/?page_size=20&ordering=-date_evaluation HTTP/1.1" 200 0
+INFO 2025-06-07 23:11:04,429 basehttp 26196 45480 "GET /api/evaluations/evaluations/?page_size=20&ordering=-date_evaluation HTTP/1.1" 200 5063
+INFO 2025-06-07 23:11:16,592 basehttp 26196 45480 "OPTIONS /api/evaluations/evaluations/?page_size=20&ordering=-date_evaluation&saisie_terminee=false HTTP/1.1" 200 0
+INFO 2025-06-07 23:11:16,831 basehttp 26196 45480 "GET /api/evaluations/evaluations/?page_size=20&ordering=-date_evaluation&saisie_terminee=false HTTP/1.1" 200 5063
+INFO 2025-06-07 23:11:35,353 basehttp 26196 45480 "OPTIONS /api/evaluations/enseignants/etudiants/?page_size=50 HTTP/1.1" 200 0
+INFO 2025-06-07 23:11:35,357 basehttp 26196 45480 "OPTIONS /api/evaluations/enseignements/?page_size=100 HTTP/1.1" 200 0
+WARNING 2025-06-07 23:11:35,379 log 26196 45480 Not Found: /api/evaluations/enseignants/etudiants/
+WARNING 2025-06-07 23:11:35,380 basehttp 26196 45480 "GET /api/evaluations/enseignants/etudiants/?page_size=50 HTTP/1.1" 404 25580
+INFO 2025-06-07 23:11:35,588 basehttp 26196 45480 "GET /api/evaluations/enseignements/?page_size=100 HTTP/1.1" 200 1351
+WARNING 2025-06-07 23:11:36,397 log 26196 45480 Not Found: /api/evaluations/enseignants/etudiants/
+WARNING 2025-06-07 23:11:36,399 basehttp 26196 45480 "GET /api/evaluations/enseignants/etudiants/?page_size=50 HTTP/1.1" 404 25580
+INFO 2025-06-07 23:11:57,495 basehttp 26196 45480 "OPTIONS /api/evaluations/enseignants/statistiques/ HTTP/1.1" 200 0
+INFO 2025-06-07 23:11:57,496 basehttp 26196 35660 "OPTIONS /api/evaluations/enseignants/15/notifications/ HTTP/1.1" 200 0
+INFO 2025-06-07 23:11:57,496 basehttp 26196 34984 "OPTIONS /api/evaluations/enseignements/?page_size=50 HTTP/1.1" 200 0
+INFO 2025-06-07 23:11:57,497 basehttp 26196 48496 "OPTIONS /api/evaluations/enseignants/15/planning/ HTTP/1.1" 200 0
+WARNING 2025-06-07 23:11:57,539 log 26196 34984 Not Found: /api/evaluations/enseignants/15/planning/
+WARNING 2025-06-07 23:11:57,540 log 26196 35660 Not Found: /api/evaluations/enseignants/statistiques/
+WARNING 2025-06-07 23:11:57,551 log 26196 48496 Not Found: /api/evaluations/enseignants/15/notifications/
+WARNING 2025-06-07 23:11:57,553 basehttp 26196 34984 "GET /api/evaluations/enseignants/15/planning/ HTTP/1.1" 404 25573
+WARNING 2025-06-07 23:11:57,554 basehttp 26196 35660 "GET /api/evaluations/enseignants/statistiques/ HTTP/1.1" 404 25576
+WARNING 2025-06-07 23:11:57,555 basehttp 26196 48496 "GET /api/evaluations/enseignants/15/notifications/ HTTP/1.1" 404 25588
+INFO 2025-06-07 23:11:57,701 basehttp 26196 34984 "GET /api/evaluations/enseignements/?page_size=50 HTTP/1.1" 200 1351
+INFO 2025-06-07 23:11:57,734 basehttp 26196 45480 "GET /api/evaluations/evaluations/?page_size=20&ordering=-date_evaluation HTTP/1.1" 200 5063
+WARNING 2025-06-07 23:11:58,588 log 26196 45480 Not Found: /api/evaluations/enseignants/15/planning/
+WARNING 2025-06-07 23:11:58,599 log 26196 34984 Not Found: /api/evaluations/enseignants/statistiques/
+WARNING 2025-06-07 23:11:58,611 log 26196 48496 Not Found: /api/evaluations/enseignants/15/notifications/
+WARNING 2025-06-07 23:11:58,611 basehttp 26196 45480 "GET /api/evaluations/enseignants/15/planning/ HTTP/1.1" 404 25573
+WARNING 2025-06-07 23:11:58,612 basehttp 26196 48496 "GET /api/evaluations/enseignants/15/notifications/ HTTP/1.1" 404 25588
+WARNING 2025-06-07 23:11:58,612 basehttp 26196 34984 "GET /api/evaluations/enseignants/statistiques/ HTTP/1.1" 404 25576
+INFO 2025-06-07 23:12:06,167 basehttp 26196 48496 "OPTIONS /api/evaluations/enseignants/export/ HTTP/1.1" 200 0
+WARNING 2025-06-07 23:12:06,186 log 26196 48496 Not Found: /api/evaluations/enseignants/export/
+WARNING 2025-06-07 23:12:06,188 basehttp 26196 48496 "POST /api/evaluations/enseignants/export/ HTTP/1.1" 404 25559
+WARNING 2025-06-07 23:12:08,201 log 26196 48496 Not Found: /api/evaluations/enseignants/export/
+WARNING 2025-06-07 23:12:08,202 basehttp 26196 48496 "POST /api/evaluations/enseignants/export/ HTTP/1.1" 404 25559
+INFO 2025-06-07 23:12:38,292 basehttp 26196 34984 "OPTIONS /api/academics/types-evaluation/?actif=true HTTP/1.1" 200 0
+INFO 2025-06-07 23:12:38,448 basehttp 26196 34984 "GET /api/academics/types-evaluation/?actif=true HTTP/1.1" 200 1068
+INFO 2025-06-07 23:12:38,454 basehttp 26196 48496 "GET /api/evaluations/enseignements/?page_size=100 HTTP/1.1" 200 1351
+INFO 2025-06-07 23:15:46,780 basehttp 26196 48496 "OPTIONS /api/auth/users/me/ HTTP/1.1" 200 0
+INFO 2025-06-07 23:15:46,827 basehttp 26196 34984 "OPTIONS /api/core/etablissements/?etablissement_principal=true HTTP/1.1" 200 0
+INFO 2025-06-07 23:15:46,829 basehttp 26196 45480 "OPTIONS /api/academics/annees-academiques/active/ HTTP/1.1" 200 0
+INFO 2025-06-07 23:15:46,829 basehttp 26196 35660 "OPTIONS /api/academics/sessions/?actif=true HTTP/1.1" 200 0
+INFO 2025-06-07 23:15:46,831 basehttp 26196 34984 "OPTIONS /api/academics/semestres/ HTTP/1.1" 200 0
+WARNING 2025-06-07 23:15:46,915 log 26196 48496 Forbidden: /api/auth/users/me/
+WARNING 2025-06-07 23:15:46,916 basehttp 26196 48496 "GET /api/auth/users/me/ HTTP/1.1" 403 68
+WARNING 2025-06-07 23:15:46,925 log 26196 48496 Not Found: /api/core/etablissements/
+WARNING 2025-06-07 23:15:46,925 basehttp 26196 48496 "GET /api/core/etablissements/?etablissement_principal=true HTTP/1.1" 404 18027
+INFO 2025-06-07 23:15:46,952 basehttp 26196 34984 "GET /api/academics/annees-academiques/active/ HTTP/1.1" 200 281
+INFO 2025-06-07 23:15:46,993 basehttp 26196 35660 "GET /api/academics/sessions/?actif=true HTTP/1.1" 200 577
+INFO 2025-06-07 23:15:47,001 basehttp 26196 45480 "GET /api/academics/semestres/ HTTP/1.1" 200 421
+INFO 2025-06-07 23:16:33,309 basehttp 26196 45480 "OPTIONS /api/auth/login/ HTTP/1.1" 200 0
+INFO 2025-06-07 23:16:33,766 basehttp 26196 45480 "POST /api/auth/login/ HTTP/1.1" 200 427
+WARNING 2025-06-07 23:16:33,806 log 26196 45480 Not Found: /api/evaluations/enseignants/statistiques/
+INFO 2025-06-07 23:16:33,806 basehttp 26196 35660 "OPTIONS /api/evaluations/enseignants/12/planning/ HTTP/1.1" 200 0
+INFO 2025-06-07 23:16:33,806 basehttp 26196 34984 "OPTIONS /api/evaluations/enseignants/12/notifications/ HTTP/1.1" 200 0
+WARNING 2025-06-07 23:16:33,807 basehttp 26196 45480 "GET /api/evaluations/enseignants/statistiques/ HTTP/1.1" 404 25576
+WARNING 2025-06-07 23:16:33,815 log 26196 35660 Not Found: /api/evaluations/enseignants/12/notifications/
+WARNING 2025-06-07 23:16:33,819 log 26196 34984 Not Found: /api/evaluations/enseignants/12/planning/
+WARNING 2025-06-07 23:16:33,820 basehttp 26196 35660 "GET /api/evaluations/enseignants/12/notifications/ HTTP/1.1" 404 25588
+WARNING 2025-06-07 23:16:33,820 basehttp 26196 34984 "GET /api/evaluations/enseignants/12/planning/ HTTP/1.1" 404 25573
+INFO 2025-06-07 23:16:33,895 basehttp 26196 48496 "GET /api/evaluations/enseignements/?page_size=50 HTTP/1.1" 200 1331
+INFO 2025-06-07 23:16:34,029 basehttp 26196 49316 "GET /api/evaluations/evaluations/?page_size=20&ordering=-date_evaluation HTTP/1.1" 200 7622
+WARNING 2025-06-07 23:16:34,823 log 26196 49316 Not Found: /api/evaluations/enseignants/statistiques/
+WARNING 2025-06-07 23:16:34,823 basehttp 26196 49316 "GET /api/evaluations/enseignants/statistiques/ HTTP/1.1" 404 25576
+WARNING 2025-06-07 23:16:34,831 log 26196 49316 Not Found: /api/evaluations/enseignants/12/planning/
+WARNING 2025-06-07 23:16:34,836 log 26196 48496 Not Found: /api/evaluations/enseignants/12/notifications/
+WARNING 2025-06-07 23:16:34,836 basehttp 26196 49316 "GET /api/evaluations/enseignants/12/planning/ HTTP/1.1" 404 25573
+WARNING 2025-06-07 23:16:34,836 basehttp 26196 48496 "GET /api/evaluations/enseignants/12/notifications/ HTTP/1.1" 404 25588
+INFO 2025-06-07 23:16:39,438 basehttp 26196 48496 "GET /api/evaluations/evaluations/?page_size=20&ordering=-date_evaluation HTTP/1.1" 200 7622
+INFO 2025-06-07 23:18:25,829 basehttp 26196 48496 "OPTIONS /api/evaluations/evaluations/?page_size=100&ordering=-date_evaluation HTTP/1.1" 200 0
+INFO 2025-06-07 23:18:25,833 basehttp 26196 48496 "OPTIONS /api/evaluations/evaluations/?page_size=50&ordering=-date_evaluation HTTP/1.1" 200 0
+INFO 2025-06-07 23:18:26,115 basehttp 26196 48496 "GET /api/evaluations/evaluations/?page_size=50&ordering=-date_evaluation HTTP/1.1" 200 7622
+INFO 2025-06-07 23:18:26,126 basehttp 26196 49316 "GET /api/evaluations/evaluations/?page_size=100&ordering=-date_evaluation HTTP/1.1" 200 7622
+INFO 2025-06-07 23:21:04,041 basehttp 26196 48496 "OPTIONS /api/evaluations/evaluations/42/verifier_delai_saisie/ HTTP/1.1" 200 0
+INFO 2025-06-07 23:21:04,042 basehttp 26196 49316 "OPTIONS /api/evaluations/evaluations/42/feuille_notes/ HTTP/1.1" 200 0
+ERROR 2025-06-07 23:21:04,199 log 26196 49316 Internal Server Error: /api/evaluations/evaluations/42/verifier_delai_saisie/
+Traceback (most recent call last):
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_backend\evaluations\views.py", line 288, in verifier_delai_saisie
+    'delai_depasse': timezone.now() > evaluation.date_limite_saisie if evaluation.date_limite_saisie else False,
+                     ^^^^^^^^
+NameError: name 'timezone' is not defined
+ERROR 2025-06-07 23:21:04,202 basehttp 26196 49316 "GET /api/evaluations/evaluations/42/verifier_delai_saisie/ HTTP/1.1" 500 106778
+INFO 2025-06-07 23:21:04,288 basehttp 26196 48496 "GET /api/evaluations/evaluations/42/feuille_notes/ HTTP/1.1" 200 11786
+ERROR 2025-06-07 23:21:05,322 log 26196 48496 Internal Server Error: /api/evaluations/evaluations/42/verifier_delai_saisie/
+Traceback (most recent call last):
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_backend\evaluations\views.py", line 288, in verifier_delai_saisie
+    'delai_depasse': timezone.now() > evaluation.date_limite_saisie if evaluation.date_limite_saisie else False,
+                     ^^^^^^^^
+NameError: name 'timezone' is not defined
+ERROR 2025-06-07 23:21:05,324 basehttp 26196 48496 "GET /api/evaluations/evaluations/42/verifier_delai_saisie/ HTTP/1.1" 500 106778
+INFO 2025-06-07 23:21:42,033 basehttp 26196 48496 "GET /api/evaluations/evaluations/?page_size=100&ordering=-date_evaluation HTTP/1.1" 200 7622
+INFO 2025-06-07 23:21:42,034 basehttp 26196 40400 "OPTIONS /api/users/users/me/ HTTP/1.1" 200 0
+WARNING 2025-06-07 23:21:42,043 log 26196 48496 Not Found: /api/core/etablissements/
+WARNING 2025-06-07 23:21:42,045 basehttp 26196 48496 "GET /api/core/etablissements/?etablissement_principal=true HTTP/1.1" 404 18027
+WARNING 2025-06-07 23:21:42,114 log 26196 50564 Not Found: /api/users/users/me/
+WARNING 2025-06-07 23:21:42,117 basehttp 26196 50564 "GET /api/users/users/me/ HTTP/1.1" 404 3031
+INFO 2025-06-07 23:21:42,142 basehttp 26196 49316 "GET /api/evaluations/evaluations/?page_size=50&ordering=-date_evaluation HTTP/1.1" 200 7622
+INFO 2025-06-07 23:21:42,153 basehttp 26196 40400 "GET /api/academics/annees-academiques/active/ HTTP/1.1" 200 281
+INFO 2025-06-07 23:21:42,178 basehttp 26196 48496 "GET /api/academics/sessions/?actif=true HTTP/1.1" 200 577
+INFO 2025-06-07 23:21:42,197 basehttp 26196 47608 "GET /api/academics/semestres/ HTTP/1.1" 200 421
+INFO 2025-06-07 23:22:04,031 basehttp 26196 47608 "OPTIONS /api/users/login/ HTTP/1.1" 200 0
+WARNING 2025-06-07 23:22:04,041 log 26196 47608 Not Found: /api/users/login/
+WARNING 2025-06-07 23:22:04,042 basehttp 26196 47608 "POST /api/users/login/ HTTP/1.1" 404 3023
+WARNING 2025-06-07 23:22:04,063 log 26196 48496 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:04,066 log 26196 40400 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:04,068 log 26196 49316 Unauthorized: /api/academics/semestres/
+WARNING 2025-06-07 23:22:04,082 log 26196 47608 Not Found: /api/core/etablissements/
+WARNING 2025-06-07 23:22:04,083 basehttp 26196 48496 "GET /api/academics/annees-academiques/active/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:04,084 basehttp 26196 40400 "GET /api/academics/sessions/?actif=true HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:04,084 basehttp 26196 49316 "GET /api/academics/semestres/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:04,085 basehttp 26196 47608 "GET /api/core/etablissements/?etablissement_principal=true HTTP/1.1" 404 18027
+WARNING 2025-06-07 23:22:04,748 log 26196 49316 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:04,750 log 26196 48496 Unauthorized: /api/academics/semestres/
+WARNING 2025-06-07 23:22:04,751 log 26196 40400 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:04,762 log 26196 47608 Not Found: /api/core/etablissements/
+WARNING 2025-06-07 23:22:04,762 basehttp 26196 49316 "GET /api/academics/annees-academiques/active/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:04,762 basehttp 26196 48496 "GET /api/academics/semestres/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:04,765 basehttp 26196 40400 "GET /api/academics/sessions/?actif=true HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:04,770 basehttp 26196 47608 "GET /api/core/etablissements/?etablissement_principal=true HTTP/1.1" 404 18027
+WARNING 2025-06-07 23:22:04,814 log 26196 47608 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:04,815 log 26196 40400 Unauthorized: /api/academics/sessions/
+INFO 2025-06-07 23:22:04,817 basehttp 26196 47608 - Broken pipe from ('127.0.0.1', 60872)
+INFO 2025-06-07 23:22:04,817 basehttp 26196 40400 - Broken pipe from ('127.0.0.1', 60869)
+WARNING 2025-06-07 23:22:04,971 log 26196 49316 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:04,973 log 26196 50564 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:04,974 log 26196 37928 Unauthorized: /api/academics/semestres/
+WARNING 2025-06-07 23:22:04,983 log 26196 48496 Not Found: /api/core/etablissements/
+WARNING 2025-06-07 23:22:04,984 basehttp 26196 49316 "GET /api/academics/annees-academiques/active/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:04,984 basehttp 26196 50564 "GET /api/academics/sessions/?actif=true HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:04,984 basehttp 26196 37928 "GET /api/academics/semestres/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:04,985 basehttp 26196 48496 "GET /api/core/etablissements/?etablissement_principal=true HTTP/1.1" 404 18027
+WARNING 2025-06-07 23:22:05,040 log 26196 48496 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:05,042 log 26196 37928 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:05,044 log 26196 49316 Unauthorized: /api/academics/semestres/
+WARNING 2025-06-07 23:22:05,052 log 26196 50564 Not Found: /api/core/etablissements/
+WARNING 2025-06-07 23:22:05,053 basehttp 26196 48496 "GET /api/academics/annees-academiques/active/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:05,053 basehttp 26196 37928 "GET /api/academics/sessions/?actif=true HTTP/1.1" 401 58
+INFO 2025-06-07 23:22:05,053 basehttp 26196 49316 - Broken pipe from ('127.0.0.1', 60727)
+INFO 2025-06-07 23:22:05,054 basehttp 26196 50564 - Broken pipe from ('127.0.0.1', 60873)
+INFO 2025-06-07 23:22:05,055 basehttp 26196 37928 - Broken pipe from ('127.0.0.1', 60875)
+WARNING 2025-06-07 23:22:05,263 log 26196 48496 Not Found: /api/core/etablissements/
+WARNING 2025-06-07 23:22:05,264 basehttp 26196 48496 "GET /api/core/etablissements/?etablissement_principal=true HTTP/1.1" 404 18027
+WARNING 2025-06-07 23:22:05,267 log 26196 48496 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:05,268 basehttp 26196 48496 "GET /api/academics/annees-academiques/active/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:05,271 log 26196 48496 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:05,273 basehttp 26196 48496 "GET /api/academics/sessions/?actif=true HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:05,278 log 26196 48496 Unauthorized: /api/academics/semestres/
+WARNING 2025-06-07 23:22:05,279 basehttp 26196 48496 "GET /api/academics/semestres/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:05,372 log 26196 48496 Not Found: /api/core/etablissements/
+INFO 2025-06-07 23:22:05,373 basehttp 26196 48496 - Broken pipe from ('127.0.0.1', 60636)
+WARNING 2025-06-07 23:22:05,562 log 26196 28016 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:05,564 log 26196 40256 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:05,574 log 26196 48648 Not Found: /api/core/etablissements/
+WARNING 2025-06-07 23:22:05,576 basehttp 26196 28016 "GET /api/academics/annees-academiques/active/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:05,579 basehttp 26196 40256 "GET /api/academics/sessions/?actif=true HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:05,579 basehttp 26196 48648 "GET /api/core/etablissements/?etablissement_principal=true HTTP/1.1" 404 18027
+WARNING 2025-06-07 23:22:05,581 log 26196 28016 Unauthorized: /api/academics/semestres/
+WARNING 2025-06-07 23:22:05,583 basehttp 26196 28016 "GET /api/academics/semestres/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:05,631 log 26196 28016 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:05,633 log 26196 48648 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:05,634 log 26196 40256 Unauthorized: /api/academics/semestres/
+WARNING 2025-06-07 23:22:05,635 basehttp 26196 48648 "GET /api/academics/sessions/?actif=true HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:05,635 basehttp 26196 28016 "GET /api/academics/annees-academiques/active/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:05,636 basehttp 26196 40256 "GET /api/academics/semestres/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:05,661 log 26196 48648 Not Found: /api/core/etablissements/
+INFO 2025-06-07 23:22:05,662 basehttp 26196 48648 - Broken pipe from ('127.0.0.1', 60916)
+WARNING 2025-06-07 23:22:05,837 log 26196 28016 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:05,839 log 26196 56916 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:05,841 log 26196 12588 Unauthorized: /api/academics/semestres/
+WARNING 2025-06-07 23:22:05,848 basehttp 26196 28016 "GET /api/academics/annees-academiques/active/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:05,852 log 26196 40256 Not Found: /api/core/etablissements/
+WARNING 2025-06-07 23:22:05,853 basehttp 26196 56916 "GET /api/academics/sessions/?actif=true HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:05,853 basehttp 26196 12588 "GET /api/academics/semestres/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:05,854 basehttp 26196 40256 "GET /api/core/etablissements/?etablissement_principal=true HTTP/1.1" 404 18027
+WARNING 2025-06-07 23:22:05,925 log 26196 40256 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:05,926 log 26196 12588 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:05,927 log 26196 56916 Unauthorized: /api/academics/semestres/
+WARNING 2025-06-07 23:22:05,938 log 26196 28016 Not Found: /api/core/etablissements/
+INFO 2025-06-07 23:22:05,940 basehttp 26196 12588 - Broken pipe from ('127.0.0.1', 60922)
+INFO 2025-06-07 23:22:05,941 basehttp 26196 40256 - Broken pipe from ('127.0.0.1', 60918)
+INFO 2025-06-07 23:22:05,942 basehttp 26196 56916 - Broken pipe from ('127.0.0.1', 60921)
+INFO 2025-06-07 23:22:05,943 basehttp 26196 28016 - Broken pipe from ('127.0.0.1', 60917)
+WARNING 2025-06-07 23:22:06,142 log 26196 35248 Not Found: /api/core/etablissements/
+WARNING 2025-06-07 23:22:06,143 basehttp 26196 35248 "GET /api/core/etablissements/?etablissement_principal=true HTTP/1.1" 404 18027
+WARNING 2025-06-07 23:22:06,145 log 26196 35248 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:06,145 basehttp 26196 35248 "GET /api/academics/annees-academiques/active/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:06,147 log 26196 35248 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:06,148 basehttp 26196 35248 "GET /api/academics/sessions/?actif=true HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:06,150 log 26196 35248 Unauthorized: /api/academics/semestres/
+WARNING 2025-06-07 23:22:06,151 basehttp 26196 35248 "GET /api/academics/semestres/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:06,205 log 26196 35248 Not Found: /api/core/etablissements/
+INFO 2025-06-07 23:22:06,206 basehttp 26196 35248 - Broken pipe from ('127.0.0.1', 60924)
+WARNING 2025-06-07 23:22:06,444 log 26196 28952 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:06,455 log 26196 22408 Not Found: /api/core/etablissements/
+WARNING 2025-06-07 23:22:06,457 log 26196 16580 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:06,459 basehttp 26196 22408 "GET /api/core/etablissements/?etablissement_principal=true HTTP/1.1" 404 18027
+WARNING 2025-06-07 23:22:06,460 basehttp 26196 28952 "GET /api/academics/annees-academiques/active/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:06,463 basehttp 26196 16580 "GET /api/academics/sessions/?actif=true HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:06,467 log 26196 22408 Unauthorized: /api/academics/semestres/
+WARNING 2025-06-07 23:22:06,469 basehttp 26196 22408 "GET /api/academics/semestres/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:06,498 log 26196 22408 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:06,502 log 26196 16580 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:06,504 log 26196 28952 Unauthorized: /api/academics/semestres/
+WARNING 2025-06-07 23:22:06,508 basehttp 26196 22408 "GET /api/academics/annees-academiques/active/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:06,512 basehttp 26196 28952 "GET /api/academics/semestres/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:06,522 log 26196 2016 Not Found: /api/core/etablissements/
+WARNING 2025-06-07 23:22:06,523 basehttp 26196 16580 "GET /api/academics/sessions/?actif=true HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:06,524 basehttp 26196 2016 "GET /api/core/etablissements/?etablissement_principal=true HTTP/1.1" 404 18027
+WARNING 2025-06-07 23:22:06,705 log 26196 2016 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:06,707 log 26196 16580 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:06,709 log 26196 28952 Unauthorized: /api/academics/semestres/
+WARNING 2025-06-07 23:22:06,720 log 26196 22408 Not Found: /api/core/etablissements/
+WARNING 2025-06-07 23:22:06,721 basehttp 26196 2016 "GET /api/academics/annees-academiques/active/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:06,721 basehttp 26196 16580 "GET /api/academics/sessions/?actif=true HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:06,722 basehttp 26196 28952 "GET /api/academics/semestres/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:06,723 basehttp 26196 22408 "GET /api/core/etablissements/?etablissement_principal=true HTTP/1.1" 404 18027
+WARNING 2025-06-07 23:22:06,775 log 26196 22408 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:06,777 log 26196 16580 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:06,779 log 26196 2016 Unauthorized: /api/academics/semestres/
+WARNING 2025-06-07 23:22:06,786 log 26196 28952 Not Found: /api/core/etablissements/
+INFO 2025-06-07 23:22:06,788 basehttp 26196 16580 - Broken pipe from ('127.0.0.1', 60936)
+INFO 2025-06-07 23:22:06,789 basehttp 26196 22408 - Broken pipe from ('127.0.0.1', 60934)
+INFO 2025-06-07 23:22:06,789 basehttp 26196 2016 - Broken pipe from ('127.0.0.1', 60937)
+INFO 2025-06-07 23:22:06,790 basehttp 26196 28952 - Broken pipe from ('127.0.0.1', 60935)
+WARNING 2025-06-07 23:22:06,983 log 26196 43188 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:06,991 log 26196 51992 Not Found: /api/core/etablissements/
+WARNING 2025-06-07 23:22:06,992 basehttp 26196 43188 "GET /api/academics/annees-academiques/active/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:06,992 basehttp 26196 51992 "GET /api/core/etablissements/?etablissement_principal=true HTTP/1.1" 404 18027
+WARNING 2025-06-07 23:22:06,995 log 26196 43188 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:06,996 log 26196 51992 Unauthorized: /api/academics/semestres/
+WARNING 2025-06-07 23:22:06,998 basehttp 26196 43188 "GET /api/academics/sessions/?actif=true HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:06,998 basehttp 26196 51992 "GET /api/academics/semestres/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:07,072 log 26196 51992 Not Found: /api/core/etablissements/
+WARNING 2025-06-07 23:22:07,074 log 26196 43188 Unauthorized: /api/academics/annees-academiques/active/
+INFO 2025-06-07 23:22:07,075 basehttp 26196 51992 - Broken pipe from ('127.0.0.1', 60938)
+INFO 2025-06-07 23:22:07,076 basehttp 26196 43188 - Broken pipe from ('127.0.0.1', 60942)
+WARNING 2025-06-07 23:22:07,292 log 26196 25468 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:07,300 log 26196 63524 Not Found: /api/core/etablissements/
+WARNING 2025-06-07 23:22:07,301 basehttp 26196 63524 "GET /api/core/etablissements/?etablissement_principal=true HTTP/1.1" 404 18027
+WARNING 2025-06-07 23:22:07,302 basehttp 26196 25468 "GET /api/academics/annees-academiques/active/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:07,305 log 26196 63524 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:07,305 log 26196 25468 Unauthorized: /api/academics/semestres/
+WARNING 2025-06-07 23:22:07,307 basehttp 26196 63524 "GET /api/academics/sessions/?actif=true HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:07,308 basehttp 26196 25468 "GET /api/academics/semestres/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:07,334 log 26196 63524 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:07,343 log 26196 25468 Not Found: /api/core/etablissements/
+INFO 2025-06-07 23:22:07,343 basehttp 26196 63524 - Broken pipe from ('127.0.0.1', 60951)
+INFO 2025-06-07 23:22:07,344 basehttp 26196 25468 - Broken pipe from ('127.0.0.1', 60952)
+WARNING 2025-06-07 23:22:07,516 log 26196 41328 Not Found: /api/core/etablissements/
+WARNING 2025-06-07 23:22:07,517 basehttp 26196 41328 "GET /api/core/etablissements/?etablissement_principal=true HTTP/1.1" 404 18027
+WARNING 2025-06-07 23:22:07,519 log 26196 41328 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:07,520 basehttp 26196 41328 "GET /api/academics/annees-academiques/active/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:07,522 log 26196 41328 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:07,522 basehttp 26196 41328 "GET /api/academics/sessions/?actif=true HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:07,525 log 26196 41328 Unauthorized: /api/academics/semestres/
+WARNING 2025-06-07 23:22:07,527 basehttp 26196 41328 "GET /api/academics/semestres/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:07,574 log 26196 18700 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:07,576 log 26196 29944 Unauthorized: /api/academics/semestres/
+WARNING 2025-06-07 23:22:07,577 log 26196 12952 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:07,586 log 26196 41328 Not Found: /api/core/etablissements/
+INFO 2025-06-07 23:22:07,586 basehttp 26196 18700 - Broken pipe from ('127.0.0.1', 60958)
+INFO 2025-06-07 23:22:07,587 basehttp 26196 29944 - Broken pipe from ('127.0.0.1', 60960)
+INFO 2025-06-07 23:22:07,587 basehttp 26196 12952 - Broken pipe from ('127.0.0.1', 60959)
+INFO 2025-06-07 23:22:07,589 basehttp 26196 41328 - Broken pipe from ('127.0.0.1', 60953)
+WARNING 2025-06-07 23:22:07,818 log 26196 33936 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:07,827 log 26196 11304 Not Found: /api/core/etablissements/
+WARNING 2025-06-07 23:22:07,828 basehttp 26196 33936 "GET /api/academics/annees-academiques/active/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:07,829 basehttp 26196 11304 "GET /api/core/etablissements/?etablissement_principal=true HTTP/1.1" 404 18027
+WARNING 2025-06-07 23:22:07,831 log 26196 33936 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:07,833 log 26196 11304 Unauthorized: /api/academics/semestres/
+WARNING 2025-06-07 23:22:07,833 basehttp 26196 33936 "GET /api/academics/sessions/?actif=true HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:07,835 basehttp 26196 11304 "GET /api/academics/semestres/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:07,871 log 26196 11304 Not Found: /api/core/etablissements/
+WARNING 2025-06-07 23:22:07,872 log 26196 33936 Unauthorized: /api/academics/annees-academiques/active/
+INFO 2025-06-07 23:22:07,874 basehttp 26196 11304 - Broken pipe from ('127.0.0.1', 60966)
+INFO 2025-06-07 23:22:07,874 basehttp 26196 33936 - Broken pipe from ('127.0.0.1', 60967)
+WARNING 2025-06-07 23:22:08,069 log 26196 65332 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:08,072 log 26196 63280 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:08,080 log 26196 47744 Not Found: /api/core/etablissements/
+WARNING 2025-06-07 23:22:08,082 log 26196 30428 Unauthorized: /api/academics/semestres/
+WARNING 2025-06-07 23:22:08,083 basehttp 26196 65332 "GET /api/academics/annees-academiques/active/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:08,083 basehttp 26196 63280 "GET /api/academics/sessions/?actif=true HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:08,083 basehttp 26196 47744 "GET /api/core/etablissements/?etablissement_principal=true HTTP/1.1" 404 18027
+WARNING 2025-06-07 23:22:08,084 basehttp 26196 30428 "GET /api/academics/semestres/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:08,122 log 26196 30428 Not Found: /api/core/etablissements/
+WARNING 2025-06-07 23:22:08,123 log 26196 47744 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:08,125 log 26196 63280 Unauthorized: /api/academics/sessions/
+INFO 2025-06-07 23:22:08,126 basehttp 26196 30428 - Broken pipe from ('127.0.0.1', 60974)
+INFO 2025-06-07 23:22:08,126 basehttp 26196 47744 - Broken pipe from ('127.0.0.1', 60971)
+INFO 2025-06-07 23:22:08,127 basehttp 26196 63280 - Broken pipe from ('127.0.0.1', 60973)
+WARNING 2025-06-07 23:22:08,286 log 26196 65332 Not Found: /api/core/etablissements/
+WARNING 2025-06-07 23:22:08,287 basehttp 26196 65332 "GET /api/core/etablissements/?etablissement_principal=true HTTP/1.1" 404 18027
+WARNING 2025-06-07 23:22:08,290 log 26196 65332 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:08,291 basehttp 26196 65332 "GET /api/academics/annees-academiques/active/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:08,293 log 26196 65332 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:08,294 basehttp 26196 65332 "GET /api/academics/sessions/?actif=true HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:08,297 log 26196 65332 Unauthorized: /api/academics/semestres/
+WARNING 2025-06-07 23:22:08,297 basehttp 26196 65332 "GET /api/academics/semestres/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:08,343 log 26196 65332 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:08,345 log 26196 27136 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:08,347 log 26196 25612 Unauthorized: /api/academics/semestres/
+INFO 2025-06-07 23:22:08,348 basehttp 26196 65332 - Broken pipe from ('127.0.0.1', 60972)
+INFO 2025-06-07 23:22:08,349 basehttp 26196 27136 - Broken pipe from ('127.0.0.1', 60980)
+INFO 2025-06-07 23:22:08,349 basehttp 26196 25612 - Broken pipe from ('127.0.0.1', 60981)
+WARNING 2025-06-07 23:22:08,597 log 26196 12776 Not Found: /api/core/etablissements/
+WARNING 2025-06-07 23:22:08,599 log 26196 56540 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:08,600 basehttp 26196 12776 "GET /api/core/etablissements/?etablissement_principal=true HTTP/1.1" 404 18027
+WARNING 2025-06-07 23:22:08,603 log 26196 39760 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:08,607 log 26196 12776 Unauthorized: /api/academics/semestres/
+WARNING 2025-06-07 23:22:08,608 basehttp 26196 56540 "GET /api/academics/annees-academiques/active/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:08,610 basehttp 26196 39760 "GET /api/academics/sessions/?actif=true HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:08,612 basehttp 26196 12776 "GET /api/academics/semestres/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:08,661 log 26196 12776 Not Found: /api/core/etablissements/
+WARNING 2025-06-07 23:22:08,662 log 26196 39760 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:08,664 log 26196 56540 Unauthorized: /api/academics/sessions/
+INFO 2025-06-07 23:22:08,666 basehttp 26196 12776 - Broken pipe from ('127.0.0.1', 60986)
+INFO 2025-06-07 23:22:08,667 basehttp 26196 39760 - Broken pipe from ('127.0.0.1', 60988)
+INFO 2025-06-07 23:22:08,668 basehttp 26196 56540 - Broken pipe from ('127.0.0.1', 60987)
+WARNING 2025-06-07 23:22:08,808 log 26196 24664 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:08,809 log 26196 45872 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:08,817 log 26196 61908 Not Found: /api/core/etablissements/
+WARNING 2025-06-07 23:22:08,817 basehttp 26196 24664 "GET /api/academics/annees-academiques/active/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:08,818 basehttp 26196 45872 "GET /api/academics/sessions/?actif=true HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:08,819 log 26196 24664 Unauthorized: /api/academics/semestres/
+WARNING 2025-06-07 23:22:08,820 basehttp 26196 61908 "GET /api/core/etablissements/?etablissement_principal=true HTTP/1.1" 404 18027
+WARNING 2025-06-07 23:22:08,821 basehttp 26196 24664 "GET /api/academics/semestres/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:08,873 log 26196 45872 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:08,875 log 26196 61908 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:08,884 log 26196 24664 Not Found: /api/core/etablissements/
+INFO 2025-06-07 23:22:08,885 basehttp 26196 61908 - Broken pipe from ('127.0.0.1', 60992)
+INFO 2025-06-07 23:22:08,885 basehttp 26196 45872 - Broken pipe from ('127.0.0.1', 60994)
+INFO 2025-06-07 23:22:08,886 basehttp 26196 24664 - Broken pipe from ('127.0.0.1', 60993)
+WARNING 2025-06-07 23:22:09,119 log 26196 44388 Not Found: /api/core/etablissements/
+WARNING 2025-06-07 23:22:09,120 basehttp 26196 44388 "GET /api/core/etablissements/?etablissement_principal=true HTTP/1.1" 404 18027
+WARNING 2025-06-07 23:22:09,126 log 26196 44388 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:09,127 basehttp 26196 44388 "GET /api/academics/annees-academiques/active/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:09,131 log 26196 44388 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:09,132 basehttp 26196 44388 "GET /api/academics/sessions/?actif=true HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:09,142 log 26196 44388 Unauthorized: /api/academics/semestres/
+WARNING 2025-06-07 23:22:09,143 basehttp 26196 44388 "GET /api/academics/semestres/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:09,186 log 26196 44388 Not Found: /api/core/etablissements/
+INFO 2025-06-07 23:22:09,187 basehttp 26196 44388 - Broken pipe from ('127.0.0.1', 61002)
+WARNING 2025-06-07 23:22:09,337 log 26196 50792 Not Found: /api/core/etablissements/
+WARNING 2025-06-07 23:22:09,338 basehttp 26196 50792 "GET /api/core/etablissements/?etablissement_principal=true HTTP/1.1" 404 18027
+WARNING 2025-06-07 23:22:09,340 log 26196 32368 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:09,341 log 26196 33112 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:09,344 log 26196 50948 Unauthorized: /api/academics/semestres/
+WARNING 2025-06-07 23:22:09,344 basehttp 26196 32368 "GET /api/academics/annees-academiques/active/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:09,345 basehttp 26196 33112 "GET /api/academics/sessions/?actif=true HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:09,346 basehttp 26196 50948 "GET /api/academics/semestres/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:09,394 log 26196 33112 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:09,395 log 26196 32368 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:09,396 log 26196 50792 Unauthorized: /api/academics/semestres/
+WARNING 2025-06-07 23:22:09,405 log 26196 50948 Not Found: /api/core/etablissements/
+INFO 2025-06-07 23:22:09,406 basehttp 26196 32368 - Broken pipe from ('127.0.0.1', 61007)
+INFO 2025-06-07 23:22:09,407 basehttp 26196 50792 - Broken pipe from ('127.0.0.1', 61003)
+INFO 2025-06-07 23:22:09,407 basehttp 26196 33112 - Broken pipe from ('127.0.0.1', 61008)
+INFO 2025-06-07 23:22:09,408 basehttp 26196 50948 - Broken pipe from ('127.0.0.1', 61009)
+WARNING 2025-06-07 23:22:09,549 log 26196 16492 Not Found: /api/core/etablissements/
+WARNING 2025-06-07 23:22:09,549 basehttp 26196 16492 "GET /api/core/etablissements/?etablissement_principal=true HTTP/1.1" 404 18027
+WARNING 2025-06-07 23:22:09,551 log 26196 16492 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:09,552 basehttp 26196 16492 "GET /api/academics/annees-academiques/active/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:09,553 log 26196 16492 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:09,554 basehttp 26196 16492 "GET /api/academics/sessions/?actif=true HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:09,556 log 26196 16492 Unauthorized: /api/academics/semestres/
+WARNING 2025-06-07 23:22:09,557 basehttp 26196 16492 "GET /api/academics/semestres/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:09,597 log 26196 16492 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:09,597 basehttp 26196 16492 "GET /api/academics/annees-academiques/active/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:09,606 log 26196 16492 Not Found: /api/core/etablissements/
+INFO 2025-06-07 23:22:09,607 basehttp 26196 16492 - Broken pipe from ('127.0.0.1', 61010)
+WARNING 2025-06-07 23:22:09,737 log 26196 27792 Not Found: /api/core/etablissements/
+WARNING 2025-06-07 23:22:09,737 basehttp 26196 27792 "GET /api/core/etablissements/?etablissement_principal=true HTTP/1.1" 404 18027
+WARNING 2025-06-07 23:22:09,740 log 26196 27792 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:09,741 basehttp 26196 27792 "GET /api/academics/annees-academiques/active/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:09,743 log 26196 27792 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:09,743 basehttp 26196 27792 "GET /api/academics/sessions/?actif=true HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:09,745 log 26196 27792 Unauthorized: /api/academics/semestres/
+WARNING 2025-06-07 23:22:09,746 basehttp 26196 27792 "GET /api/academics/semestres/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:09,798 log 26196 27792 Not Found: /api/core/etablissements/
+WARNING 2025-06-07 23:22:09,799 basehttp 26196 27792 "GET /api/core/etablissements/?etablissement_principal=true HTTP/1.1" 404 18027
+INFO 2025-06-07 23:22:09,800 basehttp 26196 27792 - Broken pipe from ('127.0.0.1', 61016)
+WARNING 2025-06-07 23:22:09,985 log 26196 24784 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:09,986 log 26196 33984 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:09,988 log 26196 44088 Unauthorized: /api/academics/semestres/
+WARNING 2025-06-07 23:22:10,000 log 26196 35844 Not Found: /api/core/etablissements/
+WARNING 2025-06-07 23:22:10,001 basehttp 26196 24784 "GET /api/academics/annees-academiques/active/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:10,002 basehttp 26196 33984 "GET /api/academics/sessions/?actif=true HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:10,002 basehttp 26196 44088 "GET /api/academics/semestres/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:10,003 basehttp 26196 35844 "GET /api/core/etablissements/?etablissement_principal=true HTTP/1.1" 404 18027
+WARNING 2025-06-07 23:22:10,270 log 26196 35844 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:10,272 log 26196 44088 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:10,274 log 26196 24784 Unauthorized: /api/academics/semestres/
+WARNING 2025-06-07 23:22:10,282 log 26196 33984 Not Found: /api/core/etablissements/
+WARNING 2025-06-07 23:22:10,283 basehttp 26196 35844 "GET /api/academics/annees-academiques/active/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:10,284 basehttp 26196 24784 "GET /api/academics/semestres/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:10,284 basehttp 26196 44088 "GET /api/academics/sessions/?actif=true HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:10,285 basehttp 26196 33984 "GET /api/core/etablissements/?etablissement_principal=true HTTP/1.1" 404 18027
+WARNING 2025-06-07 23:22:10,341 log 26196 44088 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:10,342 log 26196 24784 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:10,343 log 26196 35844 Unauthorized: /api/academics/semestres/
+INFO 2025-06-07 23:22:10,355 basehttp 26196 44088 - Broken pipe from ('127.0.0.1', 61022)
+WARNING 2025-06-07 23:22:10,372 log 26196 33984 Not Found: /api/core/etablissements/
+INFO 2025-06-07 23:22:10,372 basehttp 26196 24784 - Broken pipe from ('127.0.0.1', 61020)
+INFO 2025-06-07 23:22:10,378 basehttp 26196 35844 - Broken pipe from ('127.0.0.1', 61019)
+INFO 2025-06-07 23:22:10,401 basehttp 26196 33984 - Broken pipe from ('127.0.0.1', 61021)
+WARNING 2025-06-07 23:22:10,593 log 26196 56800 Not Found: /api/core/etablissements/
+WARNING 2025-06-07 23:22:10,594 basehttp 26196 56800 "GET /api/core/etablissements/?etablissement_principal=true HTTP/1.1" 404 18027
+WARNING 2025-06-07 23:22:10,598 log 26196 56800 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:10,599 basehttp 26196 56800 "GET /api/academics/annees-academiques/active/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:10,601 log 26196 56800 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:10,603 basehttp 26196 56800 "GET /api/academics/sessions/?actif=true HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:10,604 log 26196 56800 Unauthorized: /api/academics/semestres/
+WARNING 2025-06-07 23:22:10,605 basehttp 26196 56800 "GET /api/academics/semestres/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:10,677 log 26196 56800 Not Found: /api/core/etablissements/
+INFO 2025-06-07 23:22:10,678 basehttp 26196 56800 - Broken pipe from ('127.0.0.1', 61024)
+WARNING 2025-06-07 23:22:10,898 log 26196 21216 Not Found: /api/core/etablissements/
+WARNING 2025-06-07 23:22:10,899 log 26196 25616 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:10,901 log 26196 63808 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:10,902 basehttp 26196 21216 "GET /api/core/etablissements/?etablissement_principal=true HTTP/1.1" 404 18027
+WARNING 2025-06-07 23:22:10,902 basehttp 26196 25616 "GET /api/academics/annees-academiques/active/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:10,902 basehttp 26196 63808 "GET /api/academics/sessions/?actif=true HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:10,905 log 26196 21216 Unauthorized: /api/academics/semestres/
+WARNING 2025-06-07 23:22:10,905 basehttp 26196 21216 "GET /api/academics/semestres/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:10,926 log 26196 63808 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:10,928 log 26196 25616 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:10,930 basehttp 26196 63808 "GET /api/academics/annees-academiques/active/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:10,936 log 26196 21216 Not Found: /api/core/etablissements/
+INFO 2025-06-07 23:22:10,937 basehttp 26196 25616 - Broken pipe from ('127.0.0.1', 61035)
+INFO 2025-06-07 23:22:10,938 basehttp 26196 21216 - Broken pipe from ('127.0.0.1', 61034)
+WARNING 2025-06-07 23:22:11,104 log 26196 36320 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:11,111 log 26196 15500 Not Found: /api/core/etablissements/
+WARNING 2025-06-07 23:22:11,112 basehttp 26196 36320 "GET /api/academics/annees-academiques/active/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:11,112 basehttp 26196 15500 "GET /api/core/etablissements/?etablissement_principal=true HTTP/1.1" 404 18027
+WARNING 2025-06-07 23:22:11,114 log 26196 36320 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:11,117 log 26196 15500 Unauthorized: /api/academics/semestres/
+WARNING 2025-06-07 23:22:11,117 basehttp 26196 36320 "GET /api/academics/sessions/?actif=true HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:11,118 basehttp 26196 15500 "GET /api/academics/semestres/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:11,175 log 26196 36320 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:11,176 log 26196 14176 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:11,184 log 26196 15500 Not Found: /api/core/etablissements/
+WARNING 2025-06-07 23:22:11,185 basehttp 26196 36320 "GET /api/academics/annees-academiques/active/ HTTP/1.1" 401 58
+INFO 2025-06-07 23:22:11,186 basehttp 26196 14176 - Broken pipe from ('127.0.0.1', 61042)
+INFO 2025-06-07 23:22:11,187 basehttp 26196 15500 - Broken pipe from ('127.0.0.1', 61037)
+INFO 2025-06-07 23:22:11,187 basehttp 26196 36320 - Broken pipe from ('127.0.0.1', 61038)
+WARNING 2025-06-07 23:22:11,421 log 26196 50400 Not Found: /api/core/etablissements/
+WARNING 2025-06-07 23:22:11,423 log 26196 27088 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:11,424 basehttp 26196 50400 "GET /api/core/etablissements/?etablissement_principal=true HTTP/1.1" 404 18027
+WARNING 2025-06-07 23:22:11,424 basehttp 26196 27088 "GET /api/academics/annees-academiques/active/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:11,426 log 26196 50400 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:11,428 log 26196 27088 Unauthorized: /api/academics/semestres/
+WARNING 2025-06-07 23:22:11,429 basehttp 26196 50400 "GET /api/academics/sessions/?actif=true HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:11,430 basehttp 26196 27088 "GET /api/academics/semestres/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:11,482 log 26196 27088 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:11,484 log 26196 43916 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:11,496 log 26196 50400 Not Found: /api/core/etablissements/
+INFO 2025-06-07 23:22:11,497 basehttp 26196 27088 - Broken pipe from ('127.0.0.1', 61049)
+INFO 2025-06-07 23:22:11,498 basehttp 26196 43916 - Broken pipe from ('127.0.0.1', 61050)
+INFO 2025-06-07 23:22:11,499 basehttp 26196 50400 - Broken pipe from ('127.0.0.1', 61048)
+WARNING 2025-06-07 23:22:21,313 log 26196 10400 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:21,314 log 26196 39848 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:21,319 log 26196 38692 Not Found: /api/core/etablissements/
+WARNING 2025-06-07 23:22:21,319 basehttp 26196 10400 "GET /api/academics/annees-academiques/active/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:21,320 basehttp 26196 38692 "GET /api/core/etablissements/?etablissement_principal=true HTTP/1.1" 404 18027
+WARNING 2025-06-07 23:22:21,321 log 26196 10400 Unauthorized: /api/academics/semestres/
+WARNING 2025-06-07 23:22:21,321 basehttp 26196 39848 "GET /api/academics/sessions/?actif=true HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:21,322 basehttp 26196 10400 "GET /api/academics/semestres/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:21,387 log 26196 10400 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:21,393 log 26196 38692 Not Found: /api/core/etablissements/
+INFO 2025-06-07 23:22:21,394 basehttp 26196 10400 - Broken pipe from ('127.0.0.1', 61052)
+INFO 2025-06-07 23:22:21,394 basehttp 26196 38692 - Broken pipe from ('127.0.0.1', 61051)
+WARNING 2025-06-07 23:22:21,539 log 26196 39848 Not Found: /api/core/etablissements/
+WARNING 2025-06-07 23:22:21,541 basehttp 26196 39848 "GET /api/core/etablissements/?etablissement_principal=true HTTP/1.1" 404 18027
+WARNING 2025-06-07 23:22:21,542 log 26196 39848 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:21,544 basehttp 26196 39848 "GET /api/academics/annees-academiques/active/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:21,546 log 26196 39848 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:21,547 basehttp 26196 39848 "GET /api/academics/sessions/?actif=true HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:21,548 log 26196 39848 Unauthorized: /api/academics/semestres/
+WARNING 2025-06-07 23:22:21,549 basehttp 26196 39848 "GET /api/academics/semestres/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:21,618 log 26196 66448 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:21,621 log 26196 39848 Not Found: /api/core/etablissements/
+WARNING 2025-06-07 23:22:21,622 basehttp 26196 39848 "GET /api/core/etablissements/?etablissement_principal=true HTTP/1.1" 404 18027
+WARNING 2025-06-07 23:22:21,622 basehttp 26196 66448 "GET /api/academics/annees-academiques/active/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:21,867 log 26196 49828 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:21,868 log 26196 33560 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:21,870 log 26196 66012 Unauthorized: /api/academics/semestres/
+WARNING 2025-06-07 23:22:21,875 log 26196 66448 Not Found: /api/core/etablissements/
+WARNING 2025-06-07 23:22:21,875 basehttp 26196 49828 "GET /api/academics/annees-academiques/active/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:21,876 basehttp 26196 33560 "GET /api/academics/sessions/?actif=true HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:21,877 basehttp 26196 66012 "GET /api/academics/semestres/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:21,877 basehttp 26196 66448 "GET /api/core/etablissements/?etablissement_principal=true HTTP/1.1" 404 18027
+WARNING 2025-06-07 23:22:21,941 log 26196 66448 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:21,942 log 26196 66012 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:21,943 log 26196 33560 Unauthorized: /api/academics/semestres/
+WARNING 2025-06-07 23:22:21,951 log 26196 49828 Not Found: /api/core/etablissements/
+INFO 2025-06-07 23:22:21,952 basehttp 26196 66448 - Broken pipe from ('127.0.0.1', 61077)
+INFO 2025-06-07 23:22:21,953 basehttp 26196 66012 - Broken pipe from ('127.0.0.1', 61081)
+INFO 2025-06-07 23:22:21,954 basehttp 26196 33560 - Broken pipe from ('127.0.0.1', 61080)
+INFO 2025-06-07 23:22:21,955 basehttp 26196 49828 - Broken pipe from ('127.0.0.1', 61078)
+WARNING 2025-06-07 23:22:22,144 log 26196 17120 Not Found: /api/core/etablissements/
+WARNING 2025-06-07 23:22:22,145 basehttp 26196 17120 "GET /api/core/etablissements/?etablissement_principal=true HTTP/1.1" 404 18027
+WARNING 2025-06-07 23:22:22,150 log 26196 17120 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:22,152 basehttp 26196 17120 "GET /api/academics/annees-academiques/active/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:22,154 log 26196 17120 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:22,154 basehttp 26196 17120 "GET /api/academics/sessions/?actif=true HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:22,157 log 26196 17120 Unauthorized: /api/academics/semestres/
+WARNING 2025-06-07 23:22:22,158 basehttp 26196 17120 "GET /api/academics/semestres/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:22,222 log 26196 17120 Not Found: /api/core/etablissements/
+INFO 2025-06-07 23:22:22,223 basehttp 26196 17120 - Broken pipe from ('127.0.0.1', 61082)
+WARNING 2025-06-07 23:22:22,446 log 26196 18300 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:22,449 log 26196 24832 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:22,452 log 26196 48836 Not Found: /api/core/etablissements/
+WARNING 2025-06-07 23:22:22,452 basehttp 26196 18300 "GET /api/academics/annees-academiques/active/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:22,454 basehttp 26196 24832 "GET /api/academics/sessions/?actif=true HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:22,454 basehttp 26196 48836 "GET /api/core/etablissements/?etablissement_principal=true HTTP/1.1" 404 18027
+WARNING 2025-06-07 23:22:22,456 log 26196 18300 Unauthorized: /api/academics/semestres/
+WARNING 2025-06-07 23:22:22,457 basehttp 26196 18300 "GET /api/academics/semestres/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:22,500 log 26196 18300 Not Found: /api/core/etablissements/
+INFO 2025-06-07 23:22:22,501 basehttp 26196 18300 - Broken pipe from ('127.0.0.1', 61092)
+WARNING 2025-06-07 23:22:22,667 log 26196 24832 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:22,669 log 26196 22156 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:22,674 log 26196 55860 Unauthorized: /api/academics/semestres/
+WARNING 2025-06-07 23:22:22,677 basehttp 26196 24832 "GET /api/academics/sessions/?actif=true HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:22,682 log 26196 48836 Not Found: /api/core/etablissements/
+WARNING 2025-06-07 23:22:22,683 basehttp 26196 22156 "GET /api/academics/annees-academiques/active/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:22,684 basehttp 26196 55860 "GET /api/academics/semestres/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:22,685 basehttp 26196 48836 "GET /api/core/etablissements/?etablissement_principal=true HTTP/1.1" 404 18027
+WARNING 2025-06-07 23:22:22,989 log 26196 55860 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:22,995 log 26196 48836 Not Found: /api/core/etablissements/
+WARNING 2025-06-07 23:22:22,997 log 26196 22156 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:22,999 log 26196 24832 Unauthorized: /api/academics/semestres/
+WARNING 2025-06-07 23:22:23,002 basehttp 26196 55860 "GET /api/academics/annees-academiques/active/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:23,002 basehttp 26196 22156 "GET /api/academics/sessions/?actif=true HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:23,002 basehttp 26196 48836 "GET /api/core/etablissements/?etablissement_principal=true HTTP/1.1" 404 18027
+WARNING 2025-06-07 23:22:23,002 basehttp 26196 24832 "GET /api/academics/semestres/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:23,552 log 26196 48836 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:23,554 log 26196 55860 Unauthorized: /api/academics/semestres/
+WARNING 2025-06-07 23:22:23,555 log 26196 22156 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:23,560 log 26196 24832 Not Found: /api/core/etablissements/
+WARNING 2025-06-07 23:22:23,560 basehttp 26196 48836 "GET /api/academics/annees-academiques/active/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:23,561 basehttp 26196 55860 "GET /api/academics/semestres/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:23,561 basehttp 26196 22156 "GET /api/academics/sessions/?actif=true HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:23,562 basehttp 26196 24832 "GET /api/core/etablissements/?etablissement_principal=true HTTP/1.1" 404 18027
+WARNING 2025-06-07 23:22:23,599 log 26196 24832 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:23,600 log 26196 22156 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:23,602 log 26196 48836 Unauthorized: /api/academics/semestres/
+WARNING 2025-06-07 23:22:23,608 log 26196 55860 Not Found: /api/core/etablissements/
+INFO 2025-06-07 23:22:23,609 basehttp 26196 24832 - Broken pipe from ('127.0.0.1', 61093)
+INFO 2025-06-07 23:22:23,609 basehttp 26196 48836 - Broken pipe from ('127.0.0.1', 61091)
+INFO 2025-06-07 23:22:23,610 basehttp 26196 22156 - Broken pipe from ('127.0.0.1', 61095)
+INFO 2025-06-07 23:22:23,610 basehttp 26196 55860 - Broken pipe from ('127.0.0.1', 61094)
+WARNING 2025-06-07 23:22:24,086 log 26196 32612 Not Found: /api/core/etablissements/
+WARNING 2025-06-07 23:22:24,087 basehttp 26196 32612 "GET /api/core/etablissements/?etablissement_principal=true HTTP/1.1" 404 18027
+WARNING 2025-06-07 23:22:24,091 log 26196 32612 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:24,093 basehttp 26196 32612 "GET /api/academics/annees-academiques/active/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:24,096 log 26196 32612 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:24,097 basehttp 26196 32612 "GET /api/academics/sessions/?actif=true HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:24,101 log 26196 32612 Unauthorized: /api/academics/semestres/
+WARNING 2025-06-07 23:22:24,102 basehttp 26196 32612 "GET /api/academics/semestres/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:24,145 log 26196 32612 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:24,146 basehttp 26196 32612 "GET /api/academics/annees-academiques/active/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:24,580 log 26196 12100 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:24,582 log 26196 18656 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:24,583 log 26196 29364 Unauthorized: /api/academics/semestres/
+WARNING 2025-06-07 23:22:24,587 log 26196 21444 Not Found: /api/core/etablissements/
+WARNING 2025-06-07 23:22:24,587 basehttp 26196 12100 "GET /api/academics/annees-academiques/active/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:24,587 basehttp 26196 18656 "GET /api/academics/sessions/?actif=true HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:24,588 basehttp 26196 21444 "GET /api/core/etablissements/?etablissement_principal=true HTTP/1.1" 404 18027
+WARNING 2025-06-07 23:22:24,588 basehttp 26196 29364 "GET /api/academics/semestres/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:24,622 log 26196 21444 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:24,623 log 26196 12100 Unauthorized: /api/academics/semestres/
+WARNING 2025-06-07 23:22:24,624 log 26196 18656 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:24,630 log 26196 29364 Not Found: /api/core/etablissements/
+INFO 2025-06-07 23:22:24,631 basehttp 26196 21444 - Broken pipe from ('127.0.0.1', 61108)
+INFO 2025-06-07 23:22:24,631 basehttp 26196 12100 - Broken pipe from ('127.0.0.1', 61109)
+INFO 2025-06-07 23:22:24,632 basehttp 26196 18656 - Broken pipe from ('127.0.0.1', 61110)
+INFO 2025-06-07 23:22:24,632 basehttp 26196 29364 - Broken pipe from ('127.0.0.1', 61111)
+WARNING 2025-06-07 23:22:25,107 log 26196 11364 Not Found: /api/core/etablissements/
+WARNING 2025-06-07 23:22:25,107 basehttp 26196 11364 "GET /api/core/etablissements/?etablissement_principal=true HTTP/1.1" 404 18027
+WARNING 2025-06-07 23:22:25,111 log 26196 11364 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:25,111 basehttp 26196 11364 "GET /api/academics/annees-academiques/active/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:25,113 log 26196 11364 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:25,114 basehttp 26196 11364 "GET /api/academics/sessions/?actif=true HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:25,117 log 26196 11364 Unauthorized: /api/academics/semestres/
+WARNING 2025-06-07 23:22:25,117 basehttp 26196 11364 "GET /api/academics/semestres/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:25,165 log 26196 11364 Not Found: /api/core/etablissements/
+INFO 2025-06-07 23:22:25,166 basehttp 26196 11364 - Broken pipe from ('127.0.0.1', 61112)
+WARNING 2025-06-07 23:22:25,648 log 26196 19216 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:25,649 log 26196 58332 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:25,657 log 26196 21376 Not Found: /api/core/etablissements/
+WARNING 2025-06-07 23:22:25,658 basehttp 26196 19216 "GET /api/academics/sessions/?actif=true HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:25,658 basehttp 26196 58332 "GET /api/academics/annees-academiques/active/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:25,659 basehttp 26196 21376 "GET /api/core/etablissements/?etablissement_principal=true HTTP/1.1" 404 18027
+WARNING 2025-06-07 23:22:25,660 log 26196 19216 Unauthorized: /api/academics/semestres/
+WARNING 2025-06-07 23:22:25,660 basehttp 26196 19216 "GET /api/academics/semestres/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:25,713 log 26196 19216 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:25,714 log 26196 21376 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:25,714 log 26196 58332 Unauthorized: /api/academics/semestres/
+INFO 2025-06-07 23:22:25,715 basehttp 26196 19216 - Broken pipe from ('127.0.0.1', 61120)
+INFO 2025-06-07 23:22:25,715 basehttp 26196 21376 - Broken pipe from ('127.0.0.1', 61118)
+INFO 2025-06-07 23:22:25,715 basehttp 26196 58332 - Broken pipe from ('127.0.0.1', 61119)
+WARNING 2025-06-07 23:22:26,136 log 26196 45724 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:26,142 log 26196 43924 Not Found: /api/core/etablissements/
+WARNING 2025-06-07 23:22:26,142 basehttp 26196 45724 "GET /api/academics/annees-academiques/active/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:26,143 basehttp 26196 43924 "GET /api/core/etablissements/?etablissement_principal=true HTTP/1.1" 404 18027
+WARNING 2025-06-07 23:22:26,145 log 26196 45724 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:26,146 log 26196 43924 Unauthorized: /api/academics/semestres/
+WARNING 2025-06-07 23:22:26,147 basehttp 26196 45724 "GET /api/academics/sessions/?actif=true HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:26,148 basehttp 26196 43924 "GET /api/academics/semestres/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:26,192 log 26196 45724 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:26,198 log 26196 43924 Not Found: /api/core/etablissements/
+INFO 2025-06-07 23:22:26,199 basehttp 26196 45724 - Broken pipe from ('127.0.0.1', 61125)
+INFO 2025-06-07 23:22:26,199 basehttp 26196 43924 - Broken pipe from ('127.0.0.1', 61124)
+WARNING 2025-06-07 23:22:26,686 log 26196 53104 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:26,687 log 26196 43408 Unauthorized: /api/academics/semestres/
+WARNING 2025-06-07 23:22:26,688 log 26196 38820 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:26,693 log 26196 57148 Not Found: /api/core/etablissements/
+WARNING 2025-06-07 23:22:26,694 basehttp 26196 53104 "GET /api/academics/annees-academiques/active/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:26,694 basehttp 26196 43408 "GET /api/academics/semestres/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:26,695 basehttp 26196 38820 "GET /api/academics/sessions/?actif=true HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:26,696 basehttp 26196 57148 "GET /api/core/etablissements/?etablissement_principal=true HTTP/1.1" 404 18027
+WARNING 2025-06-07 23:22:26,748 log 26196 57148 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:26,751 log 26196 53104 Unauthorized: /api/academics/semestres/
+WARNING 2025-06-07 23:22:26,753 log 26196 43408 Unauthorized: /api/academics/sessions/
+INFO 2025-06-07 23:22:26,754 basehttp 26196 57148 - Broken pipe from ('127.0.0.1', 61131)
+INFO 2025-06-07 23:22:26,756 basehttp 26196 53104 - Broken pipe from ('127.0.0.1', 61132)
+WARNING 2025-06-07 23:22:26,763 log 26196 38820 Not Found: /api/core/etablissements/
+INFO 2025-06-07 23:22:26,764 basehttp 26196 43408 - Broken pipe from ('127.0.0.1', 61134)
+INFO 2025-06-07 23:22:26,766 basehttp 26196 38820 - Broken pipe from ('127.0.0.1', 61133)
+WARNING 2025-06-07 23:22:27,506 log 26196 49664 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:27,512 log 26196 60816 Not Found: /api/core/etablissements/
+WARNING 2025-06-07 23:22:27,513 log 26196 50776 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:27,513 basehttp 26196 49664 "GET /api/academics/annees-academiques/active/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:27,516 log 26196 58676 Unauthorized: /api/academics/semestres/
+WARNING 2025-06-07 23:22:27,517 basehttp 26196 60816 "GET /api/core/etablissements/?etablissement_principal=true HTTP/1.1" 404 18027
+WARNING 2025-06-07 23:22:27,517 basehttp 26196 50776 "GET /api/academics/sessions/?actif=true HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:27,518 basehttp 26196 58676 "GET /api/academics/semestres/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:27,582 log 26196 58676 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:27,584 log 26196 60816 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:27,587 log 26196 49664 Unauthorized: /api/academics/semestres/
+INFO 2025-06-07 23:22:27,587 basehttp 26196 58676 - Broken pipe from ('127.0.0.1', 61144)
+WARNING 2025-06-07 23:22:27,592 log 26196 50776 Not Found: /api/core/etablissements/
+INFO 2025-06-07 23:22:27,592 basehttp 26196 60816 - Broken pipe from ('127.0.0.1', 61141)
+INFO 2025-06-07 23:22:27,593 basehttp 26196 49664 - Broken pipe from ('127.0.0.1', 61142)
+INFO 2025-06-07 23:22:27,593 basehttp 26196 50776 - Broken pipe from ('127.0.0.1', 61143)
+WARNING 2025-06-07 23:22:28,036 log 26196 28888 Not Found: /api/core/etablissements/
+WARNING 2025-06-07 23:22:28,037 basehttp 26196 28888 "GET /api/core/etablissements/?etablissement_principal=true HTTP/1.1" 404 18027
+WARNING 2025-06-07 23:22:28,042 log 26196 28888 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:28,044 basehttp 26196 28888 "GET /api/academics/annees-academiques/active/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:28,047 log 26196 28888 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:28,048 basehttp 26196 28888 "GET /api/academics/sessions/?actif=true HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:28,051 log 26196 28888 Unauthorized: /api/academics/semestres/
+WARNING 2025-06-07 23:22:28,052 basehttp 26196 28888 "GET /api/academics/semestres/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:28,633 log 26196 28888 Not Found: /api/core/etablissements/
+WARNING 2025-06-07 23:22:28,634 log 26196 6992 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:28,635 log 26196 38584 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:28,636 log 26196 11492 Unauthorized: /api/academics/semestres/
+WARNING 2025-06-07 23:22:28,636 basehttp 26196 28888 "GET /api/core/etablissements/?etablissement_principal=true HTTP/1.1" 404 18027
+WARNING 2025-06-07 23:22:28,637 basehttp 26196 11492 "GET /api/academics/semestres/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:28,637 basehttp 26196 6992 "GET /api/academics/sessions/?actif=true HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:28,637 basehttp 26196 38584 "GET /api/academics/annees-academiques/active/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:29,201 log 26196 28888 Not Found: /api/core/etablissements/
+WARNING 2025-06-07 23:22:29,202 log 26196 11492 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:29,203 log 26196 6992 Unauthorized: /api/academics/semestres/
+WARNING 2025-06-07 23:22:29,204 log 26196 38584 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:29,205 basehttp 26196 28888 "GET /api/core/etablissements/?etablissement_principal=true HTTP/1.1" 404 18027
+WARNING 2025-06-07 23:22:29,205 basehttp 26196 11492 "GET /api/academics/annees-academiques/active/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:29,206 basehttp 26196 6992 "GET /api/academics/semestres/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:29,206 basehttp 26196 38584 "GET /api/academics/sessions/?actif=true HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:29,255 log 26196 28888 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:29,256 log 26196 6992 Unauthorized: /api/academics/sessions/
+INFO 2025-06-07 23:22:29,258 basehttp 26196 28888 - Broken pipe from ('127.0.0.1', 61148)
+WARNING 2025-06-07 23:22:29,259 log 26196 11492 Unauthorized: /api/academics/semestres/
+WARNING 2025-06-07 23:22:29,265 log 26196 38584 Not Found: /api/core/etablissements/
+INFO 2025-06-07 23:22:29,266 basehttp 26196 6992 - Broken pipe from ('127.0.0.1', 61154)
+INFO 2025-06-07 23:22:29,267 basehttp 26196 11492 - Broken pipe from ('127.0.0.1', 61155)
+INFO 2025-06-07 23:22:29,268 basehttp 26196 38584 - Broken pipe from ('127.0.0.1', 61153)
+WARNING 2025-06-07 23:22:30,202 log 26196 43148 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:30,203 log 26196 32708 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:30,203 log 26196 17448 Unauthorized: /api/academics/semestres/
+WARNING 2025-06-07 23:22:30,208 log 26196 36364 Not Found: /api/core/etablissements/
+WARNING 2025-06-07 23:22:30,209 basehttp 26196 43148 "GET /api/academics/annees-academiques/active/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:30,209 basehttp 26196 32708 "GET /api/academics/sessions/?actif=true HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:30,209 basehttp 26196 17448 "GET /api/academics/semestres/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:30,209 basehttp 26196 36364 "GET /api/core/etablissements/?etablissement_principal=true HTTP/1.1" 404 18027
+WARNING 2025-06-07 23:22:30,769 log 26196 36364 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:30,771 log 26196 43148 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:30,772 log 26196 17448 Unauthorized: /api/academics/semestres/
+WARNING 2025-06-07 23:22:30,775 log 26196 32708 Not Found: /api/core/etablissements/
+WARNING 2025-06-07 23:22:30,776 basehttp 26196 36364 "GET /api/academics/annees-academiques/active/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:30,777 basehttp 26196 17448 "GET /api/academics/semestres/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:30,777 basehttp 26196 43148 "GET /api/academics/sessions/?actif=true HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:30,777 basehttp 26196 32708 "GET /api/core/etablissements/?etablissement_principal=true HTTP/1.1" 404 18027
+WARNING 2025-06-07 23:22:31,361 log 26196 32708 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:31,363 log 26196 17448 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:31,366 log 26196 36364 Unauthorized: /api/academics/semestres/
+WARNING 2025-06-07 23:22:31,371 log 26196 43148 Not Found: /api/core/etablissements/
+WARNING 2025-06-07 23:22:31,372 basehttp 26196 32708 "GET /api/academics/annees-academiques/active/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:31,373 basehttp 26196 17448 "GET /api/academics/sessions/?actif=true HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:31,373 basehttp 26196 36364 "GET /api/academics/semestres/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:31,374 basehttp 26196 43148 "GET /api/core/etablissements/?etablissement_principal=true HTTP/1.1" 404 18027
+WARNING 2025-06-07 23:22:31,426 log 26196 43148 Not Found: /api/core/etablissements/
+WARNING 2025-06-07 23:22:31,427 log 26196 36364 Unauthorized: /api/academics/annees-academiques/active/
+WARNING 2025-06-07 23:22:31,429 log 26196 17448 Unauthorized: /api/academics/sessions/
+WARNING 2025-06-07 23:22:31,429 basehttp 26196 43148 "GET /api/core/etablissements/?etablissement_principal=true HTTP/1.1" 404 18027
+WARNING 2025-06-07 23:22:31,429 basehttp 26196 36364 "GET /api/academics/annees-academiques/active/ HTTP/1.1" 401 58
+WARNING 2025-06-07 23:22:31,430 basehttp 26196 17448 "GET /api/academics/sessions/?actif=true HTTP/1.1" 401 58
+INFO 2025-06-07 23:27:20,018 basehttp 26196 64928 "POST /api/auth/login/ HTTP/1.1" 200 427
+WARNING 2025-06-07 23:27:20,082 log 26196 54284 Not Found: /api/evaluations/enseignants/12/planning/
+WARNING 2025-06-07 23:27:20,084 log 26196 64928 Not Found: /api/evaluations/enseignants/statistiques/
+WARNING 2025-06-07 23:27:20,085 basehttp 26196 54284 "GET /api/evaluations/enseignants/12/planning/ HTTP/1.1" 404 25573
+WARNING 2025-06-07 23:27:20,086 basehttp 26196 64928 "GET /api/evaluations/enseignants/statistiques/ HTTP/1.1" 404 25576
+WARNING 2025-06-07 23:27:20,099 log 26196 54284 Not Found: /api/evaluations/enseignants/12/notifications/
+WARNING 2025-06-07 23:27:20,101 basehttp 26196 54284 "GET /api/evaluations/enseignants/12/notifications/ HTTP/1.1" 404 25588
+INFO 2025-06-07 23:27:20,203 basehttp 26196 64928 "GET /api/evaluations/enseignements/?page_size=50 HTTP/1.1" 200 1331
+INFO 2025-06-07 23:27:20,385 basehttp 26196 54284 "GET /api/evaluations/evaluations/?page_size=20&ordering=-date_evaluation HTTP/1.1" 200 7622
+WARNING 2025-06-07 23:27:21,109 log 26196 54284 Not Found: /api/evaluations/enseignants/12/planning/
+WARNING 2025-06-07 23:27:21,123 log 26196 64928 Not Found: /api/evaluations/enseignants/statistiques/
+WARNING 2025-06-07 23:27:21,127 basehttp 26196 54284 "GET /api/evaluations/enseignants/12/planning/ HTTP/1.1" 404 25573
+WARNING 2025-06-07 23:27:21,136 log 26196 59804 Not Found: /api/evaluations/enseignants/12/notifications/
+WARNING 2025-06-07 23:27:21,136 basehttp 26196 64928 "GET /api/evaluations/enseignants/statistiques/ HTTP/1.1" 404 25576
+WARNING 2025-06-07 23:27:21,138 basehttp 26196 59804 "GET /api/evaluations/enseignants/12/notifications/ HTTP/1.1" 404 25588
+INFO 2025-06-07 23:27:27,116 basehttp 26196 59804 "GET /api/evaluations/evaluations/?page_size=20&ordering=-date_evaluation HTTP/1.1" 200 7622
+INFO 2025-06-07 23:27:32,417 basehttp 26196 59804 "GET /api/evaluations/enseignements/?page_size=20 HTTP/1.1" 200 1331
+WARNING 2025-06-07 23:27:34,376 log 26196 64928 Not Found: /api/evaluations/enseignants/12/planning/
+WARNING 2025-06-07 23:27:34,395 log 26196 54284 Not Found: /api/evaluations/enseignants/12/notifications/
+WARNING 2025-06-07 23:27:34,403 log 26196 59804 Not Found: /api/evaluations/enseignants/statistiques/
+WARNING 2025-06-07 23:27:34,405 basehttp 26196 64928 "GET /api/evaluations/enseignants/12/planning/ HTTP/1.1" 404 25573
+WARNING 2025-06-07 23:27:34,405 basehttp 26196 54284 "GET /api/evaluations/enseignants/12/notifications/ HTTP/1.1" 404 25588
+WARNING 2025-06-07 23:27:34,406 basehttp 26196 59804 "GET /api/evaluations/enseignants/statistiques/ HTTP/1.1" 404 25576
+WARNING 2025-06-07 23:27:35,444 log 26196 64928 Not Found: /api/evaluations/enseignants/statistiques/
+WARNING 2025-06-07 23:27:35,448 log 26196 59804 Not Found: /api/evaluations/enseignants/12/planning/
+WARNING 2025-06-07 23:27:35,460 log 26196 54284 Not Found: /api/evaluations/enseignants/12/notifications/
+WARNING 2025-06-07 23:27:35,463 basehttp 26196 64928 "GET /api/evaluations/enseignants/statistiques/ HTTP/1.1" 404 25576
+WARNING 2025-06-07 23:27:35,464 basehttp 26196 59804 "GET /api/evaluations/enseignants/12/planning/ HTTP/1.1" 404 25573
+WARNING 2025-06-07 23:27:35,465 basehttp 26196 54284 "GET /api/evaluations/enseignants/12/notifications/ HTTP/1.1" 404 25588
+WARNING 2025-06-07 23:27:47,067 log 26196 54284 Not Found: /api/evaluations/enseignants/statistiques/
+WARNING 2025-06-07 23:27:47,083 log 26196 59804 Not Found: /api/evaluations/enseignants/12/planning/
+WARNING 2025-06-07 23:27:47,098 log 26196 64928 Not Found: /api/evaluations/enseignants/12/notifications/
+WARNING 2025-06-07 23:27:47,099 basehttp 26196 54284 "GET /api/evaluations/enseignants/statistiques/ HTTP/1.1" 404 25576
+WARNING 2025-06-07 23:27:47,100 basehttp 26196 59804 "GET /api/evaluations/enseignants/12/planning/ HTTP/1.1" 404 25573
+WARNING 2025-06-07 23:27:47,101 basehttp 26196 64928 "GET /api/evaluations/enseignants/12/notifications/ HTTP/1.1" 404 25588
+WARNING 2025-06-07 23:27:48,124 log 26196 54284 Not Found: /api/evaluations/enseignants/statistiques/
+WARNING 2025-06-07 23:27:48,134 log 26196 59804 Not Found: /api/evaluations/enseignants/12/notifications/
+WARNING 2025-06-07 23:27:48,143 basehttp 26196 54284 "GET /api/evaluations/enseignants/statistiques/ HTTP/1.1" 404 25576
+WARNING 2025-06-07 23:27:48,148 log 26196 64928 Not Found: /api/evaluations/enseignants/12/planning/
+WARNING 2025-06-07 23:27:48,149 basehttp 26196 59804 "GET /api/evaluations/enseignants/12/notifications/ HTTP/1.1" 404 25588
+WARNING 2025-06-07 23:27:48,151 basehttp 26196 64928 "GET /api/evaluations/enseignants/12/planning/ HTTP/1.1" 404 25573
+WARNING 2025-06-07 23:27:51,411 log 26196 64928 Not Found: /api/evaluations/enseignants/export/
+WARNING 2025-06-07 23:27:51,413 basehttp 26196 64928 "POST /api/evaluations/enseignants/export/ HTTP/1.1" 404 25559
+INFO 2025-06-07 23:28:02,744 basehttp 26196 64928 "OPTIONS /api/evaluations/evaluations/41/feuille_notes/ HTTP/1.1" 200 0
+INFO 2025-06-07 23:28:02,744 basehttp 26196 59804 "OPTIONS /api/evaluations/evaluations/41/verifier_delai_saisie/ HTTP/1.1" 200 0
+ERROR 2025-06-07 23:28:03,102 log 26196 64928 Internal Server Error: /api/evaluations/evaluations/41/verifier_delai_saisie/
+Traceback (most recent call last):
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_backend\evaluations\views.py", line 288, in verifier_delai_saisie
+    'delai_depasse': timezone.now() > evaluation.date_limite_saisie if evaluation.date_limite_saisie else False,
+                     ^^^^^^^^
+NameError: name 'timezone' is not defined
+ERROR 2025-06-07 23:28:03,113 basehttp 26196 64928 "GET /api/evaluations/evaluations/41/verifier_delai_saisie/ HTTP/1.1" 500 106783
+INFO 2025-06-07 23:28:03,143 basehttp 26196 59804 "GET /api/evaluations/evaluations/41/feuille_notes/ HTTP/1.1" 200 11795
+ERROR 2025-06-07 23:28:04,258 log 26196 59804 Internal Server Error: /api/evaluations/evaluations/41/verifier_delai_saisie/
+Traceback (most recent call last):
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_backend\evaluations\views.py", line 288, in verifier_delai_saisie
+    'delai_depasse': timezone.now() > evaluation.date_limite_saisie if evaluation.date_limite_saisie else False,
+                     ^^^^^^^^
+NameError: name 'timezone' is not defined
+ERROR 2025-06-07 23:28:04,263 basehttp 26196 59804 "GET /api/evaluations/evaluations/41/verifier_delai_saisie/ HTTP/1.1" 500 106783
+ERROR 2025-06-07 23:28:34,052 log 26196 59804 Internal Server Error: /api/evaluations/evaluations/41/verifier_delai_saisie/
+Traceback (most recent call last):
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_backend\evaluations\views.py", line 288, in verifier_delai_saisie
+    'delai_depasse': timezone.now() > evaluation.date_limite_saisie if evaluation.date_limite_saisie else False,
+                     ^^^^^^^^
+NameError: name 'timezone' is not defined
+ERROR 2025-06-07 23:28:34,056 basehttp 26196 59804 "GET /api/evaluations/evaluations/41/verifier_delai_saisie/ HTTP/1.1" 500 106783
+INFO 2025-06-07 23:28:34,138 basehttp 26196 64928 "GET /api/evaluations/evaluations/?page_size=100&ordering=-date_evaluation HTTP/1.1" 200 7622
+INFO 2025-06-07 23:28:34,148 basehttp 26196 54284 "GET /api/evaluations/evaluations/?page_size=50&ordering=-date_evaluation HTTP/1.1" 200 7622
+ERROR 2025-06-07 23:28:35,264 log 26196 54284 Internal Server Error: /api/evaluations/evaluations/41/verifier_delai_saisie/
+Traceback (most recent call last):
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_backend\evaluations\views.py", line 288, in verifier_delai_saisie
+    'delai_depasse': timezone.now() > evaluation.date_limite_saisie if evaluation.date_limite_saisie else False,
+                     ^^^^^^^^
+NameError: name 'timezone' is not defined
+ERROR 2025-06-07 23:28:35,267 basehttp 26196 54284 "GET /api/evaluations/evaluations/41/verifier_delai_saisie/ HTTP/1.1" 500 106783
+WARNING 2025-06-07 23:28:42,121 log 26196 64928 Not Found: /api/evaluations/enseignants/12/planning/
+WARNING 2025-06-07 23:28:42,126 log 26196 54284 Not Found: /api/evaluations/enseignants/statistiques/
+WARNING 2025-06-07 23:28:42,131 log 26196 59804 Not Found: /api/evaluations/enseignants/12/notifications/
+WARNING 2025-06-07 23:28:42,131 basehttp 26196 64928 "GET /api/evaluations/enseignants/12/planning/ HTTP/1.1" 404 25573
+WARNING 2025-06-07 23:28:42,131 basehttp 26196 54284 "GET /api/evaluations/enseignants/statistiques/ HTTP/1.1" 404 25576
+WARNING 2025-06-07 23:28:42,132 basehttp 26196 59804 "GET /api/evaluations/enseignants/12/notifications/ HTTP/1.1" 404 25588
+WARNING 2025-06-07 23:28:43,154 log 26196 54284 Not Found: /api/evaluations/enseignants/statistiques/
+WARNING 2025-06-07 23:28:43,158 log 26196 59804 Not Found: /api/evaluations/enseignants/12/planning/
+WARNING 2025-06-07 23:28:43,162 log 26196 64928 Not Found: /api/evaluations/enseignants/12/notifications/
+WARNING 2025-06-07 23:28:43,162 basehttp 26196 59804 "GET /api/evaluations/enseignants/12/planning/ HTTP/1.1" 404 25573
+WARNING 2025-06-07 23:28:43,162 basehttp 26196 54284 "GET /api/evaluations/enseignants/statistiques/ HTTP/1.1" 404 25576
+WARNING 2025-06-07 23:28:43,163 basehttp 26196 64928 "GET /api/evaluations/enseignants/12/notifications/ HTTP/1.1" 404 25588
+INFO 2025-06-07 23:30:42,263 basehttp 26196 64928 "GET /api/evaluations/evaluations/?page_size=100&ordering=-date_evaluation HTTP/1.1" 200 7622
+WARNING 2025-06-07 23:31:45,597 log 26196 59804 Not Found: /api/evaluations/enseignants/etudiants/
+WARNING 2025-06-07 23:31:45,598 basehttp 26196 59804 "GET /api/evaluations/enseignants/etudiants/?page_size=50 HTTP/1.1" 404 25580
+INFO 2025-06-07 23:31:45,757 basehttp 26196 64928 "GET /api/evaluations/enseignements/?page_size=100 HTTP/1.1" 200 1331
+WARNING 2025-06-07 23:31:46,617 log 26196 64928 Not Found: /api/evaluations/enseignants/etudiants/
+WARNING 2025-06-07 23:31:46,618 basehttp 26196 64928 "GET /api/evaluations/enseignants/etudiants/?page_size=50 HTTP/1.1" 404 25580
+WARNING 2025-06-07 23:31:58,708 log 26196 64928 Not Found: /api/evaluations/enseignants/etudiants/
+WARNING 2025-06-07 23:31:58,710 basehttp 26196 64928 "GET /api/evaluations/enseignants/etudiants/?page_size=50 HTTP/1.1" 404 25580
+WARNING 2025-06-07 23:31:59,735 log 26196 64928 Not Found: /api/evaluations/enseignants/etudiants/
+WARNING 2025-06-07 23:31:59,735 basehttp 26196 64928 "GET /api/evaluations/enseignants/etudiants/?page_size=50 HTTP/1.1" 404 25580
+WARNING 2025-06-07 23:32:18,348 log 26196 64928 Not Found: /api/evaluations/enseignants/etudiants/
+WARNING 2025-06-07 23:32:18,349 basehttp 26196 64928 "GET /api/evaluations/enseignants/etudiants/?page_size=50 HTTP/1.1" 404 25580
+WARNING 2025-06-07 23:32:19,376 log 26196 64928 Not Found: /api/evaluations/enseignants/etudiants/
+WARNING 2025-06-07 23:32:19,378 basehttp 26196 64928 "GET /api/evaluations/enseignants/etudiants/?page_size=50 HTTP/1.1" 404 25580
+INFO 2025-06-07 23:36:05,570 autoreload 26196 43868 C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_backend\evaluations\urls.py changed, reloading.
+INFO 2025-06-07 23:36:07,166 autoreload 33164 9840 Watching for file changes with StatReloader
+INFO 2025-06-07 23:36:48,316 autoreload 33164 9840 C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_backend\evaluations\views.py changed, reloading.
+INFO 2025-06-07 23:36:49,276 autoreload 43788 53004 Watching for file changes with StatReloader
+WARNING 2025-06-07 23:36:52,456 log 43788 36652 Forbidden: /api/auth/users/me/
+WARNING 2025-06-07 23:36:52,457 basehttp 43788 36652 "GET /api/auth/users/me/ HTTP/1.1" 403 68
+WARNING 2025-06-07 23:36:52,538 log 43788 36652 Forbidden: /api/auth/users/me/
+WARNING 2025-06-07 23:36:52,539 basehttp 43788 36652 "GET /api/auth/users/me/ HTTP/1.1" 403 68
+INFO 2025-06-07 23:37:11,577 basehttp 43788 36652 "POST /api/auth/login/ HTTP/1.1" 200 427
+WARNING 2025-06-07 23:37:11,643 log 43788 34796 Not Found: /api/evaluations/enseignants/12/notifications/
+WARNING 2025-06-07 23:37:11,647 log 43788 36652 Not Found: /api/evaluations/enseignants/statistiques/
+WARNING 2025-06-07 23:37:11,652 log 43788 61740 Not Found: /api/evaluations/enseignants/12/planning/
+WARNING 2025-06-07 23:37:11,653 basehttp 43788 34796 "GET /api/evaluations/enseignants/12/notifications/ HTTP/1.1" 404 29036
+WARNING 2025-06-07 23:37:11,653 basehttp 43788 36652 "GET /api/evaluations/enseignants/statistiques/ HTTP/1.1" 404 29024
+WARNING 2025-06-07 23:37:11,654 basehttp 43788 61740 "GET /api/evaluations/enseignants/12/planning/ HTTP/1.1" 404 29021
+INFO 2025-06-07 23:37:11,767 basehttp 43788 34796 "GET /api/evaluations/enseignements/?page_size=50 HTTP/1.1" 200 1331
+INFO 2025-06-07 23:37:11,820 basehttp 43788 36652 "GET /api/evaluations/evaluations/?page_size=20&ordering=-date_evaluation HTTP/1.1" 200 7622
+WARNING 2025-06-07 23:37:12,668 log 43788 36652 Not Found: /api/evaluations/enseignants/12/notifications/
+WARNING 2025-06-07 23:37:12,675 log 43788 61740 Not Found: /api/evaluations/enseignants/12/planning/
+WARNING 2025-06-07 23:37:12,680 log 43788 34796 Not Found: /api/evaluations/enseignants/statistiques/
+WARNING 2025-06-07 23:37:12,681 basehttp 43788 61740 "GET /api/evaluations/enseignants/12/planning/ HTTP/1.1" 404 29021
+WARNING 2025-06-07 23:37:12,681 basehttp 43788 36652 "GET /api/evaluations/enseignants/12/notifications/ HTTP/1.1" 404 29036
+WARNING 2025-06-07 23:37:12,682 basehttp 43788 34796 "GET /api/evaluations/enseignants/statistiques/ HTTP/1.1" 404 29024
+INFO 2025-06-07 23:37:20,691 basehttp 43788 61740 "GET /api/evaluations/enseignements/?page_size=100 HTTP/1.1" 200 1331
+ERROR 2025-06-07 23:37:20,711 log 43788 34796 Internal Server Error: /api/evaluations/enseignants/etudiants/
+Traceback (most recent call last):
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_backend\evaluations\views.py", line 851, in list
+    etudiants_query = Inscription.objects.filter(
+                      ^^^^^^^^^^^
+NameError: name 'Inscription' is not defined
+ERROR 2025-06-07 23:37:20,716 basehttp 43788 34796 "GET /api/evaluations/enseignants/etudiants/?page_size=50 HTTP/1.1" 500 108406
+ERROR 2025-06-07 23:37:21,838 log 43788 34796 Internal Server Error: /api/evaluations/enseignants/etudiants/
+Traceback (most recent call last):
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_backend\evaluations\views.py", line 851, in list
+    etudiants_query = Inscription.objects.filter(
+                      ^^^^^^^^^^^
+NameError: name 'Inscription' is not defined
+ERROR 2025-06-07 23:37:21,841 basehttp 43788 34796 "GET /api/evaluations/enseignants/etudiants/?page_size=50 HTTP/1.1" 500 108406
+INFO 2025-06-08 08:07:55,173 basehttp 43788 34820 "OPTIONS /api/evaluations/enseignants/etudiants/?page_size=50 HTTP/1.1" 200 0
+INFO 2025-06-08 08:07:55,175 basehttp 43788 34820 "OPTIONS /api/evaluations/enseignements/?page_size=100 HTTP/1.1" 200 0
+INFO 2025-06-08 08:07:55,354 basehttp 43788 16408 "GET /api/evaluations/enseignements/?page_size=100 HTTP/1.1" 200 1331
+ERROR 2025-06-08 08:07:55,397 log 43788 34820 Internal Server Error: /api/evaluations/enseignants/etudiants/
+Traceback (most recent call last):
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_backend\evaluations\views.py", line 851, in list
+    etudiants_query = Inscription.objects.filter(
+                      ^^^^^^^^^^^
+NameError: name 'Inscription' is not defined
+ERROR 2025-06-08 08:07:55,406 basehttp 43788 34820 "GET /api/evaluations/enseignants/etudiants/?page_size=50 HTTP/1.1" 500 108406
+INFO 2025-06-08 08:11:52,064 basehttp 43788 40160 "OPTIONS /api/auth/users/me/ HTTP/1.1" 200 0
+INFO 2025-06-08 08:11:52,065 basehttp 43788 40160 "OPTIONS /api/auth/users/me/ HTTP/1.1" 200 0
+WARNING 2025-06-08 08:11:52,750 log 43788 40160 Forbidden: /api/auth/users/me/
+WARNING 2025-06-08 08:11:52,752 basehttp 43788 40160 "GET /api/auth/users/me/ HTTP/1.1" 403 68
+ERROR 2025-06-08 08:11:52,882 log 43788 44364 Internal Server Error: /api/evaluations/enseignants/etudiants/
+Traceback (most recent call last):
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_backend\evaluations\views.py", line 851, in list
+    etudiants_query = Inscription.objects.filter(
+                      ^^^^^^^^^^^
+NameError: name 'Inscription' is not defined
+ERROR 2025-06-08 08:11:52,889 basehttp 43788 44364 "GET /api/evaluations/enseignants/etudiants/?page_size=50 HTTP/1.1" 500 108406
+INFO 2025-06-08 08:11:52,936 basehttp 43788 40160 "GET /api/evaluations/enseignements/?page_size=100 HTTP/1.1" 200 1331
+WARNING 2025-06-08 08:11:52,984 log 43788 44364 Forbidden: /api/auth/users/me/
+WARNING 2025-06-08 08:11:52,985 basehttp 43788 44364 "GET /api/auth/users/me/ HTTP/1.1" 403 68
+INFO 2025-06-08 08:12:27,316 basehttp 43788 45732 "OPTIONS /api/auth/login/ HTTP/1.1" 200 0
+INFO 2025-06-08 08:12:29,624 basehttp 43788 45732 "POST /api/auth/login/ HTTP/1.1" 200 427
+INFO 2025-06-08 08:12:29,710 basehttp 43788 45732 "OPTIONS /api/evaluations/enseignants/statistiques/ HTTP/1.1" 200 0
+INFO 2025-06-08 08:12:29,710 basehttp 43788 64796 "OPTIONS /api/evaluations/enseignants/12/planning/ HTTP/1.1" 200 0
+INFO 2025-06-08 08:12:29,713 basehttp 43788 45732 "OPTIONS /api/evaluations/enseignants/12/notifications/ HTTP/1.1" 200 0
+INFO 2025-06-08 08:12:29,713 basehttp 43788 64796 "OPTIONS /api/evaluations/enseignements/?page_size=50 HTTP/1.1" 200 0
+INFO 2025-06-08 08:12:29,715 basehttp 43788 45732 "OPTIONS /api/evaluations/evaluations/?page_size=20&ordering=-date_evaluation HTTP/1.1" 200 0
+WARNING 2025-06-08 08:12:29,732 log 43788 64796 Not Found: /api/evaluations/enseignants/statistiques/
+WARNING 2025-06-08 08:12:29,747 log 43788 45732 Not Found: /api/evaluations/enseignants/12/planning/
+WARNING 2025-06-08 08:12:29,747 basehttp 43788 64796 "GET /api/evaluations/enseignants/statistiques/ HTTP/1.1" 404 29024
+WARNING 2025-06-08 08:12:29,748 basehttp 43788 45732 "GET /api/evaluations/enseignants/12/planning/ HTTP/1.1" 404 29021
+WARNING 2025-06-08 08:12:29,774 log 43788 64796 Not Found: /api/evaluations/enseignants/12/notifications/
+WARNING 2025-06-08 08:12:29,775 basehttp 43788 64796 "GET /api/evaluations/enseignants/12/notifications/ HTTP/1.1" 404 29036
+INFO 2025-06-08 08:12:29,881 basehttp 43788 45732 "GET /api/evaluations/enseignements/?page_size=50 HTTP/1.1" 200 1331
+INFO 2025-06-08 08:12:30,080 basehttp 43788 64796 "GET /api/evaluations/evaluations/?page_size=20&ordering=-date_evaluation HTTP/1.1" 200 7622
+WARNING 2025-06-08 08:12:30,777 log 43788 64796 Not Found: /api/evaluations/enseignants/statistiques/
+WARNING 2025-06-08 08:12:30,793 log 43788 45732 Not Found: /api/evaluations/enseignants/12/planning/
+WARNING 2025-06-08 08:12:30,800 basehttp 43788 64796 "GET /api/evaluations/enseignants/statistiques/ HTTP/1.1" 404 29024
+WARNING 2025-06-08 08:12:30,808 log 43788 392 Not Found: /api/evaluations/enseignants/12/notifications/
+WARNING 2025-06-08 08:12:30,809 basehttp 43788 45732 "GET /api/evaluations/enseignants/12/planning/ HTTP/1.1" 404 29021
+WARNING 2025-06-08 08:12:30,810 basehttp 43788 392 "GET /api/evaluations/enseignants/12/notifications/ HTTP/1.1" 404 29036
+INFO 2025-06-08 08:12:35,156 basehttp 43788 392 "GET /api/evaluations/evaluations/?page_size=20&ordering=-date_evaluation HTTP/1.1" 200 7622
+INFO 2025-06-08 08:12:39,233 basehttp 43788 392 "OPTIONS /api/evaluations/enseignants/etudiants/?page_size=50 HTTP/1.1" 200 0
+INFO 2025-06-08 08:12:39,234 basehttp 43788 45732 "OPTIONS /api/evaluations/enseignements/?page_size=100 HTTP/1.1" 200 0
+INFO 2025-06-08 08:12:39,435 basehttp 43788 392 "GET /api/evaluations/enseignements/?page_size=100 HTTP/1.1" 200 1331
+ERROR 2025-06-08 08:12:39,532 log 43788 45732 Internal Server Error: /api/evaluations/enseignants/etudiants/
+Traceback (most recent call last):
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_backend\evaluations\views.py", line 851, in list
+    etudiants_query = Inscription.objects.filter(
+                      ^^^^^^^^^^^
+NameError: name 'Inscription' is not defined
+ERROR 2025-06-08 08:12:39,543 basehttp 43788 45732 "GET /api/evaluations/enseignants/etudiants/?page_size=50 HTTP/1.1" 500 108374
+ERROR 2025-06-08 08:12:58,565 log 43788 45732 Internal Server Error: /api/evaluations/enseignants/etudiants/
+Traceback (most recent call last):
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_backend\evaluations\views.py", line 851, in list
+    etudiants_query = Inscription.objects.filter(
+                      ^^^^^^^^^^^
+NameError: name 'Inscription' is not defined
+ERROR 2025-06-08 08:12:58,571 basehttp 43788 45732 "GET /api/evaluations/enseignants/etudiants/?page_size=50 HTTP/1.1" 500 108374
+ERROR 2025-06-08 08:12:59,761 log 43788 45732 Internal Server Error: /api/evaluations/enseignants/etudiants/
+Traceback (most recent call last):
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_backend\evaluations\views.py", line 851, in list
+    etudiants_query = Inscription.objects.filter(
+                      ^^^^^^^^^^^
+NameError: name 'Inscription' is not defined
+ERROR 2025-06-08 08:12:59,767 basehttp 43788 45732 "GET /api/evaluations/enseignants/etudiants/?page_size=50 HTTP/1.1" 500 108374
+INFO 2025-06-08 08:15:16,814 basehttp 43788 45732 "OPTIONS /api/academics/types-evaluation/?actif=true HTTP/1.1" 200 0
+INFO 2025-06-08 08:15:17,007 basehttp 43788 392 "GET /api/academics/types-evaluation/?actif=true HTTP/1.1" 200 1068
+INFO 2025-06-08 08:15:17,055 basehttp 43788 45732 "GET /api/evaluations/enseignements/?page_size=100 HTTP/1.1" 200 1331
+INFO 2025-06-08 08:21:06,889 autoreload 43788 53004 C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_backend\evaluations\views.py changed, reloading.
+INFO 2025-06-08 08:21:08,346 autoreload 53896 36436 Watching for file changes with StatReloader

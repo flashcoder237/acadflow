@@ -4,7 +4,11 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from django.db.models import Q, Avg, Count, Sum, F
 from django.db import transaction
+from django.core.paginator import Paginator
+from django.utils import timezone
+from datetime import timedelta
 from decimal import Decimal
+
 from .models import (
     Enseignement, Evaluation, Note, MoyenneEC, MoyenneUE, MoyenneSemestre
 )
@@ -14,7 +18,19 @@ from .serializers import (
     SaisieNotesSerializer
 )
 from core.permissions import IsEnseignantOrReadOnly, IsEtudiantOwner
-from core.utils import calculer_moyenne_ec, calculer_moyenne_ue, calculer_moyenne_semestre
+from users.models import Inscription, Etudiant
+
+# Import conditionnel pour les utilitaires
+try:
+    from core.utils import calculer_moyenne_ec, calculer_moyenne_ue, calculer_moyenne_semestre
+except ImportError:
+    # Fonctions simplifiées si les utilitaires ne sont pas disponibles
+    def calculer_moyenne_ec(etudiant, ec, session, annee_academique):
+        return None
+    def calculer_moyenne_ue(etudiant, ue, session, annee_academique):
+        return None
+    def calculer_moyenne_semestre(etudiant, classe, semestre, session, annee_academique):
+        return None
 
 class EnseignementViewSet(viewsets.ModelViewSet):
     queryset = Enseignement.objects.filter(actif=True)
@@ -786,3 +802,378 @@ class MoyenneSemestreViewSet(viewsets.ReadOnlyModelViewSet):
                 {'error': f'Erreur: {str(e)}'}, 
                 status=status.HTTP_400_BAD_REQUEST
             )
+        
+class EnseignantEtudiantsViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    ViewSet pour gérer les étudiants d'un enseignant
+    """
+    permission_classes = [permissions.IsAuthenticated]
+    
+    def get_queryset(self):
+        # Récupérer tous les étudiants des classes où l'enseignant enseigne
+        if self.request.user.type_utilisateur != 'enseignant':
+            return Etudiant.objects.none()
+        
+        try:
+            enseignant = self.request.user.enseignant
+        except:
+            return Etudiant.objects.none()
+        
+        # Trouver toutes les classes où cet enseignant enseigne
+        enseignements = Enseignement.objects.filter(
+            enseignant=enseignant,
+            actif=True
+        ).values_list('classe_id', flat=True).distinct()
+        
+        # Récupérer tous les étudiants de ces classes
+        return Etudiant.objects.filter(
+            inscription__classe_id__in=enseignements,
+            inscription__active=True
+        ).select_related('user').distinct()
+    
+    def list(self, request):
+        """Liste tous les étudiants de l'enseignant avec détails"""
+        try:
+            enseignant = request.user.enseignant
+        except:
+            return Response(
+                {'error': 'Utilisateur non reconnu comme enseignant'}, 
+                status=status.HTTP_403_FORBIDDEN
+            )
+        
+        # Filtres
+        classe_id = request.query_params.get('classe')
+        ec_id = request.query_params.get('ec')
+        search = request.query_params.get('search')
+        session_id = request.query_params.get('session')
+        
+        # Récupérer les enseignements de l'enseignant
+        enseignements_query = Enseignement.objects.filter(
+            enseignant=enseignant,
+            actif=True
+        )
+        
+        if classe_id:
+            enseignements_query = enseignements_query.filter(classe_id=classe_id)
+        if ec_id:
+            enseignements_query = enseignements_query.filter(ec_id=ec_id)
+        
+        enseignements = enseignements_query.select_related('classe', 'ec__ue', 'annee_academique')
+        
+        # Récupérer toutes les classes concernées
+        classes_ids = enseignements.values_list('classe_id', flat=True).distinct()
+        
+        # Récupérer les étudiants
+        etudiants_query = Inscription.objects.filter(
+            classe_id__in=classes_ids,
+            active=True
+        ).select_related(
+            'etudiant__user', 'classe', 'statut', 'annee_academique'
+        )
+        
+        if search:
+            etudiants_query = etudiants_query.filter(
+                Q(etudiant__user__first_name__icontains=search) |
+                Q(etudiant__user__last_name__icontains=search) |
+                Q(etudiant__user__matricule__icontains=search)
+            )
+        
+        # Pagination
+        page_size = int(request.query_params.get('page_size', 50))
+        page = int(request.query_params.get('page', 1))
+        
+        paginator = Paginator(etudiants_query, page_size)
+        page_obj = paginator.get_page(page)
+        
+        # Préparer les données des étudiants
+        etudiants_data = []
+        
+        for inscription in page_obj:
+            etudiant = inscription.etudiant
+            
+            # Calculer les moyennes pour cet étudiant dans les ECs de l'enseignant
+            moyennes_ec = {}
+            absences_totales = 0
+            notes_saisies = 0
+            total_evaluations = 0
+            
+            for enseignement in enseignements.filter(classe=inscription.classe):
+                # Moyennes EC
+                try:
+                    moyenne_ec = MoyenneEC.objects.filter(
+                        etudiant=etudiant,
+                        ec=enseignement.ec,
+                        annee_academique=inscription.annee_academique
+                    ).first()
+                    
+                    if moyenne_ec:
+                        moyennes_ec[enseignement.ec.code] = {
+                            'moyenne': float(moyenne_ec.moyenne),
+                            'validee': moyenne_ec.validee,
+                            'ec_nom': enseignement.ec.nom
+                        }
+                except:
+                    pass
+                
+                # Compter les évaluations et notes
+                evaluations = Evaluation.objects.filter(
+                    enseignement=enseignement
+                )
+                if session_id:
+                    evaluations = evaluations.filter(session_id=session_id)
+                
+                total_evaluations += evaluations.count()
+                
+                # Compter les notes saisies
+                notes_count = Note.objects.filter(
+                    etudiant=etudiant,
+                    evaluation__in=evaluations
+                ).count()
+                notes_saisies += notes_count
+                
+                # Compter les absences
+                absences_count = Note.objects.filter(
+                    etudiant=etudiant,
+                    evaluation__in=evaluations,
+                    absent=True
+                ).count()
+                absences_totales += absences_count
+            
+            # Calculer la progression
+            progression_pct = 0
+            if total_evaluations > 0:
+                progression_pct = round((notes_saisies / total_evaluations) * 100, 1)
+            
+            etudiant_data = {
+                'id': etudiant.id,
+                'matricule': etudiant.user.matricule,
+                'nom_complet': etudiant.user.get_full_name(),
+                'email': etudiant.user.email,
+                'telephone': etudiant.user.telephone,
+                'photo': etudiant.user.photo.url if etudiant.user.photo else None,
+                'classe': inscription.classe.nom,
+                'niveau': inscription.classe.niveau.nom,
+                'filiere': inscription.classe.filiere.nom,
+                'statut': inscription.statut.nom,
+                'nombre_redoublements': inscription.nombre_redoublements,
+                'moyennes_ec': moyennes_ec,
+                'absences': {
+                    'total': absences_totales,
+                    'justifiees': Note.objects.filter(
+                        etudiant=etudiant,
+                        evaluation__enseignement__in=enseignements.filter(classe=inscription.classe),
+                        absent=True,
+                        justifie=True
+                    ).count(),
+                    'non_justifiees': absences_totales - Note.objects.filter(
+                        etudiant=etudiant,
+                        evaluation__enseignement__in=enseignements.filter(classe=inscription.classe),
+                        absent=True,
+                        justifie=True
+                    ).count()
+                },
+                'progression': {
+                    'notes_saisies': notes_saisies,
+                    'total_evaluations': total_evaluations,
+                    'pourcentage': progression_pct
+                }
+            }
+            
+            etudiants_data.append(etudiant_data)
+        
+        # Préparer la réponse paginée
+        response_data = {
+            'count': paginator.count,
+            'next': page_obj.next_page_number() if page_obj.has_next() else None,
+            'previous': page_obj.previous_page_number() if page_obj.has_previous() else None,
+            'results': etudiants_data
+        }
+        
+        return Response(response_data)
+    
+    @action(detail=True, methods=['get'])
+    def details(self, request, pk=None):
+        """Détails complets d'un étudiant pour l'enseignant"""
+        try:
+            enseignant = request.user.enseignant
+            etudiant = Etudiant.objects.get(id=pk)
+        except:
+            return Response(
+                {'error': 'Étudiant non trouvé'}, 
+                status=status.HTTP_404_NOT_FOUND
+            )
+        
+        # Vérifier que l'enseignant a accès à cet étudiant
+        enseignements = Enseignement.objects.filter(
+            enseignant=enseignant,
+            actif=True
+        ).values_list('classe_id', flat=True)
+        
+        inscription = Inscription.objects.filter(
+            etudiant=etudiant,
+            classe_id__in=enseignements,
+            active=True
+        ).first()
+        
+        if not inscription:
+            return Response(
+                {'error': 'Accès non autorisé à cet étudiant'}, 
+                status=status.HTTP_403_FORBIDDEN
+            )
+        
+        # Récupérer les données détaillées
+        session_id = request.query_params.get('session')
+        
+        details = {
+            'etudiant': {
+                'id': etudiant.id,
+                'matricule': etudiant.user.matricule,
+                'nom_complet': etudiant.user.get_full_name(),
+                'email': etudiant.user.email,
+                'telephone': etudiant.user.telephone,
+                'photo': etudiant.user.photo.url if etudiant.user.photo else None,
+                'date_naissance': etudiant.user.date_naissance,
+                'lieu_naissance': etudiant.user.lieu_naissance,
+            },
+            'inscription': {
+                'classe': inscription.classe.nom,
+                'niveau': inscription.classe.niveau.nom,
+                'filiere': inscription.classe.filiere.nom,
+                'option': inscription.classe.option.nom if inscription.classe.option else None,
+                'statut': inscription.statut.nom,
+                'nombre_redoublements': inscription.nombre_redoublements,
+                'date_inscription': inscription.date_inscription
+            },
+            'notes_par_ec': [],
+            'moyennes': [],
+            'statistiques': {}
+        }
+        
+        # Récupérer les notes par EC pour cet enseignant
+        enseignements_enseignant = Enseignement.objects.filter(
+            enseignant=enseignant,
+            classe=inscription.classe,
+            actif=True
+        ).select_related('ec__ue')
+        
+        for enseignement in enseignements_enseignant:
+            # Notes de l'étudiant pour cet EC
+            evaluations = Evaluation.objects.filter(enseignement=enseignement)
+            notes = Note.objects.filter(
+                etudiant=etudiant,
+                evaluation__in=evaluations
+            ).select_related('evaluation')
+            
+            if session_id:
+                notes = notes.filter(evaluation__session_id=session_id)
+            
+            notes_data = []
+            for note in notes:
+                notes_data.append({
+                    'evaluation': {
+                        'nom': note.evaluation.nom,
+                        'date_evaluation': note.evaluation.date_evaluation,
+                        'note_sur': note.evaluation.note_sur,
+                        'type_evaluation': note.evaluation.type_evaluation.nom
+                    },
+                    'note_obtenue': float(note.note_obtenue),
+                    'absent': note.absent,
+                    'justifie': note.justifie,
+                    'commentaire': note.commentaire
+                })
+            
+            # Moyenne EC
+            moyenne_ec = None
+            try:
+                moyenne_obj = MoyenneEC.objects.filter(
+                    etudiant=etudiant,
+                    ec=enseignement.ec,
+                    annee_academique=inscription.annee_academique
+                ).first()
+                if moyenne_obj:
+                    moyenne_ec = {
+                        'moyenne': float(moyenne_obj.moyenne),
+                        'validee': moyenne_obj.validee
+                    }
+            except:
+                pass
+            
+            ec_data = {
+                'ec': {
+                    'code': enseignement.ec.code,
+                    'nom': enseignement.ec.nom,
+                    'ue': enseignement.ec.ue.nom,
+                    'credits': enseignement.ec.ue.credits
+                },
+                'notes': notes_data,
+                'moyenne_ec': moyenne_ec,
+                'nombre_evaluations': evaluations.count(),
+                'nombre_notes': notes.count()
+            }
+            
+            details['notes_par_ec'].append(ec_data)
+        
+        return Response(details)
+    
+    @action(detail=False, methods=['get'])
+    def statistiques(self, request):
+        """Statistiques générales des étudiants de l'enseignant"""
+        try:
+            enseignant = request.user.enseignant
+        except:
+            return Response(
+                {'error': 'Utilisateur non reconnu comme enseignant'}, 
+                status=status.HTTP_403_FORBIDDEN
+            )
+        
+        # Récupérer toutes les classes de l'enseignant
+        classes_ids = Enseignement.objects.filter(
+            enseignant=enseignant,
+            actif=True
+        ).values_list('classe_id', flat=True).distinct()
+        
+        # Statistiques globales
+        total_etudiants = Inscription.objects.filter(
+            classe_id__in=classes_ids,
+            active=True
+        ).count()
+        
+        # Répartition par niveau
+        repartition_niveau = Inscription.objects.filter(
+            classe_id__in=classes_ids,
+            active=True
+        ).values(
+            'classe__niveau__nom'
+        ).annotate(
+            count=Count('id')
+        ).order_by('classe__niveau__numero')
+        
+        # Répartition par classe
+        repartition_classe = Inscription.objects.filter(
+            classe_id__in=classes_ids,
+            active=True
+        ).values(
+            'classe__nom'
+        ).annotate(
+            count=Count('id')
+        ).order_by('classe__nom')
+        
+        stats = {
+            'total_etudiants': total_etudiants,
+            'repartition_par_niveau': [
+                {
+                    'niveau': item['classe__niveau__nom'],
+                    'nombre': item['count']
+                }
+                for item in repartition_niveau
+            ],
+            'repartition_par_classe': [
+                {
+                    'classe': item['classe__nom'],
+                    'nombre': item['count']
+                }
+                for item in repartition_classe
+            ]
+        }
+        
+        return Response(stats)
