@@ -4175,3 +4175,125 @@ INFO 2025-06-08 08:58:04,288 basehttp 48136 23728 "GET /api/evaluations/enseigne
 INFO 2025-06-08 08:58:06,505 basehttp 48136 44740 "GET /api/evaluations/enseignements/?page_size=100 HTTP/1.1" 200 1331
 INFO 2025-06-08 08:58:07,799 basehttp 48136 23728 "GET /api/evaluations/enseignants/etudiants/?page_size=50 HTTP/1.1" 200 28765
 INFO 2025-06-08 09:33:27,884 autoreload 66148 64488 Watching for file changes with StatReloader
+WARNING 2025-06-08 09:33:48,513 log 66148 51460 Forbidden: /api/auth/users/me/
+WARNING 2025-06-08 09:33:48,514 basehttp 66148 51460 "GET /api/auth/users/me/ HTTP/1.1" 403 68
+WARNING 2025-06-08 09:33:48,598 log 66148 51460 Forbidden: /api/auth/users/me/
+WARNING 2025-06-08 09:33:48,599 basehttp 66148 51460 "GET /api/auth/users/me/ HTTP/1.1" 403 68
+INFO 2025-06-08 09:33:54,532 basehttp 66148 51460 "POST /api/auth/login/ HTTP/1.1" 200 427
+INFO 2025-06-08 09:33:54,668 basehttp 66148 51460 "GET /api/evaluations/enseignants/statistiques/ HTTP/1.1" 200 184
+INFO 2025-06-08 09:33:54,786 basehttp 66148 60800 "GET /api/evaluations/enseignants/12/planning/ HTTP/1.1" 200 52
+INFO 2025-06-08 09:33:54,786 basehttp 66148 51460 "GET /api/evaluations/enseignements/?page_size=50 HTTP/1.1" 200 1331
+ERROR 2025-06-08 09:33:54,832 log 66148 13552 Internal Server Error: /api/evaluations/enseignants/12/notifications/
+Traceback (most recent call last):
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_backend\evaluations\views.py", line 51, in get
+    notifications = NotificationService.get_notifications_for_enseignant(enseignant_id)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: type object 'NotificationService' has no attribute 'get_notifications_for_enseignant'
+ERROR 2025-06-08 09:33:54,841 basehttp 66148 13552 "GET /api/evaluations/enseignants/12/notifications/ HTTP/1.1" 500 106116
+INFO 2025-06-08 09:33:54,967 basehttp 66148 60800 "GET /api/evaluations/evaluations/?page_size=20&ordering=-date_evaluation HTTP/1.1" 200 7622
+ERROR 2025-06-08 09:33:55,979 log 66148 60800 Internal Server Error: /api/evaluations/enseignants/12/notifications/
+Traceback (most recent call last):
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_backend\evaluations\views.py", line 51, in get
+    notifications = NotificationService.get_notifications_for_enseignant(enseignant_id)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: type object 'NotificationService' has no attribute 'get_notifications_for_enseignant'
+ERROR 2025-06-08 09:33:55,983 basehttp 66148 60800 "GET /api/evaluations/enseignants/12/notifications/ HTTP/1.1" 500 106116
+INFO 2025-06-08 09:34:04,528 basehttp 66148 60800 "GET /api/evaluations/evaluations/?page_size=20&ordering=-date_evaluation HTTP/1.1" 200 7622
+INFO 2025-06-08 09:34:08,096 basehttp 66148 60800 "OPTIONS /api/evaluations/evaluations/41/feuille_notes/ HTTP/1.1" 200 0
+INFO 2025-06-08 09:34:08,097 basehttp 66148 13552 "OPTIONS /api/evaluations/evaluations/41/verifier_delai_saisie/ HTTP/1.1" 200 0
+INFO 2025-06-08 09:34:08,200 basehttp 66148 60800 "GET /api/evaluations/evaluations/41/verifier_delai_saisie/ HTTP/1.1" 200 146
+INFO 2025-06-08 09:34:08,311 basehttp 66148 13552 "GET /api/evaluations/evaluations/41/feuille_notes/ HTTP/1.1" 200 11795
+ERROR 2025-06-08 09:34:21,434 log 66148 13552 Internal Server Error: /api/evaluations/enseignants/12/notifications/
+Traceback (most recent call last):
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_backend\evaluations\views.py", line 51, in get
+    notifications = NotificationService.get_notifications_for_enseignant(enseignant_id)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: type object 'NotificationService' has no attribute 'get_notifications_for_enseignant'
+ERROR 2025-06-08 09:34:21,438 basehttp 66148 13552 "GET /api/evaluations/enseignants/12/notifications/ HTTP/1.1" 500 106116
+ERROR 2025-06-08 09:34:22,567 log 66148 13552 Internal Server Error: /api/evaluations/enseignants/12/notifications/
+Traceback (most recent call last):
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_env\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\tefba\Desktop\OverBrand\acadflow\acadflow_backend\evaluations\views.py", line 51, in get
+    notifications = NotificationService.get_notifications_for_enseignant(enseignant_id)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: type object 'NotificationService' has no attribute 'get_notifications_for_enseignant'
+ERROR 2025-06-08 09:34:22,571 basehttp 66148 13552 "GET /api/evaluations/enseignants/12/notifications/ HTTP/1.1" 500 106116
+INFO 2025-06-08 10:10:32,681 basehttp 66148 27288 "GET /api/evaluations/evaluations/?page_size=20&ordering=-date_evaluation HTTP/1.1" 200 7622
+INFO 2025-06-08 23:25:43,655 basehttp 66148 60904 "OPTIONS /api/evaluations/evaluations/?page_size=20&ordering=-date_evaluation HTTP/1.1" 200 0
+INFO 2025-06-08 23:25:44,126 basehttp 66148 6884 "OPTIONS /api/auth/users/me/ HTTP/1.1" 200 0
+INFO 2025-06-08 23:25:44,127 basehttp 66148 60904 "OPTIONS /api/auth/users/me/ HTTP/1.1" 200 0
+WARNING 2025-06-08 23:25:44,279 log 66148 60904 Forbidden: /api/auth/users/me/
+WARNING 2025-06-08 23:25:44,280 basehttp 66148 60904 "GET /api/auth/users/me/ HTTP/1.1" 403 68
+WARNING 2025-06-08 23:25:44,364 log 66148 6884 Forbidden: /api/auth/users/me/
+WARNING 2025-06-08 23:25:44,364 basehttp 66148 6884 "GET /api/auth/users/me/ HTTP/1.1" 403 68

@@ -1,5 +1,5 @@
 // ========================================
-// FICHIER: src/lib/api.ts - Client API complet et corrigé
+// FICHIER: src/lib/api.ts - Client API corrigé pour l'authentification
 // ========================================
 
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
@@ -51,15 +51,38 @@ class ApiClient {
       (error) => Promise.reject(error)
     );
 
-    // Intercepteur pour gérer les réponses
+    // Intercepteur pour gérer les réponses - VERSION CORRIGÉE
     this.client.interceptors.response.use(
       (response) => response,
       (error) => {
+        // Gestion intelligente des erreurs 401
         if (error.response?.status === 401) {
-          localStorage.removeItem('acadflow_token');
-          localStorage.removeItem('acadflow_user');
-          window.location.href = '/login';
+          const requestUrl = error.config?.url || '';
+          const isLoginEndpoint = requestUrl.includes('/auth/login');
+          const isPublicEndpoint = requestUrl.includes('/public/') || requestUrl.includes('/health/');
+          
+          // Ne pas nettoyer le token sur les endpoints publics ou de login
+          if (!isLoginEndpoint && !isPublicEndpoint) {
+            console.warn('🔑 Token invalide détecté, nettoyage automatique');
+            
+            // Nettoyer seulement si on a effectivement un token
+            const hadToken = localStorage.getItem('acadflow_token');
+            if (hadToken) {
+              localStorage.removeItem('acadflow_token');
+              localStorage.removeItem('acadflow_user');
+              
+              // Rediriger SEULEMENT si on n'est pas déjà sur la page de login
+              // et que ce n'est pas une requête en arrière-plan
+              const currentPath = window.location.pathname;
+              if (currentPath !== '/login' && !requestUrl.includes('background')) {
+                console.log('🔄 Redirection vers login après token invalide');
+                // Utiliser replace pour éviter les boucles
+                window.location.replace('/login');
+              }
+            }
+          }
         }
+        
         return Promise.reject(this.handleError(error));
       }
     );
@@ -68,17 +91,18 @@ class ApiClient {
   private handleError(error: any): ApiError {
     if (error.response) {
       const data = error.response.data;
+      const status = error.response.status;
       
       if (typeof data === 'string') {
-        return { message: data, status: error.response.status };
+        return { message: data, status };
       }
       
       if (data?.detail) {
-        return { message: data.detail, status: error.response.status, errors: data };
+        return { message: data.detail, status, errors: data };
       }
       
       if (data?.error) {
-        return { message: data.error, status: error.response.status, errors: data };
+        return { message: data.error, status, errors: data };
       }
       
       // Gestion des erreurs de validation Django
@@ -90,25 +114,42 @@ class ApiClient {
         
         return {
           message: String(message),
-          status: error.response.status,
+          status,
           errors: data
         };
       }
       
       return {
-        message: `Erreur ${error.response.status}`,
-        status: error.response.status
+        message: `Erreur ${status}`,
+        status
       };
     } else if (error.request) {
-      return { message: 'Problème de connexion au serveur', status: 0 };
+      return { 
+        message: 'Problème de connexion au serveur. Vérifiez votre connexion internet.', 
+        status: 0 
+      };
     } else {
-      return { message: error.message || 'Une erreur inattendue est survenue' };
+      return { 
+        message: error.message || 'Une erreur inattendue est survenue' 
+      };
     }
   }
 
   private async request<T>(config: AxiosRequestConfig): Promise<T> {
-    const response: AxiosResponse<T> = await this.client.request(config);
-    return response.data;
+    try {
+      const response: AxiosResponse<T> = await this.client.request(config);
+      return response.data;
+    } catch (error) {
+      // Ajouter le contexte de la requête pour le debug
+      if (process.env.NODE_ENV === 'development') {
+        console.error('❌ Erreur API:', {
+          url: config.url,
+          method: config.method,
+          error: error
+        });
+      }
+      throw error;
+    }
   }
 
   // ========================================
@@ -116,25 +157,50 @@ class ApiClient {
   // ========================================
 
   async login(credentials: LoginRequest): Promise<LoginResponse> {
-    return this.request<LoginResponse>({
-      method: 'POST',
-      url: '/auth/login/',
-      data: credentials
-    });
+    console.log('🔐 Tentative de connexion API...');
+    try {
+      const response = await this.request<LoginResponse>({
+        method: 'POST',
+        url: '/auth/login/',
+        data: credentials
+      });
+      console.log('✅ Connexion API réussie');
+      return response;
+    } catch (error) {
+      console.error('❌ Échec connexion API:', error);
+      throw error;
+    }
   }
 
   async logout(): Promise<void> {
-    return this.request<void>({
-      method: 'POST',
-      url: '/auth/logout/'
-    });
+    console.log('🚪 Déconnexion API...');
+    try {
+      await this.request<void>({
+        method: 'POST',
+        url: '/auth/logout/'
+      });
+      console.log('✅ Déconnexion API réussie');
+    } catch (error) {
+      console.warn('⚠️ Erreur déconnexion API (non bloquant):', error);
+      // Ne pas relancer l'erreur car la déconnexion locale doit continuer
+    }
   }
 
   async getCurrentUser(): Promise<User> {
-    return this.request<User>({
-      method: 'GET',
-      url: '/auth/users/me/'
-    });
+    console.log('👤 Récupération utilisateur courant...');
+    try {
+      const user = await this.request<User>({
+        method: 'GET',
+        url: '/auth/users/me/',
+        // Marquer comme requête en arrière-plan pour éviter la redirection automatique
+        metadata: { background: true }
+      });
+      console.log('✅ Utilisateur récupéré:', user.username);
+      return user;
+    } catch (error) {
+      console.warn('⚠️ Erreur récupération utilisateur:', error);
+      throw error;
+    }
   }
 
   // ========================================
@@ -391,6 +457,16 @@ class ApiClient {
       return false;
     }
   }
+
+  // Méthode pour tester la connectivité sans déclencher les intercepteurs
+  async testConnection(): Promise<boolean> {
+    try {
+      const response = await axios.get(`${BASE_URL}/health/`, { timeout: 5000 });
+      return response.status === 200;
+    } catch (error) {
+      return false;
+    }
+  }
 }
 
 // Instance unique du client API
@@ -422,7 +498,8 @@ export const {
   importerNotes,
   exporterNotes,
   getDashboardStats,
-  healthCheck
+  healthCheck,
+  testConnection
 } = apiClient;
 
 export default apiClient;

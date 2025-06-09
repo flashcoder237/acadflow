@@ -1,5 +1,5 @@
 // ========================================
-// FICHIER: src/App.tsx - Application avec toutes les routes enseignant
+// FICHIER: src/App.tsx - Application avec authentification corrigée
 // ========================================
 
 import React, { useEffect, useState } from 'react';
@@ -165,23 +165,41 @@ const App: React.FC = () => {
   const { checkAuth, isLoading, isAuthenticated, user } = useAuthStore();
   const { loadInitialData } = useAppStore();
   const [appInitialized, setAppInitialized] = useState(false);
+  const [authChecked, setAuthChecked] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
 
     const initializeApp = async () => {
       try {
+        console.log('🚀 Initialisation de l\'application...');
+        
         // Vérifier l'authentification d'abord
         await checkAuth();
         
         if (isMounted) {
-          // Charger les données initiales seulement si nécessaire
-          await loadInitialData();
+          console.log('✅ Authentification vérifiée');
+          setAuthChecked(true);
+          
+          // Charger les données initiales seulement si on a un token
+          const hasToken = localStorage.getItem('acadflow_token');
+          if (hasToken) {
+            console.log('📊 Chargement des données initiales...');
+            try {
+              await loadInitialData();
+              console.log('✅ Données initiales chargées');
+            } catch (dataError) {
+              console.warn('⚠️ Erreur chargement données (non bloquant):', dataError);
+            }
+          }
+          
           setAppInitialized(true);
+          console.log('✅ Application initialisée');
         }
       } catch (error) {
-        console.error('Erreur lors de l\'initialisation:', error);
+        console.error('❌ Erreur lors de l\'initialisation:', error);
         if (isMounted) {
+          setAuthChecked(true);
           setAppInitialized(true); // Permettre le rendu même en cas d'erreur
         }
       }
@@ -192,15 +210,41 @@ const App: React.FC = () => {
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [checkAuth, loadInitialData]);
 
-  // Afficher le loading pendant l'initialisation
-  if (!appInitialized || isLoading) {
+  // Debug state pour diagnostiquer les problèmes
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'development') {
+      console.log('=== DEBUG AUTH STATE ===');
+      console.log('isAuthenticated:', isAuthenticated);
+      console.log('isLoading:', isLoading);
+      console.log('user:', user);
+      console.log('localStorage token:', !!localStorage.getItem('acadflow_token'));
+      console.log('localStorage user:', !!localStorage.getItem('acadflow_user'));
+      console.log('authChecked:', authChecked);
+      console.log('appInitialized:', appInitialized);
+      console.log('========================');
+    }
+  }, [isAuthenticated, isLoading, user, authChecked, appInitialized]);
+
+  // Attendre que l'authentification soit vérifiée ET que l'app soit initialisée
+  if (!authChecked || isLoading || !appInitialized) {
+    const loadingText = !authChecked 
+      ? "Vérification de l'authentification..." 
+      : !appInitialized 
+        ? "Initialisation de l'application..."
+        : "Chargement...";
+
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <Loading size="lg" text="Initialisation de l'application..." />
+          <Loading size="lg" text={loadingText} />
           <p className="mt-4 text-sm text-gray-600">AcadFlow</p>
+          {process.env.NODE_ENV === 'development' && (
+            <div className="mt-2 text-xs text-gray-400">
+              <p>Auth: {authChecked ? '✅' : '⏳'} | App: {appInitialized ? '✅' : '⏳'}</p>
+            </div>
+          )}
         </div>
       </div>
     );

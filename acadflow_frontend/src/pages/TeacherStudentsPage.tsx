@@ -91,85 +91,106 @@ const TeacherStudentsPage: React.FC = () => {
 
   // Traitement et filtrage des étudiants
   const etudiantsFiltres = useMemo(() => {
-    if (!etudiants?.results) return [];
+  if (!etudiants?.results) return [];
 
-    let filtered = etudiants.results.filter(etudiant => {
-      // Filtre par type
-      switch (filterType) {
-        case 'excellents':
-          return Object.values(etudiant.moyennes).some(m => m.moyenne >= 16);
-        case 'en_difficulte':
-          return Object.values(etudiant.moyennes).some(m => m.moyenne < 10);
-        case 'absents_frequents':
-          return etudiant.absences.non_justifiees > 3;
-        case 'progression_positive':
-          return etudiant.progression.pourcentage > 75;
-        default:
-          return true;
-      }
-    });
+  let filtered = etudiants.results.filter(etudiant => {
+    // Protection contre les données manquantes
+    if (!etudiant) return false;
+    
+    // Filtre par type
+    switch (filterType) {
+      case 'excellents':
+        if (!etudiant.moyennes || typeof etudiant.moyennes !== 'object') return false;
+        return Object.values(etudiant.moyennes).some(m => m?.moyenne >= 16);
+      case 'en_difficulte':
+        if (!etudiant.moyennes || typeof etudiant.moyennes !== 'object') return false;
+        return Object.values(etudiant.moyennes).some(m => m?.moyenne < 10);
+      case 'absents_frequents':
+        return etudiant.absences?.non_justifiees > 3;
+      case 'progression_positive':
+        return etudiant.progression?.pourcentage > 75;
+      default:
+        return true;
+    }
+  });
 
-    // Tri
-    filtered.sort((a, b) => {
-      let comparison = 0;
-      
-      switch (sortField) {
-        case 'nom':
-          comparison = a.nom_complet.localeCompare(b.nom_complet);
-          break;
-        case 'matricule':
-          comparison = a.matricule.localeCompare(b.matricule);
-          break;
-        case 'classe':
-          comparison = a.classe.localeCompare(b.classe);
-          break;
-        case 'moyenne':
-          const moyA = Object.values(a.moyennes).reduce((sum, m) => sum + m.moyenne, 0) / Object.keys(a.moyennes).length || 0;
-          const moyB = Object.values(b.moyennes).reduce((sum, m) => sum + m.moyenne, 0) / Object.keys(b.moyennes).length || 0;
-          comparison = moyA - moyB;
-          break;
-        case 'presence':
-          const presenceA = ((a.absences.total - a.absences.non_justifiees) / Math.max(a.absences.total, 1)) * 100;
-          const presenceB = ((b.absences.total - b.absences.non_justifiees) / Math.max(b.absences.total, 1)) * 100;
-          comparison = presenceA - presenceB;
-          break;
-      }
-      
-      return sortOrder === 'asc' ? comparison : -comparison;
-    });
+  // Tri avec protection
+  filtered.sort((a, b) => {
+    let comparison = 0;
+    
+    switch (sortField) {
+      case 'nom':
+        comparison = (a.nom_complet || '').localeCompare(b.nom_complet || '');
+        break;
+      case 'matricule':
+        comparison = (a.matricule || '').localeCompare(b.matricule || '');
+        break;
+      case 'classe':
+        comparison = (a.classe || '').localeCompare(b.classe || '');
+        break;
+      case 'moyenne':
+        const moyA = a.moyennes && typeof a.moyennes === 'object' 
+          ? Object.values(a.moyennes).reduce((sum, m) => sum + (m?.moyenne || 0), 0) / Math.max(Object.keys(a.moyennes).length, 1)
+          : 0;
+        const moyB = b.moyennes && typeof b.moyennes === 'object'
+          ? Object.values(b.moyennes).reduce((sum, m) => sum + (m?.moyenne || 0), 0) / Math.max(Object.keys(b.moyennes).length, 1)
+          : 0;
+        comparison = moyA - moyB;
+        break;
+      case 'presence':
+        const presenceA = a.absences?.total > 0 
+          ? ((a.absences.total - (a.absences.non_justifiees || 0)) / a.absences.total) * 100
+          : 100;
+        const presenceB = b.absences?.total > 0 
+          ? ((b.absences.total - (b.absences.non_justifiees || 0)) / b.absences.total) * 100
+          : 100;
+        comparison = presenceA - presenceB;
+        break;
+    }
+    
+    return sortOrder === 'asc' ? comparison : -comparison;
+  });
 
-    return filtered;
-  }, [etudiants?.results, filterType, sortField, sortOrder]);
+  return filtered;
+}, [etudiants?.results, filterType, sortField, sortOrder]);
 
   // Statistiques calculées
   const stats = useMemo(() => {
-    if (!etudiantsFiltres.length) return null;
+  if (!etudiantsFiltres.length) return null;
 
-    const totalEtudiants = etudiantsFiltres.length;
-    const moyennesGenerales = etudiantsFiltres.map(e => {
-      const moyennes = Object.values(e.moyennes);
-      return moyennes.length > 0 ? moyennes.reduce((sum, m) => sum + m.moyenne, 0) / moyennes.length : 0;
-    });
+  const totalEtudiants = etudiantsFiltres.length;
+  const moyennesGenerales = etudiantsFiltres.map(e => {
+    // Protection contre les moyennes nulles/undefined
+    if (!e?.moyennes || typeof e.moyennes !== 'object') {
+      return 0;
+    }
+    const moyennes = Object.values(e.moyennes);
+    return moyennes.length > 0 ? moyennes.reduce((sum, m) => sum + m.moyenne, 0) / moyennes.length : 0;
+  });
 
-    const moyenneClasse = moyennesGenerales.reduce((sum, m) => sum + m, 0) / totalEtudiants;
-    const excellents = moyennesGenerales.filter(m => m >= 16).length;
-    const enDifficulte = moyennesGenerales.filter(m => m < 10).length;
-    const tauxReussite = ((totalEtudiants - enDifficulte) / totalEtudiants) * 100;
+  const moyenneClasse = moyennesGenerales.reduce((sum, m) => sum + m, 0) / totalEtudiants;
+  const excellents = moyennesGenerales.filter(m => m >= 16).length;
+  const enDifficulte = moyennesGenerales.filter(m => m < 10).length;
+  const tauxReussite = ((totalEtudiants - enDifficulte) / totalEtudiants) * 100;
 
-    return {
-      totalEtudiants,
-      moyenneClasse,
-      excellents,
-      enDifficulte,
-      tauxReussite,
-      tauxPresence: etudiantsFiltres.reduce((sum, e) => {
-        const presence = e.absences.total > 0 
-          ? ((e.absences.total - e.absences.non_justifiees) / e.absences.total) * 100 
-          : 100;
-        return sum + presence;
-      }, 0) / totalEtudiants
-    };
-  }, [etudiantsFiltres]);
+  return {
+    totalEtudiants,
+    moyenneClasse,
+    excellents,
+    enDifficulte,
+    tauxReussite,
+    tauxPresence: etudiantsFiltres.reduce((sum, e) => {
+      // Protection contre les absences nulles/undefined
+      if (!e?.absences || typeof e.absences !== 'object') {
+        return sum + 100; // Présence parfaite par défaut
+      }
+      const presence = e.absences.total > 0 
+        ? ((e.absences.total - e.absences.non_justifiees) / e.absences.total) * 100 
+        : 100;
+      return sum + presence;
+    }, 0) / totalEtudiants
+  };
+}, [etudiantsFiltres]);
 
   // Handlers
   const handleViewStudentDetails = async (etudiant: EtudiantDetails) => {
@@ -206,9 +227,14 @@ const TeacherStudentsPage: React.FC = () => {
   };
 
   const getMoyenneGenerale = (etudiant: EtudiantDetails) => {
-    const moyennes = Object.values(etudiant.moyennes);
-    return moyennes.length > 0 ? moyennes.reduce((sum, m) => sum + m.moyenne, 0) / moyennes.length : 0;
-  };
+  // Vérification que moyennes existe et n'est pas null/undefined
+  if (!etudiant?.moyennes || typeof etudiant.moyennes !== 'object') {
+    return 0;
+  }
+  
+  const moyennes = Object.values(etudiant.moyennes);
+  return moyennes.length > 0 ? moyennes.reduce((sum, m) => sum + m.moyenne, 0) / moyennes.length : 0;
+};
 
   const getMentionColor = (moyenne: number) => {
     if (moyenne >= 16) return "text-green-600";
@@ -219,9 +245,9 @@ const TeacherStudentsPage: React.FC = () => {
   };
 
   const getPresenceRate = (etudiant: EtudiantDetails) => {
-    if (etudiant.absences.total === 0) return 100;
-    return ((etudiant.absences.total - etudiant.absences.non_justifiees) / etudiant.absences.total) * 100;
-  };
+  if (!etudiant?.absences || etudiant.absences.total === 0) return 100;
+  return ((etudiant.absences.total - (etudiant.absences.non_justifiees || 0)) / etudiant.absences.total) * 100;
+};
 
   if (isLoading) {
     return (
@@ -395,6 +421,7 @@ const TeacherStudentsPage: React.FC = () => {
       {etudiantsFiltres.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {etudiantsFiltres.map((etudiant) => {
+            if (!etudiant) return null;
             const moyenneGenerale = getMoyenneGenerale(etudiant);
             const tauxPresence = getPresenceRate(etudiant);
             
@@ -492,23 +519,26 @@ const TeacherStudentsPage: React.FC = () => {
                     </div>
                     <div className="p-2 bg-purple-50 rounded">
                       <div className="text-sm font-semibold text-purple-700">
-                        {Object.keys(etudiant.moyennes).length}
+                        {etudiant.moyennes && typeof etudiant.moyennes === 'object' 
+                          ? Object.keys(etudiant.moyennes).length 
+                          : 0
+                        }
                       </div>
                       <div className="text-xs text-purple-600">Matières</div>
                     </div>
                   </div>
 
                   {/* Alertes */}
-                  {(moyenneGenerale < 10 || etudiant.absences.non_justifiees > 3) && (
-                    <div className="flex items-center gap-2 p-2 bg-red-50 rounded-lg">
-                      <AlertTriangle className="w-4 h-4 text-red-500 flex-shrink-0" />
-                      <div className="text-xs text-red-700">
-                        {moyenneGenerale < 10 && "Moyenne en dessous de 10"}
-                        {moyenneGenerale < 10 && etudiant.absences.non_justifiees > 3 && " • "}
-                        {etudiant.absences.non_justifiees > 3 && "Absences fréquentes"}
+                  {(moyenneGenerale < 10 || (etudiant.absences?.non_justifiees || 0) > 3) && (
+                      <div className="flex items-center gap-2 p-2 bg-red-50 rounded-lg">
+                        <AlertTriangle className="w-4 h-4 text-red-500 flex-shrink-0" />
+                        <div className="text-xs text-red-700">
+                          {moyenneGenerale < 10 && "Moyenne en dessous de 10"}
+                          {moyenneGenerale < 10 && (etudiant.absences?.non_justifiees || 0) > 3 && " • "}
+                          {(etudiant.absences?.non_justifiees || 0) > 3 && "Absences fréquentes"}
+                        </div>
                       </div>
-                    </div>
-                  )}
+                    )}
 
                   {/* Contact rapide */}
                   <div className="flex items-center gap-2 pt-2 border-t">
